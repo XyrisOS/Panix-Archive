@@ -6,10 +6,21 @@
 	objectVersion = 50;
 	objects = {
 
+/* Begin PBXFileReference section */
+		E9DAA66020B7ADB40006B2E8 /* loader.s */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm; path = loader.s; sourceTree = "<group>"; };
+		E9DAA66120B7ADCB0006B2E8 /* kernel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = kernel.cpp; sourceTree = "<group>"; };
+		E9DAA66220B7ADDF0006B2E8 /* linker.ld */ = {isa = PBXFileReference; lastKnownFileType = text; path = linker.ld; sourceTree = "<group>"; };
+		E9DAA66320B7ADF40006B2E8 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
 /* Begin PBXGroup section */
 		E9DAA65920B7AD980006B2E8 = {
 			isa = PBXGroup;
 			children = (
+				E9DAA66320B7ADF40006B2E8 /* Makefile */,
+				E9DAA66220B7ADDF0006B2E8 /* linker.ld */,
+				E9DAA66120B7ADCB0006B2E8 /* kernel.cpp */,
+				E9DAA66020B7ADB40006B2E8 /* loader.s */,
 			);
 			sourceTree = "<group>";
 		};
