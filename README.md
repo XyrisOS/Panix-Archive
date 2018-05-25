@@ -6,3 +6,10 @@ After taking CS-3310 (Operating Systems) at my university, I thought it would be
 Just as UNIX used to be UNICS (Uniplexed Information Computing System), EDIX is properly EDICS (Educational Information Computing System).</br>
 The name is "shortened" to EDIX to stick with the long established *nix naming convention.
 
+### Installation
+Currently EDIX runs off of the pre-compiled .iso file provided in the repository.</br>
+All testing is done in Virtualbox 5 with the following settings:
+  - OS Type: Other/Unknown (32-bit)
+  - Memory: 64 MB
+  - Boot Medium: ISO (no HDD)
+  - All other settings are set to the default for the OS Type
