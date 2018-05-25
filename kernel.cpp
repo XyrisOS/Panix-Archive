@@ -5,6 +5,7 @@
 //  Created by Keeton Feavel on 5/24/18.
 //  (c) Solar Pepper Studios 2018, all rights reserved.
 
+#include "types.h"
 #include "kprint.h"
 
 typedef void (*constructor)();
@@ -25,7 +26,7 @@ extern "C" void callConstructors() {
  * void * multiboot_structure - Multiboot structure from GRUB.
  * unsigned int magicnumber - Magicnumber from loader.s
  */
-extern "C" void kMain(void* multiboot_structure, unsigned int magicnumber) {
+extern "C" void kMain(void* multiboot_structure, uint32_t magicnumber) {
     // Print welcome to kernel
     kprint("Welcome to EDIX.\n");
     // Create loop to keep kernel alive

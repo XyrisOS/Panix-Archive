@@ -12,7 +12,7 @@
  * char * str - String to be printed.
  */
 extern "C" void kprint(char * str) {
-    static unsigned short * vMem = (unsigned short *)0xb8000;
+    static uint16_t * vMem = (uint16_t *)0xb8000;
     for (int i = 0; str[i] != '\0'; ++i) {
         vMem[i] = (vMem[i] & 0xFF00) | str[i];
     }

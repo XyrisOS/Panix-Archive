@@ -1,0 +1,90 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXFileReference section */
+		E96BC44020B896B9009531FF /* types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = types.h; sourceTree = "<group>"; };
+		E96BC44120B896B9009531FF /* edix.iso */ = {isa = PBXFileReference; lastKnownFileType = file; path = edix.iso; sourceTree = "<group>"; };
+		E96BC44220B896B9009531FF /* kprint.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = kprint.cpp; sourceTree = "<group>"; };
+		E96BC44320B896B9009531FF /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		E96BC44420B896B9009531FF /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		E96BC44520B896BA009531FF /* linker.ld */ = {isa = PBXFileReference; lastKnownFileType = text; path = linker.ld; sourceTree = "<group>"; };
+		E96BC44620B896BA009531FF /* kernel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = kernel.cpp; sourceTree = "<group>"; };
+		E96BC44720B896BA009531FF /* kprint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = kprint.h; sourceTree = "<group>"; };
+		E96BC44820B896BA009531FF /* loader.s */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm; path = loader.s; sourceTree = "<group>"; };
+		E96BC44920B896BA009531FF /* kernel.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = kernel.bin; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		E96BC43920B8969F009531FF = {
+			isa = PBXGroup;
+			children = (
+				E96BC44120B896B9009531FF /* edix.iso */,
+				E96BC44920B896BA009531FF /* kernel.bin */,
+				E96BC44620B896BA009531FF /* kernel.cpp */,
+				E96BC44220B896B9009531FF /* kprint.cpp */,
+				E96BC44720B896BA009531FF /* kprint.h */,
+				E96BC44520B896BA009531FF /* linker.ld */,
+				E96BC44820B896BA009531FF /* loader.s */,
+				E96BC44420B896B9009531FF /* Makefile */,
+				E96BC44320B896B9009531FF /* README.md */,
+				E96BC44020B896B9009531FF /* types.h */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXProject section */
+		E96BC43A20B8969F009531FF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0930;
+			};
+			buildConfigurationList = E96BC43D20B8969F009531FF /* Build configuration list for PBXProject "kernel" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = E96BC43920B8969F009531FF;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		E96BC43E20B8969F009531FF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		E96BC43F20B8969F009531FF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E96BC43D20B8969F009531FF /* Build configuration list for PBXProject "kernel" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E96BC43E20B8969F009531FF /* Debug */,
+				E96BC43F20B8969F009531FF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E96BC43A20B8969F009531FF /* Project object */;
+}
