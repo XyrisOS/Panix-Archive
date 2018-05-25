@@ -7,6 +7,7 @@
 
 #include "types.h"
 #include "kprint.h"
+#include "termcolor.h"
 
 typedef void (*constructor)();
 extern "C" constructor start_ctors;
@@ -29,9 +30,13 @@ extern "C" void callConstructors() {
 extern "C" void kMain(void* multiboot_structure, uint32_t magicnumber) {
     //Clear the terminal
     kprint_clear();
+    color_foreground fore; // Foreground color
+    color_background back; // Background color
     // Print welcome to kernel
     kprint("Created by undergraduates of Cedarville University.\n");
-    kprint("Welcome to EDIX.\n");
+    kprint("Welcome to ");
+    kprint_c(" EDIX \n", fore.black, back.white);
+    kprint_c("Color test.", fore.light_green, back.black);
     // Create loop to keep kernel alive
     while(1);
 }

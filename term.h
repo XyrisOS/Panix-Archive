@@ -13,6 +13,8 @@
 const int VGA_COLS = 80;
 const int VGA_ROWS = 25;
 
+// Set the terminal text color
+void term_set_color(char fore, char back);
 // Clear the terminal.
 void term_clear();
 // Print a given character to the terminal. Handles \n.

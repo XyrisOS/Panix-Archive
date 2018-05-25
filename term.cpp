@@ -6,6 +6,7 @@
 //
 
 #include "term.h"
+#include "termcolor.h"
 
 int term_col = 0;
 int term_row = 0;
@@ -14,10 +15,19 @@ uint8_t term_color = 0x0F; // Black background, White foreground
 volatile uint16_t * vMem = (uint16_t *)0xB8000;
 
 /**
+ * Sets the terminal color by ORing the foreground and background
+ * which are defined in the termcolor header (termcolor.h).
+ */
+void term_set_color(char fore, char back) {
+	term_color = (fore | back);
+}
+
+/**
  * Initializes the terminal by clearing all existing text.
  */
 void term_clear() {
 	// Clear the textmode buffer
+	term_color = 0x0F;
 	for (int col = 0; col < VGA_COLS; col ++)
 	{
 		for (int row = 0; row < VGA_ROWS; row ++)

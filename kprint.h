@@ -9,9 +9,12 @@
 #define kprint_h
 
 #include "types.h"
+#include "termcolor.h"
 
 // Print to the terminal using the given string
 void kprint(char* str);
+// Print to the terminal using the given string with color
+void kprint_c(char * str, char fore, char back);
 // Clear the terminal
 void kprint_clear();
 

@@ -8,6 +8,9 @@
 #include "kprint.h"
 #include "term.h"
 
+color_foreground fore; // Foreground color
+color_background back; // Background color
+
 /**
  * Kernel printing function.
  * char * str - String to be printed.
@@ -15,6 +18,26 @@
 void kprint(char * str) {
     for (int i = 0; str[i] != '\0'; ++i) {
         // Use term class to print to terminal
+        term_printChar(str[i]);
+    }
+}
+
+/**
+ * Kernel printing function including color.
+ * char * str - String to be printed.
+ */
+void kprint_c(char * str, char fore, char back) {
+    for (int i = 0; str[i] != '\0'; ++i) {
+        // Use term class to print to terminal
+        term_set_color(fore, back);
+        term_printChar(str[i]);
+    }
+}
+
+void kprint_error(char * str) {
+    for (int i = 0; str[i] != '\0'; ++i) {
+        // Use term class to print to terminal
+        term_set_color(fore.red, back.white);
         term_printChar(str[i]);
     }
 }
