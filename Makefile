@@ -30,3 +30,6 @@ edix.iso: kernel.bin
 	grub-mkrescue --output=$@ iso
 	rm -rf iso
 	
+run: kernel.bin
+	qemu-system-i386 -kernel kernel.bin
+#Virtualbox --startvm EDIX &

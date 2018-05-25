@@ -20,6 +20,9 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXFileReference section */
+		E96BC40A20B889DB009531FF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		E96BC40B20B889DB009531FF /* kprint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = kprint.cpp; sourceTree = "<group>"; };
+		E96BC40C20B889DB009531FF /* kprint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kprint.h; sourceTree = "<group>"; };
 		E9DAA66020B7ADB40006B2E8 /* loader.s */ = {isa = PBXFileReference; explicitFileType = sourcecode.asm; path = loader.s; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.asm.i386; };
 		E9DAA66120B7ADCB0006B2E8 /* kernel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = kernel.cpp; sourceTree = "<group>"; };
 		E9DAA66220B7ADDF0006B2E8 /* linker.ld */ = {isa = PBXFileReference; lastKnownFileType = text; path = linker.ld; sourceTree = "<group>"; };
@@ -30,10 +33,13 @@
 		E9DAA65920B7AD980006B2E8 = {
 			isa = PBXGroup;
 			children = (
-				E9DAA66320B7ADF40006B2E8 /* Makefile */,
-				E9DAA66220B7ADDF0006B2E8 /* linker.ld */,
 				E9DAA66120B7ADCB0006B2E8 /* kernel.cpp */,
+				E96BC40B20B889DB009531FF /* kprint.cpp */,
+				E96BC40C20B889DB009531FF /* kprint.h */,
+				E9DAA66220B7ADDF0006B2E8 /* linker.ld */,
 				E9DAA66020B7ADB40006B2E8 /* loader.s */,
+				E9DAA66320B7ADF40006B2E8 /* Makefile */,
+				E96BC40A20B889DB009531FF /* README.md */,
 			);
 			sourceTree = "<group>";
 		};
