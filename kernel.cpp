@@ -28,7 +28,8 @@ extern "C" void callConstructors() {
  */
 extern "C" void kMain(void* multiboot_structure, uint32_t magicnumber) {
     // Print welcome to kernel
-    kprint("Welcome to EDIX.\n");
+    kprint("Created by undergraduates of Cedarville University.");
+    kprint("Welcome to EDIX.");
     // Create loop to keep kernel alive
     while(1);
 }
