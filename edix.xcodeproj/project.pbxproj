@@ -6,11 +6,24 @@
 	objectVersion = 50;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		E9DAA67120B7B2F40006B2E8 /* EDIX */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E9DAA67220B7B2F40006B2E8 /* Build configuration list for PBXAggregateTarget "EDIX" */;
+			buildPhases = (
+			);
+			dependencies = (
+			);
+			name = EDIX;
+			productName = EDIX;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXFileReference section */
-		E9DAA66020B7ADB40006B2E8 /* loader.s */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm; path = loader.s; sourceTree = "<group>"; };
+		E9DAA66020B7ADB40006B2E8 /* loader.s */ = {isa = PBXFileReference; explicitFileType = sourcecode.asm; path = loader.s; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.asm.i386; };
 		E9DAA66120B7ADCB0006B2E8 /* kernel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = kernel.cpp; sourceTree = "<group>"; };
 		E9DAA66220B7ADDF0006B2E8 /* linker.ld */ = {isa = PBXFileReference; lastKnownFileType = text; path = linker.ld; sourceTree = "<group>"; };
-		E9DAA66320B7ADF40006B2E8 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		E9DAA66320B7ADF40006B2E8 /* Makefile */ = {isa = PBXFileReference; explicitFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; usesTabs = 1; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -31,8 +44,13 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0930;
+				TargetAttributes = {
+					E9DAA67120B7B2F40006B2E8 = {
+						CreatedOnToolsVersion = 9.3.1;
+					};
+				};
 			};
-			buildConfigurationList = E9DAA65D20B7AD980006B2E8 /* Build configuration list for PBXProject "edics" */;
+			buildConfigurationList = E9DAA65D20B7AD980006B2E8 /* Build configuration list for PBXProject "edix" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -43,6 +61,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				E9DAA67120B7B2F40006B2E8 /* EDIX */,
 			);
 		};
 /* End PBXProject section */
@@ -60,14 +79,41 @@
 			};
 			name = Release;
 		};
+		E9DAA67320B7B2F40006B2E8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = X3R99W7RN3;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		E9DAA67420B7B2F40006B2E8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = X3R99W7RN3;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E9DAA65D20B7AD980006B2E8 /* Build configuration list for PBXProject "edics" */ = {
+		E9DAA65D20B7AD980006B2E8 /* Build configuration list for PBXProject "edix" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E9DAA65E20B7AD980006B2E8 /* Debug */,
 				E9DAA65F20B7AD980006B2E8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E9DAA67220B7B2F40006B2E8 /* Build configuration list for PBXAggregateTarget "EDIX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E9DAA67320B7B2F40006B2E8 /* Debug */,
+				E9DAA67420B7B2F40006B2E8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
