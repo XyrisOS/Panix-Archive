@@ -9,6 +9,10 @@
 #define kprint_h
 
 #include "types.h"
-extern "C" void kprint(char* str);
+
+// Print to the terminal using the given string
+void kprint(char* str);
+// Clear the terminal
+void kprint_clear();
 
 #endif /* kprint_h */

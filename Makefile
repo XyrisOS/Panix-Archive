@@ -15,6 +15,9 @@ kernel.bin: linker.ld $(objects)
 install: kernel.bin
 	sudo cp $< /boot/kernel.bin
 
+clean:
+	rm -rf $(objects)
+
 edix.iso: kernel.bin
 	mkdir iso
 	mkdir iso/boot

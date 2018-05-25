@@ -12,9 +12,16 @@
  * Kernel printing function.
  * char * str - String to be printed.
  */
-extern "C" void kprint(char * str) {
+void kprint(char * str) {
     for (int i = 0; str[i] != '\0'; ++i) {
         // Use term class to print to terminal
         term_printChar(str[i]);
     }
+}
+
+/**
+ * Clear the terminal.
+ */
+void kprint_clear() {
+    term_clear();
 }

@@ -27,9 +27,11 @@ extern "C" void callConstructors() {
  * unsigned int magicnumber - Magicnumber from loader.s
  */
 extern "C" void kMain(void* multiboot_structure, uint32_t magicnumber) {
+    //Clear the terminal
+    kprint_clear();
     // Print welcome to kernel
-    kprint("Created by undergraduates of Cedarville University.");
-    kprint("Welcome to EDIX.");
+    kprint("Created by undergraduates of Cedarville University.\n");
+    kprint("Welcome to EDIX.\n");
     // Create loop to keep kernel alive
     while(1);
 }

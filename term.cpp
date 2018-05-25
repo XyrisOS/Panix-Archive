@@ -10,6 +10,8 @@
 int term_col = 0;
 int term_row = 0;
 uint8_t term_color = 0x0F; // Black background, White foreground
+// VGA Memory Buffer Address
+volatile uint16_t * vMem = (uint16_t *)0xB8000;
 
 /**
  * Initializes the terminal by clearing all existing text.
@@ -27,11 +29,15 @@ void term_clear() {
 			// - B is the background color
 			// - F is the foreground color
 			// - C is the ASCII character
-			vMem[index] = ((uint16_t)term_color << 8) | ' '; // Set the character to blank (a space character)
+		 vMem[index] = ((uint16_t)term_color << 8) | ' '; // Set the character to blank (a space character)
 		}
 	}
 }
 
+/**
+ * Prints a given character to the terminal by placing it in vMem.
+ * Handles \n (new line).
+ */
 void term_printChar(char c)
 {
 	switch (c)
@@ -47,7 +53,7 @@ void term_printChar(char c)
 	default:
 		{
 			const size_t index = (VGA_COLS * term_row) + term_col; // Like before, calculate the buffer index
-			vMem[index] = ((uint16_t)term_color << 8) | c;
+		 vMem[index] = ((uint16_t)term_color << 8) | c;
 			term_col ++;
 			break;
 		}
