@@ -28,19 +28,24 @@ extern "C" void callConstructors() {
  * void * multiboot_structure - Multiboot structure from GRUB.
  * unsigned int magicnumber - Magicnumber from loader.s
  */
-extern "C" void kMain(void* multiboot_structure, uint32_t magicnumber) {
+extern "C" void kernel(void* multiboot_structure, uint32_t magicnumber) {
     //Clear the terminal
     kprint_clear();
     color_foreground fore; // Foreground color
-    color_background back; // Background color
-    // Print welcome to kernel
-    kprint("Created by undergraduates of Cedarville University.\n");
-    kprint("Welcome to ");
-    kprint_c(" EDIX \n", fore.black, back.white);
+    color_background bkg; // Background color
+    // Print welcome to kernel and copyright information
+    kprint(" Created by undergraduates of Cedarville University.\n");
+    kprint(" (c) Solar Pepper Studios 2018, all rights reserved.\n\n");
+    kprint(" Welcome to ");
+    kprint_c(" EDIX \n\n", fore.black, bkg.white);
+    kprint(" EDIX -> EDICS\n");
+    kprint(" EDICS: Educational Information Computation System\n");
 
     // Instantiate the GDT
     GlobalDescriptorTable gdt;
 
     // Create loop to keep kernel alive
-    while(1);
+    while(1) {
+
+    }
 }

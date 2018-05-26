@@ -11,7 +11,7 @@
 
 # Load the external functions for calling the compiled C++ kernel
 .section .text
-.extern kMain
+.extern kernel
 .extern callConstructors
 .global loader
 
@@ -21,7 +21,7 @@ loader:
     call callConstructors
     push %eax
     push %ebx
-    call kMain
+    call kernel
 
 # Ensure the kernel does not exit by disabling interupts and halting the CPU
 _stop:

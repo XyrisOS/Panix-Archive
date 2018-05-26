@@ -7,16 +7,22 @@
 
 #include "gdt.h"
 
-GlobalDescriptorTable::GlobalDescriptorTable() : 
+/**
+ * @param nullSegmentSelector -
+ * @param unusedSegmentSelector -
+ * @param codeSegmentSelector -
+ * @param dataSegmentSelector -
+ */
+GlobalDescriptorTable::GlobalDescriptorTable() :
 nullSegmentSelector(0,0,0),
 unusedSegmentSelector(0,0,0),
 codeSegmentSelector(0, 64*1024*1024, 0x9A),
 dataSegmentSelector(0, 64*1024*1024, 0x92) {
-    //
+    // Initialize the GDT by calling the asm commands
     uint32_t i[2];
     i[0] = sizeof(GlobalDescriptorTable) << 16;
     i[1] = (uint32_t)this;
-
+    // Call asm load gdt command
     asm volatile("lgdt (%0)" : : "p" (((uint8_t *) i) + 2));
 }
 
@@ -24,7 +30,7 @@ dataSegmentSelector(0, 64*1024*1024, 0x92) {
  * Destructor for the GlobalDescriptorTable class
  */
 GlobalDescriptorTable::~GlobalDescriptorTable() {
-
+    //
 }
 
 /**

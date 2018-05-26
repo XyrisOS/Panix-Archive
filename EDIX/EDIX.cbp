@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="EDIX" />
+		<Option makefile_is_custom="1" />
+		<Option execution_dir="/home/keeton/edix/" />
+		<Option pch_mode="2" />
+		<Option compiler="clang" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/EDIX" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="clang" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/EDIX" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="clang" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Weverything" />
+		</Compiler>
+		<Unit filename="../Makefile" />
+		<Unit filename="../README.md" />
+		<Unit filename="../edix.iso" />
+		<Unit filename="../gdt.cpp" />
+		<Unit filename="../gdt.h" />
+		<Unit filename="../gdt.o" />
+		<Unit filename="../kernel.bin" />
+		<Unit filename="../kernel.cpp" />
+		<Unit filename="../kernel.o" />
+		<Unit filename="../kprint.cpp" />
+		<Unit filename="../kprint.h" />
+		<Unit filename="../kprint.o" />
+		<Unit filename="../linker.ld" />
+		<Unit filename="../loader.o" />
+		<Unit filename="../loader.s" />
+		<Unit filename="../segdescriptor.cpp" />
+		<Unit filename="../segdescriptor.h" />
+		<Unit filename="../segdescriptor.o" />
+		<Unit filename="../term.cpp" />
+		<Unit filename="../term.h" />
+		<Unit filename="../term.o" />
+		<Unit filename="../termcolor.h" />
+		<Unit filename="../types.h" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

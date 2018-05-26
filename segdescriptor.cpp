@@ -9,9 +9,9 @@
 
 /**
  * SegmentDescriptor constructor
- * uint32_t base - 
- * uint32_t limit - 
- * uint8_t type - 
+ * @param uint32_t base -
+ * @param uint32_t limit -
+ * @param uint8_t type -
  */
 SegmentDescriptor::SegmentDescriptor(uint32_t base, uint32_t limit, uint8_t flags) {
     uint8_t * target = (uint8_t *)this;
