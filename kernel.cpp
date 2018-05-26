@@ -6,6 +6,7 @@
 //  (c) Solar Pepper Studios 2018, all rights reserved.
 
 #include "types.h"
+#include "gdt.h"
 #include "kprint.h"
 #include "termcolor.h"
 
@@ -36,8 +37,10 @@ extern "C" void kMain(void* multiboot_structure, uint32_t magicnumber) {
     kprint("Created by undergraduates of Cedarville University.\n");
     kprint("Welcome to ");
     kprint_c(" EDIX \n", fore.black, back.white);
-    kprint_c("Color test.\n", fore.light_green, back.black);
-    kprint_error("This is an error.\n");
+
+    // Instantiate the GDT
+    GlobalDescriptorTable gdt;
+
     // Create loop to keep kernel alive
     while(1);
 }
