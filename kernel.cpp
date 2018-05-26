@@ -36,7 +36,8 @@ extern "C" void kMain(void* multiboot_structure, uint32_t magicnumber) {
     kprint("Created by undergraduates of Cedarville University.\n");
     kprint("Welcome to ");
     kprint_c(" EDIX \n", fore.black, back.white);
-    kprint_c("Color test.", fore.light_green, back.black);
+    kprint_c("Color test.\n", fore.light_green, back.black);
+    kprint_error("This is an error.\n");
     // Create loop to keep kernel alive
     while(1);
 }

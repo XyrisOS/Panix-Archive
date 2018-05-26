@@ -15,7 +15,7 @@ color_background back; // Background color
  * Kernel printing function.
  * char * str - String to be printed.
  */
-void kprint(char * str) {
+void kprint(const char * str) {
     for (int i = 0; str[i] != '\0'; ++i) {
         // Use term class to print to terminal
         term_printChar(str[i]);
@@ -26,7 +26,7 @@ void kprint(char * str) {
  * Kernel printing function including color.
  * char * str - String to be printed.
  */
-void kprint_c(char * str, char fore, char back) {
+void kprint_c(const char * str, char fore, char back) {
     for (int i = 0; str[i] != '\0'; ++i) {
         // Use term class to print to terminal
         term_set_color(fore, back);
@@ -34,7 +34,7 @@ void kprint_c(char * str, char fore, char back) {
     }
 }
 
-void kprint_error(char * str) {
+void kprint_error(const char * str) {
     for (int i = 0; str[i] != '\0'; ++i) {
         // Use term class to print to terminal
         term_set_color(fore.red, back.white);

@@ -12,9 +12,11 @@
 #include "termcolor.h"
 
 // Print to the terminal using the given string
-void kprint(char* str);
+void kprint(const char* str);
 // Print to the terminal using the given string with color
-void kprint_c(char * str, char fore, char back);
+void kprint_c(const char * str, char fore, char back);
+// Print an error to the terminal using the given string
+void kprint_error(const char * str);
 // Clear the terminal
 void kprint_clear();
 
