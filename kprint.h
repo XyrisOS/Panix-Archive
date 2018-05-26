@@ -7,7 +7,6 @@
 
 #ifndef kprint_h
 #define kprint_h
-
 #include "types.h"
 #include "termcolor.h"
 

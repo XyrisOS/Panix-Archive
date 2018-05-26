@@ -8,10 +8,11 @@
 #include "gdt.h"
 
 /**
- * @param nullSegmentSelector -
- * @param unusedSegmentSelector -
- * @param codeSegmentSelector -
- * @param dataSegmentSelector -
+ * Constructor for the Global Descriptor Table (GDT)
+ * @param nullSegmentSelector - Null Mememory Segment Selector
+ * @param unusedSegmentSelector - Unused Memory Segment Selector
+ * @param codeSegmentSelector - Executable-Memory Segment Selector
+ * @param dataSegmentSelector - Data-in-Memory Segment Selector
  */
 GlobalDescriptorTable::GlobalDescriptorTable() :
 nullSegmentSelector(0,0,0),

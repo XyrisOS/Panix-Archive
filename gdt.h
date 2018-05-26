@@ -7,7 +7,6 @@
 
 #ifndef gdt_h
 #define gdt_h
-
 #include "types.h"
 #include "segdescriptor.h"
 

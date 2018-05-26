@@ -7,6 +7,7 @@
 
 #include "types.h"
 #include "gdt.h"
+#include "port.h"
 #include "kprint.h"
 #include "termcolor.h"
 
@@ -46,6 +47,6 @@ extern "C" void kernel(void* multiboot_structure, uint32_t magicnumber) {
 
     // Create loop to keep kernel alive
     while(1) {
-
+        //
     }
 }
