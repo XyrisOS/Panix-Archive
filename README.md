@@ -1,5 +1,5 @@
 # EDIX
-EDIX is a basic operating system I am designing through the use of various tutorials, etc.</br>
+EDIX (pronounced "edd-eks" | "edd-iks") is a basic operating system I am designing through the use of various tutorials, etc.</br>
 After taking CS-3310 (Operating Systems) at my university, I thought it would be a good idea to try to write my own.
 
 ### What does EDIX stand for?
