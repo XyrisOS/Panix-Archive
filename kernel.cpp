@@ -46,7 +46,7 @@ extern "C" void kernel(void * multiboot_structure, uint32_t magicnumber) {
     GlobalDescriptorTable gdt;
 
     // Create loop to keep kernel alive
-    while(1) {
+    while (1) {
         //
     }
 }
