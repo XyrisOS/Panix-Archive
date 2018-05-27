@@ -40,7 +40,7 @@ extern "C" void kernel(void * multiboot_structure, uint32_t magicnumber) {
     kprint(" Welcome to ");
     kprint_c(" EDIX \n\n", fore.black, bkg.white);
     kprint(" EDIX -> EDICS\n");
-    kprint(" EDICS: Educational Information Computation System\n");
+    kprint(" EDICS: Educational Information Computation System\n\n");
 
     // Instantiate the GDT
     GlobalDescriptorTable gdt;

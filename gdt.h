@@ -9,6 +9,7 @@
 #define gdt_h
 #include "types.h"
 #include "segdescriptor.h"
+#include "kprint.h"
 
 class GlobalDescriptorTable {
 public:

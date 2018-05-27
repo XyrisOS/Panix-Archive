@@ -41,6 +41,7 @@ SegmentDescriptor::SegmentDescriptor(uint32_t base, uint32_t limit, uint8_t flag
     target[7] = ((base >> 24) & 0xFF);
     // Set the access rights
     target[5] = flags;
+    kprint_status(true, "SegmentDescriptor");
 }
 
 /**

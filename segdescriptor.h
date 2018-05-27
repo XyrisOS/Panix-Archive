@@ -9,6 +9,7 @@
 #define segdescriptor_h
 
 #include "types.h"
+#include "kprint.h"
 
 // Declare Segment Descriptor Subclass
 

@@ -16,6 +16,8 @@ void kprint(const char * str);
 void kprint_c(const char * str, char fore, char back);
 // Print an error to the terminal using the given string
 void kprint_error(const char * str);
+// Print a system status to the console
+void kprint_status(bool isLoaded, const char * service_name);
 // Clear the terminal
 void kprint_clear();
 

@@ -76,10 +76,11 @@
           <runcommandpicklistitem>"${OUTPUT_PATH}"</runcommandpicklistitem>
           <runcommandpicklistitem>qemu-emu-i386 -kernel "${OUTPUT_PATH}"</runcommandpicklistitem>
           <runcommandpicklistitem>qemu-system-i386 -kernel "${OUTPUT_PATH}"</runcommandpicklistitem>
+          <runcommandpicklistitem>qemu-system-i386 -kernel "${OUTPUT_PATH}" &amp;</runcommandpicklistitem>
         </runcommandpicklist>
-        <runcommand>qemu-system-i386 -kernel "${OUTPUT_PATH}"</runcommand>
+        <runcommand>qemu-system-i386 -kernel "${OUTPUT_PATH}" &amp;</runcommand>
         <rundir>.</rundir>
-        <buildfirst>false</buildfirst>
+        <buildfirst>true</buildfirst>
         <console-type>1</console-type>
         <terminal-type>0</terminal-type>
         <remove-instrumentation>0</remove-instrumentation>

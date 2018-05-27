@@ -25,6 +25,7 @@ dataSegmentSelector(0, 64*1024*1024, 0x92) {
     i[1] = (uint32_t)this;
     // Call asm load gdt command
     asm volatile("lgdt (%0)" : : "p" (((uint8_t *) i) + 2));
+    kprint_status(true, "GlobalDescriptorTableService");
 }
 
 /**

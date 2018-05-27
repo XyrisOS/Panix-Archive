@@ -6,6 +6,7 @@
 //  (c) Solar Pepper Studios 2018, all rights reserved.
 
 #include "port.h"
+#include "kprint.h"
 
 #pragma mark Port functions
 
@@ -15,6 +16,7 @@
 Port::Port(uint16_t port) {
     // Store the port number in the class variable
     this->portnumber = port;
+    kprint_status(true, "PortService");
 }
 
 /**
