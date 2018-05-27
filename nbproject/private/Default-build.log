@@ -1,0 +1,10 @@
+as --32 -o loader.o loader.s
+g++ -m32 -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -std=c++11 -c -o kernel.o kernel.cpp
+g++ -m32 -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -std=c++11 -c -o kprint.o kprint.cpp
+g++ -m32 -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -std=c++11 -c -o term.o term.cpp
+g++ -m32 -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -std=c++11 -c -o gdt.o gdt.cpp
+g++ -m32 -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -std=c++11 -c -o segdescriptor.o segdescriptor.cpp
+g++ -m32 -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -std=c++11 -c -o port.o port.cpp
+port.cpp: Assembler messages:
+port.cpp:153: Warning: using `%eax' instead of `%ax' due to `l' suffix
+ld -melf_i386 -T linker.ld -o kernel.bin loader.o kernel.o kprint.o term.o gdt.o segdescriptor.o port.o

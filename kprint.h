@@ -11,7 +11,7 @@
 #include "termcolor.h"
 
 // Print to the terminal using the given string
-void kprint(const char* str);
+void kprint(const char * str);
 // Print to the terminal using the given string with color
 void kprint_c(const char * str, char fore, char back);
 // Print an error to the terminal using the given string

@@ -29,7 +29,7 @@ extern "C" void callConstructors() {
  * void * multiboot_structure - Multiboot structure from GRUB.
  * unsigned int magicnumber - Magicnumber from loader.s
  */
-extern "C" void kernel(void* multiboot_structure, uint32_t magicnumber) {
+extern "C" void kernel(void * multiboot_structure, uint32_t magicnumber) {
     //Clear the terminal
     kprint_clear();
     color_foreground fore; // Foreground color
