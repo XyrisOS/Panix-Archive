@@ -59,26 +59,26 @@ uint8_t Port_8::read() {
     return result;
 }
 
-#pragma mark - Port_8_Compatibility functions
+#pragma mark - Port_8_Slow functions
 
 /**
  * 
  */
-Port_8_Compatibility::Port_8_Compatibility(uint8_t port) : Port_8(port) {
+Port_8_Slow::Port_8_Slow(uint8_t port) : Port_8(port) {
 
 }
 
 /**
  * 
  */
-Port_8_Compatibility::~Port_8_Compatibility() {
+Port_8_Slow::~Port_8_Slow() {
 
 }
 
 /**
  * 
  */
-void Port_8_Compatibility::write(uint8_t msg) {
+void Port_8_Slow::write(uint8_t msg) {
     // Call assembly outb ("out byte") command with commands to slow the process
     // TODO: Compiler throws warning about using register %eax instead of %ex. Look into this.
     __asm__ volatile("outb %0, %1\njmp 1f\n1: jmp 1f\n1:" : : "a" (msg), "Nd" (this->portnumber));

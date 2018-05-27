@@ -11,18 +11,18 @@
 #include "segdescriptor.h"
 
 class GlobalDescriptorTable {
-    public:
-        // Segment Descriptors
-        SegmentDescriptor nullSegmentSelector;
-        SegmentDescriptor unusedSegmentSelector;
-        SegmentDescriptor codeSegmentSelector;
-        SegmentDescriptor dataSegmentSelector;
+public:
+    // Segment Descriptors
+    SegmentDescriptor nullSegmentSelector;
+    SegmentDescriptor unusedSegmentSelector;
+    SegmentDescriptor codeSegmentSelector;
+    SegmentDescriptor dataSegmentSelector;
 
-        GlobalDescriptorTable();
-        ~GlobalDescriptorTable();
+    GlobalDescriptorTable();
+    ~GlobalDescriptorTable();
 
-        uint16_t CodeSegmentSelector();
-        uint16_t DataSegmentSelector();
+    uint16_t CodeSegmentSelector();
+    uint16_t DataSegmentSelector();
 };
 
 #endif /* gdt_h */

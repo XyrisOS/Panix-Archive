@@ -32,12 +32,12 @@ protected:
 /**
  * Slower version of Port_8 for compatibility
  */
-class Port_8_Compatibility : public Port_8 {
+class Port_8_Slow : public Port_8 {
 protected:
     // Constructor
-    Port_8_Compatibility(uint8_t port);
+    Port_8_Slow(uint8_t port);
     // Destructor
-    ~Port_8_Compatibility();
+    ~Port_8_Slow();
     virtual void write(uint8_t msg);
 };
 
