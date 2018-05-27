@@ -18,4 +18,4 @@ All testing is done in Virtualbox 5 with the following settings:
   - Clean up file structure and move things to src/, obj/, build/, etc. respectively.
     - Modify Makefile to support this
   - Continue adding hardware integration (next step: keyboard)
-  - ¯\_(ツ)_/¯
+  - ¯\\_(ツ)_/¯
