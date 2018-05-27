@@ -16,8 +16,8 @@
  * C is the ASCII character
  */
 
-int term_col = 0;
-int term_row = 0;
+static uint8_t term_row = 0;
+static uint8_t term_col = 0;
 uint8_t term_color = 0x0F; // Black screen with white text
 // VGA Memory Buffer Address
 volatile uint16_t * vMem = (uint16_t *)0xB8000;
@@ -35,12 +35,13 @@ void term_set_color(char fore, char bkg) {
  */
 void term_init() {
 	// Clear the textmode buffer
-	term_color = 0x0F; // Black screen with white text
+	// Set color to black screen with white text
+	term_color = 0x0F;
+	// Go through every column and row and reset the memory to ' ' character
 	for (int col = 0; col < VGA_COLS; col ++)
 	{
 		for (int row = 0; row < VGA_ROWS; row ++)
 		{
-            // Set the characterd to blank (a space character)
 			// The VGA textmode buffer has size (VGA_COLS * VGA_ROWS).
 			// Given this, we find an index into the buffer for our character
 			const size_t index = (VGA_COLS * row) + col;
@@ -55,36 +56,41 @@ void term_init() {
  */
 void term_print_char(char c)
 {
+	// TODO: Replace with if statement?
+	// Test performance difference.
 	switch (c)
 	{
-	// Newline characters should return the column to 0, and increment the row
+	// Newline characters return the column to 0, and increment row
 	case '\n':
 		{
 			term_col = 0;
 			term_row ++;
 			break;
 		}
-	// Normal characters just get displayed and then increment the column
+	// Normal characters print and increment col
 	default:
 		{
-			const size_t index = (VGA_COLS * term_row) + term_col; // Like before, calculate the buffer index
+			// calculate the buffer index
+			const size_t index = (VGA_COLS * term_row) + term_col;
             vMem[index] = ((uint16_t)term_color << 8) | c;
 			term_col ++;
 			break;
 		}
 	}
 
-	// What happens if we get past the last column? We need to reset the column to 0, and increment the row to get to a new line
+	// Terminal text has reached max column
 	if (term_col >= VGA_COLS)
 	{
 		term_col = 0;
-		term_row ++;
+		term_row++;
 	}
 
-	// What happens if we get past the last row? We need to reset both column and row to 0 in order to loop back to the top of the screen
+	// Terminal text has reached the max row
+	// Note: We're going to assume this works right now since emulation speed even at 1% is still too fast to see if it works.
 	if (term_row >= VGA_ROWS)
 	{
-        // TODO: Move all text "up" by clearing top line and shifting everything. Optional: Clear screen and start again...
+        // TODO: Move all text "up" by clearing top line and shifting everything.
+		// Optional: Clear screen and start again...
         term_init();
 		term_col = 0;
 		term_row = 0;

@@ -10,8 +10,8 @@
 #include "types.h"
 
 // VGA Textmode buffer size
-const int VGA_COLS = 80;
-const int VGA_ROWS = 25;
+const uint8_t VGA_COLS = 80;
+const uint8_t VGA_ROWS = 25;
 
 // Set the terminal text color
 void term_set_color(char fore, char bkg);
