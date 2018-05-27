@@ -6,6 +6,7 @@ LDPARAMS = -melf_i386
 
 SRC = src
 OBJ = obj
+BUILD = build
 
 EXECUTABLE = kernel.bin
 ISO = edix.iso
@@ -19,20 +20,20 @@ objects = loader.o kernel.o kprint.o term.o gdt.o segdescriptor.o port.o
 	$(AS) $(ASPARAMS) -o $@ $<
 
 $(EXECUTABLE): $(LINKER) $(objects)
-	ld $(LDPARAMS) -T $< -o $@ $(objects)
+	ld $(LDPARAMS) -T $< -o $(BUILD)/$@ $(objects)
 
 install: $(EXECUTABLE)
 	sudo cp $< /boot/$(EXECUTABLE)
 
 .PHONY: clean
 clean:
-	rm -rf $(objects) $(EXECUTABLE) $(ISO)
+	rm -rf $(objects) $(BUILD)/$(EXECUTABLE) $(BUILD)/$(ISO)
 
 $(ISO): $(EXECUTABLE)
 	mkdir iso
 	mkdir iso/boot
 	mkdir iso/boot/grub
-	cp $< iso/boot/
+	cp $(BUILD)/$< iso/boot/
 	echo 'set timeout=0' >> iso/boot/grub/grub.cfg
 	echo 'set default=0' >> iso/boot/grub/grub.cfg
 	echo '' >> iso/boot/grub/grub.cfg
@@ -40,7 +41,7 @@ $(ISO): $(EXECUTABLE)
 	echo '	multiboot /boot/kernel.bin' >> iso/boot/grub/grub.cfg
 	echo '	boot' >> iso/boot/grub/grub.cfg
 	echo '}' >> iso/boot/grub/grub.cfg
-	grub-mkrescue --output=$@ iso
+	grub-mkrescue --output=$(BUILD)/$@ iso
 	rm -rf iso
 	
 run: $(EXECUTABLE)

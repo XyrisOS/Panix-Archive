@@ -1,2 +1,3 @@
 # Ignore all object and archive files
 *.[oa]
+/build/
