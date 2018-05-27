@@ -19,3 +19,6 @@ All testing is done in Virtualbox 5 with the following settings:
     - Modify Makefile to support this
   - Continue adding hardware integration (next step: keyboard)
   - ¯\\_(ツ)_/¯
+
+### Screenshot
+![](https://github.com/Kfeavel/edix/blob/master/current.png?raw=true)
