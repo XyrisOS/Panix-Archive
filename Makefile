@@ -10,7 +10,7 @@ BUILD = build
 
 EXECUTABLE = kernel.bin
 ISO = edix.iso
-LINKER = linker.ld
+LINKER = $(addprefix src/, linker.ld)
 
 objects = $(addprefix obj/, loader.o kernel.o kprint.o term.o gdt.o segdescriptor.o port.o)
 
