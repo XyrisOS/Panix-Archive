@@ -1,25 +1,34 @@
+CXX = g++
+AS = as
 CPPPARAMS = -m32 -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -std=c++11
 ASPARAMS = --32
 LDPARAMS = -melf_i386
 
+SRC = src
+OBJ = obj
+
+EXECUTABLE = kernel.bin
+ISO = edix.iso
+LINKER = linker.ld
+
 objects = loader.o kernel.o kprint.o term.o gdt.o segdescriptor.o port.o
 
-%.o: %.cpp
-	g++ $(CPPPARAMS) -c -o $@ $<
-%.o: %.s
-	as $(ASPARAMS) -o $@ $<
+%.o: $(SRC)/%.cpp
+	$(CXX) $(CPPPARAMS) -c -o $@ $<
+%.o: $(SRC)/%.s
+	$(AS) $(ASPARAMS) -o $@ $<
 
-kernel.bin: linker.ld $(objects)
+$(EXECUTABLE): $(LINKER) $(objects)
 	ld $(LDPARAMS) -T $< -o $@ $(objects)
 
-install: kernel.bin
-	sudo cp $< /boot/kernel.bin
+install: $(EXECUTABLE)
+	sudo cp $< /boot/$(EXECUTABLE)
 
 .PHONY: clean
 clean:
-	rm -rf $(objects) kernel.bin edix.iso
+	rm -rf $(objects) $(EXECUTABLE) $(ISO)
 
-edix.iso: kernel.bin
+$(ISO): $(EXECUTABLE)
 	mkdir iso
 	mkdir iso/boot
 	mkdir iso/boot/grub
@@ -34,6 +43,6 @@ edix.iso: kernel.bin
 	grub-mkrescue --output=$@ iso
 	rm -rf iso
 	
-run: kernel.bin
-	qemu-system-i386 -kernel kernel.bin
-#Virtualbox --startvm EDIX &
+run: $(EXECUTABLE)
+	qemu-system-i386 -kernel $(EXECUTABLE)
+	# Virtualbox --startvm EDIX &
