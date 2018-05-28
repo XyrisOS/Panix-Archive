@@ -8,19 +8,19 @@
 #include "types.h"
 #include "gdt.h"
 #include "port.h"
+#include "interrupts.h"
 #include "kprint.h"
 #include "termcolor.h"
-#include "interrupts.h"
 
 typedef void (*constructor)();
-extern "C" constructor start_ctors;
-extern "C" constructor end_ctors;
+extern "C" constructor constructor_start;
+extern "C" constructor constructor_end;
 
 /**
  * Constructor call for the EDIX kernel.
  */
 extern "C" void callConstructors() {
-    for (constructor * i = &start_ctors; i != &end_ctors; i++) {
+    for (constructor * i = &constructor_start; i != &constructor_end; i++) {
         (*i)();
     }
 }
@@ -50,7 +50,8 @@ extern "C" void kernel(void * multiboot_structure, uint32_t magicnumber) {
     // Instantiate hardware devices
     
     // Activate interrupts
-    //interrupts.Activate();
+    // TODO: Fix interrupts
+    interrupts.activate();
 
     // Create loop to keep kernel alive
     while (1) {

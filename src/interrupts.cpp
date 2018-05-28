@@ -25,6 +25,8 @@
 
 #include "interrupts.h"
 
+void kprint_status(bool isLoaded, const char * service_name);
+
 // Get class variables
 InterruptManager::GateDescriptor
 InterruptManager::interruptDescriptorTable[256];
@@ -36,7 +38,7 @@ picSlaveCommand(0xA0), picSlaveData(0xA1) {
     uint16_t codeSegment = gdt->CodeSegmentSelector();
     const uint8_t IDT_INTERRUPT_GATE = 0xE;
     // Initialize the IDT
-    for (uint16_t i = 0; i < 256; i++) {
+    for (uint8_t i = 0; i < 256; i++) {
         setInterruptDescriptorTableEntry(
                 i, // Index / interrupt ID
                 codeSegment, // Code segment selector
@@ -47,22 +49,10 @@ picSlaveCommand(0xA0), picSlaveData(0xA1) {
     }
     // Indexes start at 0x20 because they are increased
     // by IRQ_BASE in interruptstubs.s (Hardware Interrupt Offset)
-    // Handle interrupt 0x00
-    setInterruptDescriptorTableEntry(
-            0x20,
-            codeSegment,
-            0,
-            IDT_INTERRUPT_GATE,
-            &handleInterruptRequest0x00
-            );
-    // Handle interrupt 0x01
-    setInterruptDescriptorTableEntry(
-            0x21,
-            codeSegment,
-            0,
-            IDT_INTERRUPT_GATE,
-            &handleInterruptRequest0x01
-            );
+    
+    // Handle interrupts
+    setInterruptDescriptorTableEntry(0x20, codeSegment, 0, IDT_INTERRUPT_GATE, &handleInterruptRequest0x00);
+    setInterruptDescriptorTableEntry(0x21, codeSegment, 0, IDT_INTERRUPT_GATE, &handleInterruptRequest0x01);
     
     // Communicate with Programmable Interrupt Controller
     picMasterCommand.write(0x11);
@@ -82,17 +72,18 @@ picSlaveCommand(0xA0), picSlaveData(0xA1) {
     picSlaveData.write(0x00);
     
     // Tell the processor to use the constructed IDT
-    InterruptDescriptorTablePointer idt;
-    idt.size = 256 * sizeof (GateDescriptor) - 1;
-    idt.base = (uint32_t) interruptDescriptorTable;
+    InterruptDescriptorTablePointer idt_pointer;
+    idt_pointer.size = 256 * sizeof (GateDescriptor) - 1;
+    idt_pointer.base = (uint32_t) interruptDescriptorTable;
 
     // Load the IDT by calling the lidt assembly instruction
-    asm volatile("lidt %0" : : "m" (idt));
+    asm volatile("lidt %0" : : "m" (idt_pointer));
 
 }
 
 InterruptManager::~InterruptManager() {
-
+    // Deactivate interrupt handling on deconstruction
+    deactivate();
 }
 
 void InterruptManager::setInterruptDescriptorTableEntry (
@@ -112,14 +103,25 @@ void InterruptManager::setInterruptDescriptorTableEntry (
     interruptDescriptorTable[interruptID].access = access;
 }
 
-void InterruptManager::Activate() {
+void InterruptManager::activate() {
     // Call the "start interrupts" assembly command
     asm volatile("sti");
 }
 
+void InterruptManager::deactivate() {
+    // Clear / stop interrupts
+    // asm volitile("cli");
+}
+
 uint32_t InterruptManager::handleInterrupt(uint8_t interruptID, uint32_t esp) {
     // Print an interrupt status to the terminal
-    kprint_error("[ INTERRUPT ]\n");
-
+    char * msg = "[ INTERRUPT 0x00 ]\n";
+    char * hex = "0123456789ABCDEF";
+    
+    msg[14] = hex[((interruptID) >> 4) & 0xF];
+    msg[15] = hex[interruptID & 0xF];
+    
+    kprint_status(true, msg);
+    
     return esp;
 }

@@ -15,10 +15,10 @@ SECTIONS
 
     .data :
     {
-        start_ctors = .;
+        constructor_start = .;
         KEEP(*( .init_array ));
         KEEP(*(SORT_BY_INIT_PRIORITY( .init_array.* )));
-        end_ctors = .;
+        constructor_end = .;
 
         *(.data)
     }

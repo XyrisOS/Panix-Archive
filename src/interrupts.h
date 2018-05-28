@@ -28,7 +28,7 @@
 #include "types.h"
 #include "port.h"
 #include "gdt.h"
-#include "kprint.h"
+//#include "kprint.h"
 
 class InterruptManager {
 protected:
@@ -54,7 +54,7 @@ protected:
      */
     struct InterruptDescriptorTablePointer {
         uint16_t size;
-        uint16_t base;
+        uint32_t base;
     } __attribute ((packed));
 
     /**
@@ -72,6 +72,20 @@ protected:
             uint8_t type,
             void (* handler)()
             );
+    
+    /* Declare Interrupt Handler Functions */
+    static void ignoreInterruptRequest(); // Ignores a given interrupt
+    static void handleInterruptRequest0x00(); // Timer interrupt handler
+    static void handleInterruptRequest0x01(); // Keyboard interrupt handler
+    
+    // TODO: Currently only returns the current stack pointer.
+    /**
+     * Handles interrupts given the interrupt code and the stack pointer
+     * @param interruptID - Interrupt number
+     * @param esp - Stack pointer
+     * @return Returns the given stack pointer.
+     */
+    static uint32_t handleInterrupt(uint8_t interruptID, uint32_t esp);
     
     // Programmable Interrupt Controller (Master)
     Port_8_Slow picMasterCommand;
@@ -93,21 +107,15 @@ public:
      */
     ~InterruptManager();
 
-    void Activate();
-
-    // TODO: Currently only returns the current stack pointer.
     /**
-     * Handles interrupts given the interrupt code and the stack pointer
-     * @param interruptID - Interrupt number
-     * @param esp - Stack pointer
-     * @return Returns the given stack pointer.
+     * Activates interrupt handling.
      */
-    static uint32_t handleInterrupt(uint8_t interruptID, uint32_t esp);
-
-    /* Declare Interrupt Handler Functions */
-    static void ignoreInterruptRequest(); // Ignores a given interrupt
-    static void handleInterruptRequest0x00(); // Timer interrupt handler
-    static void handleInterruptRequest0x01(); // Keyboard interrupt handler
+    void activate();
+    
+    /**
+     * Deactivates interrupt handling.
+     */
+    void deactivate();
 };
 
 #endif /* interrupts_h */
