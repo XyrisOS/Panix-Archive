@@ -5,6 +5,10 @@ EDIX (pronounced "edd-eks" | "edd-iks") is a basic operating system I am designi
 Just as UNIX used to be UNICS (Uniplexed Information Computing System), EDIX is properly EDICS (Educational Information Computing System).</br>
 The name is "shortened" to EDIX to stick with the long established *\*nix* naming convention.
 
+### Download
+Download the EDIX kernel by clicking the download link below:</br></br>
+[Download](https://github.com/Kfeavel/edix/raw/master/build/kernel.bin) (13 KB)
+
 ### Installation
 Currently EDIX is run using QEMU in kernel mode with the pre-compiled `kernel.bin` file provided in the repository.</br>
 If you want to run EDIX for yourself, download `kernel.bin` in the build/ folder and run the following command:</br>
