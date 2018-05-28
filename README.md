@@ -14,10 +14,8 @@ All testing is done in Virtualbox 5 with the following settings:
   - Boot Medium: ISO (no HDD)
   - All other settings are set to the default for the OS Type
 
-### TODO
-  - Clean up file structure and move things to src/, obj/, build/, etc. respectively.
-    - Modify Makefile to support this
-  - Continue adding hardware integration (next step: keyboard)
+### Next Step(s)
+  - Fix interrupts
   - ¯\\_(ツ)_/¯
 
 ### Screenshot
