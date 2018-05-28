@@ -25,7 +25,7 @@
 
 #include "interrupts.h"
 
-void kprint_status(bool isLoaded, const char * service_name);
+void printf(char* str);
 
 // Get class variables
 InterruptManager::GateDescriptor
@@ -121,7 +121,7 @@ uint32_t InterruptManager::handleInterrupt(uint8_t interruptID, uint32_t esp) {
     msg[14] = hex[((interruptID) >> 4) & 0xF];
     msg[15] = hex[interruptID & 0xF];
     
-    kprint_status(true, msg);
+    printf(msg);
     
     return esp;
 }

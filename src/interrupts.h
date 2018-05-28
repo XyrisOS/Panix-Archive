@@ -28,7 +28,7 @@
 #include "types.h"
 #include "port.h"
 #include "gdt.h"
-//#include "kprint.h"
+#include "kprint.h"
 
 class InterruptManager {
 protected:
