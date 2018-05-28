@@ -12,7 +12,7 @@ EXECUTABLE = kernel.bin
 ISO = edix.iso
 LINKER = $(addprefix src/, linker.ld)
 
-objects = $(addprefix obj/, loader.o kernel.o kprint.o term.o gdt.o segdescriptor.o port.o)
+objects = $(addprefix obj/, loader.o kernel.o kprint.o term.o gdt.o segdescriptor.o port.o interruptstubs.o interrupts.o)
 
 $(OBJ)/%.o: $(SRC)/%.cpp
 	$(CXX) $(CPPPARAMS) -c -o $@ $<

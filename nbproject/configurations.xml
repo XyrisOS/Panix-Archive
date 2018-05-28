@@ -2,12 +2,17 @@
 <configurationDescriptor version="100">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <df root="." name="0">
-      <in>gdt.cpp</in>
-      <in>kernel.cpp</in>
-      <in>kprint.cpp</in>
-      <in>port.cpp</in>
-      <in>segdescriptor.cpp</in>
-      <in>term.cpp</in>
+      <df name="src">
+        <in>gdt.cpp</in>
+        <in>interrupts.cpp</in>
+        <in>interrupts.h</in>
+        <in>interruptstubs.s</in>
+        <in>kernel.cpp</in>
+        <in>kprint.cpp</in>
+        <in>port.cpp</in>
+        <in>segdescriptor.cpp</in>
+        <in>term.cpp</in>
+      </df>
     </df>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -40,34 +45,45 @@
           <buildCommandWorkingDir>.</buildCommandWorkingDir>
           <buildCommand>${MAKE} -f Makefile</buildCommand>
           <cleanCommand>${MAKE} -f Makefile clean</cleanCommand>
-          <executablePath>kernel.bin</executablePath>
+          <executablePath>./build/kernel.bin</executablePath>
+          <ccTool>
+            <incDir>
+              <pElem>.</pElem>
+            </incDir>
+          </ccTool>
         </makeTool>
         <preBuild>
           <preBuildCommandWorkingDir>.</preBuildCommandWorkingDir>
           <preBuildCommand></preBuildCommand>
         </preBuild>
       </makefileType>
-      <item path="gdt.cpp" ex="false" tool="1" flavor2="8">
+      <item path="src/gdt.cpp" ex="false" tool="1" flavor2="8">
         <ccTool flags="0">
         </ccTool>
       </item>
-      <item path="kernel.cpp" ex="false" tool="1" flavor2="8">
+      <item path="src/interrupts.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/interrupts.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/interruptstubs.s" ex="false" tool="4" flavor2="0">
+      </item>
+      <item path="src/kernel.cpp" ex="false" tool="1" flavor2="8">
         <ccTool flags="0">
         </ccTool>
       </item>
-      <item path="kprint.cpp" ex="false" tool="1" flavor2="8">
+      <item path="src/kprint.cpp" ex="false" tool="1" flavor2="8">
         <ccTool flags="0">
         </ccTool>
       </item>
-      <item path="port.cpp" ex="false" tool="1" flavor2="8">
+      <item path="src/port.cpp" ex="false" tool="1" flavor2="8">
         <ccTool flags="0">
         </ccTool>
       </item>
-      <item path="segdescriptor.cpp" ex="false" tool="1" flavor2="8">
+      <item path="src/segdescriptor.cpp" ex="false" tool="1" flavor2="8">
         <ccTool flags="0">
         </ccTool>
       </item>
-      <item path="term.cpp" ex="false" tool="1" flavor2="8">
+      <item path="src/term.cpp" ex="false" tool="1" flavor2="8">
         <ccTool flags="0">
         </ccTool>
       </item>

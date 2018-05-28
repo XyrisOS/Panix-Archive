@@ -13,11 +13,24 @@
 const uint8_t VGA_COLS = 80;
 const uint8_t VGA_ROWS = 25;
 
-// Set the terminal text color
+/**
+ * Sets the terminal color by ORing the foreground and background
+ * which are defined in the termcolor header (termcolor.h).
+ * @param fore - Foreground color
+ * @param bkg - Background color
+ */
 void term_set_color(char fore, char bkg);
-// Clear the terminal.
+
+/**
+ * Initializes and clears the terminal.
+ */
 void term_init();
-// Print a given character to the terminal. Handles \n.
+
+/**
+ * Prints a given character to the terminal by placing it in vMem.
+ * Handles \n (new line).
+ * @param c - Character to be printed to the terminal.
+ */
 void term_print_char(char c);
 
 #endif /* term_h */

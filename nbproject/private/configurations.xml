@@ -6,32 +6,29 @@
         <df name="ISSUE_TEMPLATE">
         </df>
       </df>
-      <df name=".vscode">
+      <df name="build">
       </df>
-      <df name="kernel.xcodeproj">
-        <df name="project.xcworkspace">
-          <df name="xcshareddata">
-          </df>
-          <df name="xcuserdata">
-            <df name="keeton.xcuserdatad">
-            </df>
-          </df>
-        </df>
+      <df name="obj">
       </df>
-      <in>gdt.cpp</in>
-      <in>gdt.h</in>
-      <in>kernel.cpp</in>
-      <in>kprint.cpp</in>
-      <in>kprint.h</in>
-      <in>loader.s</in>
-      <in>port.cpp</in>
-      <in>port.h</in>
-      <in>segdescriptor.cpp</in>
-      <in>segdescriptor.h</in>
-      <in>term.cpp</in>
-      <in>term.h</in>
-      <in>termcolor.h</in>
-      <in>types.h</in>
+      <df name="src">
+        <in>gdt.cpp</in>
+        <in>gdt.h</in>
+        <in>interrupts.cpp</in>
+        <in>interrupts.h</in>
+        <in>interruptstubs.s</in>
+        <in>kernel.cpp</in>
+        <in>kprint.cpp</in>
+        <in>kprint.h</in>
+        <in>loader.s</in>
+        <in>port.cpp</in>
+        <in>port.h</in>
+        <in>segdescriptor.cpp</in>
+        <in>segdescriptor.h</in>
+        <in>term.cpp</in>
+        <in>term.h</in>
+        <in>termcolor.h</in>
+        <in>types.h</in>
+      </df>
     </df>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
@@ -43,10 +40,10 @@
       </toolsSet>
       <compile>
         <compiledirpicklist>
-          <compiledirpicklistitem>.</compiledirpicklistitem>
           <compiledirpicklistitem>${AUTO_FOLDER}</compiledirpicklistitem>
+          <compiledirpicklistitem>.</compiledirpicklistitem>
         </compiledirpicklist>
-        <compiledir>${AUTO_FOLDER}</compiledir>
+        <compiledir>.</compiledir>
         <compilecommandpicklist>
           <compilecommandpicklistitem>${MAKE} ${ITEM_NAME}.o</compilecommandpicklistitem>
           <compilecommandpicklistitem>${AUTO_COMPILE}</compilecommandpicklistitem>
@@ -59,8 +56,11 @@
         <gdb_interceptlist>
           <gdbinterceptoptions gdb_all="false" gdb_unhandled="true" gdb_unexpected="true"/>
         </gdb_interceptlist>
+        <gdb_signals>
+        </gdb_signals>
         <gdb_options>
           <DebugOptions>
+            <option name="debug_dir" value="."/>
           </DebugOptions>
         </gdb_options>
         <gdb_buildfirst gdb_buildfirst_overriden="false" gdb_buildfirst_old="false"/>
@@ -75,10 +75,11 @@
           <runcommandpicklistitem>make run</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}"</runcommandpicklistitem>
           <runcommandpicklistitem>qemu-emu-i386 -kernel "${OUTPUT_PATH}"</runcommandpicklistitem>
-          <runcommandpicklistitem>qemu-system-i386 -kernel "${OUTPUT_PATH}"</runcommandpicklistitem>
+          <runcommandpicklistitem>qemu-system-i386 -kernel "build/${OUTPUT_PATH}" &amp;</runcommandpicklistitem>
           <runcommandpicklistitem>qemu-system-i386 -kernel "${OUTPUT_PATH}" &amp;</runcommandpicklistitem>
+          <runcommandpicklistitem>qemu-system-i386 -kernel "${OUTPUT_PATH}"</runcommandpicklistitem>
         </runcommandpicklist>
-        <runcommand>qemu-system-i386 -kernel "${OUTPUT_PATH}" &amp;</runcommand>
+        <runcommand>qemu-system-i386 -kernel "${OUTPUT_PATH}"</runcommand>
         <rundir>.</rundir>
         <buildfirst>true</buildfirst>
         <console-type>1</console-type>

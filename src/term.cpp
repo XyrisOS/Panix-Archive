@@ -22,17 +22,10 @@ uint8_t term_color = 0x0F; // Black screen with white text
 // VGA Memory Buffer Address
 volatile uint16_t * vMem = (uint16_t *) 0xB8000;
 
-/**
- * Sets the terminal color by ORing the foreground and background
- * which are defined in the termcolor header (termcolor.h).
- */
 void term_set_color(char fore, char bkg) {
     term_color = (fore | bkg);
 }
 
-/**
- * Initializes the terminal by clearing all existing text.
- */
 void term_init() {
     // Clear the textmode buffer
     // Set color to black screen with white text
@@ -48,10 +41,6 @@ void term_init() {
     }
 }
 
-/**
- * Prints a given character to the terminal by placing it in vMem.
- * Handles \n (new line).
- */
 void term_print_char(char c) {
     // TODO: Replace with if statement?
     // Test performance difference.

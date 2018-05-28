@@ -2,17 +2,11 @@
 //  segdescriptor.cpp
 //  EDIX
 //
-//  Created by Keeton Feavel on 5/24/18.
+//  Created by Keeton Feavel on 5/26/18.
 //  (c) Solar Pepper Studios 2018, all rights reserved.
 
 #include "segdescriptor.h"
 
-/**
- * SegmentDescriptor constructor
- * @param uint32_t base -
- * @param uint32_t limit -
- * @param uint8_t type -
- */
 SegmentDescriptor::SegmentDescriptor(uint32_t base, uint32_t limit, uint8_t flags) {
     uint8_t * target = (uint8_t *)this;
 
@@ -44,9 +38,6 @@ SegmentDescriptor::SegmentDescriptor(uint32_t base, uint32_t limit, uint8_t flag
     kprint_status(true, "SegmentDescriptor");
 }
 
-/**
- * Returns the Base memory address
- */
 uint32_t SegmentDescriptor::Base() {
     uint8_t * target = (uint8_t *)this;
     uint32_t result = target[7];
@@ -56,9 +47,6 @@ uint32_t SegmentDescriptor::Base() {
     return result;
 }
 
-/**
- * Returns the Limit memory address
- */
 uint32_t SegmentDescriptor::Limit() {
     uint8_t * target = (uint8_t *)this;
     uint32_t result = target[6] & 0xF; // Take the lower 4 bits of the shared byte

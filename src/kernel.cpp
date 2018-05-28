@@ -10,6 +10,7 @@
 #include "port.h"
 #include "kprint.h"
 #include "termcolor.h"
+#include "interrupts.h"
 
 typedef void (*constructor)();
 extern "C" constructor start_ctors;
@@ -26,8 +27,8 @@ extern "C" void callConstructors() {
 
 /**
  * Main function for the EDIX kernel.
- * void * multiboot_structure - Multiboot structure from GRUB.
- * unsigned int magicnumber - Magicnumber from loader.s
+ * @param multiboot_structure - Multiboot structure from GRUB.
+ * @param magicnumber - Magicnumber from loader.s
  */
 extern "C" void kernel(void * multiboot_structure, uint32_t magicnumber) {
     //Clear the terminal
