@@ -17,22 +17,22 @@ class SegmentDescriptor {
 public:
 
     /**
-     * 
-     * @param base
-     * @param limit
-     * @param flags
+     * Segment Descriptor constructor
+     * @param base Address base bits
+     * @param limit Address limit bits
+     * @param flags Address flags
      */
     SegmentDescriptor(uint32_t base, uint32_t limit, uint8_t flags);
 
     /**
-     * Returns the Base memory address
-     * @return 
+     * Returns the memory address base bits
+     * @return memory address base bits as a 32 bit integer
      */
     uint32_t Base();
 
     /**
-     * Returns the Limit memory address
-     * @return 
+     * Returns the memory address limit bits
+     * @return memory address limit bits as a 32 bit integer
      */
     uint32_t Limit();
 private:

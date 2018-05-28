@@ -35,13 +35,13 @@ public:
     
     /**
      * Returns the value of the Code Segment Selector
-     * @return 
+     * @return Value of the Code Segment Selector as a 16 bit integer
      */
     uint16_t CodeSegmentSelector();
     
     /**
      * Returns the value of the Data Segment Selector
-     * @return 
+     * @return Value of the Data Segment Selector as a 16 bit integer
      */
     uint16_t DataSegmentSelector();
 };

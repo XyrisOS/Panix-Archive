@@ -16,6 +16,7 @@ typedef void (*constructor)();
 extern "C" constructor constructor_start;
 extern "C" constructor constructor_end;
 
+// May not be necessary. Here to try to get interrupts to print.
 void printf(char* str)
 {
     static uint16_t* VideoMemory = (uint16_t*)0xb8000;
