@@ -45,5 +45,5 @@ $(ISO): $(EXECUTABLE)
 	rm -rf iso
 	
 run: $(EXECUTABLE)
-	qemu-system-i386 -kernel $(EXECUTABLE)
+	qemu-system-i386 -kernel $(addprefix $(BUILD)/, $(EXECUTABLE))
 	# Virtualbox --startvm EDIX &

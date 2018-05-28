@@ -33,6 +33,7 @@
 # Handle exceptions
 .macro handleException id
 .global _ZN16InterruptManager16handleException\id\()Ev
+_ZN16InterruptManager16handleException\id\()Ev:
     movb $\id, (interruptID)
     jmp int_bottom
 .endm
@@ -40,6 +41,7 @@
 # Handle interrupts
 .macro handleInterruptRequest id
 .global _ZN16InterruptManager26handleInterruptRequest\id\()Ev
+_ZN16InterruptManager26handleInterruptRequest\id\()Ev:
     movb $\id + IRQ_BASE, (interruptID)
     jmp int_bottom
 .endm
@@ -70,6 +72,10 @@ int_bottom:
     popl %es
     popl %ds
     popa
+
+# Ignore interrupts
+.global _ZN16InterruptManager22ignoreInterruptRequestEv
+_ZN16InterruptManager22ignoreInterruptRequestEv:
 
     # Finished handling interrupt. Return control to processor.
     iret

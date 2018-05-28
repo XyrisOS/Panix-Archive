@@ -13,7 +13,10 @@
             <file>file:/home/parallels/edix/src/interrupts.cpp</file>
             <file>file:/home/parallels/edix/src/interrupts.h</file>
             <file>file:/home/parallels/edix/Makefile</file>
+            <file>file:/home/parallels/edix/src/loader.s</file>
+            <file>file:/home/parallels/edix/src/port.cpp</file>
             <file>file:/home/parallels/edix/src/kernel.cpp</file>
+            <file>file:/home/parallels/edix/src/port.h</file>
             <file>file:/home/parallels/edix/src/interruptstubs.s</file>
         </group>
     </open-files>

@@ -29,17 +29,19 @@
 InterruptManager::GateDescriptor
 InterruptManager::interruptDescriptorTable[256];
 
-InterruptManager::InterruptManager(GlobalDescriptorTable * gdt) {
+InterruptManager::InterruptManager(GlobalDescriptorTable * gdt) :
+picMasterCommand(0x20), picMasterData(0x21),
+picSlaveCommand(0xA0), picSlaveData(0xA1) {
     // Get values
     uint16_t codeSegment = gdt->CodeSegmentSelector();
     const uint8_t IDT_INTERRUPT_GATE = 0xE;
     // Initialize the IDT
     for (uint16_t i = 0; i < 256; i++) {
         setInterruptDescriptorTableEntry(
-                i,                      // Index / interrupt ID
-                codeSegment,            // Code segment selector
-                0,                      // Kernel mode
-                IDT_INTERRUPT_GATE,     // Type of interrupt
+                i, // Index / interrupt ID
+                codeSegment, // Code segment selector
+                0, // Kernel mode
+                IDT_INTERRUPT_GATE, // Type of interrupt
                 &ignoreInterruptRequest // Ignore interrupt function
                 );
     }
@@ -47,26 +49,43 @@ InterruptManager::InterruptManager(GlobalDescriptorTable * gdt) {
     // by IRQ_BASE in interruptstubs.s
     // Handle interrupt 0x00
     setInterruptDescriptorTableEntry(
-            0x20, 
-            codeSegment, 
-            0, 
-            IDT_INTERRUPT_GATE, 
+            0x20,
+            codeSegment,
+            0,
+            IDT_INTERRUPT_GATE,
             &handleInterruptRequest0x00
-    );
+            );
     // Handle interrupt 0x01
     setInterruptDescriptorTableEntry(
-            0x21, 
-            codeSegment, 
-            0, 
-            IDT_INTERRUPT_GATE, 
+            0x21,
+            codeSegment,
+            0,
+            IDT_INTERRUPT_GATE,
             &handleInterruptRequest0x01
-    );
+            );
+    
+    // Communicate with Programmable Interrupt Controller
+    picMasterCommand.write(0x11);
+    picSlaveCommand.write(0x11);
+    // Tell Master PIC to add 0x20 to any received interrupts
+    picMasterData.write(0x20);
+    // Tell Slave PIC to add 0x28 to any received interrupts
+    picSlaveData.write(0x28);
+    // Write Master and Slave roles to each PIC
+    picMasterData.write(0x04); // Master mode
+    picSlaveData.write(0x02);  // Slave mode
+    
+    picMasterData.write(0x01);
+    picSlaveData.write(0x01);
+    
+    picMasterData.write(0x00);
+    picSlaveData.write(0x00);
     
     // Tell the processor to use the constructed IDT
     InterruptDescriptorTablePointer idt;
-    idt.size = 256 * sizeof(GateDescriptor) - 1;
-    idt.base = (uint32_t)interruptDescriptorTable;
-    
+    idt.size = 256 * sizeof (GateDescriptor) - 1;
+    idt.base = (uint32_t) interruptDescriptorTable;
+
     // Load the IDT by calling the lidt assembly instruction
     asm volatile("lidt %0" : : "m" (idt));
 
@@ -76,7 +95,7 @@ InterruptManager::~InterruptManager() {
 
 }
 
-void InterruptManager::setInterruptDescriptorTableEntry(
+void InterruptManager::setInterruptDescriptorTableEntry (
         uint8_t interruptID,
         uint16_t codeSegmentSelectorOffset,
         uint8_t privilegeLevel,

@@ -57,18 +57,6 @@ protected:
         uint16_t base;
     } __attribute ((packed));
 
-public:
-    /**
-     * Interrupt Manager constructor
-     * @param gdt Pointer to the Global Descriptor Table
-     */
-    InterruptManager(GlobalDescriptorTable * gdt);
-
-    /**
-     * Interrupt Manager Destructor
-     */
-    ~InterruptManager();
-
     /**
      * Sets an interrupt descriptor table entry
      * @param interruptID - Interrupt number
@@ -84,9 +72,29 @@ public:
             uint8_t type,
             void (* handler)()
             );
+    
+    // Programmable Interrupt Controller (Master)
+    Port_8_Slow picMasterCommand;
+    Port_8_Slow picMasterData;
+    // Programmable Interrupt Constoller (Slave)
+    Port_8_Slow picSlaveCommand;
+    Port_8_Slow picSlaveData;
+    
+public:
+
+    /**
+     * Interrupt Manager constructor
+     * @param gdt Pointer to the Global Descriptor Table
+     */
+    InterruptManager(GlobalDescriptorTable * gdt);
+
+    /**
+     * Interrupt Manager Destructor
+     */
+    ~InterruptManager();
 
     void Activate();
-    
+
     // TODO: Currently only returns the current stack pointer.
     /**
      * Handles interrupts given the interrupt code and the stack pointer
@@ -95,7 +103,7 @@ public:
      * @return Returns the given stack pointer.
      */
     static uint32_t handleInterrupt(uint8_t interruptID, uint32_t esp);
-    
+
     /* Declare Interrupt Handler Functions */
     static void ignoreInterruptRequest(); // Ignores a given interrupt
     static void handleInterruptRequest0x00(); // Timer interrupt handler

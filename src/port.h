@@ -26,7 +26,7 @@ protected:
 };
 
 class Port_8 : public Port {
-protected:
+public:
     
     /**
      * 
@@ -38,12 +38,11 @@ protected:
      * 
      */
     ~Port_8();
-    
     /**
      * 
      * @param msg
      */
-    virtual void write(uint8_t msg);
+    void write(uint8_t msg);
     
     /**
      * 
@@ -53,10 +52,10 @@ protected:
 };
 
 /**
- * Slower version of Port_8 for compatibility
+ * Slower version of Port_8
  */
 class Port_8_Slow : public Port_8 {
-protected:
+public:
     
     /**
      * 
@@ -73,11 +72,11 @@ protected:
      * 
      * @param msg
      */
-    virtual void write(uint8_t msg);
+    void write(uint8_t msg);
 };
 
 class Port_16 : public Port {
-protected:
+public:
     
     /**
      * 
@@ -94,17 +93,17 @@ protected:
      * 
      * @param msg
      */
-    virtual void write(uint16_t msg);
+    void write(uint16_t msg);
     
     /**
      * 
      * @return 
      */
-    virtual uint16_t read();
+    uint16_t read();
 };
 
 class Port_32 : public Port {
-protected:
+public:
     
     /**
      * 
@@ -121,13 +120,13 @@ protected:
      * 
      * @param msg
      */
-    virtual void write(uint32_t msg);
+    void write(uint32_t msg);
     
     /**
      * 
      * @return 
      */
-    virtual uint32_t read();
+    uint32_t read();
 };
 
 #endif /* port_h */
