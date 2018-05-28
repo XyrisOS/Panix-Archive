@@ -1,22 +1,19 @@
 # EDIX
-EDIX (pronounced "edd-eks" | "edd-iks") is a basic operating system I am designing through the use of various tutorials, etc.</br>
-After taking CS-3310 (Operating Systems) at my university, I thought it would be a good idea to try to write my own.
+EDIX (pronounced "edd-eks" | "edd-iks") is a basic operating system I am designing for my own, personal education. After taking CS-3310 (Operating Systems) at my university, I thought it would be a good idea to try to write my own. I am doing this through the use of various tutorials, websites like OSDev.org, and my own knowledge of C++ and OS structures.
 
 ### What does EDIX stand for?
 Just as UNIX used to be UNICS (Uniplexed Information Computing System), EDIX is properly EDICS (Educational Information Computing System).</br>
-The name is "shortened" to EDIX to stick with the long established *nix naming convention.
+The name is "shortened" to EDIX to stick with the long established *\*nix* naming convention.
 
 ### Installation
-Currently EDIX runs off of the pre-compiled .iso file provided in the repository.</br>
-All testing is done in Virtualbox 5 with the following settings:
+Currently EDIX is run using QEMU in kernel mode with the pre-compiled `kernel.bin` file provided in the repository.</br>
+If you want to run EDIX for yourself, download `kernel.bin` in the build/ folder and run the following command:</br>
+`qemu-system-i386 -kernel <path-to-kernel.bin>`</br>
+Additionally, EDIX runs in Virtualbox 5 using `edix.iso` with the following settings:
   - OS Type: Other/Unknown (32-bit)
   - Memory: 64 MB
   - Boot Medium: ISO (no HDD)
   - All other settings are set to the default for the OS Type
-
-### Next Step(s)
-  - Fix interrupts
-  - ¯\\_(ツ)_/¯
 
 ### Screenshot
 ![](https://github.com/Kfeavel/edix/blob/master/current.png?raw=true)
