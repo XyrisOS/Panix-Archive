@@ -46,12 +46,6 @@ public:
 
     } __attribute__ ((packed));
 
-    // Segment Descriptors
-    SegmentDescriptor nullSegmentSelector;
-    SegmentDescriptor unusedSegmentSelector;
-    SegmentDescriptor codeSegmentSelector;
-    SegmentDescriptor dataSegmentSelector;
-
     /**
      * Constructor for the Global Descriptor Table (GDT)
      * @param nullSegmentSelector - Null Mememory Segment Selector
@@ -77,6 +71,13 @@ public:
      * @return Value of the Data Segment Selector as a 16 bit integer
      */
     uint16_t DataSegmentSelector();
+    
+private:
+    // Segment Descriptors
+    SegmentDescriptor nullSegmentSelector;
+    SegmentDescriptor unusedSegmentSelector;
+    SegmentDescriptor codeSegmentSelector;
+    SegmentDescriptor dataSegmentSelector;
 };
 
 #endif /* gdt_h */
