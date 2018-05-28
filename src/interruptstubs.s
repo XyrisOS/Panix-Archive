@@ -23,10 +23,29 @@
 #  Created by Keeton Feavel on 5/27/18.
 #  (c) Solar Pepper Studios 2018, all rights reserved.
 
+.set IRQ_BASE, 0x20
+
 .section .text
 
 # External declaration of InterruptManager::handleInterrupt in interrupts.cpp
 .extern _ZN16InterruptManager15handleInterruptEhj
+
+# Handle exceptions
+.macro handleException id
+.global _ZN16InterruptManager16handleException\id\()Ev
+    movb $\id, (interruptID)
+    jmp int_bottom
+.endm
+
+# Handle interrupts
+.macro handleInterruptRequest id
+.global _ZN16InterruptManager26handleInterruptRequest\id\()Ev
+    movb $\id + IRQ_BASE, (interruptID)
+    jmp int_bottom
+.endm
+
+handleInterruptRequest 0x00
+handleInterruptRequest 0x01
 
 # Jump into InterruptManager::handleInterrupt in interrupts.cpp
 int_bottom:
@@ -51,6 +70,9 @@ int_bottom:
     popl %es
     popl %ds
     popa
+
+    # Finished handling interrupt. Return control to processor.
+    iret
 
 .data
     # Initialize interruptID variable

@@ -27,10 +27,66 @@
 #define interrupts_h
 #include "types.h"
 #include "port.h"
+#include "gdt.h"
 #include "kprint.h"
 
 class InterruptManager {
+protected:
+
+    /**
+     * Structure for an Interrupt Descriptor Table entry
+     */
+    struct GateDescriptor {
+        // Class variables
+        uint16_t handlerAddressLow; // Lower handler address bits
+        uint16_t handlerAddressHigh; // High handler address bits
+        uint16_t gdt_codeSegmentSelector; // GDT offset
+        uint8_t reserved; // Reserved byte
+        uint8_t access; // Access rights
+
+    } __attribute ((packed));
+
+    // Interrupt Descriptor Table (GateDescriptor array of size 256)
+    static GateDescriptor interruptDescriptorTable[256];
+
+    /**
+     * Pointer structure for the interrupt descriptor table
+     */
+    struct InterruptDescriptorTablePointer {
+        uint16_t size;
+        uint16_t base;
+    } __attribute ((packed));
+
 public:
+    /**
+     * Interrupt Manager constructor
+     * @param gdt Pointer to the Global Descriptor Table
+     */
+    InterruptManager(GlobalDescriptorTable * gdt);
+
+    /**
+     * Interrupt Manager Destructor
+     */
+    ~InterruptManager();
+
+    /**
+     * Sets an interrupt descriptor table entry
+     * @param interruptID - Interrupt number
+     * @param codeSegmentSelectorOffset - Offset of the code segment
+     * @param privilegeLevel - Interrupt privilege level (executing ring)
+     * @param type - Type of interrupt
+     * @param handler - Interrupt handler address pointer
+     */
+    static void setInterruptDescriptorTableEntry(
+            uint8_t interruptID,
+            uint16_t codeSegmentSelectorOffset,
+            uint8_t privilegeLevel,
+            uint8_t type,
+            void (* handler)()
+            );
+
+    void Activate();
+    
     // TODO: Currently only returns the current stack pointer.
     /**
      * Handles interrupts given the interrupt code and the stack pointer
@@ -40,7 +96,10 @@ public:
      */
     static uint32_t handleInterrupt(uint8_t interruptID, uint32_t esp);
     
-    
+    /* Declare Interrupt Handler Functions */
+    static void ignoreInterruptRequest(); // Ignores a given interrupt
+    static void handleInterruptRequest0x00(); // Timer interrupt handler
+    static void handleInterruptRequest0x01(); // Keyboard interrupt handler
 };
 
 #endif /* interrupts_h */

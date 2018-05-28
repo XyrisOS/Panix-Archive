@@ -15,7 +15,7 @@
 
 class SegmentDescriptor {
 public:
-    
+
     /**
      * 
      * @param base
@@ -23,13 +23,13 @@ public:
      * @param flags
      */
     SegmentDescriptor(uint32_t base, uint32_t limit, uint8_t flags);
-    
+
     /**
      * Returns the Base memory address
      * @return 
      */
     uint32_t Base();
-    
+
     /**
      * Returns the Limit memory address
      * @return 
@@ -44,6 +44,6 @@ private:
     uint8_t limit_hi_flags;
     uint8_t base_vhi;
 
-} __attribute__((packed));
+} __attribute__ ((packed));
 
 #endif /* segdescriptor_h */

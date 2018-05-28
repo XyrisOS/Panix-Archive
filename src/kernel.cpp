@@ -45,6 +45,12 @@ extern "C" void kernel(void * multiboot_structure, uint32_t magicnumber) {
 
     // Instantiate the GDT
     GlobalDescriptorTable gdt;
+    // Instantiate the IDT
+    InterruptManager interrupts(&gdt);
+    // Instantiate hardware devices
+    
+    // Activate interrupts
+    interrupts.Activate();
 
     // Create loop to keep kernel alive
     while (1) {
