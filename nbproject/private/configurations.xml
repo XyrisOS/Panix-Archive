@@ -24,8 +24,6 @@
         <in>loader.s</in>
         <in>port.cpp</in>
         <in>port.h</in>
-        <in>segdescriptor.cpp</in>
-        <in>segdescriptor.h</in>
         <in>term.cpp</in>
         <in>term.h</in>
         <in>termcolor.h</in>

@@ -7,8 +7,8 @@
 
 # Handle exceptions
 .macro handleException id
-.global _ZN16InterruptManager16handleException\id\()Ev
-_ZN16InterruptManager16handleException\id\()Ev:
+.global _ZN16InterruptManager19handleException\id\()Ev
+_ZN16InterruptManager19handleException\id\()Ev:
     movb $\id, (interruptID)
     jmp int_bottom
 .endm

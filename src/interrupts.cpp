@@ -105,6 +105,7 @@ void InterruptManager::setInterruptDescriptorTableEntry (
 
 void InterruptManager::activate() {
     // Call the "start interrupts" assembly command
+    kprint_status(true, "InterruptManager::activate");
     asm volatile("sti");
 }
 
@@ -119,9 +120,9 @@ uint32_t InterruptManager::handleInterrupt(uint8_t interruptID, uint32_t esp) {
     char * hex = "0123456789ABCDEF";
     
     msg[14] = hex[((interruptID) >> 4) & 0xF];
-    msg[15] = hex[interruptID & 0xF];
+    msg[15] = hex[(interruptID & 0xF)];
     
-    printf(msg);
+    printf("INTERRUPT");
     
     return esp;
 }
