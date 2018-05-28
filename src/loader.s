@@ -3,15 +3,14 @@
 .set FLAGS, (1<<0 | 1<<1)
 .set CHECKSUM, -(MAGIC + FLAGS)
 
-# Declare the multiboot information
-.section .mulitboot
-    .long MAGIC
-    .long FLAGS
-    .long CHECKSUM
-
 # Load the external functions for calling the compiled C++ kernel
 .section .text
-.extern kernelMain
+# Declare the multiboot information
+.long MAGIC
+.long FLAGS
+.long CHECKSUM
+
+.extern kernel
 .extern callConstructors
 .global loader
 
@@ -21,7 +20,7 @@ loader:
     call callConstructors
     push %eax
     push %ebx
-    call kernelMain
+    call kernel
 
 # Ensure the kernel does not exit by disabling interupts and halting the CPU
 _stop:

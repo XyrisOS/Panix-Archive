@@ -30,7 +30,7 @@ extern "C" void callConstructors() {
  * @param multiboot_structure - Multiboot structure from GRUB.
  * @param magicnumber - Magicnumber from loader.s
  */
-extern "C" void kernelMain(void * multiboot_structure, uint32_t magicnumber) {
+extern "C" void kernel(void * multiboot_structure, uint32_t magicnumber) {
     //Clear the terminal
     kprint_clear();
     color_foreground fore; // Foreground color
@@ -50,7 +50,7 @@ extern "C" void kernelMain(void * multiboot_structure, uint32_t magicnumber) {
     // Instantiate hardware devices
     
     // Activate interrupts
-    interrupts.Activate();
+    //interrupts.Activate();
 
     // Create loop to keep kernel alive
     while (1) {

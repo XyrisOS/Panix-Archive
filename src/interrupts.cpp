@@ -46,7 +46,7 @@ picSlaveCommand(0xA0), picSlaveData(0xA1) {
                 );
     }
     // Indexes start at 0x20 because they are increased
-    // by IRQ_BASE in interruptstubs.s
+    // by IRQ_BASE in interruptstubs.s (Hardware Interrupt Offset)
     // Handle interrupt 0x00
     setInterruptDescriptorTableEntry(
             0x20,
@@ -103,10 +103,10 @@ void InterruptManager::setInterruptDescriptorTableEntry (
         void (* handler)()) {
     // Get values
     const uint8_t IDT_DESC_PRESENT = 0x80;
-    const uint8_t access = IDT_DESC_PRESENT | type | ((privilegeLevel & 3) << 5);
+    const uint8_t access = IDT_DESC_PRESENT | ((privilegeLevel & 3) << 5) | type;
     // Set each entry
-    interruptDescriptorTable[interruptID].handlerAddressLow = (((uint32_t) handler) & 0xFFF);
-    interruptDescriptorTable[interruptID].handlerAddressHigh = ((((uint32_t) handler) >> 16)& 0xFFF);
+    interruptDescriptorTable[interruptID].handlerAddressLow = (((uint32_t) handler) & 0xFFFF);
+    interruptDescriptorTable[interruptID].handlerAddressHigh = ((((uint32_t) handler) >> 16)& 0xFFFF);
     interruptDescriptorTable[interruptID].gdt_codeSegmentSelector = codeSegmentSelectorOffset;
     interruptDescriptorTable[interruptID].reserved = 0;
     interruptDescriptorTable[interruptID].access = access;
