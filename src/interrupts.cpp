@@ -4,37 +4,16 @@
 
 void kprint_status(bool isLoaded, const char * service_name);
 
-
 InterruptManager::GateDescriptor InterruptManager::interruptDescriptorTable[256];
 
-
-void InterruptManager::SetInterruptDescriptorTableEntry(uint8_t interrupt,
-    uint16_t CodeSegment, void (*handler)(), uint8_t DescriptorPrivilegeLevel, uint8_t DescriptorType)
-{
-    // address of pointer to code segment (relative to global descriptor table)
-    // and address of the handler (relative to segment)
-    interruptDescriptorTable[interrupt].handlerAddressLowBits = ((uint32_t) handler) & 0xFFFF;
-    interruptDescriptorTable[interrupt].handlerAddressHighBits = (((uint32_t) handler) >> 16) & 0xFFFF;
-    interruptDescriptorTable[interrupt].gdt_codeSegmentSelector = CodeSegment;
-
-    const uint8_t IDT_DESC_PRESENT = 0x80;
-    interruptDescriptorTable[interrupt].access = IDT_DESC_PRESENT | ((DescriptorPrivilegeLevel & 3) << 5) | DescriptorType;
-    interruptDescriptorTable[interrupt].reserved = 0;
-}
-
-
-InterruptManager::InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescriptorTable* globalDescriptorTable)
-    : programmableInterruptControllerMasterCommandPort(0x20),
-      programmableInterruptControllerMasterDataPort(0x21),
-      programmableInterruptControllerSlaveCommandPort(0xA0),
-      programmableInterruptControllerSlaveDataPort(0xA1)
-{
+InterruptManager::InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescriptorTable* globalDescriptorTable) :
+PICMasterCommandPort(0x20), PICMasterDataPort(0x21),
+PICSlaveCommandPort(0xA0), PICSlaveDataPort(0xA1) {
     this->hardwareInterruptOffset = hardwareInterruptOffset;
     uint32_t CodeSegment = globalDescriptorTable->CodeSegmentSelector();
 
     const uint8_t IDT_INTERRUPT_GATE = 0xE;
-    for(uint8_t i = 255; i > 0; --i)
-    {
+    for (uint8_t i = 255; i > 0; --i) {
         SetInterruptDescriptorTableEntry(i, CodeSegment, &InterruptIgnore, 0, IDT_INTERRUPT_GATE);
         //handlers[i] = 0;
     }
@@ -79,40 +58,59 @@ InterruptManager::InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescr
     SetInterruptDescriptorTableEntry(hardwareInterruptOffset + 0x0E, CodeSegment, &HandleInterruptRequest0x0E, 0, IDT_INTERRUPT_GATE);
     SetInterruptDescriptorTableEntry(hardwareInterruptOffset + 0x0F, CodeSegment, &HandleInterruptRequest0x0F, 0, IDT_INTERRUPT_GATE);
 
-    programmableInterruptControllerMasterCommandPort.write(0x11);
-    programmableInterruptControllerSlaveCommandPort.write(0x11);
+    // Communicate with Programmable Interrupt Controller
+    PICMasterCommandPort.write(0x11);
+    PICSlaveCommandPort.write(0x11);
+    // Tell Master PIC to add 0x20 to any received interrupts
+    PICMasterDataPort.write(hardwareInterruptOffset);
+    // Tell Slave PIC to add 0x28 to any received interrupts
+    PICSlaveDataPort.write(hardwareInterruptOffset + 8);
+    // Write Master and Slave roles to each PIC
+    PICMasterDataPort.write(0x04); // Master Mode
+    PICSlaveDataPort.write(0x02); // Slave Mode
 
-    // remap
-    programmableInterruptControllerMasterDataPort.write(hardwareInterruptOffset);
-    programmableInterruptControllerSlaveDataPort.write(hardwareInterruptOffset+8);
+    PICMasterDataPort.write(0x01);
+    PICSlaveDataPort.write(0x01);
 
-    programmableInterruptControllerMasterDataPort.write(0x04);
-    programmableInterruptControllerSlaveDataPort.write(0x02);
+    PICMasterDataPort.write(0x00);
+    PICSlaveDataPort.write(0x00);
 
-    programmableInterruptControllerMasterDataPort.write(0x01);
-    programmableInterruptControllerSlaveDataPort.write(0x01);
-
-    programmableInterruptControllerMasterDataPort.write(0x00);
-    programmableInterruptControllerSlaveDataPort.write(0x00);
-
+    // Tell the processor to use the constructed IDT
     InterruptDescriptorTablePointer idt_pointer;
-    idt_pointer.size  = 256*sizeof(GateDescriptor) - 1;
-    idt_pointer.base  = (uint32_t)interruptDescriptorTable;
+    idt_pointer.size = 256 * sizeof (GateDescriptor) - 1;
+    idt_pointer.base = (uint32_t) interruptDescriptorTable;
+
+    // Load the IDT by calling the lidt assembly instruction
     asm volatile("lidt %0" : : "m" (idt_pointer));
 }
 
-InterruptManager::~InterruptManager()
-{
+void InterruptManager::SetInterruptDescriptorTableEntry(
+        uint8_t interrupt,
+        uint16_t segmentSelectorOffset, 
+        void (*handler)(), 
+        uint8_t privilegeLevel, 
+        uint8_t type) {
+    // address of pointer to code segment (relative to global descriptor table)
+    // and address of the handler (relative to segment)
+    interruptDescriptorTable[interrupt].handlerAddressLowBits = ((uint32_t) handler) & 0xFFFF;
+    interruptDescriptorTable[interrupt].handlerAddressHighBits = (((uint32_t) handler) >> 16) & 0xFFFF;
+    interruptDescriptorTable[interrupt].gdt_codeSegmentSelector = segmentSelectorOffset;
+
+    const uint8_t IDT_DESC_PRESENT = 0x80;
+    const uint8_t access = IDT_DESC_PRESENT | ((privilegeLevel & 3) << 5) | type;
+    interruptDescriptorTable[interrupt].access = access;
+    interruptDescriptorTable[interrupt].reserved = 0;
+}
+
+InterruptManager::~InterruptManager() {
     deactivate();
 }
 
-uint16_t InterruptManager::HardwareInterruptOffset()
-{
+uint16_t InterruptManager::HardwareInterruptOffset() {
     return hardwareInterruptOffset;
 }
 
-void InterruptManager::activate()
-{
+void InterruptManager::activate() {
     //if(ActiveInterruptManager == 0)
     {
         //ActiveInterruptManager = this;
@@ -120,19 +118,17 @@ void InterruptManager::activate()
     }
 }
 
-void InterruptManager::deactivate()
-{
+void InterruptManager::deactivate() {
     /*if(ActiveInterruptManager == this)
     {
         ActiveInterruptManager = 0;
-        */
-        //asm("cli");
-        /*
-    }*/
+     */
+    //asm("cli");
+    /*
+}*/
 }
 
-uint32_t InterruptManager::HandleInterrupt(uint8_t interrupt, uint32_t esp)
-{
+uint32_t InterruptManager::HandleInterrupt(uint8_t interrupt, uint32_t esp) {
     char* foo = "INTERRUPT 0x00";
     char* hex = "0123456789ABCDEF";
 
