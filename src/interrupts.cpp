@@ -1,9 +1,6 @@
 
 #include "interrupts.h"
 
-
-void kprint_status(bool isLoaded, const char * service_name);
-
 InterruptManager::GateDescriptor InterruptManager::interruptDescriptorTable[256];
 
 InterruptManager::InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescriptorTable* globalDescriptorTable) :
