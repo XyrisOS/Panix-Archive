@@ -13,6 +13,11 @@
       <df name="obj">
       </df>
       <df name="src">
+        <df name="interrupts">
+          <in>interrupts.cpp</in>
+          <in>interrupts.h</in>
+          <in>interruptstubs.s</in>
+        </df>
         <in>gdt.cpp</in>
         <in>gdt.h</in>
         <in>interrupts.cpp</in>

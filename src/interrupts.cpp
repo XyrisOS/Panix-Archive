@@ -1,128 +1,144 @@
-/*
- * Copyright (C) 2018 Keeton Feavel, Solar Pepper Studios
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- */
-
-/* 
- * File:   interrupts.cpp
- * Author: Keeton Feavel, Solar Pepper Studios
- * 
- * Created on May 27, 2018, 7:48 PM
- */
 
 #include "interrupts.h"
 
-void printf(char* str);
 
-// Get class variables
-InterruptManager::GateDescriptor
-InterruptManager::interruptDescriptorTable[256];
+void kprint_status(bool isLoaded, const char * service_name);
 
-InterruptManager::InterruptManager(GlobalDescriptorTable * gdt) :
-picMasterCommand(0x20), picMasterData(0x21),
-picSlaveCommand(0xA0), picSlaveData(0xA1) {
-    // Get values
-    uint16_t codeSegment = gdt->CodeSegmentSelector();
-    const uint8_t IDT_INTERRUPT_GATE = 0xE;
-    // Initialize the IDT
-    for (uint8_t i = 0; i < 256; i++) {
-        setInterruptDescriptorTableEntry(
-                i, // Index / interrupt ID
-                codeSegment, // Code segment selector
-                0, // Kernel mode
-                IDT_INTERRUPT_GATE, // Type of interrupt
-                &ignoreInterruptRequest // Ignore interrupt function
-                );
-    }
-    // Indexes start at 0x20 because they are increased
-    // by IRQ_BASE in interruptstubs.s (Hardware Interrupt Offset)
-    
-    // Handle interrupts
-    setInterruptDescriptorTableEntry(0x20, codeSegment, 0, IDT_INTERRUPT_GATE, &handleInterruptRequest0x00);
-    setInterruptDescriptorTableEntry(0x21, codeSegment, 0, IDT_INTERRUPT_GATE, &handleInterruptRequest0x01);
-    
-    // Communicate with Programmable Interrupt Controller
-    picMasterCommand.write(0x11);
-    picSlaveCommand.write(0x11);
-    // Tell Master PIC to add 0x20 to any received interrupts
-    picMasterData.write(0x20);
-    // Tell Slave PIC to add 0x28 to any received interrupts
-    picSlaveData.write(0x28);
-    // Write Master and Slave roles to each PIC
-    picMasterData.write(0x04); // Master mode
-    picSlaveData.write(0x02);  // Slave mode
-    
-    picMasterData.write(0x01);
-    picSlaveData.write(0x01);
-    
-    picMasterData.write(0x00);
-    picSlaveData.write(0x00);
-    
-    // Tell the processor to use the constructed IDT
-    InterruptDescriptorTablePointer idt_pointer;
-    idt_pointer.size = 256 * sizeof (GateDescriptor) - 1;
-    idt_pointer.base = (uint32_t) interruptDescriptorTable;
 
-    // Load the IDT by calling the lidt assembly instruction
-    asm volatile("lidt %0" : : "m" (idt_pointer));
+InterruptManager::GateDescriptor InterruptManager::interruptDescriptorTable[256];
 
+
+void InterruptManager::SetInterruptDescriptorTableEntry(uint8_t interrupt,
+    uint16_t CodeSegment, void (*handler)(), uint8_t DescriptorPrivilegeLevel, uint8_t DescriptorType)
+{
+    // address of pointer to code segment (relative to global descriptor table)
+    // and address of the handler (relative to segment)
+    interruptDescriptorTable[interrupt].handlerAddressLowBits = ((uint32_t) handler) & 0xFFFF;
+    interruptDescriptorTable[interrupt].handlerAddressHighBits = (((uint32_t) handler) >> 16) & 0xFFFF;
+    interruptDescriptorTable[interrupt].gdt_codeSegmentSelector = CodeSegment;
+
+    const uint8_t IDT_DESC_PRESENT = 0x80;
+    interruptDescriptorTable[interrupt].access = IDT_DESC_PRESENT | ((DescriptorPrivilegeLevel & 3) << 5) | DescriptorType;
+    interruptDescriptorTable[interrupt].reserved = 0;
 }
 
-InterruptManager::~InterruptManager() {
-    // Deactivate interrupt handling on deconstruction
+
+InterruptManager::InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescriptorTable* globalDescriptorTable)
+    : programmableInterruptControllerMasterCommandPort(0x20),
+      programmableInterruptControllerMasterDataPort(0x21),
+      programmableInterruptControllerSlaveCommandPort(0xA0),
+      programmableInterruptControllerSlaveDataPort(0xA1)
+{
+    this->hardwareInterruptOffset = hardwareInterruptOffset;
+    uint32_t CodeSegment = globalDescriptorTable->CodeSegmentSelector();
+
+    const uint8_t IDT_INTERRUPT_GATE = 0xE;
+    for(uint8_t i = 255; i > 0; --i)
+    {
+        SetInterruptDescriptorTableEntry(i, CodeSegment, &InterruptIgnore, 0, IDT_INTERRUPT_GATE);
+        //handlers[i] = 0;
+    }
+    SetInterruptDescriptorTableEntry(0, CodeSegment, &InterruptIgnore, 0, IDT_INTERRUPT_GATE);
+    //handlers[0] = 0;
+
+    SetInterruptDescriptorTableEntry(0x00, CodeSegment, &HandleException0x00, 0, IDT_INTERRUPT_GATE);
+    SetInterruptDescriptorTableEntry(0x01, CodeSegment, &HandleException0x01, 0, IDT_INTERRUPT_GATE);
+    SetInterruptDescriptorTableEntry(0x02, CodeSegment, &HandleException0x02, 0, IDT_INTERRUPT_GATE);
+    SetInterruptDescriptorTableEntry(0x03, CodeSegment, &HandleException0x03, 0, IDT_INTERRUPT_GATE);
+    SetInterruptDescriptorTableEntry(0x04, CodeSegment, &HandleException0x04, 0, IDT_INTERRUPT_GATE);
+    SetInterruptDescriptorTableEntry(0x05, CodeSegment, &HandleException0x05, 0, IDT_INTERRUPT_GATE);
+    SetInterruptDescriptorTableEntry(0x06, CodeSegment, &HandleException0x06, 0, IDT_INTERRUPT_GATE);
+    SetInterruptDescriptorTableEntry(0x07, CodeSegment, &HandleException0x07, 0, IDT_INTERRUPT_GATE);
+    SetInterruptDescriptorTableEntry(0x08, CodeSegment, &HandleException0x08, 0, IDT_INTERRUPT_GATE);
+    SetInterruptDescriptorTableEntry(0x09, CodeSegment, &HandleException0x09, 0, IDT_INTERRUPT_GATE);
+    SetInterruptDescriptorTableEntry(0x0A, CodeSegment, &HandleException0x0A, 0, IDT_INTERRUPT_GATE);
+    SetInterruptDescriptorTableEntry(0x0B, CodeSegment, &HandleException0x0B, 0, IDT_INTERRUPT_GATE);
+    SetInterruptDescriptorTableEntry(0x0C, CodeSegment, &HandleException0x0C, 0, IDT_INTERRUPT_GATE);
+    SetInterruptDescriptorTableEntry(0x0D, CodeSegment, &HandleException0x0D, 0, IDT_INTERRUPT_GATE);
+    SetInterruptDescriptorTableEntry(0x0E, CodeSegment, &HandleException0x0E, 0, IDT_INTERRUPT_GATE);
+    SetInterruptDescriptorTableEntry(0x0F, CodeSegment, &HandleException0x0F, 0, IDT_INTERRUPT_GATE);
+    SetInterruptDescriptorTableEntry(0x10, CodeSegment, &HandleException0x10, 0, IDT_INTERRUPT_GATE);
+    SetInterruptDescriptorTableEntry(0x11, CodeSegment, &HandleException0x11, 0, IDT_INTERRUPT_GATE);
+    SetInterruptDescriptorTableEntry(0x12, CodeSegment, &HandleException0x12, 0, IDT_INTERRUPT_GATE);
+    SetInterruptDescriptorTableEntry(0x13, CodeSegment, &HandleException0x13, 0, IDT_INTERRUPT_GATE);
+
+    SetInterruptDescriptorTableEntry(hardwareInterruptOffset + 0x00, CodeSegment, &HandleInterruptRequest0x00, 0, IDT_INTERRUPT_GATE);
+    SetInterruptDescriptorTableEntry(hardwareInterruptOffset + 0x01, CodeSegment, &HandleInterruptRequest0x01, 0, IDT_INTERRUPT_GATE);
+    SetInterruptDescriptorTableEntry(hardwareInterruptOffset + 0x02, CodeSegment, &HandleInterruptRequest0x02, 0, IDT_INTERRUPT_GATE);
+    SetInterruptDescriptorTableEntry(hardwareInterruptOffset + 0x03, CodeSegment, &HandleInterruptRequest0x03, 0, IDT_INTERRUPT_GATE);
+    SetInterruptDescriptorTableEntry(hardwareInterruptOffset + 0x04, CodeSegment, &HandleInterruptRequest0x04, 0, IDT_INTERRUPT_GATE);
+    SetInterruptDescriptorTableEntry(hardwareInterruptOffset + 0x05, CodeSegment, &HandleInterruptRequest0x05, 0, IDT_INTERRUPT_GATE);
+    SetInterruptDescriptorTableEntry(hardwareInterruptOffset + 0x06, CodeSegment, &HandleInterruptRequest0x06, 0, IDT_INTERRUPT_GATE);
+    SetInterruptDescriptorTableEntry(hardwareInterruptOffset + 0x07, CodeSegment, &HandleInterruptRequest0x07, 0, IDT_INTERRUPT_GATE);
+    SetInterruptDescriptorTableEntry(hardwareInterruptOffset + 0x08, CodeSegment, &HandleInterruptRequest0x08, 0, IDT_INTERRUPT_GATE);
+    SetInterruptDescriptorTableEntry(hardwareInterruptOffset + 0x09, CodeSegment, &HandleInterruptRequest0x09, 0, IDT_INTERRUPT_GATE);
+    SetInterruptDescriptorTableEntry(hardwareInterruptOffset + 0x0A, CodeSegment, &HandleInterruptRequest0x0A, 0, IDT_INTERRUPT_GATE);
+    SetInterruptDescriptorTableEntry(hardwareInterruptOffset + 0x0B, CodeSegment, &HandleInterruptRequest0x0B, 0, IDT_INTERRUPT_GATE);
+    SetInterruptDescriptorTableEntry(hardwareInterruptOffset + 0x0C, CodeSegment, &HandleInterruptRequest0x0C, 0, IDT_INTERRUPT_GATE);
+    SetInterruptDescriptorTableEntry(hardwareInterruptOffset + 0x0D, CodeSegment, &HandleInterruptRequest0x0D, 0, IDT_INTERRUPT_GATE);
+    SetInterruptDescriptorTableEntry(hardwareInterruptOffset + 0x0E, CodeSegment, &HandleInterruptRequest0x0E, 0, IDT_INTERRUPT_GATE);
+    SetInterruptDescriptorTableEntry(hardwareInterruptOffset + 0x0F, CodeSegment, &HandleInterruptRequest0x0F, 0, IDT_INTERRUPT_GATE);
+
+    programmableInterruptControllerMasterCommandPort.write(0x11);
+    programmableInterruptControllerSlaveCommandPort.write(0x11);
+
+    // remap
+    programmableInterruptControllerMasterDataPort.write(hardwareInterruptOffset);
+    programmableInterruptControllerSlaveDataPort.write(hardwareInterruptOffset+8);
+
+    programmableInterruptControllerMasterDataPort.write(0x04);
+    programmableInterruptControllerSlaveDataPort.write(0x02);
+
+    programmableInterruptControllerMasterDataPort.write(0x01);
+    programmableInterruptControllerSlaveDataPort.write(0x01);
+
+    programmableInterruptControllerMasterDataPort.write(0x00);
+    programmableInterruptControllerSlaveDataPort.write(0x00);
+
+    InterruptDescriptorTablePointer idt_pointer;
+    idt_pointer.size  = 256*sizeof(GateDescriptor) - 1;
+    idt_pointer.base  = (uint32_t)interruptDescriptorTable;
+    asm volatile("lidt %0" : : "m" (idt_pointer));
+}
+
+InterruptManager::~InterruptManager()
+{
     deactivate();
 }
 
-void InterruptManager::setInterruptDescriptorTableEntry (
-        uint8_t interruptID,
-        uint16_t codeSegmentSelectorOffset,
-        uint8_t privilegeLevel,
-        uint8_t type,
-        void (* handler)()) {
-    // Get values
-    const uint8_t IDT_DESC_PRESENT = 0x80;
-    const uint8_t access = IDT_DESC_PRESENT | ((privilegeLevel & 3) << 5) | type;
-    // Set each entry
-    interruptDescriptorTable[interruptID].handlerAddressLow = (((uint32_t) handler) & 0xFFFF);
-    interruptDescriptorTable[interruptID].handlerAddressHigh = ((((uint32_t) handler) >> 16)& 0xFFFF);
-    interruptDescriptorTable[interruptID].gdt_codeSegmentSelector = codeSegmentSelectorOffset;
-    interruptDescriptorTable[interruptID].reserved = 0;
-    interruptDescriptorTable[interruptID].access = access;
+uint16_t InterruptManager::HardwareInterruptOffset()
+{
+    return hardwareInterruptOffset;
 }
 
-void InterruptManager::activate() {
-    // Call the "start interrupts" assembly command
-    kprint_status(true, "InterruptManager::activate");
-    asm volatile("sti");
+void InterruptManager::activate()
+{
+    //if(ActiveInterruptManager == 0)
+    {
+        //ActiveInterruptManager = this;
+        asm("sti");
+    }
 }
 
-void InterruptManager::deactivate() {
-    // Clear / stop interrupts
-    // asm volitile("cli");
+void InterruptManager::deactivate()
+{
+    /*if(ActiveInterruptManager == this)
+    {
+        ActiveInterruptManager = 0;
+        */
+        //asm("cli");
+        /*
+    }*/
 }
 
-uint32_t InterruptManager::handleInterrupt(uint8_t interruptID, uint32_t esp) {
-    // Print an interrupt status to the terminal
-    char * msg = "[ INTERRUPT 0x00 ]\n";
-    char * hex = "0123456789ABCDEF";
-    
-    msg[14] = hex[((interruptID) >> 4) & 0xF];
-    msg[15] = hex[(interruptID & 0xF)];
-    
-    printf("INTERRUPT");
-    
+uint32_t InterruptManager::HandleInterrupt(uint8_t interrupt, uint32_t esp)
+{
+    char* foo = "INTERRUPT 0x00";
+    char* hex = "0123456789ABCDEF";
+
+    foo[12] = hex[(interrupt >> 4) & 0xF];
+    foo[13] = hex[interrupt & 0xF];
+    kprint_status(false, foo);
+
     return esp;
 }

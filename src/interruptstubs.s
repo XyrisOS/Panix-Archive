@@ -1,85 +1,101 @@
-#
-# Copyright (C) 2018 Keeton Feavel, Solar Pepper Studios
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) anyf later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#
 
-#
-# File:   interruptstubs.s
-# Author: Keeton Feavel, Solar Pepper Studios
-# 
-# Created on May 27, 2018
-#
 
 .set IRQ_BASE, 0x20
 
 .section .text
 
-# External declaration of InterruptManager::handleInterrupt in interrupts.cpp
-.extern _ZN16InterruptManager15handleInterruptEhj
+.extern _ZN16InterruptManager15HandleInterruptEhj
 
-# Handle exceptions
-.macro handleException id
-.global _ZN16InterruptManager19handleException\id\()Ev
-_ZN16InterruptManager19handleException\id\()Ev:
-    movb $\id, (interruptID)
+
+.macro HandleException num
+.global _ZN16InterruptManager19HandleException\num\()Ev
+_ZN16InterruptManager19HandleException\num\()Ev:
+    movb $\num, (interruptnumber)
     jmp int_bottom
 .endm
 
-# Handle interrupts
-.macro handleInterruptRequest id
-.global _ZN16InterruptManager26handleInterruptRequest\id\()Ev
-_ZN16InterruptManager26handleInterruptRequest\id\()Ev:
-    movb $\id + IRQ_BASE, (interruptID)
+
+.macro HandleInterruptRequest num
+.global _ZN16InterruptManager26HandleInterruptRequest\num\()Ev
+_ZN16InterruptManager26HandleInterruptRequest\num\()Ev:
+    movb $\num + IRQ_BASE, (interruptnumber)
     jmp int_bottom
 .endm
 
-handleInterruptRequest 0x00
-handleInterruptRequest 0x01
 
-# Jump into InterruptManager::handleInterrupt in interrupts.cpp
+HandleException 0x00
+HandleException 0x01
+HandleException 0x02
+HandleException 0x03
+HandleException 0x04
+HandleException 0x05
+HandleException 0x06
+HandleException 0x07
+HandleException 0x08
+HandleException 0x09
+HandleException 0x0A
+HandleException 0x0B
+HandleException 0x0C
+HandleException 0x0D
+HandleException 0x0E
+HandleException 0x0F
+HandleException 0x10
+HandleException 0x11
+HandleException 0x12
+HandleException 0x13
+
+HandleInterruptRequest 0x00
+HandleInterruptRequest 0x01
+HandleInterruptRequest 0x02
+HandleInterruptRequest 0x03
+HandleInterruptRequest 0x04
+HandleInterruptRequest 0x05
+HandleInterruptRequest 0x06
+HandleInterruptRequest 0x07
+HandleInterruptRequest 0x08
+HandleInterruptRequest 0x09
+HandleInterruptRequest 0x0A
+HandleInterruptRequest 0x0B
+HandleInterruptRequest 0x0C
+HandleInterruptRequest 0x0D
+HandleInterruptRequest 0x0E
+HandleInterruptRequest 0x0F
+HandleInterruptRequest 0x31
+
 int_bottom:
-    # Push data onto stack
+
+    # register sichern
     pusha
     pushl %ds
     pushl %es
     pushl %fs
     pushl %gs
 
-    pushl %esp
-    push (interruptID)
-    # Call InterruptManager::handleInterrupt in interrupts.cpp
-    call _ZN16InterruptManager15handleInterruptEhj
-    # Clean stack pointer information
-    # addl $5, %esp - Not necessary because contents are overwritten
-    movl  %eax, %esp
+    # ring 0 segment register laden
+    #cld
+    #mov $0x10, %eax
+    #mov %eax, %eds
+    #mov %eax, %ees
 
-    # Restore stack values
-    popl %gs
-    popl %fs
-    popl %es
-    popl %ds
+    # C++ Handler aufrufen
+    pushl %esp
+    push (interruptnumber)
+    call _ZN16InterruptManager15HandleInterruptEhj
+    add %esp, 6
+    mov %eax, %esp # den stack wechseln
+
+    # register laden
+    pop %gs
+    pop %fs
+    pop %es
+    pop %ds
     popa
 
-# Ignore interrupts
-.global _ZN16InterruptManager22ignoreInterruptRequestEv
-_ZN16InterruptManager22ignoreInterruptRequestEv:
+.global _ZN16InterruptManager15InterruptIgnoreEv
+_ZN16InterruptManager15InterruptIgnoreEv:
 
-    # Finished handling interrupt. Return control to processor.
     iret
 
+
 .data
-    # Initialize interruptID variable
-    interruptID: .byte 0
+    interruptnumber: .byte 0
