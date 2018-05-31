@@ -1,0 +1,1 @@
+This is the original code for the EDIX interrupt class. In order to fix interrupts not working, I copied the code from "Write Your Own OS" (wyoos). The code is practically the same, disregarding name and structural changes. This is here simply for documentation and when the new interrupt code (in interrupts.h, *.cpp, and interruptstubs.s) will be updated / refactored.
