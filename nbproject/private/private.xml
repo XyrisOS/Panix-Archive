@@ -13,10 +13,12 @@
             <file>file:/home/parallels/edix/src/interrupts.cpp</file>
             <file>file:/home/parallels/edix/src/gdt.cpp</file>
             <file>file:/home/parallels/edix/src/interrupts.h</file>
-            <file>file:/home/parallels/edix/src/kprint.h</file>
+            <file>file:/home/parallels/edix/Makefile</file>
+            <file>file:/home/parallels/edix/src/segdescriptor.cpp</file>
             <file>file:/home/parallels/edix/src/kernel.cpp</file>
             <file>file:/home/parallels/edix/src/port.h</file>
-            <file>file:/home/parallels/edix/src/interruptstubs.s</file>
+            <file>file:/home/parallels/edix/src/segdescriptor.h</file>
+            <file>file:/home/parallels/edix/src/gdt.h</file>
         </group>
     </open-files>
 </project-private>

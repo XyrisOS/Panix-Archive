@@ -12,7 +12,7 @@ EXECUTABLE = kernel.bin
 ISO = edix.iso
 LINKER = $(addprefix src/, linker.ld)
 
-objects = $(addprefix obj/, loader.o kernel.o kprint.o term.o gdt.o port.o interruptstubs.o interrupts.o)
+objects = $(addprefix obj/, loader.o kernel.o kprint.o term.o gdt.o segdescriptor.o port.o interruptstubs.o interrupts.o)
 #objects := $(wildcard $(OBJ)/*.o)
 
 $(OBJ)/%.o: $(SRC)/%.cpp
@@ -23,7 +23,7 @@ $(OBJ)/%.o: $(SRC)/%.s
 $(EXECUTABLE): $(LINKER) $(objects)
 	ld $(LDPARAMS) -T $< -o $(BUILD)/$@ $(objects)
 
-install: $(EXECUTABLE)
+install: $(BUILD)/$(EXECUTABLE)
 	sudo cp $< /boot/$(EXECUTABLE)
 
 .PHONY: clean

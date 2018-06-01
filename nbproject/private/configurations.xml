@@ -12,12 +12,14 @@
       </df>
       <df name="obj">
       </df>
-      <df name="src">
+      <df name="old">
         <df name="interrupts">
           <in>interrupts.cpp</in>
           <in>interrupts.h</in>
           <in>interruptstubs.s</in>
         </df>
+      </df>
+      <df name="src">
         <in>gdt.cpp</in>
         <in>gdt.h</in>
         <in>interrupts.cpp</in>
@@ -29,6 +31,8 @@
         <in>loader.s</in>
         <in>port.cpp</in>
         <in>port.h</in>
+        <in>segdescriptor.cpp</in>
+        <in>segdescriptor.h</in>
         <in>term.cpp</in>
         <in>term.h</in>
         <in>termcolor.h</in>

@@ -58,8 +58,6 @@ protected:
 
     uint16_t hardwareInterruptOffset;
     
-    //static InterruptManager* ActiveInterruptManager;
-    
     // TODO: Needs updated documentation
     /**
      * Sets an interrupt descriptor table entry
@@ -130,6 +128,9 @@ protected:
     // Programmable Interrupt Constoller (Slave)
     Port_8_Slow PICSlaveCommandPort;
     Port_8_Slow PICSlaveDataPort;
+    
+    // Pointer to the active interrupt manager
+    // static InterruptManager * ActiveInterruptManager;
 
 public:
     /**

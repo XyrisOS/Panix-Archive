@@ -36,15 +36,16 @@ void kprint_error(const char * str) {
     }
 }
 
+// TODO: Should this be PASSED/FAILED or STARTED/STOPPED
 void kprint_status(bool isLoaded, const char * service_name) {
     kprint("[ ");
     // Determine text color based on service loading
     if (isLoaded) {
         // Service loaded correctly
-        kprint_c("PASSED", fore.green, bkg.black);
+        kprint_c("STARTED", fore.green, bkg.black);
     } else {
         // Service failed to load
-        kprint_c("FAILED", fore.red, bkg.black);
+        kprint_c("STOPPED", fore.red, bkg.black);
     }
     kprint(" ] ");
     kprint(service_name);

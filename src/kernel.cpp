@@ -39,7 +39,6 @@ extern "C" void kernel(void * multiboot_structure, uint32_t magicnumber) {
     // Print welcome to kernel and copyright information
     kprint("Created by undergraduates of Cedarville University.\n");
     kprint("(c) Solar Pepper Studios 2018, all rights reserved.\n\n");
-    kprint("Welcome to \n\n");
     
     // Print the ASCII EDIX art for the cool effect
     kprint("d88888b d8888b. d888888b db    db \n");
@@ -53,6 +52,7 @@ extern "C" void kernel(void * multiboot_structure, uint32_t magicnumber) {
     GlobalDescriptorTable gdt;
     InterruptManager interrupts(0x20, &gdt);
     interrupts.activate();
+    interrupts.deactivate();
 
     // Create loop to keep kernel alive
     while (1) {

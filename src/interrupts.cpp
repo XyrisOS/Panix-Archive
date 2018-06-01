@@ -79,6 +79,8 @@ PICSlaveCommandPort(0xA0), PICSlaveDataPort(0xA1) {
 
     // Load the IDT by calling the lidt assembly instruction
     asm volatile("lidt %0" : : "m" (idt_pointer));
+    
+    kprint_status(true, "InterruptManager");
 }
 
 void InterruptManager::SetInterruptDescriptorTableEntry(
@@ -109,20 +111,23 @@ uint16_t InterruptManager::HardwareInterruptOffset() {
 
 void InterruptManager::activate() {
     //if(ActiveInterruptManager == 0)
-    {
-        //ActiveInterruptManager = this;
+    //{
+    //    ActiveInterruptManager = this;
+        kprint_status(true, "InterruptManager::activate()");
         asm("sti");
-    }
+    //} else {
+    //    kprint_status(false, "InterruptManager::activate() Already active!");
+    //}
 }
 
 void InterruptManager::deactivate() {
-    /*if(ActiveInterruptManager == this)
-    {
-        ActiveInterruptManager = 0;
-     */
-    //asm("cli");
-    /*
-}*/
+    // If there this is the active interrupt manager, deactivate
+    //if (ActiveInterruptManager == this)
+    //{
+    //    ActiveInterruptManager = 0;
+        asm("cli");
+        kprint_status(true, "InterruptManager::deactivate()");
+    //}
 }
 
 uint32_t InterruptManager::HandleInterrupt(uint8_t interrupt, uint32_t esp) {
