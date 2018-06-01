@@ -35,12 +35,20 @@ extern "C" void kernel(void * multiboot_structure, uint32_t magicnumber) {
     kprint_clear();
     color_foreground fore; // Foreground color
     color_background bkg; // Background color
+    
     // Print welcome to kernel and copyright information
-    kprint(" Created by undergraduates of Cedarville University.\n");
-    kprint(" (c) Solar Pepper Studios 2018, all rights reserved.\n\n");
-    kprint(" Welcome to ");
-    kprint_c(" EDIX \n\n", fore.black, bkg.white);
-
+    kprint("Created by undergraduates of Cedarville University.\n");
+    kprint("(c) Solar Pepper Studios 2018, all rights reserved.\n\n");
+    kprint("Welcome to \n\n");
+    
+    // Print the ASCII EDIX art for the cool effect
+    kprint("d88888b d8888b. d888888b db    db \n");
+    kprint("88'     88  `8D   `88'   `8b  d8' \n");
+    kprint("88ooooo 88   88    88     `8bd8'  \n");
+    kprint("88~~~~~ 88   88    88     .dPYb.  \n");
+    kprint("88.     88  .8D   .88.   .8P  Y8. \n");
+    kprint("Y88888P Y8888D' Y888888P YP    YP \n\n");
+    
     // Instantiate the GDT, IDT, and activate interrupt
     GlobalDescriptorTable gdt;
     InterruptManager interrupts(0x20, &gdt);
