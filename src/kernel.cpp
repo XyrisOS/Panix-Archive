@@ -27,8 +27,8 @@ extern "C" void callConstructors() {
 
 /**
  * Main function for the EDIX kernel.
- * @param multiboot_structure - Multiboot structure from GRUB.
- * @param magicnumber - Magicnumber from loader.s
+ * @param multiboot_structure Multiboot structure from GRUB.
+ * @param magicnumber Magicnumber from loader.s
  */
 extern "C" void kernel(void * multiboot_structure, uint32_t magicnumber) {
     //Clear the terminal
@@ -52,7 +52,9 @@ extern "C" void kernel(void * multiboot_structure, uint32_t magicnumber) {
     GlobalDescriptorTable gdt;
     InterruptManager interrupts(0x20, &gdt);
     interrupts.activate();
-    interrupts.deactivate();
+    
+    // Deactivate interrupts
+    //interrupts.deactivate();
 
     // Create loop to keep kernel alive
     while (1) {

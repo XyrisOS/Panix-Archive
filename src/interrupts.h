@@ -56,6 +56,7 @@ protected:
         uint32_t base;
     } __attribute__ ((packed));
 
+    // Offset for hardware interrupts (in interruptstubs.s)
     uint16_t hardwareInterruptOffset;
     
     // TODO: Needs updated documentation
@@ -92,26 +93,26 @@ protected:
     static void HandleInterruptRequest0x31();
 
     /* Declare Exception Handler Functions */
-    static void HandleException0x00();
-    static void HandleException0x01();
-    static void HandleException0x02();
-    static void HandleException0x03();
-    static void HandleException0x04();
-    static void HandleException0x05();
-    static void HandleException0x06();
-    static void HandleException0x07();
-    static void HandleException0x08();
-    static void HandleException0x09();
-    static void HandleException0x0A();
-    static void HandleException0x0B();
-    static void HandleException0x0C();
-    static void HandleException0x0D();
-    static void HandleException0x0E();
-    static void HandleException0x0F();
-    static void HandleException0x10();
-    static void HandleException0x11();
-    static void HandleException0x12();
-    static void HandleException0x13();
+//    static void HandleException0x00();
+//    static void HandleException0x01();
+//    static void HandleException0x02();
+//    static void HandleException0x03();
+//    static void HandleException0x04();
+//    static void HandleException0x05();
+//    static void HandleException0x06();
+//    static void HandleException0x07();
+//    static void HandleException0x08();
+//    static void HandleException0x09();
+//    static void HandleException0x0A();
+//    static void HandleException0x0B();
+//    static void HandleException0x0C();
+//    static void HandleException0x0D();
+//    static void HandleException0x0E();
+//    static void HandleException0x0F();
+//    static void HandleException0x10();
+//    static void HandleException0x11();
+//    static void HandleException0x12();
+//    static void HandleException0x13();
 
     // TODO: Currently only returns the current stack pointer.
     /**
@@ -122,6 +123,14 @@ protected:
      */
     static uint32_t HandleInterrupt(uint8_t interrupt, uint32_t esp);
 
+    /**
+     * 
+     * @param interrupt
+     * @param esp
+     * @return 
+     */
+    uint32_t HandleInterruptAction(uint8_t interrupt, uint32_t esp);
+    
     // Programmable Interrupt Controller (Master)
     Port_8_Slow PICMasterCommandPort;
     Port_8_Slow PICMasterDataPort;
@@ -130,7 +139,7 @@ protected:
     Port_8_Slow PICSlaveDataPort;
     
     // Pointer to the active interrupt manager
-    // static InterruptManager * ActiveInterruptManager;
+    static InterruptManager * ActiveInterruptManager;
 
 public:
     /**
