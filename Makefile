@@ -12,7 +12,7 @@ EXECUTABLE = kernel.bin
 ISO = edix.iso
 LINKER = $(addprefix src/, linker.ld)
 
-objects = $(addprefix obj/, loader.o kernel.o kprint.o term.o gdt.o segdescriptor.o port.o interruptstubs.o interruptmanager.o)
+objects = $(addprefix obj/, loader.o kernel.o kprint.o term.o gdt.o segdescriptor.o port.o interruptstubs.o interruptmanager.o keyboard.o)
 #objects := $(wildcard $(OBJ)/*.o)
 
 $(OBJ)/%.o: $(SRC)/%.cpp

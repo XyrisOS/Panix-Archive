@@ -44,10 +44,8 @@ PICSlaveCommandPort(0xA0), PICSlaveDataPort(0xA1) {
     for (uint8_t i = 255; i > 0; --i) {
         handlers[i] = 0;
         SetInterruptDescriptorTableEntry(i, CodeSegment, &InterruptIgnore, 0, IDT_INTERRUPT_GATE);
-        //handlers[i] = 0;
     }
     SetInterruptDescriptorTableEntry(0, CodeSegment, &InterruptIgnore, 0, IDT_INTERRUPT_GATE);
-    //handlers[0] = 0;
 
 //    SetInterruptDescriptorTableEntry(0x00, CodeSegment, &HandleException0x00, 0, IDT_INTERRUPT_GATE);
 //    SetInterruptDescriptorTableEntry(0x01, CodeSegment, &HandleException0x01, 0, IDT_INTERRUPT_GATE);
@@ -97,10 +95,10 @@ PICSlaveCommandPort(0xA0), PICSlaveDataPort(0xA1) {
     // Write Master and Slave roles to each PIC
     PICMasterDataPort.write(0x04); // Master Mode
     PICSlaveDataPort.write(0x02); // Slave Mode
-
+    // ???
     PICMasterDataPort.write(0x01);
     PICSlaveDataPort.write(0x01);
-
+    // ???
     PICMasterDataPort.write(0x00);
     PICSlaveDataPort.write(0x00);
 
@@ -184,7 +182,7 @@ uint32_t InterruptManager::HandleInterruptAction(uint8_t interrupt, uint32_t esp
     }
     else
     // If the interrupt is not the timer interrupt, print
-    if (interrupt != this->hardwareInterruptOffset) {
+    if (interrupt != hardwareInterruptOffset) {
         // Set interrupt message char array
         char foo [] = "INTERRUPT 0x00 NOT HANDLED\n";
         char hex [] = "0123456789ABCDEF";

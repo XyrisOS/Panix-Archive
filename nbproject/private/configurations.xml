@@ -26,6 +26,8 @@
         <in>interruptmanager.h</in>
         <in>interruptstubs.s</in>
         <in>kernel.cpp</in>
+        <in>keyboard.cpp</in>
+        <in>keyboard.h</in>
         <in>kprint.cpp</in>
         <in>kprint.h</in>
         <in>loader.s</in>

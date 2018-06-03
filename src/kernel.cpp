@@ -11,6 +11,7 @@
 #include "interruptmanager.h"
 #include "kprint.h"
 #include "termcolor.h"
+#include "keyboard.h"
 
 typedef void (*constructor)();
 extern "C" constructor constructor_start;
@@ -48,13 +49,13 @@ extern "C" void kernel(void * multiboot_structure, uint32_t magicnumber) {
     kprint("88.     88  .8D   .88.   .8P  Y8. \n");
     kprint("Y88888P Y8888D' Y888888P YP    YP \n\n");
     
-    // Instantiate the GDT, IDT, and activate interrupt
-    GlobalDescriptorTable gdt;
-    InterruptManager interrupts(0x20, &gdt);
-    interrupts.activate();
+    // Instantiation
+    GlobalDescriptorTable gdt;                  // Instantiate global descriptor table
+    InterruptManager interrupts(0x20, &gdt);    // Instantiate interrupt manager
+    KeyboardDriver keyboard(&interrupts);       // Instantiate keyboard driver
+    interrupts.activate();                      // Activate (listen for) interrupts
     
-    // Deactivate interrupts
-    //interrupts.deactivate();
+    //interrupts.deactivate();                  // Deactivate (stop listening for) interrupts
 
     // Create loop to keep kernel alive
     while (1) {
