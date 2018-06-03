@@ -14,16 +14,16 @@ InterruptManager * InterruptManager::ActiveInterruptManager = 0;
 
 InterruptHandler::InterruptHandler(uint8_t num, InterruptManager* mgr) {
     // Set the interrupt and active manager variables
-    interrupt = num;
+    interruptNumber = num;
     manager = mgr;
     // Insert self into manager's handler array at the index of the interrupt ID
-    manager->handlers[interrupt] = this;
+    manager->handlers[interruptNumber] = this;
     kprint_status(true, "InterruptHandler");
 }
 
 InterruptHandler::~InterruptHandler() {
-    if (manager->handlers[interrupt] == this) {
-        manager->handlers[interrupt] = 0;
+    if (manager->handlers[interruptNumber] == this) {
+        manager->handlers[interruptNumber] = 0;
     }
 }
 
@@ -192,12 +192,12 @@ uint32_t InterruptManager::HandleInterruptAction(uint8_t interrupt, uint32_t esp
         kprint_error(foo);
     }
     // If the hardware interrupt offset is between 0x20 and 0x30
-    if ((this->hardwareInterruptOffset <= interrupt) && (interrupt < 0x30)) {
+    if ((hardwareInterruptOffset <= interrupt) && (interrupt < hardwareInterruptOffset + 16)) {
         // Send reply message to the hardware
-        this->PICMasterCommandPort.write(0x20); // Master PIC answer
+        PICMasterCommandPort.write(0x20); // Master PIC answer
         // If the interrupt is between 0x28 and 0x30, send message to slave PIC
-        if (0x28 <= this->hardwareInterruptOffset) {
-            this->PICSlaveCommandPort.write(0x20);
+        if (hardwareInterruptOffset + 8 <= interrupt) {
+            PICSlaveCommandPort.write(0x20);
         }
     }
     // Return the esp (stack?)

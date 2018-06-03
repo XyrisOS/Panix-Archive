@@ -38,7 +38,7 @@ class InterruptHandler {
 protected:
     // Class variables
     InterruptManager * manager;
-    uint8_t interrupt;
+    uint8_t interruptNumber;
 
     /**
      * 

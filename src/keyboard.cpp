@@ -18,7 +18,7 @@
 
 #include "keyboard.h"
 
-KeyboardDriver::KeyboardDriver(InterruptManager* mgr) :
+KeyboardDriver::KeyboardDriver(InterruptManager * mgr) :
 InterruptHandler(0x21, mgr), data(0x60), command(0x64) {
     // Wait until key is released to record keystrikes
     while (command.read() & 0x1) {
