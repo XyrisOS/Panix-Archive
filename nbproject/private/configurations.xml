@@ -22,8 +22,8 @@
       <df name="src">
         <in>gdt.cpp</in>
         <in>gdt.h</in>
-        <in>interrupts.cpp</in>
-        <in>interrupts.h</in>
+        <in>interruptmanager.cpp</in>
+        <in>interruptmanager.h</in>
         <in>interruptstubs.s</in>
         <in>kernel.cpp</in>
         <in>kprint.cpp</in>

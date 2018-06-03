@@ -8,7 +8,7 @@
 #include "types.h"
 #include "gdt.h"
 #include "port.h"
-#include "interrupts.h"
+#include "interruptmanager.h"
 #include "kprint.h"
 #include "termcolor.h"
 

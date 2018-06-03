@@ -4,7 +4,7 @@
     <df root="." name="0">
       <df name="src">
         <in>gdt.cpp</in>
-        <in>interrupts.cpp</in>
+        <in>interruptmanager.cpp</in>
         <in>kernel.cpp</in>
         <in>kprint.cpp</in>
         <in>port.cpp</in>
@@ -59,7 +59,7 @@
         <ccTool flags="0">
         </ccTool>
       </item>
-      <item path="src/interrupts.cpp" ex="false" tool="1" flavor2="8">
+      <item path="src/interruptmanager.cpp" ex="false" tool="1" flavor2="8">
         <ccTool flags="0">
         </ccTool>
       </item>
