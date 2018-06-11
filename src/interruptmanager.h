@@ -122,26 +122,26 @@ protected:
     static void HandleInterruptRequest0x31();
 
     /* Declare Exception Handler Functions */
-//    static void HandleException0x00();
-//    static void HandleException0x01();
-//    static void HandleException0x02();
-//    static void HandleException0x03();
-//    static void HandleException0x04();
-//    static void HandleException0x05();
-//    static void HandleException0x06();
-//    static void HandleException0x07();
-//    static void HandleException0x08();
-//    static void HandleException0x09();
-//    static void HandleException0x0A();
-//    static void HandleException0x0B();
-//    static void HandleException0x0C();
-//    static void HandleException0x0D();
-//    static void HandleException0x0E();
-//    static void HandleException0x0F();
-//    static void HandleException0x10();
-//    static void HandleException0x11();
-//    static void HandleException0x12();
-//    static void HandleException0x13();
+    static void HandleException0x00();
+    static void HandleException0x01();
+    static void HandleException0x02();
+    static void HandleException0x03();
+    static void HandleException0x04();
+    static void HandleException0x05();
+    static void HandleException0x06();
+    static void HandleException0x07();
+    static void HandleException0x08();
+    static void HandleException0x09();
+    static void HandleException0x0A();
+    static void HandleException0x0B();
+    static void HandleException0x0C();
+    static void HandleException0x0D();
+    static void HandleException0x0E();
+    static void HandleException0x0F();
+    static void HandleException0x10();
+    static void HandleException0x11();
+    static void HandleException0x12();
+    static void HandleException0x13();
 
     // TODO: Currently only returns the current stack pointer.
     /**

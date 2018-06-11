@@ -31,7 +31,6 @@
 #include "kprint.h"
 
 class KeyboardDriver : public InterruptHandler {
-    friend class InterruptHandler;  // Allow access to the constructor
     // Communication ports
     Port_8 data;
     Port_8 command;
