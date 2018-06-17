@@ -16,8 +16,10 @@ objects = $(addprefix obj/, loader.o kernel.o kprint.o term.o gdt.o segdescripto
 #objects := $(wildcard $(OBJ)/*.o)
 
 $(OBJ)/%.o: $(SRC)/%.cpp
+	mkdir -p $(OBJ)
 	$(CXX) $(CPPPARAMS) -c -o $@ $<
 $(OBJ)/%.o: $(SRC)/%.s
+	mkdir -p $(OBJ)
 	$(AS) $(ASPARAMS) -o $@ $<
 
 $(EXECUTABLE): $(LINKER) $(objects)
