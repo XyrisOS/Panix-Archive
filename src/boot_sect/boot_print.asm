@@ -1,12 +1,36 @@
-; This function assumes the string will be in register si
+; Copied from cfenollosa/os-tutorial because my print statement
+; wasn't working with their code, so I'll come back to that at
+; some point in the future.
+;
 print:
-        mov ah, 0Eh
-.printloop:
-        lodsb
-        cmp al, 0x0D    ; Make sure we haven't hit the nl terminator
-        je .printdone   ; jump to done if nl
-        int 10h         ; print to the tty if not nl
-        jmp .printloop  ; jump back to loop and continue printing
+    pusha
 
-.printdone:
-        ret ; Return
+; the comparison for string end (null byte)
+start:
+    mov al, [bx] ; 'bx' is the base address for the string
+    cmp al, 0 
+    je done
+
+    ; the part where we print with the BIOS help
+    mov ah, 0x0e
+    int 0x10 ; 'al' already contains the char
+
+    ; increment pointer and do next loop
+    add bx, 1
+    jmp start
+
+done:
+    popa
+    ret
+
+print_nl:
+    pusha
+    
+    mov ah, 0x0e
+    mov al, 0x0a ; newline char
+    int 0x10
+    mov al, 0x0d ; carriage return
+    int 0x10
+    
+    popa
+    ret
