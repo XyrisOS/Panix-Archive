@@ -4,5 +4,5 @@ void entryTest() {
 
 int main() {
     char * video_memory = (char *) 0xb8000;	// Define the VMEM constant
-    * video_memory = 'X';					// Print an X to the VMEM
+    * video_memory = 'Y';					// Print an Y to the VMEM
 }

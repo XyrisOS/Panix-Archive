@@ -31,16 +31,15 @@ disk_load:
     ret
 
 disk_error:
-    mov si, DISK_ERROR
+    mov bx, DISK_ERROR
     call print
-    mov si, 0x0D
-    call print
+    call printNewLine
     mov dh, ah      ; ah = error code, dl = disk drive that dropped the error
     call print_hex  ; check out the code at http://stanislavs.org/helppc/int_13-1.html
     jmp disk_loop
 
 sectors_error:
-    mov si, SECTORS_ERROR
+    mov bx, SECTORS_ERROR
     call print
 
 disk_loop:

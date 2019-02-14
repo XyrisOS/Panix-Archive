@@ -21,7 +21,7 @@ dist/panix.raw: src/boot/boot32.bin src/kernel/kernel.bin
 
 # '--oformat binary' deletes all symbols as a collateral, so we don't need
 # to 'strip' them manually on this case
-src/kernel/kernel.bin: src/32bit/kernel_entry.o ${OBJ}
+src/kernel/kernel.bin: src/boot/32bit/kernel_entry.o ${OBJ}
 	i386-elf-ld -o $@ -Ttext 0x1000 $^ --oformat binary
 
 # Used for debugging purposes
