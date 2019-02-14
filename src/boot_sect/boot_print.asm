@@ -13,7 +13,7 @@ start:
 
     ; the part where we print with the BIOS help
     mov ah, 0x0e
-    int 0x10 ; 'al' already contains the char
+    int 0x10        ; 'al' already contains the char
 
     ; increment pointer and do next loop
     add bx, 1
@@ -27,9 +27,9 @@ print_nl:
     pusha
     
     mov ah, 0x0e
-    mov al, 0x0a ; newline char
+    mov al, 0x0a    ; newline char
     int 0x10
-    mov al, 0x0d ; carriage return
+    mov al, 0x0d    ; carriage return
     int 0x10
     
     popa

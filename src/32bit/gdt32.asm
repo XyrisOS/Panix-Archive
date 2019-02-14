@@ -24,6 +24,7 @@ gdt_data:
     db 0x0
 
 gdt_end:
+    ; Nothing
 
 ; GDT descriptor
 ; Load by calling the 'lgdt' instruction
