@@ -23,7 +23,7 @@ done:
     popa
     ret
 
-print_nl:
+printNewLine:
     pusha
     
     mov ah, 0x0e

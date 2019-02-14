@@ -21,24 +21,24 @@ KERNEL_OFFSET equ 0x1000
     ; Required by the print function included below
     mov bx, boot_msg
     call print
-    call print_nl
-
+    call printNewLine
+    
     ; Print 16 bit real mode message
     ; Let the user know 16 bit mode is enabled
     mov bx, real_msg
     call print
-    call print_nl
+    call printNewLine
 
     ; Call 32 bit switch functions
-    call load_kernel        ; Load the kernel into memory
-    call switch_32          ; Switch into 32 bit protected mode
-    jmp $                   ; Failsafe in event switch fails
+    call loadKernel             ; Load the kernel into memory
+    call switchToProtectedMode  ; Switch into 32 bit protected mode
+    jmp $                       ; Failsafe in event switch fails
 
 [bits 16]
-load_kernel:
+loadKernel:
     mov bx, kernel_msg
     call print
-    call print_nl
+    call printNewLine
 
     mov bx, KERNEL_OFFSET   ; Read off of disk and into memory at 0x1000
     mov dh, 2
@@ -48,7 +48,7 @@ load_kernel:
 
 ; Begin 32 bit instructions
 [bits 32]
-protected_mode_init:
+initProtectedMode:
 	mov ebx, prot_msg 	    ; Move the message into the appropriate register
 	call print32 		    ; Call the protected mode print function
     call KERNEL_OFFSET      ; Jump into the PANIX kernel

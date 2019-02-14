@@ -1,5 +1,5 @@
 [bits 16]
-switch_32:
+switchToProtectedMode:
     cli 				                ; disable interrupts
     lgdt [gdt_descriptor]               ; load the GDT descriptor
     mov eax, cr0			            ; move control bit 0 into eax
@@ -19,4 +19,4 @@ init_protected_mode: 			        ; 32 bit protected mode is now initialized
     mov ebp, 0x90000 			        ; update the stack right at the top of the free space
     mov esp, ebp
 
-    call protected_mode_init 	        ; call the initialization function in the main boot sect file
+    call initProtectedMode 	        ; call the initialization function in the main boot sect file
