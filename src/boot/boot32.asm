@@ -63,7 +63,7 @@ BOOT_DRIVE db 0
 boot_msg db 'Initializing PANIX bootloader...', 0
 real_msg db 'Working in 16 bit real mode...', 0
 prot_msg db 'Working in 32 bit protected mode...', 0
-kernel_msg db 'Loading EDIX kernel...', 0
+kernel_msg db 'Loading PANIX kernel...', 0
 
 ; Padding and magic number for BIOS
 times 510-($-$$) db 0
