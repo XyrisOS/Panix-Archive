@@ -6,11 +6,11 @@ C_SOURCES = $(wildcard src/kernel/*.c src/drivers/*.c src/cpu/*.c src/libc/*.c)
 HEADERS = $(wildcard src/kernel/*.h src/drivers/*.h src/cpu/*.h src/libc/*.h)
 
 # Nice syntax for file extension replacement
-OBJ = ${C_SOURCES:.c=.o src/cpu/interrupt.o} 
+OBJ = ${C_SOURCES:.c=.o} #src/cpu/interrupt.o
 
 # Change this if your cross-compiler is somewhere else
-CC = /usr/local/i386elfgcc/bin/i386-elf-gcc
-GDB = /usr/local/i386elfgcc/bin/i386-elf-gdb
+CC = i386-elf-gcc
+GDB = i386-elf-gdb
 
 # -g: Use debugging symbols in gcc
 CFLAGS = -g -ffreestanding -Wall -Wextra -fno-exceptions -m32
@@ -21,11 +21,11 @@ dist/panix.raw: src/boot/boot32.bin src/kernel/kernel.bin
 
 # '--oformat binary' deletes all symbols as a collateral, so we don't need
 # to 'strip' them manually on this case
-src/kernel/kernel.bin: src/kernel/kernel_entry.o ${OBJ}
+src/kernel/kernel.bin: src/32bit/kernel_entry.o ${OBJ}
 	i386-elf-ld -o $@ -Ttext 0x1000 $^ --oformat binary
 
 # Used for debugging purposes
-kernel.elf: src/kernel/kernel_entry.o ${OBJ}
+kernel.elf: src/32bit/kernel_entry.o ${OBJ}
 	i386-elf-ld -o $@ -Ttext 0x1000 $^ 
 
 run: dist/panix.raw

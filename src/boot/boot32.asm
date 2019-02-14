@@ -1,12 +1,12 @@
 ; -- include all required 16 bit files --
-%include "boot_print.asm"       ; include print function
-%include "boot_print_hex.asm"   ; include hex print function
-%include "boot_sect_disk.asm"     ; include boot sector disk functions
+%include "src/boot/boot_print.asm"       ; include print function
+%include "src/boot/boot_print_hex.asm"   ; include hex print function
+%include "src/boot/boot_sect_disk.asm"     ; include boot sector disk functions
 ; -- include all required 32 bit files --
-%include "../32bit/switch32.asm"; include 32 bit protected mode functions
-%include "../32bit/color32.asm"    ; include 32 bit print colors
-%include "../32bit/print32.asm" ; include 32 bit print functions
-%include "../32bit/gdt32.asm"   ; include 32 bit GDT functions
+%include "src/32bit/switch32.asm"; include 32 bit protected mode functions
+%include "src/32bit/color32.asm"    ; include 32 bit print colors
+%include "src/32bit/print32.asm" ; include 32 bit print functions
+%include "src/32bit/gdt32.asm"   ; include 32 bit GDT functions
 
 ; Define boot sector variable offset
 [org 0x7c00]
