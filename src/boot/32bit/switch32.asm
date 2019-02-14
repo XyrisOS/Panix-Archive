@@ -19,4 +19,4 @@ init_protected_mode: 			        ; 32 bit protected mode is now initialized
     mov ebp, 0x90000 			        ; update the stack right at the top of the free space
     mov esp, ebp
 
-    call initProtectedMode 	        ; call the initialization function in the main boot sect file
+    call initProtectedMode 	            ; call the initialization function in the main boot sect file

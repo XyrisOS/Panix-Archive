@@ -5,7 +5,6 @@
 ; For the examples we'll assume that we're called with dx=0x1234
 print_hex:
     pusha
-
     mov cx, 0 ; our index variable
 
 ; Strategy: get the last char of 'dx', then convert to ASCII
@@ -17,14 +16,14 @@ hex_loop:
     je end
     
                     ; 1. convert last char of 'si' to ascii
-    mov ax, si      ; we will use 'ax' as our working register
+    mov ax, dx      ; we will use 'ax' as our working register
     and ax, 0x000f  ; 0x1234 -> 0x0004 by masking first three to zeros
     add al, 0x30    ; add 0x30 to N to convert it to ASCII "N"
     cmp al, 0x39    ; if > 9, add extra 8 to represent 'A' to 'F'
-    jle step2
+    jle hexLoopStepTwo
     add al, 7       ; 'A' is ASCII 65 instead of 58, so 65-58=7
 
-step2:
+hexLoopStepTwo:
     ; 2. get the correct position of the string to place our ASCII char
     ; bx <- base address + string length - index of char
     mov bx, HEX_OUT + 5 ; base + length

@@ -30,7 +30,7 @@ gdt_end:
 ; Load by calling the 'lgdt' instruction
 gdt_descriptor:
     dw gdt_end - gdt_start - 1	; size (16 bit), always one less of its true size
-    dd gdt_start 		; address (32 bit)
+    dd gdt_start 		        ; address (32 bit)
 
 ; define some constants for later use
 CODE_SEG equ gdt_code - gdt_start
