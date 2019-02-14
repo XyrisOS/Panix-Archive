@@ -7,6 +7,11 @@ KERNEL_OFFSET equ 0x1000
     mov bp, 0x9000          ; initialize stack size
     mov sp, bp              ; reset stack pointers
 
+    ; Print init message
+    mov bx, boot_msg
+    call print
+    call printNewLine
+
     ; Print 16 bit real mode message
     ; Let the user know 16 bit mode is enabled
     mov bx, real_msg
