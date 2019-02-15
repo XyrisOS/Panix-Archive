@@ -6,4 +6,7 @@ After taking CS-3310 (Operating Systems) at my university, I thought it would be
 Panix is pronounced '/ˈpænɪks/' (as in the word 'panics') and is used to describe how I'll inevitably feel when I have to submit it for grading when it does indeed panic on boot.
 
 ### Screenshot
-![](https://github.com/Kfeavel/edix/blob/master/current.png?raw=true)
+![](https://github.com/Kfeavel/Panix/blob/master/docs/current.png?raw=true)
+
+### Self Note:
+Section 13/14 is done. Files match section 14, debugging needs setup.
