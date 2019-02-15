@@ -17,6 +17,7 @@ CFLAGS = -g -ffreestanding -Wall -Wextra -fno-exceptions -m32
 
 # First rule is run by default
 dist/panix.raw: src/boot/boot32.bin src/kernel/kernel.bin
+	mkdir -p dist
 	cat $^ > $@
 
 # '--oformat binary' deletes all symbols as a collateral, so we don't need
