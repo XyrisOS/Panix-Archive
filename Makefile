@@ -25,7 +25,7 @@ src/kernel/kernel.bin: src/boot/32bit/kernel_entry.o ${OBJ}
 	i386-elf-ld -o $@ -Ttext 0x1000 $^ --oformat binary
 
 # Used for debugging purposes
-kernel.elf: src/32bit/kernel_entry.o ${OBJ}
+kernel.elf: src/boot/32bit/kernel_entry.o ${OBJ}
 	i386-elf-ld -o $@ -Ttext 0x1000 $^ 
 
 run: dist/panix.raw
