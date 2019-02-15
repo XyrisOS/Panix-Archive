@@ -1,2 +1,4 @@
 # Ignore all object and archive files
 *.[oa]
+*.bin
+*.raw
