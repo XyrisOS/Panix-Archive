@@ -31,11 +31,11 @@ void entryTest() {
  */
 int main() {
     clear_screen();
-    kprint("     ____  ___    _   _______  __\n");
+    kprint("     ____  ___    _   _______  __ \n");
     kprint("    / __ \\/   |  / | / /  _/ |/ /\n");
-    kprint("   / /_/ / /| | /  |/ // / |   / \n");
-    kprint("  / ____/ ___ |/ /|  // / /   |  \n");
-    kprint(" /_/   /_/  |_/_/ |_/___//_/|_|  \n");
+    kprint("   / /_/ / /| | /  |/ // / |   /  \n");
+    kprint("  / ____/ ___ |/ /|  // / /   |   \n");
+    kprint(" /_/   /_/  |_/_/ |_/___//_/|_|   \n");
     kprint("\nWelcome to the PANIX kernel!\n");
     /*
         kprint_at("X", 1, 6);
