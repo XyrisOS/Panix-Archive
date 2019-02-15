@@ -9,6 +9,8 @@ HEADERS = $(wildcard src/kernel/*.h src/drivers/*.h src/cpu/*.h src/libc/*.h)
 OBJ = ${C_SOURCES:.c=.o} #src/cpu/interrupt.o
 
 # Change this if your cross-compiler is somewhere else
+# Installing i386-elf-binutils using brew on macOS fixes
+# the need for a custom cross compiler
 CC = i386-elf-gcc
 GDB = i386-elf-gdb
 

@@ -9,4 +9,4 @@ Panix is pronounced '/ˈpænɪks/' (as in the word 'panics') and is used to desc
 ![](https://github.com/Kfeavel/Panix/blob/master/docs/current.png?raw=true)
 
 ### Self Note:
-Section 13/14 is done. Files match section 14, debugging needs setup.
+Section 15 is done. Files match section 14, debugging needs setup.
