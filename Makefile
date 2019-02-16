@@ -2,8 +2,8 @@
 # $< = first dependency
 # $^ = all dependencies
 
-C_SOURCES = $(wildcard src/kernel/*.c src/drivers/*.c src/cpu/*.c src/libc/*.c)
-HEADERS = $(wildcard src/kernel/*.h src/drivers/*.h src/cpu/*.h src/libc/*.h)
+C_SOURCES = $(wildcard src/kernel/*.c src/kernel/util/*.c src/drivers/*.c src/cpu/*.c src/libc/*.c)
+HEADERS = $(wildcard src/kernel/*.h src/kernel/util/*.h src/drivers/*.h src/cpu/*.h src/libc/*.h)
 
 # Nice syntax for file extension replacement
 OBJ = ${C_SOURCES:.c=.o} #src/cpu/interrupt.o

@@ -17,6 +17,7 @@
  * This will force us to create a kernel entry function instead of jumping to kernel.c:0x00 
  */
 void entryTest() {
+    kprint("Panix has panicked! Kernel jumped to invalid start funtion.\n");
 }
 
 /**
@@ -37,13 +38,8 @@ int main() {
     kprint("  / ____/ ___ |/ /|  // / /   |   \n");
     kprint(" /_/   /_/  |_/_/ |_/___//_/|_|   \n");
     kprint("\nWelcome to the PANIX kernel!\n");
-    /*
-        kprint_at("X", 1, 6);
-        kprint_at("This text spans multiple lines", 75, 10);
-        kprint_at("There is a line\nbreak", 0, 20);
-        kprint("There is a line\nbreak");
-        kprint_at("What happens when we run out of space?", 45, 24);
-    */
+   /* Fill up the screen */
+
     while (1) {
         // Keep kernel running
     }

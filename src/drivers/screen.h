@@ -3,6 +3,8 @@
  * Author: Keeton Feavel
  */
 
+#include "../kernel/util/util.h"
+
 #ifndef screen_h
 #define screen_h
 
