@@ -1,6 +1,6 @@
 /**
- * File: screen.c
- * Author: Keeton Feavel
+ * File: screen.cpp
+ * Author: Keeton Feavel and James Osborne
  */
 
 #include "screen.h"
@@ -85,15 +85,16 @@ int print_char(char c, int col, int row, char attr) {
 
     /* Check if the offset is over screen size and scroll */
     if (offset >= MAX_ROWS * MAX_COLS * 2) {
-        int i;
-        for (i = 1; i < MAX_ROWS; i++) 
-            memory_copy(get_offset(0, i) + VIDEO_ADDRESS,
-                        get_offset(0, i-1) + VIDEO_ADDRESS,
+        for (int i = 1; i < MAX_ROWS; i++) 
+            memory_copy(((char*) get_offset(0, i)) + VIDEO_ADDRESS,
+                        ((char*) get_offset(0, i-1)) + VIDEO_ADDRESS,
                         MAX_COLS * 2);
 
         /* Blank last line */
-        char * last_line = get_offset(0, MAX_ROWS - 1) + VIDEO_ADDRESS;
-        for (i = 0; i < MAX_COLS * 2; i++) last_line[i] = 0;
+        char* last_line = ((char*) get_offset(0, MAX_ROWS - 1)) + VIDEO_ADDRESS;
+        for (int i = 0; i < MAX_COLS * 2; i++) {
+            last_line[i] = 0;
+        }
 
         offset -= 2 * MAX_COLS;
     }
@@ -111,6 +112,7 @@ int get_cursor_offset() {
     int offset = port_byte_in(REG_SCREEN_DATA) << 8; 	/* High byte: << 8 */
     port_byte_out(REG_SCREEN_CTRL, 15);
     offset += port_byte_in(REG_SCREEN_DATA);
+
     return offset * 2; 									/* Position * size of character cell */
 }
 

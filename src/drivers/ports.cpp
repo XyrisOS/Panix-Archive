@@ -1,6 +1,6 @@
 /**
- * File: ports.c
- * Author: Keeton Feavel
+ * File: ports.cpp
+ * Author: Keeton Feavel and James Osborne
  */
 
 /**********************************************************
