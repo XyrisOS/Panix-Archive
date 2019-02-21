@@ -15,7 +15,7 @@ CC = i386-elf-gcc
 GDB = i386-elf-gdb
 
 # -g: Use debugging symbols in gcc
-CFLAGS = -g -ffreestanding -Wall -Wextra -fno-exceptions -m32
+CFLAGS = -g -ffreestanding -Wall -Wextra -fno-exceptions -m32 -lstdc++
 
 # First rule is run by default
 dist/panix.raw: src/boot/boot32.bin src/kernel/kernel.bin
