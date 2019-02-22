@@ -32,8 +32,7 @@ kernel.elf: src/boot/32bit/kernel_entry.o ${CXX_OBJ}
 	i386-elf-ld -o $@ -Ttext 0x1000 $^ 
 
 run: dist/panix.raw
-	qemu-system-i386 -s -fda $< &
-	#qemu-system-i386 $< -boot c
+	qemu-system-i386 $< -boot c
 
 # Gets a disk read error
 run_from_disk: dist/panix.raw
