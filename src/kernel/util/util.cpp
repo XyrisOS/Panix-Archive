@@ -1,6 +1,6 @@
 /**
- * File: util.c
- * Author: Keeton Feavel
+ * File: util.cpp
+ * Author: Keeton Feavel and James Osborne
  */
 
 void memory_copy(char *source, char *dest, int nbytes) {

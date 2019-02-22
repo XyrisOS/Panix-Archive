@@ -2,11 +2,11 @@
 # $< = first dependency
 # $^ = all dependencies
 
-C_SOURCES = $(wildcard src/kernel/*.c src/kernel/util/*.c src/drivers/*.c src/cpu/*.c src/libc/*.c)
+CPP_SOURCES = $(wildcard src/kernel/*.cpp src/kernel/util/*.cpp src/drivers/*.cpp src/cpu/*.cpp src/libc/*.cpp)
 HEADERS = $(wildcard src/kernel/*.h src/kernel/util/*.h src/drivers/*.h src/cpu/*.h src/libc/*.h)
 
 # Nice syntax for file extension replacement
-OBJ = ${C_SOURCES:.c=.o} #src/cpu/interrupt.o
+CPP_OBJ = ${CPP_SOURCES:.cpp=.o}
 
 # Change this if your cross-compiler is somewhere else
 # Installing i386-elf-binutils using brew on macOS fixes
@@ -15,7 +15,7 @@ CC = i386-elf-gcc
 GDB = i386-elf-gdb
 
 # -g: Use debugging symbols in gcc
-CFLAGS = -g -ffreestanding -Wall -Wextra -fno-exceptions -m32 -lstdc++
+CPPFLAGS = -fno-pie -g -ffreestanding -Wall -Wextra -fno-exceptions -m32 -lstdc++
 
 # First rule is run by default
 dist/panix.raw: src/boot/boot32.bin src/kernel/kernel.bin
@@ -24,11 +24,11 @@ dist/panix.raw: src/boot/boot32.bin src/kernel/kernel.bin
 
 # '--oformat binary' deletes all symbols as a collateral, so we don't need
 # to 'strip' them manually on this case
-src/kernel/kernel.bin: src/boot/32bit/kernel_entry.o ${OBJ}
+src/kernel/kernel.bin: src/boot/32bit/kernel_entry.o ${C_OBJ} ${CPP_OBJ}
 	i386-elf-ld -o $@ -Ttext 0x1000 $^ --oformat binary
 
 # Used for debugging purposes
-kernel.elf: src/boot/32bit/kernel_entry.o ${OBJ}
+kernel.elf: src/boot/32bit/kernel_entry.o ${CPP_OBJ}
 	i386-elf-ld -o $@ -Ttext 0x1000 $^ 
 
 run: dist/panix.raw
@@ -49,8 +49,9 @@ debug: dist/panix.raw kernel.elf
 
 # Generic rules for wildcards
 # To make an object, always compile from its .c
-%.o: %.c ${HEADERS}
-	${CC} ${CFLAGS} -ffreestanding -c $< -o $@
+%.o: %.cpp ${HEADERS}
+	${CC} ${CPPFLAGS} -c $< -o $@
+
 
 %.o: %.asm
 	nasm $< -f elf -o $@
