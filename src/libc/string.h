@@ -21,6 +21,11 @@ void backspace(char s[]);
 /**
  * 
  */
+void hexToString(int n, char str[]);
+
+/**
+ * 
+ */
 void intToString(int n, char str[]);
 
 /**

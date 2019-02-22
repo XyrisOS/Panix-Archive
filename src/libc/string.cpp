@@ -22,6 +22,36 @@ void backspace(char s[]) {
     s[length - 1] = '\0';
 }
 
+/**
+ * 
+ */
+void hexToString(int n, char str[]) {
+    append(str, '0');
+    append(str, 'x');
+    char zeros = 0;
+
+    int tmp;
+    for (int i = 28; i > 0; i -= 4) {
+        tmp = (n >> i) & 0xF;
+        if (tmp == 0 && zeros == 0) {
+            continue;
+        }
+        zeros = 1;
+        if (tmp > 0xA) {
+            append(str, tmp - 0xA + 'a');
+        } else {
+            append(str, tmp + '0');
+        }
+    }
+
+    tmp = n & 0xF;
+    if (tmp >= 0xA) {
+        append(str, tmp - 0xA + 'a');
+    } else {
+        append(str, tmp + '0');
+    }
+}
+
 /* K&R */
 void intToString(int n, char str[]) {
     int sign;
