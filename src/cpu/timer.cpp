@@ -25,7 +25,7 @@ void initTimer(uint32_t frequency) {
     uint8_t low  = (uint8_t)(divisor & 0xFF);
     uint8_t high = (uint8_t)( (divisor >> 8) & 0xFF);
     /* Send the command */
-    portByteOut(0x43, 0x36); /* Command port */
-    portByteOut(0x40, low);
-    portByteOut(0x40, high);
+    setPortByte(0x43, 0x36); /* Command port */
+    setPortByte(0x40, low);
+    setPortByte(0x40, high);
 }

@@ -15,22 +15,22 @@
  * '"d" (port)': map the C variable '(port)' into e'd'x register
  * Inputs and outputs are separated by colons
  */
-uint8_t portByteIn (uint16_t port) {
+uint8_t getPortByte (uint16_t port) {
     uint8_t result;
     asm("in %%dx, %%al" : "=a" (result) : "d" (port));
     return result;
 }
 
-void portByteOut (uint16_t port, uint8_t data) {
+void setPortByte (uint16_t port, uint8_t data) {
     asm("out %%al, %%dx" : : "a" (data), "d" (port));
 }
 
-uint16_t portWordIn (uint16_t port) {
+uint16_t getPortWord (uint16_t port) {
     uint16_t result;
     asm("in %%dx, %%ax" : "=a" (result) : "d" (port));
     return result;
 }
 
-void portWordOut (uint16_t port, uint16_t data) {
+void setPortWord (uint16_t port, uint16_t data) {
     asm("out %%ax, %%dx" : : "a" (data), "d" (port));
 }

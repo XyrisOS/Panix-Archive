@@ -86,16 +86,16 @@ void isrInstall() {
     setIdtGate(31, (uint32_t)isr31);
 
     /* Remap the PIC */
-    portByteOut(0x20, 0x11);
-    portByteOut(0xA0, 0x11);
-    portByteOut(0x21, 0x20);
-    portByteOut(0xA1, 0x28);
-    portByteOut(0x21, 0x04);
-    portByteOut(0xA1, 0x02);
-    portByteOut(0x21, 0x01);
-    portByteOut(0xA1, 0x01);
-    portByteOut(0x21, 0x0);
-    portByteOut(0xA1, 0x0); 
+    setPortByte(0x20, 0x11);
+    setPortByte(0xA0, 0x11);
+    setPortByte(0x21, 0x20);
+    setPortByte(0xA1, 0x28);
+    setPortByte(0x21, 0x04);
+    setPortByte(0xA1, 0x02);
+    setPortByte(0x21, 0x01);
+    setPortByte(0xA1, 0x01);
+    setPortByte(0x21, 0x0);
+    setPortByte(0xA1, 0x0); 
 
     /* Install the IRQs */
     setIdtGate(32, (uint32_t)irq0);
@@ -138,10 +138,10 @@ void irqHandler(registers_t r) {
     
     /* slave */
     if (r.interruptNumber >= 40) {
-        portByteOut(0xA0, 0x20);
+        setPortByte(0xA0, 0x20);
     }
     /* master */
-    portByteOut(0x20, 0x20); 
+    setPortByte(0x20, 0x20); 
 
     /* Handle the interrupt in a more modular way */
     if (interruptHandlers[r.interruptNumber] != 0) {
