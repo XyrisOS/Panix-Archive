@@ -60,4 +60,14 @@ debug: dist/panix.raw kernel.elf
 
 clean:
 	rm -rf *.bin *.dis *.o dist/panix.raw *.elf
-	rm -rf src/boot/*.bin src/boot/*.o src/cpu/*.bin src/cpu/*.o src/drivers/*.bin src/drivers/*.o src/kernel/*.bin src/kernel/*.o
+	
+	rm -rf src/boot/*.bin src/boot/*.o 
+	rm -rf src/boot/32bit/*.bin src/boot/32bit/*.o
+
+	rm -rf src/cpu/*.bin src/cpu/*.o
+	
+	rm -rf src/drivers/*.bin src/drivers/*.o
+	
+	rm -rf src/kernel/*.bin src/kernel/*.o
+	
+	rm -rf src/libc/*.bin src/libc/*.o
