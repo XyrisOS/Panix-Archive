@@ -6,7 +6,7 @@
 #ifndef PORTS_H
 #define PORTS_H
 
-#include "../cpu/types.h"
+#include "../cpu/type.h"
 
 /**
  * Read a byte from the specified port

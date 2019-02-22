@@ -5,7 +5,7 @@
 #include "../libc/string.h"
 #include "isr.h"
 #include "ports.h"
-#include "types.h"
+#include "type.h"
 
 void initTimer(uint32_t frequency);
 

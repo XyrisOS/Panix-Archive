@@ -6,7 +6,7 @@
 #ifndef STRING_H
 #define STRING_H
 
-#include "../cpu/types.h"
+#include "../cpu/type.h"
 
 /**
  * 

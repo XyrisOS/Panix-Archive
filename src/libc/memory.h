@@ -6,7 +6,7 @@
 #ifndef MEMORY_H
 #define MEMORY_H
 
-#include "../cpu/types.h"
+#include "../cpu/type.h"
 
 /**
  * 

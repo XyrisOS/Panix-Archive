@@ -7,7 +7,7 @@
 #include "idt.h"
 #include "ports.h"
 #include "timer.h"
-#include "types.h"
+#include "type.h"
 
 extern "C" {
     /* ISRs reserved for CPU exceptions */

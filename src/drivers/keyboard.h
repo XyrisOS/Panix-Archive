@@ -2,7 +2,7 @@
 #define KEYBOARD_H
 
 #include "../cpu/isr.h"
-#include "../cpu/types.h"
+#include "../cpu/type.h"
 #include "../kernel/kernel.h"
 #include "../libc/function.h"
 #include "../libc/string.h"
