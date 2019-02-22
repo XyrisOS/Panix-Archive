@@ -4,7 +4,7 @@ void printLetter(uint8_t scancode);
 
 static void keyboardCallback(registers_t regs) {
     /* The PIC leaves us the scancode in port 0x60 */
-    uint8_t scancode = port_byte_in(0x60);
+    uint8_t scancode = portByteIn(0x60);
     
     if (scancode > SCANCODE_MAX) {
         return;

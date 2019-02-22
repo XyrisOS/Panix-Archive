@@ -127,10 +127,10 @@ int getCursorOffset() {
      * 1. Ask for high byte of the cursor offset (data 14)
      * 2. Ask for low byte (data 15)
      */
-    port_byte_out(REG_SCREEN_CTRL, 14);
-    int offset = port_byte_in(REG_SCREEN_DATA) << 8; 	/* High byte: << 8 */
-    port_byte_out(REG_SCREEN_CTRL, 15);
-    offset += port_byte_in(REG_SCREEN_DATA);
+    portByteOut(REG_SCREEN_CTRL, 14);
+    int offset = portByteIn(REG_SCREEN_DATA) << 8; 	/* High byte: << 8 */
+    portByteOut(REG_SCREEN_CTRL, 15);
+    offset += portByteIn(REG_SCREEN_DATA);
 
     return offset * 2; 									/* Position * size of character cell */
 }
@@ -138,10 +138,10 @@ int getCursorOffset() {
 void setCursorOffset(int offset) {
     /* Similar to getCursorOffset, but instead of reading we write data */
     offset /= 2;
-    port_byte_out(REG_SCREEN_CTRL, 14);
-    port_byte_out(REG_SCREEN_DATA, (uint8_t) (offset >> 8));
-    port_byte_out(REG_SCREEN_CTRL, 15);
-    port_byte_out(REG_SCREEN_DATA, (uint8_t) (offset & 0xff));
+    portByteOut(REG_SCREEN_CTRL, 14);
+    portByteOut(REG_SCREEN_DATA, (uint8_t) (offset >> 8));
+    portByteOut(REG_SCREEN_CTRL, 15);
+    portByteOut(REG_SCREEN_DATA, (uint8_t) (offset & 0xff));
 }
 
 void clearScreen() {
