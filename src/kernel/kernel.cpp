@@ -10,15 +10,7 @@
  * will be executing.
  */
 
-#include "../drivers/ports.h"
-#include "../drivers/screen.h"
-
-/** 
- * This will force us to create a kernel entry function instead of jumping to kernel.c:0x00 
- */
-void entryTest() {
-    kprint("Panix has panicked! Kernel jumped to invalid start funtion.\n");
-}
+#include "kernel.h"
 
 /**
  *     ____  ___    _   _______  __
@@ -30,23 +22,52 @@ void entryTest() {
  * Panix kernel main function. Called in kernel_entry.asm
  * Executed prior to bootloader code in boot32.asm
  */
-int main() {
-    clear_screen();
-    char splashScreen [6][36] = {
-        "     ____  ___    _   _______  __ \n",
-        "    / __ \\/   |  / | / /  _/ |/ /\n",
-        "   / /_/ / /| | /  |/ // / |   /  \n",
-        "  / ____/ ___ |/ /|  // / /   |   \n",
-        " /_/   /_/  |_/_/ |_/___//_/|_|   \n",
-        "\nWelcome to the PANIX kernel!\n"
+extern "C" int kernelMain() {
+    isrInstall();
+    irqInstall();
+
+    printSplashScreen();
+
+    return 0;
+}
+
+void printSplashScreen() {
+    clearScreen();
+    char* splashScreen[] = {
+        (char*) "     ____  ___    _   _______  __ \n",
+        (char*) "    / __ \\/   |  / | / /  _/ |/ /\n",
+        (char*) "   / /_/ / /| | /  |/ // / |   /  \n",
+        (char*) "  / ____/ ___ |/ /|  // / /   |   \n",
+        (char*) " /_/   /_/  |_/_/ |_/___//_/|_|   \n",
+        (char*) "\nWelcome to the PANIX kernel!\n",
+        (char*) "\nType END to halt the CPU\n> "
     };
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 7; i++) {
         kprint(splashScreen[i]);
     }
-   /* Fill up the screen */
+}
 
-    while (1) {
-        // Keep kernel running
-    }
-    return 0;
+void handleUserInput(char *input) {
+    if (stringComparison(input, (char*) "END") == 0) {
+        kprint((char*) "Stopping the CPU. Bye!\n");
+        asm volatile("hlt");
+    } else if (stringComparison(input, (char*) "PAGE") == 0) {
+        uint32_t physicalAddress;
+        uint32_t page = kmalloc(1000, 1, &physicalAddress);
+        
+        char pageHexString[16] = "";
+        hexToString(page, pageHexString);
+
+        char physicalAddressHexString[16] = "";
+        hexToString(physicalAddress, physicalAddressHexString);
+        
+        kprint((char*) "Page: ");
+        kprint(pageHexString);
+        kprint((char*) ", physical address: ");
+        kprint(physicalAddressHexString);
+        kprint((char*) "\n");
+}
+    kprint((char*) "You said: ");
+    kprint(input);
+    kprint((char*) "\n> ");
 }

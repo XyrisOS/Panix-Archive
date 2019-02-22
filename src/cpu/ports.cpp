@@ -3,6 +3,8 @@
  * Author: Keeton Feavel and James Osborne
  */
 
+#include "ports.h"
+
 /**********************************************************
  * Public Kernel API functions                            *
  **********************************************************/
@@ -13,22 +15,22 @@
  * '"d" (port)': map the C variable '(port)' into e'd'x register
  * Inputs and outputs are separated by colons
  */
-unsigned char port_byte_in (unsigned short port) {
-    unsigned char result;
-    __asm__("in %%dx, %%al" : "=a" (result) : "d" (port));
+uint8_t portByteIn (uint16_t port) {
+    uint8_t result;
+    asm("in %%dx, %%al" : "=a" (result) : "d" (port));
     return result;
 }
 
-void port_byte_out (unsigned short port, unsigned char data) {
-    __asm__("out %%al, %%dx" : : "a" (data), "d" (port));
+void portByteOut (uint16_t port, uint8_t data) {
+    asm("out %%al, %%dx" : : "a" (data), "d" (port));
 }
 
-unsigned short port_word_in (unsigned short port) {
-    unsigned short result;
-    __asm__("in %%dx, %%ax" : "=a" (result) : "d" (port));
+uint16_t portWordIn (uint16_t port) {
+    uint16_t result;
+    asm("in %%dx, %%ax" : "=a" (result) : "d" (port));
     return result;
 }
 
-void port_word_out (unsigned short port, unsigned short data) {
-    __asm__("out %%ax, %%dx" : : "a" (data), "d" (port));
+void portWordOut (uint16_t port, uint16_t data) {
+    asm("out %%ax, %%dx" : : "a" (data), "d" (port));
 }
