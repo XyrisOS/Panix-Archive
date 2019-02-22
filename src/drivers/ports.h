@@ -3,27 +3,29 @@
  * Author: Keeton Feavel
  */
 
-#ifndef ports_h
-#define ports_h
+#ifndef PORTS_H
+#define PORTS_H
+
+#include "../cpu/types.h"
 
 /**
  * Read a byte from the specified port
  */
-unsigned char port_byte_in (unsigned short port);
+uint8_t port_byte_in (uint16_t port);
 
 /**
  * 
  */
-void port_byte_out (unsigned short port, unsigned char data);
+void port_byte_out (uint16_t port, uint8_t data);
 
 /**
  * 
  */
-unsigned short port_word_in (unsigned short port);
+uint16_t port_word_in (uint16_t port);
 
 /**
  * 
  */
-void port_word_out (unsigned short port, unsigned short data);
+void port_word_out (uint16_t port, uint16_t data);
 
-#endif /* ports_h */
+#endif /* PORTS_H */

@@ -3,10 +3,10 @@
  * Author: Keeton Feavel
  */
 
-#include "../kernel/util/util.h"
+#ifndef SCREEN_H
+#define SCREEN_H
 
-#ifndef screen_h
-#define screen_h
+#include "../kernel/util/util.h"
 
 #define VIDEO_ADDRESS 0xb8000
 #define MAX_ROWS 25
@@ -25,4 +25,4 @@ void clear_screen();
 void kprint_at(char * message, int col, int row);
 void kprint(char * message);
 
-#endif /* screen */
+#endif /* SCREEN_H */

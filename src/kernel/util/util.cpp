@@ -3,10 +3,25 @@
  * Author: Keeton Feavel and James Osborne
  */
 
-void memory_copy(char *source, char *dest, int nbytes) {
-    int i;
-    for (i = 0; i < nbytes; i++) {
-        *(dest + i) = *(source + i);
+#include "util.h"
+
+/**
+ * 
+ */
+void memory_copy(char* source, char* destination, int nbytes) {
+    for (int i = 0; i < nbytes; i++) {
+        *(destination + i) = *(source + i);
+    }
+}
+
+/**
+ * 
+ */
+void memory_set(uint8_t* destination, uint8_t value, uint32_t length) {
+    uint8_t *temp = (uint8_t *)destination;
+    while (length > 0) {
+        *temp++ = value;
+        --length;
     }
 }
 
@@ -14,7 +29,8 @@ void memory_copy(char *source, char *dest, int nbytes) {
  * K&R implementation
  */
 void int_to_ascii(int n, char str[]) {
-    int i, sign;
+    int i;
+    int sign;
     if ((sign = n) < 0) {
 		n = -n;
 	}

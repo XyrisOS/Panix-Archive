@@ -12,6 +12,9 @@
 
 #include "../drivers/ports.h"
 #include "../drivers/screen.h"
+#include "../cpu/idt.h"
+#include "../cpu/isr.h"
+#include "./util/util.h"
 
 /** 
  * This will force us to create a kernel entry function instead of jumping to kernel.c:0x00 
@@ -31,22 +34,26 @@ void entryTest() {
  * Executed prior to bootloader code in boot32.asm
  */
 int main() {
-    clear_screen();
-    char splashScreen [6][36] = {
-        "     ____  ___    _   _______  __ \n",
-        "    / __ \\/   |  / | / /  _/ |/ /\n",
-        "   / /_/ / /| | /  |/ // / |   /  \n",
-        "  / ____/ ___ |/ /|  // / /   |   \n",
-        " /_/   /_/  |_/_/ |_/___//_/|_|   \n",
-        "\nWelcome to the PANIX kernel!\n"
-    };
-    for (int i = 0; i < 6; i++) {
-        kprint(splashScreen[i]);
-    }
-   /* Fill up the screen */
+    isrInstall();
+    /* Test the interrupts */
+    __asm__ __volatile__("int $2");
+    __asm__ __volatile__("int $3");
+//     clear_screen();
+//     char* splashScreen[] = {
+//         "     ____  ___    _   _______  __ \n",
+//         "    / __ \\/   |  / | / /  _/ |/ /\n",
+//         "   / /_/ / /| | /  |/ // / |   /  \n",
+//         "  / ____/ ___ |/ /|  // / /   |   \n",
+//         " /_/   /_/  |_/_/ |_/___//_/|_|   \n",
+//         "\nWelcome to the PANIX kernel!\n"
+//     };
+//     for (int i = 0; i < 6; i++) {
+//         kprint(splashScreen[i]);
+//     }
+//    /* Fill up the screen */
 
-    while (1) {
-        // Keep kernel running
-    }
+//     while (1) {
+//         // Keep kernel running
+//     }
     return 0;
 }
