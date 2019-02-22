@@ -1,8 +1,4 @@
 #include "isr.h"
-#include "idt.h"
-#include "../drivers/ports.h"
-#include "../drivers/screen.h"
-#include "../kernel/util/util.h"
 
 isr_t interruptHandlers[256];
 /* To print the message which defines every exception */
@@ -43,6 +39,15 @@ char* exceptionMessages[] = {
     (char*) "Reserved",
     (char*) "Reserved"
 };
+
+void irqInstall() {
+    /* Enable interruptions */
+    asm volatile("sti");
+    /* IRQ0: timer */
+    initTimer(50);
+    /* IRQ1: keyboard */
+    initKeyboard();
+}
 
 /* Can't do this with a loop because we need the address
  * of the function names */
@@ -116,7 +121,7 @@ void isrInstall() {
 void isrHandler(registers_t r) {
     kprint((char*) "received interrupt: ");
     char s[3];
-    int_to_ascii(r.interruptNumber, s);
+    intToString(r.interruptNumber, s);
     kprint(s);
     kprint((char*) "\n");
     kprint(exceptionMessages[r.interruptNumber]);

@@ -10,20 +10,7 @@
  * will be executing.
  */
 
-#include "../drivers/keyboard.h"
-#include "../drivers/ports.h"
-#include "../drivers/screen.h"
-#include "../cpu/idt.h"
-#include "../cpu/isr.h"
-#include "../cpu/timer.h"
-#include "./util/util.h"
-
-/** 
- * This will force us to create a kernel entry function instead of jumping to kernel.c:0x00 
- */
-void entryTest() {
-    kprint((char*) "Panix has panicked! Kernel jumped to invalid start funtion.\n");
-}
+#include "kernel.h"
 
 /**
  *     ____  ___    _   _______  __
@@ -37,27 +24,35 @@ void entryTest() {
  */
 int main() {
     isrInstall();
-    asm volatile("sti");
-    initTimer(50);
-    /* Comment out the timer IRQ handler to read
-     * the keyboard IRQs easier */
-    initKeyboard();
-//     clear_screen();
-//     char* splashScreen[] = {
-//         "     ____  ___    _   _______  __ \n",
-//         "    / __ \\/   |  / | / /  _/ |/ /\n",
-//         "   / /_/ / /| | /  |/ // / |   /  \n",
-//         "  / ____/ ___ |/ /|  // / /   |   \n",
-//         " /_/   /_/  |_/_/ |_/___//_/|_|   \n",
-//         "\nWelcome to the PANIX kernel!\n"
-//     };
-//     for (int i = 0; i < 6; i++) {
-//         kprint(splashScreen[i]);
-//     }
-//    /* Fill up the screen */
+    irqInstall();
 
-//     while (1) {
-//         // Keep kernel running
-//     }
+    printSplashScreen();
+
     return 0;
+}
+
+void printSplashScreen() {
+    clearScreen();
+    char* splashScreen[] = {
+        (char*) "     ____  ___    _   _______  __ \n",
+        (char*) "    / __ \\/   |  / | / /  _/ |/ /\n",
+        (char*) "   / /_/ / /| | /  |/ // / |   /  \n",
+        (char*) "  / ____/ ___ |/ /|  // / /   |   \n",
+        (char*) " /_/   /_/  |_/_/ |_/___//_/|_|   \n",
+        (char*) "\nWelcome to the PANIX kernel!\n",
+        (char*) "\nType END to halt the CPU\n> "
+    };
+    for (int i = 0; i < 7; i++) {
+        kprint(splashScreen[i]);
+    }
+}
+
+void handleUserInput(char *input) {
+    if (stringComparison(input, (char*) "END") == 0) {
+        kprint((char*) "Stopping the CPU. Bye!\n");
+        asm volatile("hlt");
+    }
+    kprint((char*) "You said: ");
+    kprint(input);
+    kprint((char*) "\n> ");
 }

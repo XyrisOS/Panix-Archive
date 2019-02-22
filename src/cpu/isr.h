@@ -1,6 +1,12 @@
 #ifndef ISR_H
 #define ISR_H
 
+#include "../drivers/keyboard.h"
+#include "../drivers/screen.h"
+#include "../libc/string.h"
+#include "idt.h"
+#include "ports.h"
+#include "timer.h"
 #include "types.h"
 
 extern "C" {
@@ -101,6 +107,7 @@ typedef struct {
     uint32_t ss;
 } registers_t;
 
+void irqInstall();
 void isrInstall();
 extern "C" {
     void irqHandler(registers_t r);
