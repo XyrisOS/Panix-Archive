@@ -23,4 +23,14 @@ void memory_set(uint8_t* destination, uint8_t value, uint32_t length);
  */
 void int_to_ascii(int n, char str[]);
 
-#endif // !UTIL_H
+/**
+ * 
+ */
+void reverse(char s[]);
+
+/**
+ * 
+ */
+int stringLength(char s[]);
+
+#endif /* UTIL_H */
