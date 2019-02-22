@@ -1,34 +1,29 @@
 /**
- * File: util.cpp
+ * File: string.cpp
  * Author: Keeton Feavel and James Osborne
  */
 
-#include "util.h"
+#include "string.h"
 
 /**
  * 
  */
-void memory_copy(char* source, char* destination, int nbytes) {
-    for (int i = 0; i < nbytes; i++) {
-        *(destination + i) = *(source + i);
-    }
+void append(char s[], char n) {
+    int length = stringLength(s);
+    s[length] = n;
+    s[length + 1] = '\0';
 }
 
 /**
  * 
  */
-void memory_set(uint8_t* destination, uint8_t value, uint32_t length) {
-    uint8_t *temp = (uint8_t *)destination;
-    while (length > 0) {
-        *temp++ = value;
-        --length;
-    }
+void backspace(char s[]) {
+    int length = stringLength(s);
+    s[length - 1] = '\0';
 }
 
-/**
- * K&R implementation
- */
-void int_to_ascii(int n, char str[]) {
+/* K&R */
+void intToString(int n, char str[]) {
     int sign;
     if ((sign = n) < 0) {
 		n = -n;
@@ -56,6 +51,18 @@ void reverse(char s[]) {
         s[i] = s[j];
         s[j] = c;
     }
+}
+
+/* K&R 
+ * Returns <0 if s1<s2, 0 if s1==s2, >0 if s1>s2 */
+int stringComparison(char s1[], char s2[]) {
+    int i;
+    for (i = 0; s1[i] == s2[i]; i++) {
+        if (s1[i] == '\0') {
+            return 0;
+        }
+    }
+    return s1[i] - s2[i];
 }
 
 /* K&R */
