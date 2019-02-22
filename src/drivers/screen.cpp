@@ -81,8 +81,7 @@ int printChar(char c, int column, int row, char color) {
     int offset;
     if (column >= 0 && row >= 0) {
         offset = getOffset(column, row);
-    }
-    else {
+    } else {
         offset = getCursorOffset();
     }
 
