@@ -15,7 +15,7 @@ CXX = i386-elf-gcc
 GDB = i386-elf-gdb
 
 # -g: Use debugging symbols in gcc
-CXX_FLAGS = -fno-pie -g -ffreestanding -Wall -Wextra -fno-exceptions -m32 -lstdc++
+CXX_FLAGS = -fno-pie -g -ffreestanding -Wall -Wextra -fno-exceptions -m32 -lstdc++ -std=c++17
 
 # First rule is run by default
 dist/panix.raw: src/boot/boot32.bin src/kernel/kernel.bin
