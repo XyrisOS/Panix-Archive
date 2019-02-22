@@ -10,17 +10,19 @@
  * will be executing.
  */
 
+#include "../drivers/keyboard.h"
 #include "../drivers/ports.h"
 #include "../drivers/screen.h"
 #include "../cpu/idt.h"
 #include "../cpu/isr.h"
+#include "../cpu/timer.h"
 #include "./util/util.h"
 
 /** 
  * This will force us to create a kernel entry function instead of jumping to kernel.c:0x00 
  */
 void entryTest() {
-    kprint("Panix has panicked! Kernel jumped to invalid start funtion.\n");
+    kprint((char*) "Panix has panicked! Kernel jumped to invalid start funtion.\n");
 }
 
 /**
@@ -35,9 +37,11 @@ void entryTest() {
  */
 int main() {
     isrInstall();
-    /* Test the interrupts */
-    __asm__ __volatile__("int $2");
-    __asm__ __volatile__("int $3");
+    asm volatile("sti");
+    initTimer(50);
+    /* Comment out the timer IRQ handler to read
+     * the keyboard IRQs easier */
+    initKeyboard();
 //     clear_screen();
 //     char* splashScreen[] = {
 //         "     ____  ___    _   _______  __ \n",
