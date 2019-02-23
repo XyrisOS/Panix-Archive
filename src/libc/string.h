@@ -34,32 +34,32 @@ void hexToString(int n, char str[]);
 /**
  * @brief Converts a given int into an ASCII string
  * 
- * @param n 
- * @param str 
+ * @param n Int value
+ * @param str TODO: Document
  */
 void intToString(int n, char str[]);
 
 /**
  * @brief Reverses a string
  * 
- * @param s 
+ * @param s String to reverse
  */
 void reverse(char s[]);
 
 /**
  * @brief Compares two strings.
  * 
- * @param s1 
- * @param s2 
+ * @param s1 String 1
+ * @param s2 String 2
  * @return int 
  */
 int stringComparison(char s1[], char s2[]);
 
 /**
- * @brief 
+ * @brief Gets the length of a given string.
  * 
- * @param s 
- * @return int 
+ * @param s String to analyze
+ * @return int Length return value
  */
 int stringLength(char s[]);
 
