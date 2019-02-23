@@ -46,7 +46,10 @@ void kprintBackspace() {
     int offset = getCursorOffset() - 2;
     int row = getOffsetRow(offset);
     int column = getOffsetColumn(offset);
-    printChar(0x08, column, row, WHITE_ON_BLACK);
+
+    if (column > 1) {
+        printChar(0x08, column, row, WHITE_ON_BLACK);
+    }
 }
 
 void kprint(char *message) {
