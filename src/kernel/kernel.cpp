@@ -67,8 +67,12 @@ void handleUserInput(char *input) {
         kprint((char*) ", physical address: ");
         kprint(physicalAddressHexString);
         kprint((char*) "\n");
-}
-    kprint((char*) "You said: ");
-    kprint(input);
-    kprint((char*) "\n> ");
+    } else if (stringComparison(input, (char*) "CLEAR") == 0) {
+        clearScreen();
+    } else {
+        kprint((char*) "You said: ");
+        kprint(input);
+        kprint((char*) "\n");
+    }
+    kprint((char*) "> ");
 }
