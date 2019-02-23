@@ -20,20 +20,40 @@ const char* Keyboard::scancodeName[] = {
     "B", "N", "M", ",", ".", "/", "RShift", "Keypad *",
     "LAlt", "Spacebar"
 };
+char* lastCommand = (char*) "\0";
 
+int lengthOfCurrentCommand = 0;
 void Keyboard::callback(registers_t regs) {
     /* The PIC leaves us the scancode in port 0x60 */
     uint8_t scancode = getPortByte(0x60);
-    
+    if (scancode == UP_ARROW && stringLength(lastCommand) > 0) {
+        while (lengthOfCurrentCommand > 0) {
+            kprintBackspace();
+            --lengthOfCurrentCommand;
+        }
+        stringCopy(lastCommand, keyBuffer);
+        lengthOfCurrentCommand = stringLength(lastCommand);
+        kprint(lastCommand);
+        return;
+    }
     if (scancode > SCANCODE_MAX) {
         return;
     }
     if (scancode == BACKSPACE) {
+        if (lengthOfCurrentCommand > 0) {
+            --lengthOfCurrentCommand;
+        }
         backspace(Keyboard::keyBuffer);
         kprintBackspace();
     } else if (scancode == ENTER) {
         kprint((char*) "\n");
         handleUserInput(Keyboard::keyBuffer);
+        if (lengthOfCurrentCommand >= 256) {
+            lengthOfCurrentCommand = 255;
+        }
+        keyBuffer[lengthOfCurrentCommand] = '\0';
+        stringCopy(Keyboard::keyBuffer, lastCommand);
+        lengthOfCurrentCommand = 0;
         Keyboard::keyBuffer[0] = '\0';
     } else {
         char letter = scancodeAscii[(int) scancode];
@@ -41,6 +61,7 @@ void Keyboard::callback(registers_t regs) {
         char str[2] = {letter, '\0'};
         append(Keyboard::keyBuffer, letter);
         kprint(str);
+        ++lengthOfCurrentCommand;
     }
     UNUSED(regs);
 }

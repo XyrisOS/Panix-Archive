@@ -11,6 +11,7 @@
 
 #define BACKSPACE 0x0E
 #define ENTER 0x1C
+#define UP_ARROW 0x48
 #define SCANCODE_MAX 57
 
 class Keyboard : public Driver {
@@ -44,6 +45,8 @@ class Keyboard : public Driver {
          * 
          */
         inline static char keyBuffer[256];
+
+        inline static char lastCommand[256];
 };
 
 #endif /* KEYBOARD_H */
