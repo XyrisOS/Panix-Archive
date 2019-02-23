@@ -46,7 +46,7 @@ void irqInstall() {
     /* IRQ0: timer */
     initTimer(50);
     /* IRQ1: keyboard */
-    initKeyboard();
+    Keyboard::initialize();
 }
 
 /* Can't do this with a loop because we need the address

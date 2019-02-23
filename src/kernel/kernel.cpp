@@ -22,6 +22,7 @@
  * Panix kernel main function. Called in kernel_entry.asm
  * Executed prior to bootloader code in boot32.asm
  */
+
 extern "C" int kernelMain() {
     isrInstall();
     irqInstall();
