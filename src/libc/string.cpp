@@ -54,21 +54,51 @@ void hexToString(int n, char str[]) {
 
 /* K&R */
 void intToString(int n, char str[]) {
-    int sign;
-    if ((sign = n) < 0) {
+    int i = 0;
+    int sign = n;
+    if (sign < 0) {
 		n = -n;
 	}
 
-    int i;
-    for (i = 0; (n /= 10) > 0; i++) {
+    do {
         str[i++] = n % 10 + '0';
-    }
+    } while ((n /= 10) > 0);
 
     if (sign < 0) {
 		str[i++] = '-';
 	}
-    str[i] = '\0';
 
+    str[i] = '\0';
+    reverse(str);
+}
+
+void intToString(uint32_t n, char str[]) {
+    int i = 0;
+    do {
+        str[i++] = n % 10 + '0';
+    } while ((n /= 10) > 0);
+
+    str[i] = '\0';
+    reverse(str);
+}
+
+void intToString(uint16_t n, char str[]) {
+    int i = 0;
+    do {
+        str[i++] = n % 10 + '0';
+    } while ((n /= 10) > 0);
+
+    str[i] = '\0';
+    reverse(str);
+}
+
+void intToString(uint8_t n, char str[]) {
+    int i = 0;
+    do {
+        str[i++] = n % 10 + '0';
+    } while ((n /= 10) > 0);
+
+    str[i] = '\0';
     reverse(str);
 }
 
@@ -93,6 +123,15 @@ int stringComparison(char s1[], char s2[]) {
         }
     }
     return s1[i] - s2[i];
+}
+
+void stringCopy(char source[], char destination[]) {
+    int i = 0;
+    while (source[i] != '\0') {
+        destination[i] = source[i];
+        ++i;
+    }
+    destination[i] = '\0';
 }
 
 /* K&R */

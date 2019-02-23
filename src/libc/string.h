@@ -42,6 +42,36 @@ void intToString(int n, char str[]);
 /**
  * @brief 
  * 
+ * @param n 
+ * @param str 
+ */
+void intToString(uint32_t n, char str[]);
+
+/**
+ * @brief 
+ * 
+ * @param n 
+ * @param str 
+ */
+void intToString(uint16_t n, char str[]);
+
+/**
+ * @brief 
+ * 
+ * @param n 
+ * @param str 
+ */
+void intToString(uint8_t n, char str[]);/**
+ * @brief 
+ * 
+ * @param n 
+ * @param str 
+ */
+void intToString(uint8_t n, char str[]);
+
+/**
+ * @brief 
+ * 
  * @param s 
  */
 void reverse(char s[]);
@@ -54,6 +84,14 @@ void reverse(char s[]);
  * @return int 
  */
 int stringComparison(char s1[], char s2[]);
+
+/**
+ * @brief 
+ * 
+ * @param source 
+ * @param destination 
+ */
+void stringCopy(char source[], char destination[]);
 
 /**
  * @brief 
