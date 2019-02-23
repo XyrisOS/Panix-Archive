@@ -42,9 +42,9 @@ void Keyboard::callback(registers_t regs) {
     if (scancode == BACKSPACE) {
         if (lengthOfCurrentCommand > 0) {
             --lengthOfCurrentCommand;
+            backspace(Keyboard::keyBuffer);
+            kprintBackspace();
         }
-        backspace(Keyboard::keyBuffer);
-        kprintBackspace();
     } else if (scancode == ENTER) {
         kprint((char*) "\n");
         handleUserInput(Keyboard::keyBuffer);
