@@ -7,6 +7,11 @@
 #include "ports.h"
 #include "type.h"
 
+/**
+ * @brief 
+ * 
+ * @param frequency 
+ */
 void initTimer(uint32_t frequency);
 
 #endif /* TIMER_H */

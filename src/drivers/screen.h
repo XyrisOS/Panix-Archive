@@ -22,9 +22,29 @@
 #define REG_SCREEN_DATA 0x3d5
 
 /* Public kernel API */
+/**
+ * @brief 
+ * 
+ */
 void clearScreen();
+/**
+ * @brief 
+ * 
+ * @param message 
+ */
 void kprint(char* message);
+/**
+ * @brief 
+ * 
+ * @param message 
+ * @param column 
+ * @param row 
+ */
 void kprintAtPosition(char* message, int column, int row);
+/**
+ * @brief 
+ * 
+ */
 void kprintBackspace();
 
 #endif /* SCREEN_H */

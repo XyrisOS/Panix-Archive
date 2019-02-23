@@ -12,10 +12,22 @@
 #define ENTER 0x1C
 #define SCANCODE_MAX 57
 
+/**
+ * @brief 
+ * 
+ */
 void initKeyboard();
 
+/**
+ * @brief 
+ * 
+ */
 inline char keyBuffer[256];
 
+/**
+ * @brief 
+ * 
+ */
 inline const char* scancodeName[] = {
     "ERROR", "Esc", "1", "2", "3", "4", "5", "6", 
     "7", "8", "9", "0", "-", "=", "Backspace", "Tab",
@@ -26,6 +38,11 @@ inline const char* scancodeName[] = {
     "B", "N", "M", ",", ".", "/", "RShift", "Keypad *",
     "LAlt", "Spacebar"
 };
+
+/**
+ * @brief 
+ * 
+ */
 const char scancodeAscii[] = { 
     '?', '?', '1', '2', '3', '4', '5', '6',     
     '7', '8', '9', '0', '-', '=', '?', '?',

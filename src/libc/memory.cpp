@@ -6,7 +6,11 @@
 #include "string.h"
 
 /**
+ * @brief 
  * 
+ * @param source 
+ * @param destination 
+ * @param nbytes 
  */
 void memoryCopy(char* source, char* destination, int nbytes) {
     for (int i = 0; i < nbytes; i++) {
@@ -15,7 +19,11 @@ void memoryCopy(char* source, char* destination, int nbytes) {
 }
 
 /**
+ * @brief 
  * 
+ * @param destination 
+ * @param value 
+ * @param length 
  */
 void memorySet(uint8_t* destination, uint8_t value, uint32_t length) {
     uint8_t *temp = (uint8_t *)destination;
@@ -31,6 +39,14 @@ void memorySet(uint8_t* destination, uint8_t value, uint32_t length) {
 uint32_t freeMemoryAddress = 0x10000;
 /* Implementation is just a pointer to some free memory which
  * keeps growing */
+/**
+ * @brief 
+ * 
+ * @param size 
+ * @param align 
+ * @param physicalAddress 
+ * @return uint32_t 
+ */
 uint32_t kmalloc(uint32_t size, int align, uint32_t* physicalAddress) {
     /* Pages are aligned to 4K, or 0x1000 */
     if (align == 1 && (freeMemoryAddress & 0xFFFFF000)) {

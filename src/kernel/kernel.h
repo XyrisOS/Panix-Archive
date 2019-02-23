@@ -8,7 +8,17 @@
 #include "../drivers/keyboard.h"
 #include "../drivers/screen.h"
 
+/**
+ * @brief 
+ * 
+ * @param input 
+ */
 void handleUserInput(char *input);
+
+/**
+ * @brief 
+ * 
+ */
 void printSplashScreen();
 
 #endif

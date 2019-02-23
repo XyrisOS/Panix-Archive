@@ -9,6 +9,10 @@
 #include "timer.h"
 #include "type.h"
 
+/**
+ * @brief 
+ * 
+ */
 extern "C" {
     /* ISRs reserved for CPU exceptions */
     void isr0();
@@ -81,6 +85,10 @@ extern "C" {
 #define IRQ15 47
 
 /* Struct which aggregates many registers */
+/**
+ * @brief 
+ * 
+ */
 typedef struct {
     /* Data segment selector */
     uint32_t ds;
@@ -107,14 +115,39 @@ typedef struct {
     uint32_t ss;
 } registers_t;
 
+/**
+ * @brief 
+ * 
+ */
 void irqInstall();
+
+/**
+ * @brief 
+ * 
+ */
 void isrInstall();
+
+/**
+ * @brief 
+ * 
+ */
 extern "C" {
     void irqHandler(registers_t r);
     void isrHandler(registers_t r);
 }
 
+/**
+ * @brief 
+ * 
+ */
 typedef void (*isr_t)(registers_t);
+
+/**
+ * @brief 
+ * 
+ * @param n 
+ * @param handler 
+ */
 void registerInterruptHandler(uint8_t n, isr_t handler);
 
 #endif
