@@ -9,14 +9,14 @@
 #include "../drivers/screen.h"
 
 /**
- * @brief 
+ * @brief Handles all keyboard input for the basic kernel shell.
  * 
- * @param input 
+ * @param input String input from keyboard to be processed.
  */
 void handleUserInput(char *input);
 
 /**
- * @brief 
+ * @brief Prints the Panix splash screen on boot.
  * 
  */
 void printSplashScreen();

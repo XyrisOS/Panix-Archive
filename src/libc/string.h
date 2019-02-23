@@ -9,30 +9,30 @@
 #include "../cpu/type.h"
 
 /**
- * @brief 
+ * @brief Append a char to a given string.
  * 
- * @param s 
- * @param n 
+ * @param s Destination string
+ * @param n Souce character
  */
 void append(char s[], char n);
 
 /**
- * @brief 
+ * @brief "Prints" a backspace to the kernel console.
  * 
- * @param s 
+ * @param s TODO: Document
  */
 void backspace(char s[]);
 
 /**
- * @brief 
+ * @brief Converts a given hex arrangement into an ASCII string
  * 
- * @param n 
- * @param str 
+ * @param n Integer value of hex data
+ * @param str TODO: Document
  */
 void hexToString(int n, char str[]);
 
 /**
- * @brief 
+ * @brief Converts a given int into an ASCII string
  * 
  * @param n 
  * @param str 
@@ -40,14 +40,14 @@ void hexToString(int n, char str[]);
 void intToString(int n, char str[]);
 
 /**
- * @brief 
+ * @brief Reverses a string
  * 
  * @param s 
  */
 void reverse(char s[]);
 
 /**
- * @brief 
+ * @brief Compares two strings.
  * 
  * @param s1 
  * @param s2 

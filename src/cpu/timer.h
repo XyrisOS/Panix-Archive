@@ -7,10 +7,14 @@
 #include "ports.h"
 #include "type.h"
 
+//TODO: There are ways to get the CPU frequency from ASM
+//		I think we should consider this in the future.
+//		https://wiki.osdev.org/Detecting_CPU_Speed
+
 /**
- * @brief 
+ * @brief Initializes the kernel timer
  * 
- * @param frequency 
+ * @param frequency Frequency to set the clock
  */
 void initTimer(uint32_t frequency);
 

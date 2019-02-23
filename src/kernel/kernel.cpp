@@ -49,7 +49,7 @@ void printSplashScreen() {
 
 void handleUserInput(char *input) {
     if (stringComparison(input, (char*) "HALT") == 0) {
-        kprint((char*) "Stopping the CPU. Bye!\n");
+        kprint((char*) "Halting the CPU. Bye!\n");
         asm volatile("hlt");
     } else if (stringComparison(input, (char*) "PAGE") == 0) {
         uint32_t physicalAddress;
@@ -66,8 +66,8 @@ void handleUserInput(char *input) {
         kprint((char*) ", physical address: ");
         kprint(physicalAddressHexString);
         kprint((char*) "\n");
-}
-    kprint((char*) "You said: ");
+    }
+    //kprint((char*) "You said: ");
     kprint(input);
-    kprint((char*) "\n> ");
+    kprint((char*) "\nPanix:~$ ");
 }

@@ -23,26 +23,26 @@
 
 /* Public kernel API */
 /**
- * @brief 
+ * @brief Clears the screen of all printed text.
  * 
  */
 void clearScreen();
 /**
- * @brief 
+ * @brief Prints a message to the kernel console.
  * 
- * @param message 
+ * @param message String to be printed.
  */
 void kprint(char* message);
 /**
- * @brief 
+ * @brief Prints a string to the kernel console at a given position.
  * 
- * @param message 
- * @param column 
- * @param row 
+ * @param message String to be printed.
+ * @param column Column index
+ * @param row Row index
  */
 void kprintAtPosition(char* message, int column, int row);
 /**
- * @brief 
+ * @brief Prints a backspace (i.e. removes the previous chararacter)
  * 
  */
 void kprintBackspace();

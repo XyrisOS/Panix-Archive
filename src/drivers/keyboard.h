@@ -13,19 +13,19 @@
 #define SCANCODE_MAX 57
 
 /**
- * @brief 
+ * @brief Initializes the kernel-level keyboard driver.
  * 
  */
 void initKeyboard();
 
 /**
- * @brief 
+ * @brief Kernel console keyboard input buffer.
  * 
  */
 inline char keyBuffer[256];
 
 /**
- * @brief 
+ * @brief Keyboard scan code human-readable labels.
  * 
  */
 inline const char* scancodeName[] = {
@@ -40,7 +40,7 @@ inline const char* scancodeName[] = {
 };
 
 /**
- * @brief 
+ * @brief Keyboard scan code ASCII mappings.
  * 
  */
 const char scancodeAscii[] = { 

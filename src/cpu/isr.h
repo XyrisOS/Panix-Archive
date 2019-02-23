@@ -10,7 +10,7 @@
 #include "type.h"
 
 /**
- * @brief 
+ * @brief TODO: Document
  * 
  */
 extern "C" {
@@ -86,7 +86,7 @@ extern "C" {
 
 /* Struct which aggregates many registers */
 /**
- * @brief 
+ * @brief General purpose CPU registers and flags declarations.
  * 
  */
 typedef struct {
@@ -116,19 +116,19 @@ typedef struct {
 } registers_t;
 
 /**
- * @brief 
+ * @brief TODO: Document
  * 
  */
 void irqInstall();
 
 /**
- * @brief 
+ * @brief TODO: Document
  * 
  */
 void isrInstall();
 
 /**
- * @brief 
+ * @brief TODO: Document
  * 
  */
 extern "C" {
@@ -137,16 +137,16 @@ extern "C" {
 }
 
 /**
- * @brief 
+ * @brief TODO: Document
  * 
  */
 typedef void (*isr_t)(registers_t);
 
 /**
- * @brief 
+ * @brief Registers an interrupt handler with the CPU.
  * 
- * @param n 
- * @param handler 
+ * @param n Interrupt number
+ * @param handler Interrupt handler function
  */
 void registerInterruptHandler(uint8_t n, isr_t handler);
 
