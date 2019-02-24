@@ -53,6 +53,8 @@ class Keyboard : public Driver {
          * 
          */
         inline static char lastCommand[256];
+
+        inline static int lengthOfCurrentCommand;
 };
 
 #endif /* KEYBOARD_H */
