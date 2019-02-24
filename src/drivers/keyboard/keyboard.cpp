@@ -67,7 +67,7 @@ void Keyboard::callback(registers_t regs) {
         }
     } else if (scancode == ENTER) {
         Screen::kprint((char*) "\n");
-        Kernel::handleUserInput(Keyboard::keyBuffer);
+        kernel::Kernel::handleUserInput(Keyboard::keyBuffer);
         if (lengthOfCurrentCommand >= 256) {
             lengthOfCurrentCommand = 255;
         }
