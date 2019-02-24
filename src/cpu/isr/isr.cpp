@@ -73,10 +73,12 @@ isr_t interruptHandlers[256];
 void ISR::irqInstall() {
     /* Enable interruptions */
     asm volatile("sti");
+
     /* IRQ0: timer */
     Timer::initialize(50);
     /* IRQ1: keyboard */
-    drivers::Keyboard::initialize();
+    Keyboard keyboard;
+    keyboard.initialize();
 }
 
 /* Can't do this with a loop because we need the address
