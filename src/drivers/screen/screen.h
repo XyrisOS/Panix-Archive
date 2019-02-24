@@ -33,14 +33,14 @@ namespace drivers {
              * @brief Clears the screen
              * 
              */
-            static void clearScreen();
+            void clearScreen();
 
             /**
              * @brief Prints a string at current cursor position
              * 
              * @param message 
              */
-            static void kprint(char* message);
+            void kprint(char* message);
 
             /**
              * @brief Prints a string at specified position
@@ -49,13 +49,13 @@ namespace drivers {
              * @param column Column to start printing at, a value of -1 will print at cursor position
              * @param row Row to start printing at, a value of -1 will print at cursor position
              */
-            static void kprintAtPosition(char* message, int column = -1, int row = -1);
+            void kprintAtPosition(char* message, int column = -1, int row = -1);
 
             /**
              * @brief Moves the cursor back one column and removes last printed character
              * 
              */
-            static void kprintBackspace();
+            void kprintBackspace();
         
         private:
             /**
@@ -63,7 +63,7 @@ namespace drivers {
              * 
              * @return int The cursor's video memory offset
              */
-            static int getCursorOffset();
+            int getCursorOffset();
 
             /**
              * @brief Get the video memory offset of a specified position
@@ -72,7 +72,7 @@ namespace drivers {
              * @param row The row to get the video memory offset of
              * @return int The cursor offset in video memory
              */
-            static int getOffset(int column, int row);
+            int getOffset(int column, int row);
 
             /**
              * @brief Get the video memory offset of a specified row
@@ -80,7 +80,7 @@ namespace drivers {
              * @param offset The video memory offset to get the row of
              * @return int The row of the video memory offset
              */
-            static int getOffsetRow(int offset);
+            int getOffsetRow(int offset);
 
             /**
              * @brief Get the video memory offset of a column
@@ -88,7 +88,7 @@ namespace drivers {
              * @param offset The video memory offset to get the column of
              * @return int The column of the video memory offset
              */
-            static int getOffsetColumn(int offset);
+            int getOffsetColumn(int offset);
 
             /**
              * @brief Print a single character at the specified position
@@ -99,14 +99,14 @@ namespace drivers {
              * @param color Color to print the character as
              * @return int The cursor's new video memory offset after printing the character
              */
-            static int printCharacter(char c, int column = -1, int row = -1, char color = WHITE_ON_BLACK);
+            int printCharacter(char c, int column = -1, int row = -1, char color = WHITE_ON_BLACK);
 
             /**
              * @brief Set the cursor's video memory offset
              * 
              * @param offset The video memory offset to move the cursor to
              */
-            static void setCursorOffset(int offset);
+            void setCursorOffset(int offset);
     };
 }
 
