@@ -8,7 +8,7 @@
 
 #include "../../drivers/screen/screen.h"
 #include "../../kernel/kernel.h"
-#include "../../libc/string.h"
+#include "../../libc/string/string.h"
 #include "../idt/idt.h"
 #include "../ports/ports.h"
 #include "../timer/timer.h"

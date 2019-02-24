@@ -3,7 +3,7 @@
  * Author: Keeton Feavel and James Osborne
  */
 
-#include "string.h"
+#include "memory.h"
 
 /**
  * @brief 

@@ -7,7 +7,7 @@
 #define TIMER_H
 
 #include "../../drivers/screen/screen.h"
-#include "../../libc/string.h"
+#include "../../libc/string/string.h"
 #include "../isr/isr.h"
 #include "../ports/ports.h"
 #include "../type.h"

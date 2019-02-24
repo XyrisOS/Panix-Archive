@@ -2,8 +2,8 @@
 # $< = first dependency
 # $^ = all dependencies
 
-CXX_SOURCES = $(wildcard src/kernel/*.cpp src/kernel/util/*.cpp src/drivers/*.cpp src/drivers/*/*.cpp src/cpu/*.cpp src/cpu/*/*.cpp src/libc/*.cpp)
-HEADERS = $(wildcard src/kernel/*.h src/kernel/util/*.h src/drivers/*.h src/drivers/*/*.h src/cpu/*.h src/cpu/*/*.h src/libc/*.h)
+CXX_SOURCES = $(wildcard src/kernel/*.cpp src/kernel/util/*.cpp src/drivers/*.cpp src/drivers/*/*.cpp src/cpu/*.cpp src/cpu/*/*.cpp src/libc/*.cpp src/libc/*/*.cpp)
+HEADERS = $(wildcard src/kernel/*.h src/kernel/util/*.h src/drivers/*.h src/drivers/*/*.h src/cpu/*.h src/cpu/*/*.h src/libc/*.h src/libc/*/*.h)
 
 # Nice syntax for file extension replacement
 CXX_OBJ = ${CXX_SOURCES:.cpp=.o src/cpu/interrupt.o}
@@ -88,7 +88,8 @@ clean:
 	@ echo Cleaning kernel directory...
 	@ rm -rf src/kernel/*.bin src/kernel/*.o
 	
-	@ echo Cleaning libc directory...
+	@ echo Cleaning libc directories...
 	@ rm -rf src/libc/*.bin src/libc/*.o
+	@ rm -rf src/libc/*.bin src/libc/*/*.o
 
 	@ echo "\nDone cleaning!"

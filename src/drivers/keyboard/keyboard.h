@@ -9,8 +9,8 @@
 #include "../../cpu/isr/isr.h"
 #include "../../cpu/type.h"
 #include "../../kernel/kernel.h"
-#include "../../libc/function.h"
-#include "../../libc/string.h"
+#include "../../libc/function/function.h"
+#include "../../libc/string/string.h"
 #include "../driver.h"
 #include "../screen/screen.h"
 

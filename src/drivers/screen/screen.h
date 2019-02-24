@@ -7,7 +7,7 @@
 #define SCREEN_H
 
 #include "../../cpu/ports/ports.h"
-#include "../../libc/memory.h"
+#include "../../libc/memory/memory.h"
 #include "../driver.h"
 #include "colors.h"
 
