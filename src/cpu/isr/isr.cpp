@@ -65,7 +65,6 @@ const char exceptionMessages[32][32] {
 
 isr_t interruptHandlers[256];
 
-inline drivers::Screen screen;
 inline Timer timer;
 inline drivers::Keyboard keyboard;
 
@@ -152,9 +151,9 @@ void ISR::isrInstall() {
 }
 
 void ISR::printKernelPanicSplash() {
-    screen.clearScreen();
+    drivers::Screen::clearScreen();
     for (int i = 0; i < 8; i++) {
-        screen.kprint((char*) panicSplashScreen[i]);
+        drivers::Screen::kprint((char*) panicSplashScreen[i]);
     }
 }
 
@@ -182,10 +181,10 @@ void irqHandler(registers_t r) {
 
 void isrHandler(registers_t r) {
     /* TODO: Write a panic message. Maybe animate it? */
-    screen.clearScreen();
+    drivers::Screen::clearScreen();
     ISR::printKernelPanicSplash();
-    screen.kprint((char*) "\n");
-    screen.kprint((char*) exceptionMessages[r.interruptNumber]);
-    screen.kprint((char*) "\n");
+    drivers::Screen::kprint((char*) "\n");
+    drivers::Screen::kprint((char*) exceptionMessages[r.interruptNumber]);
+    drivers::Screen::kprint((char*) "\n");
     asm volatile("hlt");
 }

@@ -16,8 +16,6 @@ using namespace drivers;
 
 uint32_t tick = 0;
 
-inline drivers::Screen screen;
-
 /*******************
 * Public Functions *
 ********************/
@@ -36,11 +34,11 @@ void Timer::initialize(uint32_t frequency) {
 }
 
 void Timer::printTick() {
-    screen.kprint((char*) "Tick: ");
+    drivers::Screen::kprint((char*) "Tick: ");
     char tickString[256];
     intToString(tick, tickString);
-    screen.kprint(tickString);
-    screen.kprint((char*) "\n");
+    drivers::Screen::kprint(tickString);
+    drivers::Screen::kprint((char*) "\n");
 }
 
 /********************

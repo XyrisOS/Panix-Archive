@@ -40,7 +40,6 @@ char* lastCommand = (char*) "\0";
 
 int lengthOfCurrentCommand = 0;
 
-inline drivers::Screen screen;
 inline panixkernel::Kernel kernel;
 
 /*******************
@@ -51,12 +50,12 @@ void Keyboard::callback(registers_t regs) {
     uint8_t scancode = cpu::Ports::getPortByte(0x60);
     if (scancode == UP_ARROW && stringLength(lastCommand) > 0) {
         while (lengthOfCurrentCommand > 0) {
-            screen.kprintBackspace();
+            drivers::Screen::kprintBackspace();
             --lengthOfCurrentCommand;
         }
         stringCopy(lastCommand, keyBuffer);
         lengthOfCurrentCommand = stringLength(lastCommand);
-        screen.kprint(lastCommand);
+        drivers::Screen::kprint(lastCommand);
         return;
     }
     if (scancode > SCANCODE_MAX) {
@@ -66,10 +65,10 @@ void Keyboard::callback(registers_t regs) {
         if (lengthOfCurrentCommand > 0) {
             --lengthOfCurrentCommand;
             backspace(Keyboard::keyBuffer);
-            screen.kprintBackspace();
+            drivers::Screen::kprintBackspace();
         }
     } else if (scancode == ENTER) {
-        screen.kprint((char*) "\n");
+        drivers::Screen::kprint((char*) "\n");
         kernel.handleUserInput(Keyboard::keyBuffer);
         if (lengthOfCurrentCommand >= 256) {
             lengthOfCurrentCommand = 255;
@@ -83,7 +82,7 @@ void Keyboard::callback(registers_t regs) {
         /* Remember that kprint only accepts char[] */
         char str[2] = {letter, '\0'};
         append(Keyboard::keyBuffer, letter);
-        screen.kprint(str);
+        drivers::Screen::kprint(str);
         ++lengthOfCurrentCommand;
     }
     UNUSED(regs);

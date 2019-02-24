@@ -17,7 +17,6 @@
 #include "kernel.h"
 
 inline cpu::Timer timer;
-inline drivers::Screen screen;
 inline panixkernel::Kernel kernel;
 
 /**
@@ -29,7 +28,7 @@ extern "C" int kernelMain() {
     cpu::ISR::irqInstall();
 
     kernel.printSplashScreen();
-    screen.kprint((char*) "Panix:$ ");
+    drivers::Screen::kprint((char*) "Panix:$ ");
 
     return 0;
 }
@@ -38,7 +37,7 @@ extern "C" int kernelMain() {
 * Public Functions *
 ********************/
 void panixkernel::Kernel::printSplashScreen() {
-    screen.clearScreen();
+    drivers::Screen::clearScreen();
     char* splashScreen[] = {
         (char*) "     ____  ___    _   _______  __ \n",
         (char*) "    / __ \\/   |  / | / /  _/ |/ /\n",
@@ -49,13 +48,13 @@ void panixkernel::Kernel::printSplashScreen() {
         (char*) "\nType HALT to halt the CPU\n"
     };
     for (int i = 0; i < 7; i++) {
-        screen.kprint(splashScreen[i]);
+        drivers::Screen::kprint(splashScreen[i]);
     }
 }
 
 void panixkernel::Kernel::handleUserInput(char* input) {
     if (stringComparison(input, (char*) "HALT") == 0) {
-        screen.kprint((char*) "Halting the CPU. Bye!\n");
+        drivers::Screen::kprint((char*) "Halting the CPU. Bye!\n");
         asm volatile("hlt");
     } else if (stringComparison(input, (char*) "PAGE") == 0) {
         uint32_t physicalAddress;
@@ -67,23 +66,24 @@ void panixkernel::Kernel::handleUserInput(char* input) {
         char physicalAddressHexString[16] = "";
         hexToString(physicalAddress, physicalAddressHexString);
         
-        screen.kprint((char*) "Page: ");
-        screen.kprint(pageHexString);
-        screen.kprint((char*) ", physical address: ");
-        screen.kprint(physicalAddressHexString);
-        screen.kprint((char*) "\n");
+        drivers::Screen::kprint((char*) "Page: ");
+        drivers::Screen::kprint(pageHexString);
+        drivers::Screen::kprint((char*) ", physical address: ");
+        drivers::Screen::kprint(physicalAddressHexString);
+        drivers::Screen::kprint((char*) "\n");
     } else if (stringComparison(input, (char*) "TICK") == 0) {
+        // drivers::Screen::kprint((char*) "\n");
         timer.printTick();
     } else if (stringComparison(input, (char*) "SPLASH") == 0) {
         this->printSplashScreen();
     } else if (stringComparison(input, (char*) "CLEAR") == 0) {
-        screen.clearScreen();
+        drivers::Screen::clearScreen();
     } else if (stringComparison(input, (char*) "PANIC") == 0) {
         int result = 0 / 0;
         result++;
     } else {
-        screen.kprint(input);
-        screen.kprint((char*) "\n");
+        drivers::Screen::kprint(input);
+        drivers::Screen::kprint((char*) "\n");
     }
-    screen.kprint((char*) "Panix:$ ");
+    drivers::Screen::kprint((char*) "Panix:$ ");
 }
