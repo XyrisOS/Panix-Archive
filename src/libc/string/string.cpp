@@ -8,7 +8,7 @@
 /**
  * 
  */
-void append(char s[], char n) {
+void append(char* s, char n) {
     int length = stringLength(s);
     s[length] = n;
     s[length + 1] = '\0';
@@ -17,7 +17,7 @@ void append(char s[], char n) {
 /**
  * 
  */
-void backspace(char s[]) {
+void backspace(char* s) {
     int length = stringLength(s);
     s[length - 1] = '\0';
 }
@@ -103,7 +103,7 @@ void intToString(uint8_t n, char* str) {
 }
 
 /* K&R */
-void reverse(char s[]) {
+void reverse(char* s) {
     int c;
     int j = stringLength(s) - 1;
     for (int i = 0; i < j; i++, j--) {
@@ -115,7 +115,7 @@ void reverse(char s[]) {
 
 /* K&R 
  * Returns <0 if s1<s2, 0 if s1==s2, >0 if s1>s2 */
-int stringComparison(char s1[], char s2[]) {
+int stringComparison(char* s1, char* s2) {
     int i;
     for (i = 0; s1[i] == s2[i]; i++) {
         if (s1[i] == '\0') {
@@ -125,7 +125,7 @@ int stringComparison(char s1[], char s2[]) {
     return s1[i] - s2[i];
 }
 
-void stringCopy(char source[], char destination[]) {
+void stringCopy(char* source, char* destination) {
     int i = 0;
     while (source[i] != '\0') {
         destination[i] = source[i];
@@ -135,7 +135,7 @@ void stringCopy(char source[], char destination[]) {
 }
 
 /* K&R */
-int stringLength(char s[]) {
+int stringLength(char* s) {
     int i = 0;
     while (s[i] != '\0') {
         ++i;

@@ -14,14 +14,14 @@
  * @param s Destination string
  * @param n Souce character
  */
-void append(char s[], char n);
+void append(char* s, char n);
 
 /**
  * @brief "Prints" a backspace to the kernel console.
  * 
  * @param s TODO: Document
  */
-void backspace(char s[]);
+void backspace(char* s);
 
 /**
  * @brief Converts a given hex arrangement into an ASCII string
@@ -68,7 +68,7 @@ void intToString(uint8_t n, char* str);
  * 
  * @param s String to reverse
  */
-void reverse(char s[]);
+void reverse(char* s);
 
 /**
  * @brief Compares two strings.
@@ -77,7 +77,7 @@ void reverse(char s[]);
  * @param s2 String 2
  * @return int 
  */
-int stringComparison(char s1[], char s2[]);
+int stringComparison(char* s1, char* s2);
 
 /**
  * @brief Gets the length of a given string.
@@ -85,7 +85,7 @@ int stringComparison(char s1[], char s2[]);
  * @param source 
  * @param destination 
  */
-void stringCopy(char source[], char destination[]);
+void stringCopy(char* source, char* destination);
 
 /**
  * @brief 
@@ -93,6 +93,6 @@ void stringCopy(char source[], char destination[]);
  * @param s String to analyze
  * @return int Length return value
  */
-int stringLength(char s[]);
+int stringLength(char* s);
 
 #endif /* STRING_H */
