@@ -63,7 +63,7 @@ class Keyboard : public Driver {
          * @brief Tracks the length of the current shell commands
          * 
          */
-        inline static uint8_t lengthOfCurrentCommand;
+        inline static uint16_t lengthOfCurrentCommand;
 };
 
 #endif /* KEYBOARD_H */
