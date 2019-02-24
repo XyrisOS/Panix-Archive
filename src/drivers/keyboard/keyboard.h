@@ -1,6 +1,14 @@
 /**
- * File: keyboard.h
- * Author: Keeton Feavel and James Osborne
+ * @file keyboard.h
+ * @author Keeton Feavel and James Osborne
+ * @brief Keyboard driver header file. Provides a class
+ * for translating scancodes to printable characters
+ * and passing that on to the Screen driver.
+ * @version 0.1
+ * @date 2019-02-24
+ * 
+ * @copyright Copyright (c) 2019
+ * 
  */
 
 #ifndef KEYBOARD_H

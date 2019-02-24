@@ -1,13 +1,17 @@
 /**
- * File: kernel.cpp
- * Author: Keeton Feavel and James Osborne
- * 
- * Panix kernel main source file.
- * Includes the kernel's main() function
+ * @file kernel.cpp
+ * @author Keeton Feavel and James Osborne
+ * @brief Panix kernel main source file.
+ * Includes the kernel's kernel_main() function
  * that helps make the jump from 16-bit
  * real mode out of assembly and into the
  * 32-bit protected mode where out kernel
  * will be executing.
+ * @version 0.1
+ * @date 2019-02-23
+ * 
+ * @copyright Copyright (c) 2019
+ * 
  */
 
 #include "kernel.h"
@@ -17,8 +21,8 @@
  * 
  */
 extern "C" int kernelMain() {
-    isrInstall();
-    irqInstall();
+    ISR::isrInstall();
+    ISR::irqInstall();
 
     Kernel::printSplashScreen();
     Screen::kprint((char*) "Panix:$ ");

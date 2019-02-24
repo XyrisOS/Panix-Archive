@@ -1,6 +1,15 @@
 /**
- * File: isr.h
- * Author: Keeton Feavel and James Osborne
+ * @file isr.h
+ * @author Keeton Feavel and James Osborne
+ * @brief Interrupt Service Routine header file.
+ * Provides a class to reference all interrupt
+ * registers and perform the necessary actions
+ * when an interrupt is encountered.
+ * @version 0.1
+ * @date 2019-02-24
+ * 
+ * @copyright Copyright (c) 2019
+ * 
  */
 
 #ifndef ISR_H
@@ -14,8 +23,68 @@
 #include "../timer/timer.h"
 #include "../type.h"
 
+class ISR {
+    public:
+
+        /**
+         * @brief Installs and initializes IRQ interrupts
+         * 
+         */
+        static void irqInstall();
+
+        /**
+         * @brief Installs and initializes ISR interrupts
+         * 
+         */
+        static void isrInstall();
+
+        /**
+         * @brief Registers an interrupt handler with the CPU.
+         * 
+         * @param n Interrupt number
+         * @param handler Interrupt handler function
+         */
+        static void registerInterruptHandler(uint8_t n, isr_t handler);
+
+        /**
+         * @brief Prints the kernel panic message
+         * 
+         */
+        static void printKernelPanicSplash();
+
+    private: 
+        static const char exceptionMessages[32][32];
+};
+
 /**
- * @brief TODO: Document
+ * @brief Declares stub functions later defined in isr.cpp.
+ * The extern "C" is to make these visible in asm files.
+ * 
+ */
+extern "C" {
+    void irqHandler(registers_t r);
+    void isrHandler(registers_t r);
+}
+
+#define IRQ0 32
+#define IRQ1 33
+#define IRQ2 34
+#define IRQ3 35
+#define IRQ4 36
+#define IRQ5 37
+#define IRQ6 38
+#define IRQ7 39
+#define IRQ8 40
+#define IRQ9 41
+#define IRQ10 42
+#define IRQ11 43
+#define IRQ12 44
+#define IRQ13 45
+#define IRQ14 46
+#define IRQ15 47
+
+/**
+ * @brief Declares stub functions which are later defined in interrupt.asm
  * 
  */
 extern "C" {
@@ -71,63 +140,5 @@ extern "C" {
     void irq14();
     void irq15();
 }
-
-#define IRQ0 32
-#define IRQ1 33
-#define IRQ2 34
-#define IRQ3 35
-#define IRQ4 36
-#define IRQ5 37
-#define IRQ6 38
-#define IRQ7 39
-#define IRQ8 40
-#define IRQ9 41
-#define IRQ10 42
-#define IRQ11 43
-#define IRQ12 44
-#define IRQ13 45
-#define IRQ14 46
-#define IRQ15 47
-
-/**
- * @brief TODO: Document
- * 
- */
-void irqInstall();
-
-/**
- * @brief TODO: Document
- * 
- */
-void isrInstall();
-
-/**
- * @brief TODO: Document
- * 
- */
-extern "C" {
-    void irqHandler(registers_t r);
-    void isrHandler(registers_t r);
-}
-
-/**
- * @brief TODO: Document
- * 
- */
-typedef void (*isr_t)(registers_t);
-
-/**
- * @brief Registers an interrupt handler with the CPU.
- * 
- * @param n Interrupt number
- * @param handler Interrupt handler function
- */
-void registerInterruptHandler(uint8_t n, isr_t handler);
-
-/**
- * @brief Prints the kernel panic message
- * 
- */
-void printKernelPanicSplash();
 
 #endif /* ISR_H */

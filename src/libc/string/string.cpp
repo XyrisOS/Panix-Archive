@@ -1,6 +1,12 @@
 /**
- * File: string.cpp
- * Author: Keeton Feavel and James Osborne
+ * @file string.cpp
+ * @author Keeton Feavel and James Osborne
+ * @brief String library definitions file
+ * @version 0.1
+ * @date 2019-02-23
+ * 
+ * @copyright Copyright (c) 2019
+ * 
  */
 
 #include "string.h"

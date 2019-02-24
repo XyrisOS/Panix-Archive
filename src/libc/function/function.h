@@ -1,6 +1,13 @@
 /**
- * File: function.h
- * Author: Keeton Feavel and James Osborne
+ * @file function.h
+ * @author Keeton Feavel and James Osborne
+ * @brief Defines a "function" that allows us
+ * to suppress unused variable errors
+ * @version 0.1
+ * @date 2019-02-23
+ * 
+ * @copyright Copyright (c) 2019
+ * 
  */
 
 #ifndef FUNCTION_H

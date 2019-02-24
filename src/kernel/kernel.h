@@ -1,6 +1,12 @@
 /**
- * File: kernel.cpp
- * Author: Keeton Feavel and James Osborne
+ * @file kernel.h
+ * @author Keeton Feavel and James Osborne
+ * @brief Kernel header file
+ * @version 0.1
+ * @date 2019-02-23
+ * 
+ * @copyright Copyright (c) 2019
+ * 
  */
 
 #ifndef KERNEL_H

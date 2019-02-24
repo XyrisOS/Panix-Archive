@@ -1,6 +1,12 @@
 /**
- * File: memory.cpp
- * Author: Keeton Feavel and James Osborne
+ * @file memory.cpp
+ * @author Keeton Feavel and James Osborne
+ * @brief Memory library definitions file
+ * @version 0.1
+ * @date 2019-02-23
+ * 
+ * @copyright Copyright (c) 2019
+ * 
  */
 
 #include "memory.h"

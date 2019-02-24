@@ -1,6 +1,12 @@
 /**
- * File: screen.cpp
- * Author: Keeton Feavel and James Osborne
+ * @file screen.cpp
+ * @author Keeton Feavel and James Osborne
+ * @brief Screen driver definitions file
+ * @version 0.1
+ * @date 2019-02-23
+ * 
+ * @copyright Copyright (c) 2019
+ * 
  */
 
 #include "screen.h"
@@ -62,10 +68,10 @@ int Screen::getCursorOffset() {
      * 1. Ask for high byte of the cursor offset (data 14)
      * 2. Ask for low byte (data 15)
      */
-    setPortByte(REG_SCREEN_CTRL, 14);
-    int offset = getPortByte(REG_SCREEN_DATA) << 8; 	/* High byte: << 8 */
-    setPortByte(REG_SCREEN_CTRL, 15);
-    offset += getPortByte(REG_SCREEN_DATA);
+    Ports::setPortByte(REG_SCREEN_CTRL, 14);
+    int offset = Ports::getPortByte(REG_SCREEN_DATA) << 8; 	/* High byte: << 8 */
+    Ports::setPortByte(REG_SCREEN_CTRL, 15);
+    offset += Ports::getPortByte(REG_SCREEN_DATA);
 
     return offset * 2; 									/* Position * size of character cell */
 }
@@ -142,8 +148,8 @@ int Screen::printCharacter(char c, int column, int row, char color) {
 void Screen::setCursorOffset(int offset) {
     /* Similar to getCursorOffset, but instead of reading we write data */
     offset /= 2;
-    setPortByte(REG_SCREEN_CTRL, 14);
-    setPortByte(REG_SCREEN_DATA, (uint8_t) (offset >> 8));
-    setPortByte(REG_SCREEN_CTRL, 15);
-    setPortByte(REG_SCREEN_DATA, (uint8_t) (offset & 0xff));
+    Ports::setPortByte(REG_SCREEN_CTRL, 14);
+    Ports::setPortByte(REG_SCREEN_DATA, (uint8_t) (offset >> 8));
+    Ports::setPortByte(REG_SCREEN_CTRL, 15);
+    Ports::setPortByte(REG_SCREEN_DATA, (uint8_t) (offset & 0xff));
 }

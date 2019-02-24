@@ -1,6 +1,12 @@
 /**
- * File: memory.h
- * Author: Keeton Feavel and James Osborne
+ * @file memory.h
+ * @author Keeton Feavel and James Osborne
+ * @brief Memory library header file
+ * @version 0.1
+ * @date 2019-02-23
+ * 
+ * @copyright Copyright (c) 2019
+ * 
  */
 
 #ifndef MEMORY_H

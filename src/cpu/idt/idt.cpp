@@ -1,6 +1,12 @@
 /**
- * File: idt.cpp
- * Author: Keeton Feavel and James Osborne
+ * @file idt.cpp
+ * @author Keeton Feavel and James Osborne
+ * @brief Interrupt Descriptor Table definitions file
+ * @version 0.1
+ * @date 2019-02-24
+ * 
+ * @copyright Copyright (c) 2019
+ * 
  */
 
 #include "idt.h"

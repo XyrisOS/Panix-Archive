@@ -1,7 +1,8 @@
 /**
  * @file idt.h
  * @author Keeton Feavel and James Osborne
- * @brief Interrupt Descriptor Table
+ * @brief Interrupt Descriptor Table header file.
+ * Provides a class for setting up the IDT for interrupts.
  * @version 0.1
  * @date 2019-02-23
  * 

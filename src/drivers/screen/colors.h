@@ -1,6 +1,13 @@
 /**
- * File: colors.h
- * Author: Keeton Feavel and James Osborne
+ * @file colors.h
+ * @author Keeton Feavel and James Osborne
+ * @brief Colors header file. All terminal
+ * color constants are defined here.
+ * @version 0.1
+ * @date 2019-02-23
+ * 
+ * @copyright Copyright (c) 2019
+ * 
  */
 
 #ifndef COLORS_H

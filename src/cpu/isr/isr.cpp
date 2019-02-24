@@ -1,13 +1,17 @@
 /**
- * File: isr.cpp
- * Author: Keeton Feavel and James Osborne
+ * @file isr.cpp
+ * @author Keeton Feavel and James Osborne
+ * @brief Interrupt Service Routine definitions file
+ * @version 0.1
+ * @date 2019-02-24
+ * 
+ * @copyright Copyright (c) 2019
+ * 
  */
 
 #include "isr.h"
 
-isr_t interruptHandlers[256];
-
-const char splashScreen[8][32] = {
+const char panicSplashScreen[8][32] = {
     " ___________________________ \n",
     "< Oops! Panix has panicked! >\n",
     " --------------------------- \n",
@@ -57,18 +61,24 @@ const char exceptionMessages[32][32] {
     "Reserved"
 };
 
-void irqInstall() {
+isr_t interruptHandlers[256];
+
+/*******************
+* Public Functions *
+********************/
+
+void ISR::irqInstall() {
     /* Enable interruptions */
     asm volatile("sti");
     /* IRQ0: timer */
-    initTimer(50);
+    Timer::initialize(50);
     /* IRQ1: keyboard */
     Keyboard::initialize();
 }
 
 /* Can't do this with a loop because we need the address
  * of the function names */
-void isrInstall() {
+void ISR::isrInstall() {
     IDT::setIdtGate(0, (uint32_t) isr0);
     IDT::setIdtGate(1, (uint32_t) isr1);
     IDT::setIdtGate(2, (uint32_t) isr2);
@@ -103,16 +113,16 @@ void isrInstall() {
     IDT::setIdtGate(31, (uint32_t) isr31);
 
     /* Remap the PIC */
-    setPortByte(0x20, 0x11);
-    setPortByte(0xA0, 0x11);
-    setPortByte(0x21, 0x20);
-    setPortByte(0xA1, 0x28);
-    setPortByte(0x21, 0x04);
-    setPortByte(0xA1, 0x02);
-    setPortByte(0x21, 0x01);
-    setPortByte(0xA1, 0x01);
-    setPortByte(0x21, 0x0);
-    setPortByte(0xA1, 0x0); 
+    Ports::setPortByte(0x20, 0x11);
+    Ports::setPortByte(0xA0, 0x11);
+    Ports::setPortByte(0x21, 0x20);
+    Ports::setPortByte(0xA1, 0x28);
+    Ports::setPortByte(0x21, 0x04);
+    Ports::setPortByte(0xA1, 0x02);
+    Ports::setPortByte(0x21, 0x01);
+    Ports::setPortByte(0xA1, 0x01);
+    Ports::setPortByte(0x21, 0x0);
+    Ports::setPortByte(0xA1, 0x0); 
 
     /* Install the IRQs */
     IDT::setIdtGate(32, (uint32_t)irq0);
@@ -135,17 +145,14 @@ void isrInstall() {
     IDT::setIdt(); /* Load with ASM */
 }
 
-void isrHandler(registers_t r) {
-    /* TODO: Write a panic message. Maybe animate it? */
+void ISR::printKernelPanicSplash() {
     Screen::clearScreen();
-    printKernelPanicSplash();
-    Screen::kprint((char*) "\n");
-    Screen::kprint((char*) exceptionMessages[r.interruptNumber]);
-    Screen::kprint((char*) "\n");
-    asm volatile("hlt");
+    for (int i = 0; i < 8; i++) {
+        Screen::kprint((char*) panicSplashScreen[i]);
+    }
 }
 
-void registerInterruptHandler(uint8_t n, isr_t handler) {
+void ISR::registerInterruptHandler(uint8_t n, isr_t handler) {
     interruptHandlers[n] = handler;
 }
 
@@ -155,10 +162,10 @@ void irqHandler(registers_t r) {
     
     /* slave */
     if (r.interruptNumber >= 40) {
-        setPortByte(0xA0, 0x20);
+        Ports::setPortByte(0xA0, 0x20);
     }
     /* master */
-    setPortByte(0x20, 0x20); 
+    Ports::setPortByte(0x20, 0x20); 
 
     /* Handle the interrupt in a more modular way */
     if (interruptHandlers[r.interruptNumber] != 0) {
@@ -167,9 +174,12 @@ void irqHandler(registers_t r) {
     }
 }
 
-void printKernelPanicSplash() {
+void isrHandler(registers_t r) {
+    /* TODO: Write a panic message. Maybe animate it? */
     Screen::clearScreen();
-    for (int i = 0; i < 8; i++) {
-        Screen::kprint((char*) splashScreen[i]);
-    }
+    ISR::printKernelPanicSplash();
+    Screen::kprint((char*) "\n");
+    Screen::kprint((char*) exceptionMessages[r.interruptNumber]);
+    Screen::kprint((char*) "\n");
+    asm volatile("hlt");
 }

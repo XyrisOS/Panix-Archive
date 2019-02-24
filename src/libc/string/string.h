@@ -1,6 +1,12 @@
 /**
- * File: string.h
- * Author: Keeton Feavel and James Osborne
+ * @file string.h
+ * @author Keeton Feavel and James Osborne
+ * @brief String library header file
+ * @version 0.1
+ * @date 2019-02-23
+ * 
+ * @copyright Copyright (c) 2019
+ * 
  */
 
 #ifndef STRING_H

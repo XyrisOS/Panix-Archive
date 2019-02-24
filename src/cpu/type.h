@@ -1,6 +1,12 @@
 /**
- * File: type.h
- * Author: Keeton Feavel and James Osborne
+ * @file type.h
+ * @author Keeton Feavel and James Osborne
+ * @brief Defines various special types and includes stdint.h
+ * @version 0.1
+ * @date 2019-02-24
+ * 
+ * @copyright Copyright (c) 2019
+ * 
  */
 
 #ifndef TYPE_H
@@ -62,5 +68,11 @@ typedef struct {
     uint16_t limit;
     uint32_t base;
 } __attribute__((packed)) idt_register_t;
+
+/**
+ * @brief Defines a new type which defines an array of isr_t as registers_t
+ * 
+ */
+typedef void (*isr_t)(registers_t);
 
 #endif /* TYPE_H */

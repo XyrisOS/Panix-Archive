@@ -1,6 +1,13 @@
 /**
- * File: screen.h
- * Author: Keeton Feavel and James Osborne
+ * @file screen.h
+ * @author Keeton Feavel and James Osborne
+ * @brief Screen driver header file. Provides a class
+ * for printing and interacting with video memory.
+ * @version 0.1
+ * @date 2019-02-24
+ * 
+ * @copyright Copyright (c) 2019
+ * 
  */
 
 #ifndef SCREEN_H
