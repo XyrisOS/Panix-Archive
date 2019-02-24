@@ -40,7 +40,7 @@ void printSplashScreen() {
         (char*) "  / ____/ ___ |/ /|  // / /   |   \n",
         (char*) " /_/   /_/  |_/_/ |_/___//_/|_|   \n",
         (char*) "\nWelcome to the PANIX kernel!\n",
-        (char*) "\nType HALT to halt the CPU\n> "
+        (char*) "\nType HALT to halt the CPU\nPanix:$ "
     };
     for (int i = 0; i < 7; i++) {
         kprint(splashScreen[i]);
@@ -69,5 +69,5 @@ void handleUserInput(char *input) {
     }
     //kprint((char*) "You said: ");
     kprint(input);
-    kprint((char*) "\nPanix:~$ ");
+    kprint((char*) "\nPanix:$ ");
 }

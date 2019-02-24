@@ -124,8 +124,10 @@ void isrHandler(registers_t r) {
     intToString(r.interruptNumber, s);
     kprint(s);
     kprint((char*) "\n");
+    // TODO: It seems as though exception messages aren't printing correctly?
     kprint(exceptionMessages[r.interruptNumber]);
     kprint((char*) "\n");
+    asm volatile("hlt");
 }
 
 void registerInterruptHandler(uint8_t n, isr_t handler) {
