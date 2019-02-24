@@ -11,6 +11,8 @@
 
 #include "screen.h"
 
+using namespace drivers;
+
 /*******************
 * Public Functions *
 ********************/
