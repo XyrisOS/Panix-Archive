@@ -28,7 +28,7 @@ void Screen::clearScreen() {
     setCursorOffset(getOffset(0, 0));
 }
 
-void Screen::kprint(char *message) {
+void Screen::kprint(char* message) {
     kprintAtPosition(message, -1, -1);
 }
 
