@@ -94,7 +94,12 @@ clean:
 
 	@ echo "\nDone cleaning!"
 
+clean-docs:
+	@ echo Cleaning old documentation...
+	@ rm -rf docs
+	@ echo "\nDone cleaning documentation!"
+
 docs:
 	@ echo Generating documentation...
 	@ doxygen ./doxygen.config
-	@ echo Done!
+	@ echo "\nDone generating documentation!"
