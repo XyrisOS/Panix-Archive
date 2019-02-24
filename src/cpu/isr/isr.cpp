@@ -6,6 +6,18 @@
 #include "isr.h"
 
 isr_t interruptHandlers[256];
+
+const char splashScreen[8][32] = {
+    " ___________________________ \n",
+    "< Oops! Panix has panicked! >\n",
+    " --------------------------- \n",
+    "    \\   ^__^\n",
+    "     \\  (**)\\_______\n",
+    "        (__)\\       )\\/\\\n",
+    "         U  ||----w |\n",
+    "            ||     ||\n\n"
+};
+
 /* To print the message which defines every exception */
 const char exceptionMessages[32][32] {
     "Division By Zero",
@@ -126,6 +138,7 @@ void isrInstall() {
 void isrHandler(registers_t r) {
     /* TODO: Write a panic message. Maybe animate it? */
     Screen::clearScreen();
+    printKernelPanicSplash();
     Screen::kprint((char*) "\n");
     Screen::kprint((char*) exceptionMessages[r.interruptNumber]);
     Screen::kprint((char*) "\n");
@@ -151,5 +164,12 @@ void irqHandler(registers_t r) {
     if (interruptHandlers[r.interruptNumber] != 0) {
         isr_t handler = interruptHandlers[r.interruptNumber];
         handler(r);
+    }
+}
+
+void printKernelPanicSplash() {
+    Screen::clearScreen();
+    for (int i = 0; i < 8; i++) {
+        Screen::kprint((char*) splashScreen[i]);
     }
 }

@@ -65,6 +65,8 @@ void handleUserInput(char *input) {
         printSplashScreen();
     } else if (stringComparison(input, (char*) "CLEAR") == 0) {
         Screen::clearScreen();
+    } else if (stringComparison(input, (char*) "PANIC") == 0) {
+        int result = 0 / 0;
     } else {
         Screen::kprint(input);
         Screen::kprint((char*) "\n");
