@@ -44,6 +44,8 @@ int lengthOfCurrentCommand = 0;
 * Public Functions *
 ********************/
 void Keyboard::callback(registers_t regs) {
+    panixkernel::Kernel kernel;
+
     /* The PIC leaves us the scancode in port 0x60 */
     uint8_t scancode = cpu::Ports::getPortByte(0x60);
     if (scancode == UP_ARROW && stringLength(lastCommand) > 0) {
@@ -67,7 +69,7 @@ void Keyboard::callback(registers_t regs) {
         }
     } else if (scancode == ENTER) {
         Screen::kprint((char*) "\n");
-        kernel::Kernel::handleUserInput(Keyboard::keyBuffer);
+        kernel.handleUserInput(Keyboard::keyBuffer);
         if (lengthOfCurrentCommand >= 256) {
             lengthOfCurrentCommand = 255;
         }
