@@ -61,12 +61,6 @@ void intToString(uint16_t n, char str[]);
  * @param n 
  * @param str 
  */
-void intToString(uint8_t n, char str[]);/**
- * @brief 
- * 
- * @param n 
- * @param str 
- */
 void intToString(uint8_t n, char str[]);
 
 /**
