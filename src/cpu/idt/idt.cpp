@@ -11,6 +11,8 @@
 
 #include "idt.h"
 
+using namespace cpu;
+
 /*******************
 * Public Functions *
 ********************/
