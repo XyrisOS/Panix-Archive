@@ -1,6 +1,6 @@
 var isr_8h =
 [
-    [ "ISR", "classISR.html", "classISR" ],
+    [ "ISR", "classcpu_1_1ISR.html", "classcpu_1_1ISR" ],
     [ "IRQ0", "isr_8h.html#a8885a13da4dafeb2cb209ce1b7ec3107", null ],
     [ "IRQ1", "isr_8h.html#a37360776bcc1dd3b5da93b025177551f", null ],
     [ "IRQ10", "isr_8h.html#a4937470287000533f2dc2d0c29b88245", null ],
