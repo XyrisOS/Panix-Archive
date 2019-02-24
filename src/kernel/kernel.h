@@ -19,20 +19,22 @@
 #include "../drivers/keyboard/keyboard.h"
 #include "../drivers/screen/screen.h"
 
-class Kernel {
-    public:
-        /**
-         * @brief Handles all keyboard input for the basic kernel shell.
-         * 
-         * @param input String input from keyboard to be processed.
-         */
-        static void handleUserInput(char* input);
+namespace kernel {
+    class Kernel {
+        public:
+            /**
+             * @brief Handles all keyboard input for the basic kernel shell.
+             * 
+             * @param input String input from keyboard to be processed.
+             */
+            static void handleUserInput(char* input);
 
-        /**
-         * @brief Prints the Panix splash screen on boot.
-         * 
-         */
-        static void printSplashScreen();
-};
+            /**
+             * @brief Prints the Panix splash screen on boot.
+             * 
+             */
+            static void printSplashScreen();
+    };
+}
 
 #endif /* KERNEL_H */
