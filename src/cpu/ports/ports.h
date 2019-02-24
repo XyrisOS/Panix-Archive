@@ -15,39 +15,41 @@
 
 #include "../type.h"
 
-class Ports {
-    public:
-        /**
-         * @brief Get the byte at the specified port
-         * 
-         * @param port Port to receive data from
-         * @return uint8_t Data from specified port
-         */
-        static uint8_t getPortByte(uint16_t port);
+namespace cpu {
+    class Ports {
+        public:
+            /**
+             * @brief Get the byte at the specified port
+             * 
+             * @param port Port to receive data from
+             * @return uint8_t Data from specified port
+             */
+            static uint8_t getPortByte(uint16_t port);
 
-        /**
-         * @brief Get the word at the specified port
-         * 
-         * @param port Port to receive data from
-         * @return uint16_t Data from specified port
-         */
-        static uint16_t getPortWord(uint16_t port);
+            /**
+             * @brief Get the word at the specified port
+             * 
+             * @param port Port to receive data from
+             * @return uint16_t Data from specified port
+             */
+            static uint16_t getPortWord(uint16_t port);
 
-        /**
-         * @brief Set the byte at the specified port
-         * 
-         * @param port Port to set with data
-         * @param data Data to set port with
-         */
-        static void setPortByte(uint16_t port, uint8_t data);
+            /**
+             * @brief Set the byte at the specified port
+             * 
+             * @param port Port to set with data
+             * @param data Data to set port with
+             */
+            static void setPortByte(uint16_t port, uint8_t data);
 
-        /**
-         * @brief Set the word at the specified port
-         * 
-         * @param port Port to set with data
-         * @param data Data to set port with
-         */
-        static void setPortWord(uint16_t port, uint16_t data);
-};
+            /**
+             * @brief Set the word at the specified port
+             * 
+             * @param port Port to set with data
+             * @param data Data to set port with
+             */
+            static void setPortWord(uint16_t port, uint16_t data);
+    };
+}
 
 #endif /* PORTS_H */

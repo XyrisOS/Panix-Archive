@@ -11,6 +11,8 @@
 
 #include "ports.h"
 
+using namespace cpu;
+
 /* Learned inline assembly in Linux Systems Progamming, but keeping it here as a reminder
  * '"=a" (result)'; set '=' the C variable '(result)' to the value of register e'a'x
  * '"d" (port)': map the C variable '(port)' into e'd'x register
