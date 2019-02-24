@@ -96,10 +96,11 @@ clean:
 
 clean-docs:
 	@ echo Cleaning old documentation...
-	@ rm -rf docs
+	@ find docs/html ! -name CNAME ! -name robots.txt -type f -delete
 	@ echo "\nDone cleaning documentation!"
 
-docs:
+.PHONY: docs
+docs: 
 	@ echo Generating documentation...
 	@ doxygen ./doxygen.config
 	@ echo "\nDone generating documentation!"
