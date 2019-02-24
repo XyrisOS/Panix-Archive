@@ -13,16 +13,9 @@
 #include "kernel.h"
 
 /**
- *     ____  ___    _   _______  __
- *    / __ \/   |  / | / /  _/ |/ /
- *   / /_/ / /| | /  |/ // / |   / 
- *  / ____/ ___ |/ /|  // / /   |  
- * /_/   /_/  |_/_/ |_/___//_/|_|  
- *                          
- * Panix kernel main function. Called in kernel_entry.asm
- * Executed prior to bootloader code in boot32.asm
+ * @brief Main entry point for the kernel
+ * 
  */
-
 extern "C" int kernelMain() {
     isrInstall();
     irqInstall();
