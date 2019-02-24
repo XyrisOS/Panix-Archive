@@ -1,6 +1,12 @@
 /**
- * File: idt.h
- * Author: Keeton Feavel and James Osborne
+ * @file idt.h
+ * @author Keeton Feavel and James Osborne (you@domain.com)
+ * @brief Interrupt Descriptor Table
+ * @version 0.1
+ * @date 2019-02-23
+ * 
+ * @copyright Copyright (c) 2019
+ * 
  */
 
 #ifndef IDT_H
