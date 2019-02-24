@@ -20,13 +20,17 @@ extern "C" int kernelMain() {
     isrInstall();
     irqInstall();
 
-    printSplashScreen();
+    Kernel::printSplashScreen();
     Screen::kprint((char*) "Panix:$ ");
 
     return 0;
 }
 
-void printSplashScreen() {
+/*******************
+* Public Functions *
+********************/
+
+void Kernel::printSplashScreen() {
     Screen::clearScreen();
     char* splashScreen[] = {
         (char*) "     ____  ___    _   _______  __ \n",
@@ -42,7 +46,7 @@ void printSplashScreen() {
     }
 }
 
-void handleUserInput(char *input) {
+void Kernel::handleUserInput(char *input) {
     if (stringComparison(input, (char*) "HALT") == 0) {
         Screen::kprint((char*) "Halting the CPU. Bye!\n");
         asm volatile("hlt");
@@ -62,7 +66,7 @@ void handleUserInput(char *input) {
         Screen::kprint(physicalAddressHexString);
         Screen::kprint((char*) "\n");
     } else if (stringComparison(input, (char*) "SPLASH") == 0) {
-        printSplashScreen();
+        Kernel::printSplashScreen();
     } else if (stringComparison(input, (char*) "CLEAR") == 0) {
         Screen::clearScreen();
     } else if (stringComparison(input, (char*) "PANIC") == 0) {
