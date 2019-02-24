@@ -14,7 +14,6 @@ CXX_OBJ = ${CXX_SOURCES:.cpp=.o src/cpu/interrupt.o}
 CXX = i386-elf-gcc
 GDB = i386-elf-gdb
 
-# -g: Use debugging symbols in gcc
 CXX_FLAGS = -fno-pie -g -ffreestanding -Wall -Wextra -fno-exceptions -m32 -lstdc++ -std=c++17
 
 # First rule is run by default
@@ -42,6 +41,15 @@ run_from_disk: dist/panix.raw
 run_from_floppy: dist/panix.raw
 	@ echo Booting from floppy...
 	qemu-system-i386 -fda $<
+
+build: dist/panix.raw
+	@ echo Building VDI image of Panix...
+	@ qemu-img convert -f raw -O vdi dist/panix.raw dist/panix.vdi
+	@ echo Done building VDI image of Panix!
+
+	@ echo "\nBuilding VMDK image of Panix..."
+	@ qemu-img convert -f raw -O vmdk dist/panix.raw dist/panix.vmdk
+	@ echo Done building VMDK image of Panix!
 
 # Open the connection to qemu and load our kernel-object file with symbols
 debug: dist/panix.raw kernel.elf
