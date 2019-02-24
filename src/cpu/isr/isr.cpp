@@ -11,6 +11,8 @@
 
 #include "isr.h"
 
+using namespace cpu;
+
 const char panicSplashScreen[8][32] = {
     " ___________________________ \n",
     "< Oops! Panix has panicked! >\n",

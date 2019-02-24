@@ -23,38 +23,40 @@
 #include "../timer/timer.h"
 #include "../type.h"
 
-class ISR {
-    public:
+namespace cpu {
+    class ISR {
+        public:
 
-        /**
-         * @brief Installs and initializes IRQ interrupts
-         * 
-         */
-        static void irqInstall();
+            /**
+             * @brief Installs and initializes IRQ interrupts
+             * 
+             */
+            static void irqInstall();
 
-        /**
-         * @brief Installs and initializes ISR interrupts
-         * 
-         */
-        static void isrInstall();
+            /**
+             * @brief Installs and initializes ISR interrupts
+             * 
+             */
+            static void isrInstall();
 
-        /**
-         * @brief Registers an interrupt handler with the CPU.
-         * 
-         * @param n Interrupt number
-         * @param handler Interrupt handler function
-         */
-        static void registerInterruptHandler(uint8_t n, isr_t handler);
+            /**
+             * @brief Registers an interrupt handler with the CPU.
+             * 
+             * @param n Interrupt number
+             * @param handler Interrupt handler function
+             */
+            static void registerInterruptHandler(uint8_t n, isr_t handler);
 
-        /**
-         * @brief Prints the kernel panic message
-         * 
-         */
-        static void printKernelPanicSplash();
+            /**
+             * @brief Prints the kernel panic message
+             * 
+             */
+            static void printKernelPanicSplash();
 
-    private: 
-        static const char exceptionMessages[32][32];
-};
+        private: 
+            static const char exceptionMessages[32][32];
+    };
+}
 
 /**
  * @brief Declares stub functions later defined in isr.cpp.
