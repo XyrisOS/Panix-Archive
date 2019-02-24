@@ -19,22 +19,24 @@
 #include "../ports/ports.h"
 #include "../type.h"
 
-class Timer {
-    public:
-        /**
-         * @brief Initializes the CPU timer
-         * 
-         * @param frequency I honestly do not know
-         */
-        static void initialize(uint32_t frequency);
-    
-    private:
-        /**
-         * @brief Prints to the screen the current ticks of the CPU.
-         * 
-         * @param regs Currently unused registers
-         */
-        static void callback(registers_t regs);
-};
+namespace cpu {
+    class Timer {
+        public:
+            /**
+             * @brief Initializes the CPU timer
+             * 
+             * @param frequency I honestly do not know
+             */
+            static void initialize(uint32_t frequency);
+        
+        private:
+            /**
+             * @brief Prints to the screen the current ticks of the CPU.
+             * 
+             * @param regs Currently unused registers
+             */
+            static void callback(registers_t regs);
+    };
+}
 
 #endif /* TIMER_H */

@@ -11,6 +11,8 @@
 
 #include "timer.h"
 
+using namespace cpu;
+
 uint32_t tick = 0;
 
 /*******************
