@@ -3,3 +3,5 @@
 *.bin
 *.raw
 settings.json
+dist/panix.vdi
+dist/panix.vmdk

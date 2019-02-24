@@ -93,3 +93,8 @@ clean:
 	@ rm -rf src/libc/*.bin src/libc/*/*.o
 
 	@ echo "\nDone cleaning!"
+
+docs:
+	@ echo Generating documentation...
+	@ doxygen ./doxygen.config
+	@ echo Done!
