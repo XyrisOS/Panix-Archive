@@ -2,8 +2,8 @@
 # $< = first dependency
 # $^ = all dependencies
 
-CXX_SOURCES = $(wildcard src/kernel/*.cpp src/kernel/util/*.cpp src/drivers/*/*.cpp src/cpu/*.cpp src/libc/*.cpp)
-HEADERS = $(wildcard src/kernel/*.h src/kernel/util/*.h src/drivers/*/*.h src/cpu/*.h src/libc/*.h)
+CXX_SOURCES = $(wildcard src/kernel/*.cpp src/kernel/util/*.cpp src/drivers/*.cpp src/drivers/*/*.cpp src/cpu/*.cpp src/libc/*.cpp)
+HEADERS = $(wildcard src/kernel/*.h src/kernel/util/*.h src/drivers/*.h src/drivers/*/*.h src/cpu/*.h src/libc/*.h)
 
 # Nice syntax for file extension replacement
 CXX_OBJ = ${CXX_SOURCES:.cpp=.o src/cpu/interrupt.o}
@@ -32,18 +32,22 @@ kernel.elf: src/boot/32bit/kernel_entry.o ${CXX_OBJ}
 	i386-elf-ld -o $@ -Ttext 0x1000 $^ 
 
 run: dist/panix.raw
+	@ echo Booting from disk...
 	qemu-system-i386 $< -boot c
 
-# Gets a disk read error
 run_from_disk: dist/panix.raw
+	@ echo Booting from disk...
 	qemu-system-i386 $< -boot c
 
 run_from_floppy: dist/panix.raw
+	@ echo Booting from floppy...
 	qemu-system-i386 -fda $<
 
 # Open the connection to qemu and load our kernel-object file with symbols
 debug: dist/panix.raw kernel.elf
+	@ echo Booting from floppy...
 	qemu-system-i386 -s -fda $< &
+	@ echo Setting up GDB with qemu...
 	${GDB} -ex "target remote localhost:1234" -ex "symbol-file kernel.elf"
 
 # Generic rules for wildcards
@@ -58,15 +62,24 @@ debug: dist/panix.raw kernel.elf
 	nasm $< -f bin -o $@
 
 clean:
-	rm -rf *.bin *.dis *.o dist/panix.raw *.elf
+	@ echo Cleaning root directory...
+	@ rm -rf *.bin *.dis *.o dist/panix.raw *.elf
 	
-	rm -rf src/boot/*.bin src/boot/*.o 
-	rm -rf src/boot/32bit/*.bin src/boot/32bit/*.o
+	@ echo Cleaning boot directories...
+	@ rm -rf src/boot/*.bin src/boot/*.o 
+	@ rm -rf src/boot/32bit/*.bin src/boot/32bit/*.o
+	
+	@ echo Cleaning cpu directory...
+	@ rm -rf src/cpu/*.bin src/cpu/*.o
+	
+	@ echo Cleaning driver directories...
+	@ rm -rf src/drivers/*.bin src/drivers/*.o
+	@ rm -rf src/drivers/*/*.bin src/drivers/*/*.o
+	
+	@ echo Cleaning kernel directory...
+	@ rm -rf src/kernel/*.bin src/kernel/*.o
+	
+	@ echo Cleaning libc directory...
+	@ rm -rf src/libc/*.bin src/libc/*.o
 
-	rm -rf src/cpu/*.bin src/cpu/*.o
-	
-	rm -rf src/drivers/*/*.bin src/drivers/*/*.o
-	
-	rm -rf src/kernel/*.bin src/kernel/*.o
-	
-	rm -rf src/libc/*.bin src/libc/*.o
+	@ echo "\nDone cleaning!"
