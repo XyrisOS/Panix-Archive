@@ -21,8 +21,8 @@
  * 
  */
 extern "C" int kernelMain() {
-    ISR::isrInstall();
-    ISR::irqInstall();
+    cpu::ISR::isrInstall();
+    cpu::ISR::irqInstall();
 
     Kernel::printSplashScreen();
     Screen::kprint((char*) "Panix:$ ");

@@ -43,7 +43,7 @@ int lengthOfCurrentCommand = 0;
 ********************/
 void Keyboard::callback(registers_t regs) {
     /* The PIC leaves us the scancode in port 0x60 */
-    uint8_t scancode = Ports::getPortByte(0x60);
+    uint8_t scancode = cpu::Ports::getPortByte(0x60);
     if (scancode == UP_ARROW && stringLength(lastCommand) > 0) {
         while (lengthOfCurrentCommand > 0) {
             Screen::kprintBackspace();
@@ -85,5 +85,5 @@ void Keyboard::callback(registers_t regs) {
 }
 
 void Keyboard::initialize() {
-    ISR::registerInterruptHandler(IRQ1, Keyboard::callback); 
+    cpu::ISR::registerInterruptHandler(IRQ1, Keyboard::callback); 
 }

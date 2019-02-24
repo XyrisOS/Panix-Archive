@@ -68,10 +68,10 @@ int Screen::getCursorOffset() {
      * 1. Ask for high byte of the cursor offset (data 14)
      * 2. Ask for low byte (data 15)
      */
-    Ports::setPortByte(REG_SCREEN_CTRL, 14);
-    int offset = Ports::getPortByte(REG_SCREEN_DATA) << 8; 	/* High byte: << 8 */
-    Ports::setPortByte(REG_SCREEN_CTRL, 15);
-    offset += Ports::getPortByte(REG_SCREEN_DATA);
+    cpu::Ports::setPortByte(REG_SCREEN_CTRL, 14);
+    int offset = cpu::Ports::getPortByte(REG_SCREEN_DATA) << 8; 	/* High byte: << 8 */
+    cpu::Ports::setPortByte(REG_SCREEN_CTRL, 15);
+    offset += cpu::Ports::getPortByte(REG_SCREEN_DATA);
 
     return offset * 2; 									/* Position * size of character cell */
 }
@@ -148,8 +148,8 @@ int Screen::printCharacter(char c, int column, int row, char color) {
 void Screen::setCursorOffset(int offset) {
     /* Similar to getCursorOffset, but instead of reading we write data */
     offset /= 2;
-    Ports::setPortByte(REG_SCREEN_CTRL, 14);
-    Ports::setPortByte(REG_SCREEN_DATA, (uint8_t) (offset >> 8));
-    Ports::setPortByte(REG_SCREEN_CTRL, 15);
-    Ports::setPortByte(REG_SCREEN_DATA, (uint8_t) (offset & 0xff));
+    cpu::Ports::setPortByte(REG_SCREEN_CTRL, 14);
+    cpu::Ports::setPortByte(REG_SCREEN_DATA, (uint8_t) (offset >> 8));
+    cpu::Ports::setPortByte(REG_SCREEN_CTRL, 15);
+    cpu::Ports::setPortByte(REG_SCREEN_DATA, (uint8_t) (offset & 0xff));
 }
