@@ -12,7 +12,6 @@
 #include "isr.h"
 
 using namespace cpu;
-using namespace drivers;
 
 const char panicSplashScreen[8][32] = {
     " ___________________________ \n",
@@ -66,19 +65,20 @@ const char exceptionMessages[32][32] {
 
 isr_t interruptHandlers[256];
 
+inline drivers::Screen screen;
+inline Timer timer;
+inline drivers::Keyboard keyboard;
+
 /*******************
 * Public Functions *
 ********************/
-
 void ISR::irqInstall() {
     /* Enable interruptions */
     asm volatile("sti");
 
     /* IRQ0: timer */
-    Timer timer;
     timer.initialize(50);
     /* IRQ1: keyboard */
-    Keyboard keyboard;
     keyboard.initialize();
 }
 
@@ -152,9 +152,9 @@ void ISR::isrInstall() {
 }
 
 void ISR::printKernelPanicSplash() {
-    Screen::clearScreen();
+    screen.clearScreen();
     for (int i = 0; i < 8; i++) {
-        Screen::kprint((char*) panicSplashScreen[i]);
+        screen.kprint((char*) panicSplashScreen[i]);
     }
 }
 
@@ -182,10 +182,10 @@ void irqHandler(registers_t r) {
 
 void isrHandler(registers_t r) {
     /* TODO: Write a panic message. Maybe animate it? */
-    Screen::clearScreen();
+    screen.clearScreen();
     ISR::printKernelPanicSplash();
-    Screen::kprint((char*) "\n");
-    Screen::kprint((char*) exceptionMessages[r.interruptNumber]);
-    Screen::kprint((char*) "\n");
+    screen.kprint((char*) "\n");
+    screen.kprint((char*) exceptionMessages[r.interruptNumber]);
+    screen.kprint((char*) "\n");
     asm volatile("hlt");
 }
