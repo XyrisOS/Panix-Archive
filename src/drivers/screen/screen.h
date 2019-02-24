@@ -6,7 +6,7 @@
 #ifndef SCREEN_H
 #define SCREEN_H
 
-#include "../../cpu/ports.h"
+#include "../../cpu/ports/ports.h"
 #include "../../libc/memory.h"
 #include "../driver.h"
 #include "colors.h"

@@ -6,11 +6,11 @@
 #ifndef TIMER_H
 #define TIMER_H
 
-#include "../drivers/screen/screen.h"
-#include "../libc/string.h"
-#include "isr.h"
-#include "ports.h"
-#include "type.h"
+#include "../../drivers/screen/screen.h"
+#include "../../libc/string.h"
+#include "../isr/isr.h"
+#include "../ports/ports.h"
+#include "../type.h"
 
 /**
  * @brief 

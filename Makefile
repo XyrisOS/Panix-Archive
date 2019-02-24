@@ -2,8 +2,8 @@
 # $< = first dependency
 # $^ = all dependencies
 
-CXX_SOURCES = $(wildcard src/kernel/*.cpp src/kernel/util/*.cpp src/drivers/*.cpp src/drivers/*/*.cpp src/cpu/*.cpp src/libc/*.cpp)
-HEADERS = $(wildcard src/kernel/*.h src/kernel/util/*.h src/drivers/*.h src/drivers/*/*.h src/cpu/*.h src/libc/*.h)
+CXX_SOURCES = $(wildcard src/kernel/*.cpp src/kernel/util/*.cpp src/drivers/*.cpp src/drivers/*/*.cpp src/cpu/*.cpp src/cpu/*/*.cpp src/libc/*.cpp)
+HEADERS = $(wildcard src/kernel/*.h src/kernel/util/*.h src/drivers/*.h src/drivers/*/*.h src/cpu/*.h src/cpu/*/*.h src/libc/*.h)
 
 # Nice syntax for file extension replacement
 CXX_OBJ = ${CXX_SOURCES:.cpp=.o src/cpu/interrupt.o}
@@ -77,8 +77,9 @@ clean:
 	@ rm -rf src/boot/*.bin src/boot/*.o 
 	@ rm -rf src/boot/32bit/*.bin src/boot/32bit/*.o
 	
-	@ echo Cleaning cpu directory...
+	@ echo Cleaning cpu directories...
 	@ rm -rf src/cpu/*.bin src/cpu/*.o
+	@ rm -rf src/cpu/*.bin src/cpu/*/*.o
 	
 	@ echo Cleaning driver directories...
 	@ rm -rf src/drivers/*.bin src/drivers/*.o

@@ -6,13 +6,13 @@
 #ifndef ISR_H
 #define ISR_H
 
-#include "../drivers/screen/screen.h"
-#include "../kernel/kernel.h"
-#include "../libc/string.h"
-#include "idt.h"
-#include "ports.h"
-#include "timer.h"
-#include "type.h"
+#include "../../drivers/screen/screen.h"
+#include "../../kernel/kernel.h"
+#include "../../libc/string.h"
+#include "../idt/idt.h"
+#include "../ports/ports.h"
+#include "../timer/timer.h"
+#include "../type.h"
 
 /**
  * @brief 

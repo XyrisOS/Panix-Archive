@@ -6,10 +6,10 @@
 #ifndef KERNEL_H
 #define KERNEL_H
 
-#include "../cpu/idt.h"
-#include "../cpu/isr.h"
-#include "../cpu/ports.h"
-#include "../cpu/timer.h"
+#include "../cpu/idt/idt.h"
+#include "../cpu/isr/isr.h"
+#include "../cpu/ports/ports.h"
+#include "../cpu/timer/timer.h"
 #include "../drivers/keyboard/keyboard.h"
 #include "../drivers/screen/screen.h"
 
