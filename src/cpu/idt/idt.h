@@ -26,4 +26,4 @@ inline idt_register_t idtRegister;
 void setIdtGate(int n, uint32_t handler);
 void setIdt();
 
-#endif
+#endif /* IDT_H */

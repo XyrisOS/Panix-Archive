@@ -26,4 +26,4 @@ void handleUserInput(char *input);
  */
 void printSplashScreen();
 
-#endif
+#endif /* KERNEL_H */

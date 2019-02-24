@@ -10,4 +10,4 @@
  * and this is a solution to avoid the 'unused parameter' compiler warning */
 #define UNUSED(x) (void)(x)
 
-#endif
+#endif /* FUNCTION_H */
