@@ -16,10 +16,11 @@ using namespace drivers;
 
 uint32_t tick = 0;
 
+inline drivers::Screen screen;
+
 /*******************
 * Public Functions *
 ********************/
-
 void Timer::initialize(uint32_t frequency) {
     /* Install the function we just wrote */
     ISR::registerInterruptHandler(IRQ0, Timer::callback);
@@ -34,20 +35,19 @@ void Timer::initialize(uint32_t frequency) {
     Ports::setPortByte(0x40, high);
 }
 
+void Timer::printTick() {
+    screen.kprint((char*) "Tick: ");
+    char tickString[256];
+    intToString(tick, tickString);
+    screen.kprint(tickString);
+    screen.kprint((char*) "\n");
+}
+
 /********************
 * Private Functions *
 *********************/
-
 void Timer::callback(registers_t regs) {
     tick++;
-    if (false) {
-        Screen::kprint((char*) "Tick: ");
-
-        char tickString[256];
-        intToString(tick, tickString);
-        Screen::kprint(tickString);
-        Screen::kprint((char*) "\n");
-    }
 
     UNUSED(regs);
 }

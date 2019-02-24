@@ -17,8 +17,9 @@ class Driver {
         /* Constructors */
         Driver() {}
 
-        /* Destructors */
-        virtual ~Driver() {}
+        /* Destructors (cannot be used until `delete` is implemented) */
+        
+        /* virtual ~Driver() {} */
 };
 
 #endif /* DRIVER_H */

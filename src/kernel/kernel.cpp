@@ -16,8 +16,9 @@
 
 #include "kernel.h"
 
-using namespace drivers;
-using namespace kernel;
+inline cpu::Timer timer;
+inline drivers::Screen screen;
+inline panixkernel::Kernel kernel;
 
 /**
  * @brief Main entry point for the kernel
@@ -27,8 +28,8 @@ extern "C" int kernelMain() {
     cpu::ISR::isrInstall();
     cpu::ISR::irqInstall();
 
-    Kernel::printSplashScreen();
-    Screen::kprint((char*) "Panix:$ ");
+    kernel.printSplashScreen();
+    screen.kprint((char*) "Panix:$ ");
 
     return 0;
 }
@@ -36,9 +37,8 @@ extern "C" int kernelMain() {
 /*******************
 * Public Functions *
 ********************/
-
-void Kernel::printSplashScreen() {
-    Screen::clearScreen();
+void panixkernel::Kernel::printSplashScreen() {
+    screen.clearScreen();
     char* splashScreen[] = {
         (char*) "     ____  ___    _   _______  __ \n",
         (char*) "    / __ \\/   |  / | / /  _/ |/ /\n",
@@ -49,13 +49,13 @@ void Kernel::printSplashScreen() {
         (char*) "\nType HALT to halt the CPU\n"
     };
     for (int i = 0; i < 7; i++) {
-        Screen::kprint(splashScreen[i]);
+        screen.kprint(splashScreen[i]);
     }
 }
 
-void Kernel::handleUserInput(char *input) {
+void panixkernel::Kernel::handleUserInput(char* input) {
     if (stringComparison(input, (char*) "HALT") == 0) {
-        Screen::kprint((char*) "Halting the CPU. Bye!\n");
+        screen.kprint((char*) "Halting the CPU. Bye!\n");
         asm volatile("hlt");
     } else if (stringComparison(input, (char*) "PAGE") == 0) {
         uint32_t physicalAddress;
@@ -67,21 +67,23 @@ void Kernel::handleUserInput(char *input) {
         char physicalAddressHexString[16] = "";
         hexToString(physicalAddress, physicalAddressHexString);
         
-        Screen::kprint((char*) "Page: ");
-        Screen::kprint(pageHexString);
-        Screen::kprint((char*) ", physical address: ");
-        Screen::kprint(physicalAddressHexString);
-        Screen::kprint((char*) "\n");
+        screen.kprint((char*) "Page: ");
+        screen.kprint(pageHexString);
+        screen.kprint((char*) ", physical address: ");
+        screen.kprint(physicalAddressHexString);
+        screen.kprint((char*) "\n");
+    } else if (stringComparison(input, (char*) "TICK") == 0) {
+        timer.printTick();
     } else if (stringComparison(input, (char*) "SPLASH") == 0) {
-        Kernel::printSplashScreen();
+        this->printSplashScreen();
     } else if (stringComparison(input, (char*) "CLEAR") == 0) {
-        Screen::clearScreen();
+        screen.clearScreen();
     } else if (stringComparison(input, (char*) "PANIC") == 0) {
         int result = 0 / 0;
         result++;
     } else {
-        Screen::kprint(input);
-        Screen::kprint((char*) "\n");
+        screen.kprint(input);
+        screen.kprint((char*) "\n");
     }
-    Screen::kprint((char*) "Panix:$ ");
+    screen.kprint((char*) "Panix:$ ");
 }

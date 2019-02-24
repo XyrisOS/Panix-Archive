@@ -18,7 +18,7 @@ var files =
     [ "isr.h", "isr_8h.html", "isr_8h" ],
     [ "kernel.cpp", "kernel_8cpp.html", "kernel_8cpp" ],
     [ "kernel.h", "kernel_8h.html", [
-      [ "Kernel", "classKernel.html", "classKernel" ]
+      [ "Kernel", "classpanixkernel_1_1Kernel.html", "classpanixkernel_1_1Kernel" ]
     ] ],
     [ "kernel_entry.asm", "kernel__entry_8asm.html", null ],
     [ "keyboard.cpp", "keyboard_8cpp.html", "keyboard_8cpp" ],
@@ -27,7 +27,7 @@ var files =
     [ "memory.h", "memory_8h.html", "memory_8h" ],
     [ "ports.cpp", "ports_8cpp.html", null ],
     [ "ports.h", "ports_8h.html", [
-      [ "Ports", "classPorts.html", "classPorts" ]
+      [ "Ports", "classcpu_1_1Ports.html", "classcpu_1_1Ports" ]
     ] ],
     [ "print32.asm", "print32_8asm.html", null ],
     [ "screen.cpp", "screen_8cpp.html", null ],
@@ -37,7 +37,7 @@ var files =
     [ "switch32.asm", "switch32_8asm.html", null ],
     [ "timer.cpp", "timer_8cpp.html", "timer_8cpp" ],
     [ "timer.h", "timer_8h.html", [
-      [ "Timer", "classTimer.html", "classTimer" ]
+      [ "Timer", "classcpu_1_1Timer.html", "classcpu_1_1Timer" ]
     ] ],
     [ "type.h", "type_8h.html", "type_8h" ]
 ];

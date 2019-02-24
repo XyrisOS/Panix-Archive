@@ -1,6 +1,9 @@
 var NAVTREE =
 [
   [ "Panix", "index.html", [
+    [ "Namespaces", null, [
+      [ "Namespace List", "namespaces.html", "namespaces" ]
+    ] ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
@@ -27,7 +30,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"structregisters__t.html#abdc4acd673970ed5c985ac2732f97c24"
+"struct____attribute____.html#a2c5106312c60da8340d95ea8f201e8f2"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

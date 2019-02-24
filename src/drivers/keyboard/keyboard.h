@@ -53,7 +53,7 @@ namespace drivers {
              * @brief Initializes the keyboard driver
              * 
              */
-            static void initialize();
+            void initialize();
         
         private:
             /**

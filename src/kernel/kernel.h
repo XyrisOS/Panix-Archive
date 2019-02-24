@@ -19,7 +19,7 @@
 #include "../drivers/keyboard/keyboard.h"
 #include "../drivers/screen/screen.h"
 
-namespace kernel {
+namespace panixkernel {
     class Kernel {
         public:
             /**
@@ -27,13 +27,13 @@ namespace kernel {
              * 
              * @param input String input from keyboard to be processed.
              */
-            static void handleUserInput(char* input);
+            void handleUserInput(char* input);
 
             /**
              * @brief Prints the Panix splash screen on boot.
              * 
              */
-            static void printSplashScreen();
+            void printSplashScreen();
     };
 }
 
