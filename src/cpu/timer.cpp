@@ -5,12 +5,12 @@ uint32_t tick = 0;
 static void timerCallback(registers_t regs) {
     tick++;
     if (false) {
-        kprint((char*) "Tick: ");
+        Screen::kprint((char*) "Tick: ");
 
         char tickString[256];
         intToString(tick, tickString);
-        kprint(tickString);
-        kprint((char*) "\n");
+        Screen::kprint(tickString);
+        Screen::kprint((char*) "\n");
     }
 
     UNUSED(regs);

@@ -28,12 +28,12 @@ void Keyboard::callback(registers_t regs) {
     uint8_t scancode = getPortByte(0x60);
     if (scancode == UP_ARROW && stringLength(lastCommand) > 0) {
         while (lengthOfCurrentCommand > 0) {
-            kprintBackspace();
+            Screen::kprintBackspace();
             --lengthOfCurrentCommand;
         }
         stringCopy(lastCommand, keyBuffer);
         lengthOfCurrentCommand = stringLength(lastCommand);
-        kprint(lastCommand);
+        Screen::kprint(lastCommand);
         return;
     }
     if (scancode > SCANCODE_MAX) {
@@ -43,10 +43,10 @@ void Keyboard::callback(registers_t regs) {
         if (lengthOfCurrentCommand > 0) {
             --lengthOfCurrentCommand;
             backspace(Keyboard::keyBuffer);
-            kprintBackspace();
+            Screen::kprintBackspace();
         }
     } else if (scancode == ENTER) {
-        kprint((char*) "\n");
+        Screen::kprint((char*) "\n");
         handleUserInput(Keyboard::keyBuffer);
         if (lengthOfCurrentCommand >= 256) {
             lengthOfCurrentCommand = 255;
@@ -60,7 +60,7 @@ void Keyboard::callback(registers_t regs) {
         /* Remember that kprint only accepts char[] */
         char str[2] = {letter, '\0'};
         append(Keyboard::keyBuffer, letter);
-        kprint(str);
+        Screen::kprint(str);
         ++lengthOfCurrentCommand;
     }
     UNUSED(regs);

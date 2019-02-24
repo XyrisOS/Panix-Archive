@@ -119,13 +119,13 @@ void isrInstall() {
 }
 
 void isrHandler(registers_t r) {
-    kprint((char*) "received interrupt: ");
+    Screen::kprint((char*) "received interrupt: ");
     char s[3];
     intToString(r.interruptNumber, s);
-    kprint(s);
-    kprint((char*) "\n");
-    kprint(exceptionMessages[r.interruptNumber]);
-    kprint((char*) "\n");
+    Screen::kprint(s);
+    Screen::kprint((char*) "\n");
+    Screen::kprint(exceptionMessages[r.interruptNumber]);
+    Screen::kprint((char*) "\n");
 }
 
 void registerInterruptHandler(uint8_t n, isr_t handler) {

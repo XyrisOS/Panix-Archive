@@ -33,7 +33,7 @@ extern "C" int kernelMain() {
 }
 
 void printSplashScreen() {
-    clearScreen();
+    Screen::clearScreen();
     char* splashScreen[] = {
         (char*) "     ____  ___    _   _______  __ \n",
         (char*) "    / __ \\/   |  / | / /  _/ |/ /\n",
@@ -44,13 +44,13 @@ void printSplashScreen() {
         (char*) "\nType HALT to halt the CPU\n> "
     };
     for (int i = 0; i < 7; i++) {
-        kprint(splashScreen[i]);
+        Screen::kprint(splashScreen[i]);
     }
 }
 
 void handleUserInput(char *input) {
     if (stringComparison(input, (char*) "HALT") == 0) {
-        kprint((char*) "Stopping the CPU. Bye!\n");
+        Screen::kprint((char*) "Stopping the CPU. Bye!\n");
         asm volatile("hlt");
     } else if (stringComparison(input, (char*) "PAGE") == 0) {
         uint32_t physicalAddress;
@@ -62,17 +62,17 @@ void handleUserInput(char *input) {
         char physicalAddressHexString[16] = "";
         hexToString(physicalAddress, physicalAddressHexString);
         
-        kprint((char*) "Page: ");
-        kprint(pageHexString);
-        kprint((char*) ", physical address: ");
-        kprint(physicalAddressHexString);
-        kprint((char*) "\n");
+        Screen::kprint((char*) "Page: ");
+        Screen::kprint(pageHexString);
+        Screen::kprint((char*) ", physical address: ");
+        Screen::kprint(physicalAddressHexString);
+        Screen::kprint((char*) "\n");
     } else if (stringComparison(input, (char*) "CLEAR") == 0) {
-        clearScreen();
+        Screen::clearScreen();
     } else {
-        kprint((char*) "You said: ");
-        kprint(input);
-        kprint((char*) "\n");
+        Screen::kprint((char*) "You said: ");
+        Screen::kprint(input);
+        Screen::kprint((char*) "\n");
     }
-    kprint((char*) "> ");
+    Screen::kprint((char*) "> ");
 }
