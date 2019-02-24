@@ -27,7 +27,7 @@ namespace cpu {
              * 
              * @param frequency I honestly do not know
              */
-            static void initialize(uint32_t frequency);
+            void initialize(uint32_t frequency);
         
         private:
             /**
