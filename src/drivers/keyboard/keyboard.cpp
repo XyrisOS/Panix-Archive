@@ -68,13 +68,12 @@ void Keyboard::callback(registers_t regs) {
         lengthOfCurrentCommand = 0;
         Keyboard::keyBuffer[0] = '\0';
     } else {
-        Screen::kprint((char*) scancodeName[scancode]);
-        // char letter = scancodeAscii[(int) scancode];
-        // /* Remember that kprint only accepts char[] */
-        // char str[2] = {letter, '\0'};
-        // append(Keyboard::keyBuffer, letter);
-        // Screen::kprint(str);
-        // ++lengthOfCurrentCommand;
+        char letter = scancodeAscii[(int) scancode];
+        /* Remember that kprint only accepts char[] */
+        char str[2] = {letter, '\0'};
+        append(Keyboard::keyBuffer, letter);
+        Screen::kprint(str);
+        ++lengthOfCurrentCommand;
     }
     UNUSED(regs);
 }
