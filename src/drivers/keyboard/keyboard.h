@@ -25,7 +25,7 @@ class Keyboard : public Driver {
          * @brief An array of human readable names for each scancode
          * 
          */
-        static const char* scancodeName[];
+        static const char scancodeName[64][16];
 
         /**
          * @brief An array of ASCII symbols for each scancode

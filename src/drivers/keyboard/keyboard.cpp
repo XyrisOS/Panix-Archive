@@ -15,7 +15,7 @@ const char Keyboard::scancodeAscii[] = {
     'B', 'N', 'M', ',', '.', '/', '?', '?',
     '?', ' '
 };
-const char* Keyboard::scancodeName[] = {
+const char Keyboard::scancodeName[64][16] = {
     "ERROR", "Esc", "1", "2", "3", "4", "5", "6",
     "7", "8", "9", "0", "-", "=", "Backspace", "Tab",
     "Q", "W", "E", "R", "T", "Y", "U", "I",
@@ -68,12 +68,13 @@ void Keyboard::callback(registers_t regs) {
         lengthOfCurrentCommand = 0;
         Keyboard::keyBuffer[0] = '\0';
     } else {
-        char letter = scancodeAscii[(int) scancode];
-        /* Remember that kprint only accepts char[] */
-        char str[2] = {letter, '\0'};
-        append(Keyboard::keyBuffer, letter);
-        Screen::kprint(str);
-        ++lengthOfCurrentCommand;
+        Screen::kprint((char*) scancodeName[scancode]);
+        // char letter = scancodeAscii[(int) scancode];
+        // /* Remember that kprint only accepts char[] */
+        // char str[2] = {letter, '\0'};
+        // append(Keyboard::keyBuffer, letter);
+        // Screen::kprint(str);
+        // ++lengthOfCurrentCommand;
     }
     UNUSED(regs);
 }
