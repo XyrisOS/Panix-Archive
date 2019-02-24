@@ -1,13 +1,13 @@
 #ifndef KEYBOARD_H
 #define KEYBOARD_H
 
-#include "../cpu/isr.h"
-#include "../cpu/type.h"
-#include "../kernel/kernel.h"
-#include "../libc/function.h"
-#include "../libc/string.h"
-#include "driver.h"
-#include "screen.h"
+#include "../../cpu/isr.h"
+#include "../../cpu/type.h"
+#include "../../kernel/kernel.h"
+#include "../../libc/function.h"
+#include "../../libc/string.h"
+#include "../driver.h"
+#include "../screen/screen.h"
 
 #define BACKSPACE 0x0E
 #define ENTER 0x1C
