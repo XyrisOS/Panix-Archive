@@ -21,7 +21,7 @@ extern "C" int kernelMain() {
     irqInstall();
 
     printSplashScreen();
-    Screen::kprint((char*) "> ");
+    Screen::kprint((char*) "Panix:$ ");
 
     return 0;
 }
@@ -35,7 +35,7 @@ void printSplashScreen() {
         (char*) "  / ____/ ___ |/ /|  // / /   |   \n",
         (char*) " /_/   /_/  |_/_/ |_/___//_/|_|   \n",
         (char*) "\nWelcome to the PANIX kernel!\n",
-        (char*) "\nType HALT to halt the CPU\nPanix:$ "
+        (char*) "\nType HALT to halt the CPU\n"
     };
     for (int i = 0; i < 7; i++) {
         Screen::kprint(splashScreen[i]);
@@ -69,5 +69,5 @@ void handleUserInput(char *input) {
         Screen::kprint(input);
         Screen::kprint((char*) "\n");
     }
-    Screen::kprint((char*) "nPanix:$ ");
+    Screen::kprint((char*) "Panix:$ ");
 }
