@@ -67,6 +67,7 @@ void handleUserInput(char *input) {
         Screen::clearScreen();
     } else if (stringComparison(input, (char*) "PANIC") == 0) {
         int result = 0 / 0;
+        result++;
     } else {
         Screen::kprint(input);
         Screen::kprint((char*) "\n");

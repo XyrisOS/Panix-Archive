@@ -13,7 +13,7 @@
 
 /* Struct which aggregates many registers */
 /**
- * @brief 
+ * @brief General purpose and special registers declaration.
  * 
  */
 typedef struct {
