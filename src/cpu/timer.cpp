@@ -1,3 +1,8 @@
+/**
+ * File: timer.cpp
+ * Author: Keeton Feavel and James Osborne
+ */
+
 #include "timer.h"
 
 uint32_t tick = 0;

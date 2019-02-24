@@ -1,3 +1,8 @@
+/**
+ * File: keyboard.h
+ * Author: Keeton Feavel and James Osborne
+ */
+
 #ifndef KEYBOARD_H
 #define KEYBOARD_H
 

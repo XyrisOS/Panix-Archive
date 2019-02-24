@@ -1,3 +1,8 @@
+/**
+ * File: timer.h
+ * Author: Keeton Feavel and James Osborne
+ */
+
 #ifndef TIMER_H
 #define TIMER_H
 

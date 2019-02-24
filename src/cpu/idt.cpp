@@ -1,3 +1,8 @@
+/**
+ * File: idt.cpp
+ * Author: Keeton Feavel and James Osborne
+ */
+
 #include "idt.h"
 
 void setIdtGate(int n, uint32_t handler) {

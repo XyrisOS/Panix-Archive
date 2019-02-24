@@ -1,5 +1,10 @@
-#ifndef TYPES_H
-#define TYPES_H
+/**
+ * File: type.h
+ * Author: Keeton Feavel and James Osborne
+ */
+
+#ifndef TYPE_H
+#define TYPE_H
 
 #include <stdint.h>
 
@@ -58,4 +63,4 @@ typedef struct {
     uint32_t base;
 } __attribute__((packed)) idt_register_t;
 
-#endif /* TYPES_H */
+#endif /* TYPE_H */

@@ -1,3 +1,8 @@
+/**
+ * File: keyboard.cpp
+ * Author: Keeton Feavel and James Osborne
+ */
+
 #include "keyboard.h"
 
 const char Keyboard::scancodeAscii[] = { 

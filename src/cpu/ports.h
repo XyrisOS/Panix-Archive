@@ -1,6 +1,6 @@
 /**
  * File: ports.h
- * Author: Keeton Feavel
+ * Author: Keeton Feavel and James Osborne
  */
 
 #ifndef PORTS_H

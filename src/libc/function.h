@@ -1,3 +1,8 @@
+/**
+ * File: function.h
+ * Author: Keeton Feavel and James Osborne
+ */
+
 #ifndef FUNCTION_H
 #define FUNCTION_H
 

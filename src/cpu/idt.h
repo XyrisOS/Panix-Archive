@@ -1,3 +1,8 @@
+/**
+ * File: idt.h
+ * Author: Keeton Feavel and James Osborne
+ */
+
 #ifndef IDT_H
 #define IDT_H
 
