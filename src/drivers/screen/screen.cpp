@@ -11,7 +11,7 @@
 
 void Screen::clearScreen() {
     int screen_size = MAX_COLUMNS * MAX_ROWS;
-    char *screen = (char *)VIDEO_ADDRESS;
+    char* screen = (char*) VIDEO_ADDRESS;
 
     for (int i = 0; i < screen_size; i++) {
         screen[i * 2] = ' ';
