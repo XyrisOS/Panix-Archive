@@ -25,7 +25,7 @@ void backspace(char s[]) {
 /**
  * 
  */
-void hexToString(int n, char str[]) {
+void hexToString(int n, char* str) {
     append(str, '0');
     append(str, 'x');
     char zeros = 0;
@@ -53,7 +53,7 @@ void hexToString(int n, char str[]) {
 }
 
 /* K&R */
-void intToString(int n, char str[]) {
+void intToString(int n, char* str) {
     int i = 0;
     int sign = n;
     if (sign < 0) {
@@ -72,7 +72,7 @@ void intToString(int n, char str[]) {
     reverse(str);
 }
 
-void intToString(uint32_t n, char str[]) {
+void intToString(uint32_t n, char* str) {
     int i = 0;
     do {
         str[i++] = n % 10 + '0';
@@ -82,7 +82,7 @@ void intToString(uint32_t n, char str[]) {
     reverse(str);
 }
 
-void intToString(uint16_t n, char str[]) {
+void intToString(uint16_t n, char* str) {
     int i = 0;
     do {
         str[i++] = n % 10 + '0';
@@ -92,7 +92,7 @@ void intToString(uint16_t n, char str[]) {
     reverse(str);
 }
 
-void intToString(uint8_t n, char str[]) {
+void intToString(uint8_t n, char* str) {
     int i = 0;
     do {
         str[i++] = n % 10 + '0';

@@ -29,7 +29,7 @@ void backspace(char s[]);
  * @param n Integer value of hex data
  * @param str TODO: Document
  */
-void hexToString(int n, char str[]);
+void hexToString(int n, char* str);
 
 /**
  * @brief Converts a given int into an ASCII string
@@ -37,7 +37,7 @@ void hexToString(int n, char str[]);
  * @param n Int value
  * @param str TODO: Document
  */
-void intToString(int n, char str[]);
+void intToString(int n, char* str);
 
 /**
  * @brief Reverses a string
@@ -45,7 +45,7 @@ void intToString(int n, char str[]);
  * @param n 
  * @param str 
  */
-void intToString(uint32_t n, char str[]);
+void intToString(uint32_t n, char* str);
 
 /**
  * @brief 
@@ -53,7 +53,7 @@ void intToString(uint32_t n, char str[]);
  * @param n 
  * @param str 
  */
-void intToString(uint16_t n, char str[]);
+void intToString(uint16_t n, char* str);
 
 /**
  * @brief 
@@ -61,7 +61,7 @@ void intToString(uint16_t n, char str[]);
  * @param n 
  * @param str 
  */
-void intToString(uint8_t n, char str[]);
+void intToString(uint8_t n, char* str);
 
 /**
  * @brief 
