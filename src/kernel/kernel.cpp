@@ -17,7 +17,6 @@
 #include "kernel.h"
 
 using namespace drivers;
-using namespace kernel;
 
 /**
  * @brief Main entry point for the kernel
@@ -27,7 +26,8 @@ extern "C" int kernelMain() {
     cpu::ISR::isrInstall();
     cpu::ISR::irqInstall();
 
-    Kernel::printSplashScreen();
+    panixkernel::Kernel kernel;
+    kernel.printSplashScreen();
     Screen::kprint((char*) "Panix:$ ");
 
     return 0;
@@ -37,7 +37,7 @@ extern "C" int kernelMain() {
 * Public Functions *
 ********************/
 
-void Kernel::printSplashScreen() {
+void panixkernel::Kernel::printSplashScreen() {
     Screen::clearScreen();
     char* splashScreen[] = {
         (char*) "     ____  ___    _   _______  __ \n",
@@ -53,7 +53,7 @@ void Kernel::printSplashScreen() {
     }
 }
 
-void Kernel::handleUserInput(char *input) {
+void panixkernel::Kernel::handleUserInput(char* input) {
     if (stringComparison(input, (char*) "HALT") == 0) {
         Screen::kprint((char*) "Halting the CPU. Bye!\n");
         asm volatile("hlt");
@@ -73,7 +73,7 @@ void Kernel::handleUserInput(char *input) {
         Screen::kprint(physicalAddressHexString);
         Screen::kprint((char*) "\n");
     } else if (stringComparison(input, (char*) "SPLASH") == 0) {
-        Kernel::printSplashScreen();
+        this->printSplashScreen();
     } else if (stringComparison(input, (char*) "CLEAR") == 0) {
         Screen::clearScreen();
     } else if (stringComparison(input, (char*) "PANIC") == 0) {
