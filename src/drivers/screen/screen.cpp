@@ -5,23 +5,26 @@
 
 #include "screen.h"
 
-/* Declaration of private functions */
-int getCursorOffset();
-void setCursorOffset(int offset);
-int printChar(char c, int column, int row, char color);
-int getOffset(int column, int row);
-int getOffsetRow(int offset);
-int getOffsetColumn(int offset);
+/*******************
+* Public Functions *
+********************/
 
-/**********************************************************
- * Public Kernel API functions                            *
- **********************************************************/
+void Screen::clearScreen() {
+    int screen_size = MAX_COLUMNS * MAX_ROWS;
+    char *screen = (char *)VIDEO_ADDRESS;
 
-/**
- * Print a message on the specified location
- * If col, row, are negative, we will use the current offset
- */
-void kprintAtPosition(char* message, int column, int row) {
+    for (int i = 0; i < screen_size; i++) {
+        screen[i * 2] = ' ';
+        screen[i * 2 + 1] = WHITE_ON_BLACK;
+    }
+    setCursorOffset(getOffset(0, 0));
+}
+
+void Screen::kprint(char *message) {
+    kprintAtPosition(message, -1, -1);
+}
+
+void Screen::kprintAtPosition(char* message, int column, int row) {
     /* Set cursor if column/row are negative */
     int offset;
     if (column >= 0 && row >= 0) {
@@ -35,38 +38,51 @@ void kprintAtPosition(char* message, int column, int row) {
     /* Loop through message and print it */
     int i = 0;
     while (message[i] != 0) {
-        offset = printChar(message[i++], column, row, YELLOW_ON_BLACK);   // TODO: Make color dynamic
+        offset = printCharacter(message[i++], column, row, YELLOW_ON_BLACK);   // TODO: Make color dynamic
         /* Compute row/column for next iteration */
         row = getOffsetRow(offset);
         column = getOffsetColumn(offset);
     }
 }
 
-void kprintBackspace() {
+void Screen::kprintBackspace() {
     int offset = getCursorOffset() - 2;
     int row = getOffsetRow(offset);
     int column = getOffsetColumn(offset);
 
-    printChar(0x08, column, row, WHITE_ON_BLACK);
+    printCharacter(0x08, column, row, WHITE_ON_BLACK);
 }
 
-void kprint(char *message) {
-    kprintAtPosition(message, -1, -1);
+/********************
+* Private Functions *
+*********************/
+
+int Screen::getCursorOffset() {
+    /* Use the VGA ports to get the current cursor position
+     * 1. Ask for high byte of the cursor offset (data 14)
+     * 2. Ask for low byte (data 15)
+     */
+    setPortByte(REG_SCREEN_CTRL, 14);
+    int offset = getPortByte(REG_SCREEN_DATA) << 8; 	/* High byte: << 8 */
+    setPortByte(REG_SCREEN_CTRL, 15);
+    offset += getPortByte(REG_SCREEN_DATA);
+
+    return offset * 2; 									/* Position * size of character cell */
 }
 
-/**********************************************************
- * Private kernel functions                               *
- **********************************************************/
+int Screen::getOffset(int column, int row) { 
+	return 2 * (row * MAX_COLUMNS + column);
+}
 
-/**
- * Innermost print function for our kernel, directly accesses the video memory 
- *
- * If 'col' and 'row' are negative, we will print at current cursor location
- * If 'attr' is zero it will use 'white on black' as default
- * Returns the offset of the next character
- * Sets the video cursor to the returned offset
- */
-int printChar(char c, int column, int row, char color) {
+int Screen::getOffsetRow(int offset) {
+	return offset / (2 * MAX_COLUMNS);
+}
+
+int Screen::getOffsetColumn(int offset) {
+	return (offset - (getOffsetRow(offset) * 2 * MAX_COLUMNS)) / 2;
+}
+
+int Screen::printCharacter(char c, int column, int row, char color) {
     uint8_t* videoMemory = (uint8_t*) VIDEO_ADDRESS;
     if (!color) {
         color = WHITE_ON_BLACK;
@@ -123,47 +139,11 @@ int printChar(char c, int column, int row, char color) {
     return offset;
 }
 
-int getCursorOffset() {
-    /* Use the VGA ports to get the current cursor position
-     * 1. Ask for high byte of the cursor offset (data 14)
-     * 2. Ask for low byte (data 15)
-     */
-    setPortByte(REG_SCREEN_CTRL, 14);
-    int offset = getPortByte(REG_SCREEN_DATA) << 8; 	/* High byte: << 8 */
-    setPortByte(REG_SCREEN_CTRL, 15);
-    offset += getPortByte(REG_SCREEN_DATA);
-
-    return offset * 2; 									/* Position * size of character cell */
-}
-
-void setCursorOffset(int offset) {
+void Screen::setCursorOffset(int offset) {
     /* Similar to getCursorOffset, but instead of reading we write data */
     offset /= 2;
     setPortByte(REG_SCREEN_CTRL, 14);
     setPortByte(REG_SCREEN_DATA, (uint8_t) (offset >> 8));
     setPortByte(REG_SCREEN_CTRL, 15);
     setPortByte(REG_SCREEN_DATA, (uint8_t) (offset & 0xff));
-}
-
-void clearScreen() {
-    int screen_size = MAX_COLUMNS * MAX_ROWS;
-    char *screen = (char *)VIDEO_ADDRESS;
-
-    for (int i = 0; i < screen_size; i++) {
-        screen[i * 2] = ' ';
-        screen[i * 2 + 1] = WHITE_ON_BLACK;
-    }
-    setCursorOffset(getOffset(0, 0));
-}
-
-int getOffset(int column, int row) { 
-	return 2 * (row * MAX_COLUMNS + column);
-}
-
-int getOffsetRow(int offset) {
-	return offset / (2 * MAX_COLUMNS);
-}
-
-int getOffsetColumn(int offset) {
-	return (offset - (getOffsetRow(offset) * 2 * MAX_COLUMNS)) / 2;
 }
