@@ -17,35 +17,41 @@
 class Keyboard : public Driver {
     public:
         /**
-         * @brief 
+         * @brief An array of human readable names for each scancode
          * 
          */
         static const char* scancodeName[];
 
         /**
-         * @brief 
+         * @brief An array of ASCII symbols for each scancode
          * 
          */
         static const char scancodeAscii[];
 
         /**
-         * @brief 
+         * @brief Called each time a keyboard interrupt is received
          * 
+         * @param regs The struct representing all register. Currently unused.
          */
         static void callback(registers_t regs);
+
         /**
-         * @brief 
+         * @brief Initializes the keyboard driver
          * 
          */
         static void initialize();
     
     private:
         /**
-         * @brief 
+         * @brief A buffer holding the text of a shell command
          * 
          */
         inline static char keyBuffer[256];
 
+        /**
+         * @brief A buffer holding the last shell command
+         * 
+         */
         inline static char lastCommand[256];
 };
 
