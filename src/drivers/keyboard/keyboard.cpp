@@ -40,22 +40,23 @@ char* lastCommand = (char*) "\0";
 
 int lengthOfCurrentCommand = 0;
 
+inline drivers::Screen screen;
+inline panixkernel::Kernel kernel;
+
 /*******************
 * Public Functions *
 ********************/
 void Keyboard::callback(registers_t regs) {
-    panixkernel::Kernel kernel;
-
     /* The PIC leaves us the scancode in port 0x60 */
     uint8_t scancode = cpu::Ports::getPortByte(0x60);
     if (scancode == UP_ARROW && stringLength(lastCommand) > 0) {
         while (lengthOfCurrentCommand > 0) {
-            Screen::kprintBackspace();
+            screen.kprintBackspace();
             --lengthOfCurrentCommand;
         }
         stringCopy(lastCommand, keyBuffer);
         lengthOfCurrentCommand = stringLength(lastCommand);
-        Screen::kprint(lastCommand);
+        screen.kprint(lastCommand);
         return;
     }
     if (scancode > SCANCODE_MAX) {
@@ -65,10 +66,10 @@ void Keyboard::callback(registers_t regs) {
         if (lengthOfCurrentCommand > 0) {
             --lengthOfCurrentCommand;
             backspace(Keyboard::keyBuffer);
-            Screen::kprintBackspace();
+            screen.kprintBackspace();
         }
     } else if (scancode == ENTER) {
-        Screen::kprint((char*) "\n");
+        screen.kprint((char*) "\n");
         kernel.handleUserInput(Keyboard::keyBuffer);
         if (lengthOfCurrentCommand >= 256) {
             lengthOfCurrentCommand = 255;
@@ -82,7 +83,7 @@ void Keyboard::callback(registers_t regs) {
         /* Remember that kprint only accepts char[] */
         char str[2] = {letter, '\0'};
         append(Keyboard::keyBuffer, letter);
-        Screen::kprint(str);
+        screen.kprint(str);
         ++lengthOfCurrentCommand;
     }
     UNUSED(regs);
