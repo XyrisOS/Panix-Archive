@@ -79,7 +79,7 @@ clean:
 	
 	@ echo Cleaning cpu directories...
 	@ rm -rf src/cpu/*.bin src/cpu/*.o
-	@ rm -rf src/cpu/*.bin src/cpu/*/*.o
+	@ rm -rf src/cpu/*/*.bin src/cpu/*/*.o
 	
 	@ echo Cleaning driver directories...
 	@ rm -rf src/drivers/*.bin src/drivers/*.o
