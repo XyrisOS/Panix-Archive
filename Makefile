@@ -2,8 +2,8 @@
 # $< = first dependency
 # $^ = all dependencies
 
-CXX_SOURCES = $(wildcard src/kernel/*.cpp src/kernel/util/*.cpp src/drivers/*.cpp src/cpu/*.cpp src/libc/*.cpp)
-HEADERS = $(wildcard src/kernel/*.h src/kernel/util/*.h src/drivers/*.h src/cpu/*.h src/libc/*.h)
+CXX_SOURCES = $(wildcard src/kernel/*.cpp src/kernel/util/*.cpp src/drivers/*/*.cpp src/cpu/*.cpp src/libc/*.cpp)
+HEADERS = $(wildcard src/kernel/*.h src/kernel/util/*.h src/drivers/*/*.h src/cpu/*.h src/libc/*.h)
 
 # Nice syntax for file extension replacement
 CXX_OBJ = ${CXX_SOURCES:.cpp=.o src/cpu/interrupt.o}
@@ -65,7 +65,7 @@ clean:
 
 	rm -rf src/cpu/*.bin src/cpu/*.o
 	
-	rm -rf src/drivers/*.bin src/drivers/*.o
+	rm -rf src/drivers/*/*.bin src/drivers/*/*.o
 	
 	rm -rf src/kernel/*.bin src/kernel/*.o
 	

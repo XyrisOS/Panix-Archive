@@ -5,8 +5,8 @@
 #include "../cpu/isr.h"
 #include "../cpu/ports.h"
 #include "../cpu/timer.h"
-#include "../drivers/keyboard.h"
-#include "../drivers/screen.h"
+#include "../drivers/keyboard/keyboard.h"
+#include "../drivers/screen/screen.h"
 
 /**
  * @brief 

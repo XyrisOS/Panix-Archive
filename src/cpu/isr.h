@@ -1,9 +1,9 @@
 #ifndef ISR_H
 #define ISR_H
 
-#include "../drivers/screen.h"
-#include "../libc/string.h"
+#include "../drivers/screen/screen.h"
 #include "../kernel/kernel.h"
+#include "../libc/string.h"
 #include "idt.h"
 #include "ports.h"
 #include "timer.h"
