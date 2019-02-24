@@ -75,7 +75,8 @@ void ISR::irqInstall() {
     asm volatile("sti");
 
     /* IRQ0: timer */
-    Timer::initialize(50);
+    Timer timer;
+    timer.initialize(50);
     /* IRQ1: keyboard */
     Keyboard keyboard;
     keyboard.initialize();
