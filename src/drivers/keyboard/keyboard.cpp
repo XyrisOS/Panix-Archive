@@ -20,9 +20,16 @@ const char* Keyboard::scancodeName[] = {
     "B", "N", "M", ",", ".", "/", "RShift", "Keypad *",
     "LAlt", "Spacebar"
 };
+
+char* keyBuffer = (char*) "\0";
+
 char* lastCommand = (char*) "\0";
 
 int lengthOfCurrentCommand = 0;
+
+/*******************
+* Public Functions *
+********************/
 void Keyboard::callback(registers_t regs) {
     /* The PIC leaves us the scancode in port 0x60 */
     uint8_t scancode = getPortByte(0x60);
