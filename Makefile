@@ -42,7 +42,7 @@ run_from_floppy: dist/panix.raw
 	@ echo Booting from floppy...
 	qemu-system-i386 -fda $<
 
-build: dist/panix.raw
+dist: dist/panix.raw
 	@ echo Building VDI image of Panix...
 	@ qemu-img convert -f raw -O vdi dist/panix.raw dist/panix.vdi
 	@ echo Done building VDI image of Panix!
