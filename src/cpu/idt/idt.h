@@ -18,12 +18,34 @@
 #define KERNEL_CS 0x08
 
 #define IDT_ENTRIES 256
-/* `inline` prevents a multiple definition error */
-inline idt_gate_t idt[IDT_ENTRIES];
-inline idt_register_t idtRegister;
 
-/* Functions implemented in idt.c */
-void setIdtGate(int n, uint32_t handler);
-void setIdt();
+class IDT {
+    public:
+        /**
+         * @brief Set the IDT fields and initalize with KERNEL_CS
+         * 
+         * @param n The index of the gate to set
+         * @param handler The register to link to the IDT gate
+         */
+        static void setIdtGate(int n, uint32_t handler);
+
+        /**
+         * @brief Set the IDT base and limit
+         * 
+         */
+        static void setIdt();
+
+    private:
+        /**
+         * @brief Holds all of the entries of the IDT
+         * 
+         */
+        static inline idt_gate_t idt[IDT_ENTRIES];
+        /**
+         * @brief The reference to the IDT register
+         * 
+         */
+        static inline idt_register_t idtRegister;
+};
 
 #endif /* IDT_H */
