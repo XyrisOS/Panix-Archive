@@ -42,7 +42,7 @@ void printSplashScreen() {
         (char*) "  / ____/ ___ |/ /|  // / /   |   \n",
         (char*) " /_/   /_/  |_/_/ |_/___//_/|_|   \n",
         (char*) "\nWelcome to the PANIX kernel!\n",
-        (char*) "\nType HALT to halt the CPU\n"
+        (char*) "\nType HALT to halt the CPU\nPanix:$ "
     };
     for (int i = 0; i < 7; i++) {
         Screen::kprint(splashScreen[i]);
@@ -51,7 +51,7 @@ void printSplashScreen() {
 
 void handleUserInput(char *input) {
     if (stringComparison(input, (char*) "HALT") == 0) {
-        Screen::kprint((char*) "Stopping the CPU. Bye!\n");
+        Screen::kprint((char*) "Halting the CPU. Bye!\n");
         asm volatile("hlt");
     } else if (stringComparison(input, (char*) "PAGE") == 0) {
         uint32_t physicalAddress;
@@ -73,9 +73,8 @@ void handleUserInput(char *input) {
     } else if (stringComparison(input, (char*) "CLEAR") == 0) {
         Screen::clearScreen();
     } else {
-        Screen::kprint((char*) "You said: ");
         Screen::kprint(input);
         Screen::kprint((char*) "\n");
     }
-    Screen::kprint((char*) "> ");
+    Screen::kprint((char*) "nPanix:$ ");
 }

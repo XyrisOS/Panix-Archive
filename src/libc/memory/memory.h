@@ -9,20 +9,20 @@
 #include "../../cpu/type.h"
 
 /**
- * @brief 
+ * @brief Copys memory from one location to another.
  * 
- * @param source 
- * @param destination 
- * @param nbytes 
+ * @param source Source memory address
+ * @param destination Destination memory address
+ * @param nbytes Number of bytes to copy
  */
 void memoryCopy(char* source, char* destination, int nbytes);
 
 /**
- * @brief 
+ * @brief Sets the memory at a given location.
  * 
- * @param destination 
- * @param value 
- * @param length 
+ * @param destination Desintation memory address
+ * @param value Value to set in memory
+ * @param length Length of bytes to set
  */
 void memorySet(uint8_t* destination, uint8_t value, uint32_t length);
 
@@ -30,12 +30,12 @@ void memorySet(uint8_t* destination, uint8_t value, uint32_t length);
  * At this stage there is no 'free' implemented.
  */
 /**
- * @brief 
+ * @brief Kernel memory allocation function.
  * 
- * @param size 
- * @param align 
- * @param physicalAddress 
- * @return uint32_t 
+ * @param size Size of space to allocate
+ * @param align Byte alignment
+ * @param physicalAddress Physical memory address
+ * @return uint32_t TODO: Document
  */
 uint32_t kmalloc(uint32_t size, int align, uint32_t* physicalAddress);
 
