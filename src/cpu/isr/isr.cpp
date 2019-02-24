@@ -12,6 +12,7 @@
 #include "isr.h"
 
 using namespace cpu;
+using namespace drivers;
 
 const char panicSplashScreen[8][32] = {
     " ___________________________ \n",
@@ -75,7 +76,7 @@ void ISR::irqInstall() {
     /* IRQ0: timer */
     Timer::initialize(50);
     /* IRQ1: keyboard */
-    Keyboard::initialize();
+    drivers::Keyboard::initialize();
 }
 
 /* Can't do this with a loop because we need the address

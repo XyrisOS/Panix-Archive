@@ -16,6 +16,8 @@
 
 #include "kernel.h"
 
+using namespace drivers;
+
 /**
  * @brief Main entry point for the kernel
  * 

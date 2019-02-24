@@ -12,6 +12,7 @@
 #include "timer.h"
 
 using namespace cpu;
+using namespace drivers;
 
 uint32_t tick = 0;
 
