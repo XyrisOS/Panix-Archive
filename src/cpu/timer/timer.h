@@ -28,6 +28,12 @@ namespace cpu {
              * @param frequency I honestly do not know
              */
             void initialize(uint32_t frequency);
+
+            /**
+             * @brief Prints the current ticks
+             * 
+             */
+            void printTick();
         
         private:
             /**
