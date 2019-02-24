@@ -1,6 +1,0 @@
----
-exclude: ['README.markdown']
-permalink: ':title'
-rouge: true
-safe: false
-title: 'Panix Documentation'
