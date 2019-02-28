@@ -40,7 +40,7 @@ namespace drivers {
              * 
              * @param message 
              */
-            static void kprint(char* message);
+            static void kprint(const char* message);
 
             /**
              * @brief Prints a string at specified position
@@ -49,7 +49,7 @@ namespace drivers {
              * @param column Column to start printing at, a value of -1 will print at cursor position
              * @param row Row to start printing at, a value of -1 will print at cursor position
              */
-            static void kprintAtPosition(char* message, int column = -1, int row = -1);
+            static void kprintAtPosition(const char* message, int column = -1, int row = -1);
 
             /**
              * @brief Moves the cursor back one column and removes last printed character

@@ -19,7 +19,7 @@ using namespace drivers;
 
 void Screen::clearScreen() {
     int screen_size = MAX_COLUMNS * MAX_ROWS;
-    char* screen = (char*) VIDEO_ADDRESS;
+    uint8_t* screen = (uint8_t*) VIDEO_ADDRESS;
 
     for (int i = 0; i < screen_size; i++) {
         screen[i * 2] = ' ';
@@ -28,11 +28,11 @@ void Screen::clearScreen() {
     setCursorOffset(getOffset(0, 0));
 }
 
-void Screen::kprint(char* message) {
+void Screen::kprint(const char* message) {
     kprintAtPosition(message, -1, -1);
 }
 
-void Screen::kprintAtPosition(char* message, int column, int row) {
+void Screen::kprintAtPosition(const char* message, int column, int row) {
     /* Set cursor if column/row are negative */
     int offset;
     if (column >= 0 && row >= 0) {
@@ -129,8 +129,8 @@ int Screen::printCharacter(char c, int column, int row, char color) {
     /* Check if the offset is over screen size and scroll */
     if (offset >= MAX_ROWS * MAX_COLUMNS * 2) {
         for (int i = 1; i < MAX_ROWS; i++) {
-            memoryCopy(((char*) getOffset(0, i)) + VIDEO_ADDRESS,
-                       ((char*) getOffset(0, i - 1)) + VIDEO_ADDRESS,
+            memoryCopy(((uint8_t*) getOffset(0, i)) + VIDEO_ADDRESS,
+                       ((uint8_t*) getOffset(0, i - 1)) + VIDEO_ADDRESS,
                        MAX_COLUMNS * 2);
         }
 
