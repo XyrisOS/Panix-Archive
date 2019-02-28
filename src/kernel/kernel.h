@@ -30,10 +30,34 @@ namespace panixkernel {
             void handleUserInput(char* input);
 
             /**
+             * @brief Prints list of available commands
+             * 
+             */
+            static void help();
+
+            /**
+             * @brief Divides by zero to halt the CPU
+             * 
+             */
+            static void panic();
+
+            /**
+             * @brief Prints the panic splash 
+             * 
+             */
+            static void printPanicSplash();
+
+            /**
              * @brief Prints the Panix splash screen on boot.
              * 
              */
-            void printSplashScreen();
+            static void printSplashScreen();
+
+            /**
+             * @brief Prints the current tick of the CPU
+             * 
+             */
+            static void printTick();
     };
 }
 
