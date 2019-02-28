@@ -13,7 +13,7 @@
 
 using namespace cpu;
 
-const char panicSplashScreen[8][32] = {
+const char ISR::panicSplashScreen[8][32] = {
     " ___________________________ \n",
     "< Oops! Panix has panicked! >\n",
     " --------------------------- \n",
@@ -25,7 +25,7 @@ const char panicSplashScreen[8][32] = {
 };
 
 /* To print the message which defines every exception */
-const char exceptionMessages[32][32] {
+const char ISR::exceptionMessages[32][32] {
     "Division By Zero",
     "Debug",
     "Non Maskable Interrupt",
@@ -152,8 +152,8 @@ void ISR::isrInstall() {
 
 void ISR::printKernelPanicSplash() {
     drivers::Screen::clearScreen();
-    for (int i = 0; i < 8; i++) {
-        drivers::Screen::kprint((char*) panicSplashScreen[i]);
+    for (auto line : ISR::panicSplashScreen) {
+        drivers::Screen::kprint(line);
     }
 }
 
@@ -180,11 +180,10 @@ void irqHandler(registers_t r) {
 }
 
 void isrHandler(registers_t r) {
-    /* TODO: Write a panic message. Maybe animate it? */
     drivers::Screen::clearScreen();
     ISR::printKernelPanicSplash();
-    drivers::Screen::kprint((char*) "\n");
-    drivers::Screen::kprint((char*) exceptionMessages[r.interruptNumber]);
-    drivers::Screen::kprint((char*) "\n");
+    drivers::Screen::kprint("\n");
+    drivers::Screen::kprint(ISR::exceptionMessages[r.interruptNumber]);
+    drivers::Screen::kprint("\n");
     asm volatile("hlt");
 }
