@@ -20,7 +20,7 @@ inline cpu::Timer timer;
 inline panixkernel::Kernel kernel;
 
 #define NUMBER_OF_COMMANDS 5
-const char commandNames[NUMBER_OF_COMMANDS][256] = {
+const char commandNames[NUMBER_OF_COMMANDS][16] = {
     "CLEAR",
     "HELP",
     "PANIC",
@@ -45,7 +45,7 @@ extern "C" int kernelMain() {
     commandFunctions[4] = panixkernel::Kernel::printTick;
 
     kernel.printSplashScreen();
-    drivers::Screen::kprint((char*) "Panix:$ ");
+    drivers::Screen::kprint("Panix:$ ");
 
     return 0;
 }
@@ -66,7 +66,7 @@ void panixkernel::Kernel::printPanicSplash() {
         "            ||     ||\n\n"
     };
     for (auto line : panicSplashScreen) {
-        drivers::Screen::kprint((char*) line);
+        drivers::Screen::kprint(line);
     }
 }
 
@@ -82,7 +82,7 @@ void panixkernel::Kernel::printSplashScreen() {
         "\nType HALT to halt the CPU\n"
     };
     for (auto line : splashScreen) {
-        drivers::Screen::kprint((char*) line);
+        drivers::Screen::kprint(line);
     }
 }
 
@@ -93,14 +93,14 @@ void panixkernel::Kernel::handleUserInput(char* input) {
             break;
         }
     }
-    drivers::Screen::kprint((char*) "Panix:$ ");
+    drivers::Screen::kprint("Panix:$ ");
 }
 
 void panixkernel::Kernel::help() {
-    drivers::Screen::kprint((char*) "\nThe available commands are:\n");
+    drivers::Screen::kprint("The available commands are:\n");
     for (auto commandName : commandNames) {
-        drivers::Screen::kprint((char*) commandName);
-        drivers::Screen::kprint((char*) "\n");
+        drivers::Screen::kprint(commandName);
+        drivers::Screen::kprint("\n");
     }
 }
 
