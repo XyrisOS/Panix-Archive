@@ -34,11 +34,11 @@ void Timer::initialize(uint32_t frequency) {
 }
 
 void Timer::printTick() {
-    drivers::Screen::kprint((char*) "Tick: ");
-    char tickString[256];
+    drivers::Screen::kprint("Tick: ");
+    char tickString[10];
     intToString(tick, tickString);
     drivers::Screen::kprint(tickString);
-    drivers::Screen::kprint((char*) "\n");
+    drivers::Screen::kprint("\n");
 }
 
 /********************
