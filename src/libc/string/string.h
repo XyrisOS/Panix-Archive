@@ -83,7 +83,7 @@ void reverse(char* s);
  * @param s2 String 2
  * @return int 
  */
-int stringComparison(char* s1, char* s2);
+int stringComparison(const char* s1, const char* s2);
 
 /**
  * @brief Gets the length of a given string.
@@ -91,7 +91,7 @@ int stringComparison(char* s1, char* s2);
  * @param source 
  * @param destination 
  */
-void stringCopy(char* source, char* destination);
+void stringCopy(const char* source, char* destination);
 
 /**
  * @brief 
@@ -99,6 +99,6 @@ void stringCopy(char* source, char* destination);
  * @param s String to analyze
  * @return int Length return value
  */
-int stringLength(char* s);
+int stringLength(const char* s);
 
 #endif /* STRING_H */
