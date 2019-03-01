@@ -18,7 +18,7 @@
  * @param destination 
  * @param nbytes 
  */
-void memoryCopy(char* source, char* destination, int nbytes) {
+void memoryCopy(uint8_t* source, uint8_t* destination, int nbytes) {
     for (int i = 0; i < nbytes; i++) {
         *(destination + i) = *(source + i);
     }

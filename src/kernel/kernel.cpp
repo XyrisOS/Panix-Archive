@@ -19,6 +19,16 @@
 inline cpu::Timer timer;
 inline panixkernel::Kernel kernel;
 
+#define NUMBER_OF_COMMANDS 5
+const char commandNames[NUMBER_OF_COMMANDS][16] = {
+    "CLEAR",
+    "HELP",
+    "PANIC",
+    "SPLASH",
+    "TICK"
+};
+void (*commandFunctions[NUMBER_OF_COMMANDS])();
+
 /**
  * @brief Main entry point for the kernel
  * 
@@ -27,8 +37,15 @@ extern "C" int kernelMain() {
     cpu::ISR::isrInstall();
     cpu::ISR::irqInstall();
 
+    /* Initialize function pointers */
+    commandFunctions[0] = drivers::Screen::clearScreen;
+    commandFunctions[1] = panixkernel::Kernel::help;
+    commandFunctions[2] = panixkernel::Kernel::panic;
+    commandFunctions[3] = panixkernel::Kernel::printSplashScreen;
+    commandFunctions[4] = panixkernel::Kernel::printTick;
+
     kernel.printSplashScreen();
-    drivers::Screen::kprint((char*) "Panix:$ ");
+    drivers::Screen::kprint("Panix:$ ");
 
     return 0;
 }
@@ -36,54 +53,63 @@ extern "C" int kernelMain() {
 /*******************
 * Public Functions *
 ********************/
+void panixkernel::Kernel::printPanicSplash() {
+    drivers::Screen::clearScreen();
+    const char* panicSplashScreen[8] = {
+        " ___________________________ \n",
+        "< Oops! Panix has panicked! >\n",
+        " --------------------------- \n",
+        "    \\   ^__^\n",
+        "     \\  (**)\\_______\n",
+        "        (__)\\       )\\/\\\n",
+        "         U  ||----w |\n",
+        "            ||     ||\n\n"
+    };
+    for (auto line : panicSplashScreen) {
+        drivers::Screen::kprint(line);
+    }
+}
+
 void panixkernel::Kernel::printSplashScreen() {
     drivers::Screen::clearScreen();
-    char* splashScreen[] = {
-        (char*) "     ____  ___    _   _______  __ \n",
-        (char*) "    / __ \\/   |  / | / /  _/ |/ /\n",
-        (char*) "   / /_/ / /| | /  |/ // / |   /  \n",
-        (char*) "  / ____/ ___ |/ /|  // / /   |   \n",
-        (char*) " /_/   /_/  |_/_/ |_/___//_/|_|   \n",
-        (char*) "\nWelcome to the PANIX kernel!\n",
-        (char*) "\nType HALT to halt the CPU\n"
+    const char* splashScreen[7] = {
+        "     ____  ___    _   _______  __ \n",
+        "    / __ \\/   |  / | / /  _/ |/ /\n",
+        "   / /_/ / /| | /  |/ // / |   /  \n",
+        "  / ____/ ___ |/ /|  // / /   |   \n",
+        " /_/   /_/  |_/_/ |_/___//_/|_|   \n",
+        "\nWelcome to the PANIX kernel!\n",
+        "\nType HALT to halt the CPU\n"
     };
-    for (int i = 0; i < 7; i++) {
-        drivers::Screen::kprint(splashScreen[i]);
+    for (auto line : splashScreen) {
+        drivers::Screen::kprint(line);
     }
 }
 
 void panixkernel::Kernel::handleUserInput(char* input) {
-    if (stringComparison(input, (char*) "HALT") == 0) {
-        drivers::Screen::kprint((char*) "Halting the CPU. Bye!\n");
-        asm volatile("hlt");
-    } else if (stringComparison(input, (char*) "PAGE") == 0) {
-        uint32_t physicalAddress;
-        uint32_t page = kmalloc(1000, 1, &physicalAddress);
-        
-        char pageHexString[16] = "";
-        hexToString(page, pageHexString);
-
-        char physicalAddressHexString[16] = "";
-        hexToString(physicalAddress, physicalAddressHexString);
-        
-        drivers::Screen::kprint((char*) "Page: ");
-        drivers::Screen::kprint(pageHexString);
-        drivers::Screen::kprint((char*) ", physical address: ");
-        drivers::Screen::kprint(physicalAddressHexString);
-        drivers::Screen::kprint((char*) "\n");
-    } else if (stringComparison(input, (char*) "TICK") == 0) {
-        // drivers::Screen::kprint((char*) "\n");
-        timer.printTick();
-    } else if (stringComparison(input, (char*) "SPLASH") == 0) {
-        this->printSplashScreen();
-    } else if (stringComparison(input, (char*) "CLEAR") == 0) {
-        drivers::Screen::clearScreen();
-    } else if (stringComparison(input, (char*) "PANIC") == 0) {
-        int result = 0 / 0;
-        result++;
-    } else {
-        drivers::Screen::kprint(input);
-        drivers::Screen::kprint((char*) "\n");
+    for (int i = 0; i < NUMBER_OF_COMMANDS; ++i) {
+        if (stringComparison((char*) commandNames[i], input) == 0) {
+            (*commandFunctions[i])();
+            break;
+        }
     }
-    drivers::Screen::kprint((char*) "Panix:$ ");
+    drivers::Screen::kprint("Panix:$ ");
+}
+
+void panixkernel::Kernel::help() {
+    drivers::Screen::kprint("The available commands are:\n");
+    for (auto commandName : commandNames) {
+        drivers::Screen::kprint(commandName);
+        drivers::Screen::kprint("\n");
+    }
+}
+
+void panixkernel::Kernel::panic() {
+    panixkernel::Kernel::printPanicSplash();
+    int result = 0 / 0;
+    result++;
+}
+
+void panixkernel::Kernel::printTick() {
+    timer.printTick();
 }

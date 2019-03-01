@@ -15,13 +15,13 @@
 #include "../../cpu/type.h"
 
 /**
- * @brief Copys memory from one location to another.
+ * @brief Copies memory from one location to another.
  * 
  * @param source Source memory address
  * @param destination Destination memory address
  * @param nbytes Number of bytes to copy
  */
-void memoryCopy(char* source, char* destination, int nbytes);
+void memoryCopy(uint8_t* source, uint8_t* destination, int nbytes);
 
 /**
  * @brief Sets the memory at a given location.

@@ -121,7 +121,7 @@ void reverse(char* s) {
 
 /* K&R 
  * Returns <0 if s1<s2, 0 if s1==s2, >0 if s1>s2 */
-int stringComparison(char* s1, char* s2) {
+int stringComparison(const char* s1, const char* s2) {
     int i;
     for (i = 0; s1[i] == s2[i]; i++) {
         if (s1[i] == '\0') {
@@ -131,7 +131,7 @@ int stringComparison(char* s1, char* s2) {
     return s1[i] - s2[i];
 }
 
-void stringCopy(char* source, char* destination) {
+void stringCopy(const char* source, char* destination) {
     int i = 0;
     while (source[i] != '\0') {
         destination[i] = source[i];
@@ -141,7 +141,7 @@ void stringCopy(char* source, char* destination) {
 }
 
 /* K&R */
-int stringLength(char* s) {
+int stringLength(const char* s) {
     int i = 0;
     while (s[i] != '\0') {
         ++i;

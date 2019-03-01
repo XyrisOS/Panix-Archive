@@ -68,7 +68,7 @@ void Keyboard::callback(registers_t regs) {
             drivers::Screen::kprintBackspace();
         }
     } else if (scancode == ENTER) {
-        drivers::Screen::kprint((char*) "\n");
+        drivers::Screen::kprint("\n");
         kernel.handleUserInput(Keyboard::keyBuffer);
         if (lengthOfCurrentCommand >= 256) {
             lengthOfCurrentCommand = 255;
