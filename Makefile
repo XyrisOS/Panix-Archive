@@ -96,7 +96,7 @@ clean:
 
 clean-docs:
 	@ echo Cleaning old documentation...
-	@ find docs/html ! -name CNAME ! -name robots.txt -type f -delete
+	@ find docs/ ! -name CNAME ! -name robots.txt -type f -delete
 	@ echo "\nDone cleaning documentation!"
 
 .PHONY: docs

@@ -1,25 +1,26 @@
 digraph "keyboard.h"
 {
+ // LATEX_PDF_SIZE
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
-  Node14 [label="keyboard.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node14 [label="keyboard.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Keyboard driver header file. Provides a class for translating scancodes to printable characters and p..."];
   Node14 -> Node15 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node15 [label="kernel.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$kernel_8h.html",tooltip="Kernel header file. "];
+  Node15 [label="kernel.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$kernel_8h.html",tooltip="Kernel header file."];
   Node15 -> Node16 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node16 [label="isr.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$isr_8h.html",tooltip="Interrupt Service Routine header file. Provides a class to reference all interrupt registers and perf..."];
   Node16 -> Node17 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node17 [label="isr.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$isr_8cpp.html",tooltip="Interrupt Service Routine definitions file. "];
+  Node17 [label="isr.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$isr_8cpp.html",tooltip="Interrupt Service Routine definitions file."];
   Node16 -> Node15 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node16 -> Node18 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node18 [label="timer.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$timer_8h.html",tooltip="CPU Timer header file. Provides a class to access the timer on the CPU. "];
+  Node18 [label="timer.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$timer_8h.html",tooltip="CPU Timer header file. Provides a class to access the timer on the CPU."];
   Node18 -> Node15 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node18 -> Node16 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node18 -> Node19 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node19 [label="timer.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$timer_8cpp.html",tooltip="Timer definitions file. "];
+  Node19 [label="timer.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$timer_8cpp.html",tooltip="Timer definitions file."];
   Node16 -> Node14 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node15 -> Node14 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node15 -> Node20 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node20 [label="kernel.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$kernel_8cpp.html",tooltip="Panix kernel main source file. Includes the kernel&#39;s kernel_main() function that helps make the jump ..."];
+  Node20 [label="kernel.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$kernel_8cpp.html",tooltip="Panix kernel main source file. Includes the kernel's kernel_main() function that helps make the jump ..."];
   Node14 -> Node21 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node21 [label="keyboard.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$keyboard_8cpp.html",tooltip="Keyboard driver definitions file. "];
+  Node21 [label="keyboard.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$keyboard_8cpp.html",tooltip="Keyboard driver definitions file."];
 }
