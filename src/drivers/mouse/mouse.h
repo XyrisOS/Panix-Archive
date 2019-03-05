@@ -3,6 +3,11 @@
  * @author Keeton Feavel and James Osborne
  * @brief Mouse driver header file. Provides a class
  * for all mouse related functionality at a kernel level.
+ * 
+ * References: 
+ *      https://github.com/AlgorithMan-de/wyoos/blob/master/include/drivers/mouse.h
+ *      https://github.com/stevej/osdev/blob/master/kernel/devices/mouse.c
+ * 
  * @version 0.1
  * @date 2019-03-04
  * 
@@ -42,30 +47,9 @@ namespace drivers {
             /**
              * @brief 
              * 
-             * @param a_type 
-             */
-            void mouse_wait(uint8_t a_type);
-            
-            /**
-             * @brief 
-             * 
-             * @param write 
-             */
-            void mouse_write(uint8_t write);
-
-            /**
-             * @brief 
-             * 
-             * @return uint8_t 
-             */
-            uint8_t mouse_read();
-
-            /**
-             * @brief 
-             * 
              * @param regs 
              */
-            void callback(registers_t regs);
+            registers_t callback(registers_t regs);
 
             /**
              * @brief 
@@ -73,7 +57,37 @@ namespace drivers {
              */
             void initialize();
         private:
-            //
+            /**
+             * @brief 
+             * 
+             */
+            void onActivate();
+
+            /**
+             * @brief 
+             * 
+             * @param button 
+             */
+            void onMouseDown(uint8_t button);
+
+            /**
+             * @brief 
+             * 
+             * @param button 
+             */
+            void onMouseUp(uint8_t button);
+
+            /**
+             * @brief 
+             * 
+             * @param x 
+             * @param y 
+             */
+            void onMouseMove(int x, int y);
+
+            uint8_t buffer[3];
+            uint8_t offset;
+            uint8_t buttons;
     };
 }
 
