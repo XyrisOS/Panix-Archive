@@ -7,5 +7,7 @@ digraph "Driver"
   Node0 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node1 [label="drivers::Keyboard",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classdrivers_1_1Keyboard.html",tooltip=" "];
   Node0 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node2 [label="drivers::Screen",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classdrivers_1_1Screen.html",tooltip=" "];
+  Node2 [label="drivers::Mouse",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classdrivers_1_1Mouse.html",tooltip=" "];
+  Node0 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="drivers::Screen",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classdrivers_1_1Screen.html",tooltip=" "];
 }

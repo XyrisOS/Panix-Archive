@@ -3,6 +3,7 @@ var hierarchy =
     [ "__attribute__", "struct____attribute____.html", null ],
     [ "Driver", "classDriver.html", [
       [ "drivers::Keyboard", "classdrivers_1_1Keyboard.html", null ],
+      [ "drivers::Mouse", "classdrivers_1_1Mouse.html", null ],
       [ "drivers::Screen", "classdrivers_1_1Screen.html", null ]
     ] ],
     [ "cpu::IDT", "classcpu_1_1IDT.html", null ],

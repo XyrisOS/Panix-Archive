@@ -25,6 +25,8 @@ var files_dup =
     [ "keyboard.h", "keyboard_8h.html", "keyboard_8h" ],
     [ "memory.cpp", "memory_8cpp.html", "memory_8cpp" ],
     [ "memory.h", "memory_8h.html", "memory_8h" ],
+    [ "mouse.cpp", "mouse_8cpp.html", null ],
+    [ "mouse.h", "mouse_8h.html", "mouse_8h" ],
     [ "ports.cpp", "ports_8cpp.html", null ],
     [ "ports.h", "ports_8h.html", [
       [ "Ports", "classcpu_1_1Ports.html", "classcpu_1_1Ports" ]
