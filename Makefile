@@ -102,5 +102,5 @@ clean-docs:
 .PHONY: docs
 docs: 
 	@ echo Generating documentation...
-	@ doxygen ./doxygen.config
+	@ doxygen ./Doxyfile
 	@ echo "\nDone generating documentation!"
