@@ -97,7 +97,7 @@ void panixkernel::Kernel::handleUserInput(char* input) {
 }
 
 void panixkernel::Kernel::help() {
-    drivers::Screen::kprint("The available commands are:\n");
+    drivers::Screen::kprint("\nThe available commands are:\n");
     for (auto commandName : commandNames) {
         drivers::Screen::kprint(commandName);
         drivers::Screen::kprint("\n");
