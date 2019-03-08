@@ -104,3 +104,22 @@ docs:
 	@ echo Generating documentation...
 	@ doxygen ./Doxyfile
 	@ echo "\nDone generating documentation!"
+
+.PHONY: mac-setup
+setup:
+	@ echo "Using Brew to install necessary command line tools..."
+	@ brew install nasm
+	@ brew install qemu
+	@ brew install i386-elf-gcc
+	@ brew install i386-elf-binutils
+	@ echo "\nDone installing brews!"
+
+.PHONY: ubuntu-setup
+setup:
+	@ echo "Using apt to install necessary command line tools..."
+	@ echo "You will need to enter your password to use apt.\n"
+	@ sudo apt install nasm
+	@ sudo apt install qemu
+	@ sudo apt install binutils
+	@ sudo apt install gcc
+	@ echo "\nDone installing brews!"
