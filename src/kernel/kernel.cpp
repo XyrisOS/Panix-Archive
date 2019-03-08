@@ -105,6 +105,7 @@ void panixkernel::Kernel::help() {
 }
 
 void panixkernel::Kernel::panic() {
+    // TODO: Panic splash screen doesn't print. Why not?
     panixkernel::Kernel::printPanicSplash();
     int result = 0 / 0;
     result++;

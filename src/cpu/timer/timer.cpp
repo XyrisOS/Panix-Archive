@@ -34,10 +34,12 @@ void Timer::initialize(uint32_t frequency) {
 }
 
 void Timer::printTick() {
+    // TODO: This doesn't print a new line. Why...?
     drivers::Screen::kprint("Tick: ");
     char tickString[10];
     intToString(tick, tickString);
     drivers::Screen::kprint(tickString);
+    // TODO: This also doesn't print a new line.
     drivers::Screen::kprint("\n");
 }
 
