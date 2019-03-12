@@ -4,9 +4,9 @@
  * @brief Mouse driver header file. Provides a class
  * for all mouse related functionality at a kernel level.
  * 
- * References: 
- *      https://github.com/AlgorithMan-de/wyoos/blob/master/include/drivers/mouse.h
- *      https://github.com/stevej/osdev/blob/master/kernel/devices/mouse.c
+ * References:
+ * https://github.com/AlgorithMan-de/wyoos/blob/master/include/drivers/mouse.h
+ * https://github.com/stevej/osdev/blob/master/kernel/devices/mouse.c
  * 
  * @version 0.1
  * @date 2019-03-04

@@ -67,6 +67,7 @@ isr_t interruptHandlers[256];
 
 inline Timer timer;
 inline drivers::Keyboard keyboard;
+inline drivers::Mouse mouse;
 
 /*******************
 * Public Functions *
@@ -79,6 +80,8 @@ void ISR::irqInstall() {
     timer.initialize(50);
     /* IRQ1: keyboard */
     keyboard.initialize();
+    /* IRQ?: Mouse */
+    mouse.initialize();
 }
 
 /* Can't do this with a loop because we need the address

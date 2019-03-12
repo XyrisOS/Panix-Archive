@@ -17,6 +17,7 @@
 #include "../cpu/ports/ports.h"
 #include "../cpu/timer/timer.h"
 #include "../drivers/keyboard/keyboard.h"
+#include "../drivers/mouse/mouse.h"
 #include "../drivers/screen/screen.h"
 
 namespace panixkernel {
