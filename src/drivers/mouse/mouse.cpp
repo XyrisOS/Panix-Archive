@@ -67,17 +67,17 @@ void Mouse::initialize() {
 * Private Functions *
 *********************/
 void Mouse::onActivate() {
-
+    drivers::Screen::kprint("Mouse driver activated.\n");
 }
 
 void Mouse::onMouseDown(uint8_t button) {
-
+    drivers::Screen::kprint("Mouse button down.\n");
 }
 
 void Mouse::onMouseUp(uint8_t button) {
-
+    drivers::Screen::kprint("Mouse button up.\n");
 }
 
 void Mouse::onMouseMove(int x, int y) {
-
+    drivers::Screen::kprint("Mouse moved.\n");
 }
