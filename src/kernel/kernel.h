@@ -37,16 +37,10 @@ namespace panixkernel {
             static void help();
 
             /**
-             * @brief Divides by zero to halt the CPU
+             * @brief Divides by zero to halt the CPU and prints the panic splash
              * 
              */
             static void panic();
-
-            /**
-             * @brief Prints the panic splash 
-             * 
-             */
-            static void printPanicSplash();
 
             /**
              * @brief Prints the Panix splash screen on boot.

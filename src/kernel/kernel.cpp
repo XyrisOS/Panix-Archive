@@ -53,37 +53,10 @@ extern "C" int kernelMain() {
 /*******************
 * Public Functions *
 ********************/
-void panixkernel::Kernel::printPanicSplash() {
-    drivers::Screen::clearScreen();
-    const char* panicSplashScreen[8] = {
-        " ___________________________ \n",
-        "< Oops! Panix has panicked! >\n",
-        " --------------------------- \n",
-        "    \\   ^__^\n",
-        "     \\  (**)\\_______\n",
-        "        (__)\\       )\\/\\\n",
-        "         U  ||----w |\n",
-        "            ||     ||\n\n"
-    };
-    for (auto line : panicSplashScreen) {
-        drivers::Screen::kprint(line);
-    }
-}
-
 void panixkernel::Kernel::printSplashScreen() {
     drivers::Screen::clearScreen();
-    const char* splashScreen[7] = {
-        "     ____  ___    _   _______  __ \n",
-        "    / __ \\/   |  / | / /  _/ |/ /\n",
-        "   / /_/ / /| | /  |/ // / |   /  \n",
-        "  / ____/ ___ |/ /|  // / /   |   \n",
-        " /_/   /_/  |_/_/ |_/___//_/|_|   \n",
-        "\nWelcome to the PANIX kernel!\n",
-        "\nType HALT to halt the CPU\n"
-    };
-    for (auto line : splashScreen) {
-        drivers::Screen::kprint(line);
-    }
+
+    drivers::Screen::kprint("Welcome to the PANIX kernel!"); drivers::Screen::kprintNewLine(); drivers::Screen::kprintNewLine();
 }
 
 void panixkernel::Kernel::handleUserInput(char* input) {
@@ -97,16 +70,16 @@ void panixkernel::Kernel::handleUserInput(char* input) {
 }
 
 void panixkernel::Kernel::help() {
-    drivers::Screen::kprint("\nThe available commands are:\n");
+    drivers::Screen::kprint("The available commands are:");
+    drivers::Screen::kprintNewLine();
     for (auto commandName : commandNames) {
         drivers::Screen::kprint(commandName);
-        drivers::Screen::kprint("\n");
+        drivers::Screen::kprintNewLine();
     }
 }
 
 void panixkernel::Kernel::panic() {
-    // TODO: Panic splash screen doesn't print. Why not?
-    panixkernel::Kernel::printPanicSplash();
+    drivers::Screen::kprint("< Oops! Panix has panicked! >"); drivers::Screen::kprintNewLine();
     int result = 0 / 0;
     result++;
 }

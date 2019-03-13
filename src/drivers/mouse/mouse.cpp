@@ -27,16 +27,16 @@ registers_t Mouse::callback(registers_t regs) {
     buffer[offset] = cpu::Ports::getPortByte(MOUSE_IRQ);
     offset = (offset + 1) % 3;
 
-    if(offset == 0) {
-        if(buffer[1] != 0 || buffer[2] != 0) {
-            onMouseMove((int8_t)buffer[1], -((int8_t)buffer[2]));
+    if (offset == 0) {
+        if (buffer[1] != 0 || buffer[2] != 0) {
+            onMouseMove((int8_t) buffer[1], -((int8_t) buffer[2]));
         }
-        for(uint8_t i = 0; i < 3; i++) {
-            if((buffer[0] & (0x1<<i)) != (buttons & (0x1<<i))) {
-                if(buttons & (0x1<<i)) {
-                    onMouseUp(i+1);
+        for (uint8_t i = 0; i < 3; i++) {
+            if ((buffer[0] & (0x1 << i)) != (buttons & (0x1<<i))) {
+                if(buttons & (0x1 << i)) {
+                    onMouseUp(i + 1);
                 } else {
-                    onMouseDown(i+1);
+                    onMouseDown(i + 1);
                 }
             }
         }
@@ -67,17 +67,21 @@ void Mouse::initialize() {
 * Private Functions *
 *********************/
 void Mouse::onActivate() {
-    drivers::Screen::kprint("Mouse driver activated.\n");
+    drivers::Screen::kprint("Mouse driver activated.");
+    drivers::Screen::kprintNewLine();
 }
 
 void Mouse::onMouseDown(uint8_t button) {
-    drivers::Screen::kprint("Mouse button down.\n");
+    drivers::Screen::kprint("Mouse button down.");
+    drivers::Screen::kprintNewLine();
 }
 
 void Mouse::onMouseUp(uint8_t button) {
-    drivers::Screen::kprint("Mouse button up.\n");
+    drivers::Screen::kprint("Mouse button up.");
+    drivers::Screen::kprintNewLine();
 }
 
 void Mouse::onMouseMove(int x, int y) {
-    drivers::Screen::kprint("Mouse moved.\n");
+    drivers::Screen::kprint("Mouse moved.");
+    drivers::Screen::kprintNewLine();
 }

@@ -43,6 +43,13 @@ namespace drivers {
             static void kprint(const char* message);
 
             /**
+             * @brief Prints a newline at current cursor position
+             * 
+             * @param message 
+             */
+            static void kprintNewLine();
+
+            /**
              * @brief Prints a string at specified position
              * 
              * @param message String to print

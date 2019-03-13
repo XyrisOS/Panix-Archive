@@ -13,17 +13,6 @@
 
 using namespace cpu;
 
-const char ISR::panicSplashScreen[8][32] = {
-    " ___________________________ \n",
-    "< Oops! Panix has panicked! >\n",
-    " --------------------------- \n",
-    "    \\   ^__^\n",
-    "     \\  (**)\\_______\n",
-    "        (__)\\       )\\/\\\n",
-    "         U  ||----w |\n",
-    "            ||     ||\n\n"
-};
-
 /* To print the message which defines every exception */
 const char ISR::exceptionMessages[32][32] {
     "Division By Zero",
@@ -153,13 +142,6 @@ void ISR::isrInstall() {
     IDT::setIdt(); /* Load with ASM */
 }
 
-void ISR::printKernelPanicSplash() {
-    drivers::Screen::clearScreen();
-    for (auto line : ISR::panicSplashScreen) {
-        drivers::Screen::kprint(line);
-    }
-}
-
 void ISR::registerInterruptHandler(uint8_t n, isr_t handler) {
     interruptHandlers[n] = handler;
 }
@@ -183,10 +165,8 @@ void irqHandler(registers_t r) {
 }
 
 void isrHandler(registers_t r) {
-    drivers::Screen::clearScreen();
-    ISR::printKernelPanicSplash();
-    drivers::Screen::kprint("\n");
+    drivers::Screen::kprintNewLine();
     drivers::Screen::kprint(ISR::exceptionMessages[r.interruptNumber]);
-    drivers::Screen::kprint("\n");
+    drivers::Screen::kprintNewLine();
     asm volatile("hlt");
 }

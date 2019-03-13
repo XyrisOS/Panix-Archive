@@ -32,6 +32,10 @@ void Screen::kprint(const char* message) {
     kprintAtPosition(message, -1, -1);
 }
 
+void Screen::kprintNewLine() {
+    drivers::Screen::kprint("\n");
+}
+
 void Screen::kprintAtPosition(const char* message, int column, int row) {
     /* Set cursor if column/row are negative */
     int offset;

@@ -27,7 +27,6 @@ namespace cpu {
     class ISR {
         public:
             static const char exceptionMessages[32][32];
-            static const char panicSplashScreen[8][32];
 
             /**
              * @brief Installs and initializes IRQ interrupts
@@ -48,12 +47,6 @@ namespace cpu {
              * @param handler Interrupt handler function
              */
             static void registerInterruptHandler(uint8_t n, isr_t handler);
-
-            /**
-             * @brief Prints the kernel panic message
-             * 
-             */
-            static void printKernelPanicSplash();
     };
 }
 
