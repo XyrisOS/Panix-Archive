@@ -13,6 +13,14 @@ CXX_OBJ = ${CXX_SOURCES:.cpp=.o src/cpu/interrupt.o}
 # the need for a custom cross compiler
 CXX = i386-elf-gcc
 GDB = i386-elf-gdb
+LD = i386-elf-ld
+
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Linux)
+	CXX = gcc
+	GDB = gdb
+	LD = ld
+endif
 
 CXX_FLAGS = -fno-pie -g -ffreestanding -Wall -Wextra -fno-exceptions -m32 -lstdc++ -std=c++17
 
@@ -21,14 +29,16 @@ dist/panix.raw: src/boot/boot32.bin src/kernel/kernel.bin
 	mkdir -p dist
 	cat $^ > $@
 
+LD_FLAGS = -m elf_i386
+
 # '--oformat binary' deletes all symbols as a collateral, so we don't need
 # to 'strip' them manually on this case
 src/kernel/kernel.bin: src/boot/32bit/kernel_entry.o ${CXX_OBJ}
-	i386-elf-ld -o $@ -Ttext 0x1000 $^ --oformat binary
+	${LD} ${LD_FLAGS} -o $@ -Ttext 0x1000 $^ --oformat binary
 
 # Used for debugging purposes
 kernel.elf: src/boot/32bit/kernel_entry.o ${CXX_OBJ}
-	i386-elf-ld -o $@ -Ttext 0x1000 $^ 
+	${LD} ${LD_FLAGS} -o $@ -Ttext 0x1000 $^ 
 
 run: dist/panix.raw
 	@ echo Booting from disk...
