@@ -106,7 +106,7 @@ docs:
 	@ echo "\nDone generating documentation!"
 
 .PHONY: mac-setup
-setup:
+mac-setup:
 	@ echo "Using Brew to install necessary command line tools..."
 	@ brew install nasm
 	@ brew install qemu
@@ -115,7 +115,7 @@ setup:
 	@ echo "\nDone installing brews!"
 
 .PHONY: ubuntu-setup
-setup:
+ubuntu-setup:
 	@ echo "Using apt to install necessary command line tools..."
 	@ echo "You will need to enter your password to use apt.\n"
 	@ sudo apt install nasm
