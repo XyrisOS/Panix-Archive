@@ -36,4 +36,4 @@ class GlobalDescriptorTable
         uint16_t DataSegmentSelector();
 };
 
-#endif // GDT_HPP
+#endif /* GDT_HPP */

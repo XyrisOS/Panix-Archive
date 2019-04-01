@@ -10,4 +10,4 @@
     typedef long long int           int64_t;
     typedef unsigned long long int uint64_t;
     
-#endif // TYPES_HPP
+#endif /* TYPES_HPP */
