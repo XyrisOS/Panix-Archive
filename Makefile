@@ -26,7 +26,7 @@ LD_FLAGS = -melf_i386
 
 LINKER = src/boot/linker.ld
 
-OBJ = src/boot/loader.o src/kernel/kernel.o
+OBJ = src/boot/loader.o $(CXX_SRC:.cpp=.o)
 
 %.o: %.cpp $(HEADERS)
 	$(GCC) $(GCC_FLAGS) -c -o $@ $<
@@ -38,7 +38,7 @@ dist/panix.bin: $(LINKER) $(OBJ)
 	@ mkdir -p dist
 	$(LD) $(LD_FLAGS) -T $< -o $@ $(OBJ)
 
-build: dist/panix.bin
+dist/panix.iso: dist/panix.bin
 	@ echo Making iso directory...
 	@ mkdir -p iso
 	@ mkdir -p iso/boot
@@ -61,8 +61,7 @@ build: dist/panix.bin
 	@ rm -rf iso
 
 run: dist/panix.iso
-	(killall VirtualBox && sleep 1) || true
-	VirtualBox --startvm 'Panix' &
+	qemu-system-i386 $< 
 
 install: dist/panix.bin
 	sudo cp $< /boot/panix.bin
