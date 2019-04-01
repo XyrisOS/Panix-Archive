@@ -39,19 +39,26 @@ dist/panix.bin: $(LINKER) $(OBJ)
 	$(LD) $(LD_FLAGS) -T $< -o $@ $(OBJ)
 
 build: dist/panix.bin
-	mkdir -p iso
-	mkdir -p iso/boot
-	mkdir -p iso/boot/grub
-	cp $< iso/boot/
-	echo 'set timeout=0'                      > iso/boot/grub/grub.cfg
-	echo 'set default=0'                     >> iso/boot/grub/grub.cfg
-	echo ''                                  >> iso/boot/grub/grub.cfg
-	echo 'menuentry "Panix" {'               >> iso/boot/grub/grub.cfg
-	echo '  multiboot /boot/panix.bin'       >> iso/boot/grub/grub.cfg
-	echo '  boot'                            >> iso/boot/grub/grub.cfg
-	echo '}'                                 >> iso/boot/grub/grub.cfg
-	grub-mkrescue -o dist/panix.iso iso
-	rm -rf iso
+	@ echo Making iso directory...
+	@ mkdir -p iso
+	@ mkdir -p iso/boot
+	@ mkdir -p iso/boot/grub
+	@ cp $< iso/boot/
+
+	@ echo Creating grub.cfg...
+	@ echo 'set timeout=0'                      > iso/boot/grub/grub.cfg
+	@ echo 'set default=0'                     >> iso/boot/grub/grub.cfg
+	@ echo ''                                  >> iso/boot/grub/grub.cfg
+	@ echo 'menuentry "Panix" {'               >> iso/boot/grub/grub.cfg
+	@ echo '  multiboot /boot/panix.bin'       >> iso/boot/grub/grub.cfg
+	@ echo '  boot'                            >> iso/boot/grub/grub.cfg
+	@ echo '}'                                 >> iso/boot/grub/grub.cfg
+
+	@ echo Creating panix.iso...
+	@ grub-mkrescue -o dist/panix.iso iso
+
+	@ echo Cleaning up iso directory
+	@ rm -rf iso
 
 run: dist/panix.iso
 	(killall VirtualBox && sleep 1) || true
