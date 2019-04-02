@@ -1,9 +1,10 @@
 
 #include <types.hpp>
 #include <cpu/GlobalDescriptorTable/GlobalDescriptorTable.hpp>
-#include <cpu/InterruptManager/InterruptManager.hpp>
+#include <cpu/interrupts/InterruptManager.hpp>
+#include <drivers/KeyboardDriver.hpp>
 
-void printf(char* str) {
+void printf(const char* str) {
     static uint16_t* VideoMemory = (uint16_t*) 0xb8000;
 
     static uint8_t x=0,y=0;
@@ -56,8 +57,9 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     printf("Panix");
 
     GlobalDescriptorTable gdt;
-    InterruptManager interrupts(0x20, &gdt);
-    interrupts.activate();
+    InterruptManager interruptManager(0x20, &gdt);
+    KeyboardDriver keyboard(&interruptManager);
+    interruptManager.activate();
 
     while(1);
 }

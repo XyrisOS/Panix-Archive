@@ -23,7 +23,7 @@ ifeq ($(UNAME_S),Linux)
 	NASM = nasm
 endif
 
-GCC_FLAGS = -m32 -Iinclude -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore
+GCC_FLAGS = -m32 -Iinclude -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -Wno-write-strings
 AS_FLAGS = --32
 LD_FLAGS = -melf_i386
 
