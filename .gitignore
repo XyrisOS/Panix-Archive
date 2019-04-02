@@ -6,3 +6,4 @@ settings.json
 dist/panix.vdi
 dist/panix.vmdk
 .DS_Store
+obj/

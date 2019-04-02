@@ -2,11 +2,9 @@
 # sudo apt-get install g++ binutils
 # sudo apt-get install VirtualBox grub-pc:i386 xorriso
 
-CXX_SRC = $(shell find . -name "*.cpp")
-S_SRC = $(shell find . -name "*.s")
-HEADERS = $(shell find . -name "*.hpp")
-
-$(info $(CXX_SRC))
+CXX_SRC = $(shell find src/ -name "*.cpp")
+S_SRC = $(shell find src/ -name "*.s")
+HEADERS = $(shell find include/ -name "*.hpp")
 
 AS = i386-elf-as
 GCC = i386-elf-gcc
@@ -29,12 +27,21 @@ LD_FLAGS = -melf_i386
 
 LINKER = src/boot/linker.ld
 
-OBJ = $(CXX_SRC:.cpp=.o) $(S_SRC:.s=.o)
+OBJ = $(patsubst src/%.cpp, obj/%.o, $(CXX_SRC)) $(patsubst src/%.s, obj/%.o, $(S_SRC))
 
-%.o: %.cpp $(HEADERS)
+OBJ_DIRS = $(subst src, obj, $(shell find src -type d))
+
+.PHONY: 
+	obj_directories
+obj_directories:
+	mkdir -p $(OBJ_DIRS)
+
+obj/%.o: src/%.cpp $(HEADERS)
+	$(MAKE) obj_directories
 	$(GCC) $(GCC_FLAGS) -c -o $@ $<
 
-%.o: %.s
+obj/%.o: src/%.s
+	$(MAKE) obj_directories
 	$(AS) $(AS_FLAGS) -o $@ $<
 
 dist/panix.bin: $(LINKER) $(OBJ)
@@ -70,8 +77,8 @@ install: dist/panix.bin
 	sudo cp $< /boot/panix.bin
 
 clean:
-	@ echo Cleaning src directory...
-	@ rm -rf src/*.o src/*/*.o
+	@ echo Cleaning obj directory...
+	@ rm -rf obj
 
 	@ echo Cleaning bin files...
 	@ rm -rf dist/*.bin
