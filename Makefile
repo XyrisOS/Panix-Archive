@@ -1,17 +1,19 @@
 
-# sudo apt-get install g++ binutils
-# sudo apt-get install VirtualBox grub-pc:i386 xorriso
+# sudo apt-get install g++ binutils qemu-system-i386 grub-pc:i386 xorriso
 
+# Sources and headers
 CXX_SRC = $(shell find src/ -name "*.cpp")
 S_SRC = $(shell find src/ -name "*.s")
 HEADERS = $(shell find include/ -name "*.hpp")
 
+# Compilers/Assemblers/Linkers
 AS = i386-elf-as
 GCC = i386-elf-gcc
 GDB = i386-elf-gdb
 LD = i386-elf-ld
 NASM = i386-elf-nasm
 
+# Change for Linux
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
 	AS = as
@@ -21,21 +23,26 @@ ifeq ($(UNAME_S),Linux)
 	NASM = nasm
 endif
 
+# Compiler/Linker flags
 GCC_FLAGS = -m32 -Iinclude -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -Wno-write-strings
 AS_FLAGS = --32
 LD_FLAGS = -melf_i386
 
+# Linker file
 LINKER = src/boot/linker.ld
 
+# All objects
 OBJ = $(patsubst src/%.cpp, obj/%.o, $(CXX_SRC)) $(patsubst src/%.s, obj/%.o, $(S_SRC))
-
+# Object directories, mirroring source
 OBJ_DIRS = $(subst src, obj, $(shell find src -type d))
 
+# Create object file directories
 .PHONY: 
 	obj_directories
 obj_directories:
 	mkdir -p $(OBJ_DIRS)
 
+# Compile sources to objects
 obj/%.o: src/%.cpp $(HEADERS)
 	$(MAKE) obj_directories
 	$(GCC) $(GCC_FLAGS) -c -o $@ $<
@@ -44,10 +51,12 @@ obj/%.o: src/%.s
 	$(MAKE) obj_directories
 	$(AS) $(AS_FLAGS) -o $@ $<
 
+# Link objects into BIN
 dist/panix.bin: $(LINKER) $(OBJ)
 	@ mkdir -p dist
 	$(LD) $(LD_FLAGS) -T $< -o $@ $(OBJ)
 
+# Create bootable ISO
 dist/panix.iso: dist/panix.bin
 	@ echo Making iso directory...
 	@ mkdir -p iso
@@ -70,12 +79,15 @@ dist/panix.iso: dist/panix.bin
 	@ echo Cleaning up iso directory
 	@ rm -rf iso
 
+# Run bootable ISO
 run: dist/panix.iso
 	qemu-system-i386 $< 
 
+# Install BIN file to local system
 install: dist/panix.bin
 	sudo cp $< /boot/panix.bin
 
+# Clear out objects and BIN
 clean:
 	@ echo Cleaning obj directory...
 	@ rm -rf obj
