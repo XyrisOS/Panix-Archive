@@ -20,9 +20,6 @@ class MouseDriver : public InterruptHandler, public Driver
         uint8_t offset;
         uint8_t buttons;
 
-        int8_t x;
-        int8_t y;
-
         MouseEventHandler* mouseEventHandler;
     public:
         MouseDriver(InterruptManager* interruptManager, MouseEventHandler* mouseEventHandler);

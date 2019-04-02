@@ -14,4 +14,3 @@ void DriverManager::activateAll() {
         drivers[i]->activate();
     }
 }
-        

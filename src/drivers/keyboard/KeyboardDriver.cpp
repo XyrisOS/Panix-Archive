@@ -5,8 +5,7 @@ void printf(const char* str);
 KeyboardDriver::KeyboardDriver(InterruptManager* interruptManager, KeyboardEventHandler* keyboardEventHandler) 
     : InterruptHandler(interruptManager, 0x21), 
       dataPort(0x60), 
-      commandPort(0x64)
-{
+      commandPort(0x64) {
     this->keyboardEventHandler = keyboardEventHandler;
 }
 
@@ -26,6 +25,7 @@ void KeyboardDriver::activate() {
 
 uint32_t KeyboardDriver::handleInterrupt(uint32_t esp)
 {
+    printf("Handling keyboard interrupt\n");
     uint8_t key = dataPort.read();
     if (keyboardEventHandler == nullptr) {
         return esp;

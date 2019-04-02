@@ -56,13 +56,10 @@ class ConsoleMouseEventHandler : public MouseEventHandler {
         int8_t y;
 
     public:
-        ConsoleMouseEventHandler()
-        {
-        }
+        ConsoleMouseEventHandler() {}
         
-        virtual void onActivate()
-        {
-            uint16_t* videoMemory = (uint16_t*)0xb8000;
+        virtual void onActivate() {
+            uint16_t* videoMemory = (uint16_t*) 0xb8000;
             x = 40;
             y = 12;
             videoMemory[80 * y + x] = (videoMemory[80 * y + x] & 0x0F00) << 4
@@ -70,9 +67,8 @@ class ConsoleMouseEventHandler : public MouseEventHandler {
                                     | (videoMemory[80 * y + x] & 0x00FF);        
         }
         
-        virtual void OnMouseMove(int xoffset, int yoffset)
-        {
-            static uint16_t* videoMemory = (uint16_t*)0xb8000;
+        virtual void onMouseMove(int xoffset, int yoffset) {
+            static uint16_t* videoMemory = (uint16_t*) 0xb8000;
             videoMemory[80 * y + x] = (videoMemory[80 * y + x] & 0x0F00) << 4
                                     | (videoMemory[80 * y + x] & 0xF000) >> 4
                                     | (videoMemory[80 * y + x] & 0x00FF);

@@ -5,8 +5,8 @@ class KeyboardEventHandler {
     public:
         KeyboardEventHandler();
 
-        virtual void onKeyDown(char);
-        virtual void onKeyUp(char);
+        virtual void onKeyDown(char c);
+        virtual void onKeyUp(char c);
 };
 
 #endif /* KEYBOARD_EVENT_HANDLER_HPP */

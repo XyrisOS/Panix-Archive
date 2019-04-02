@@ -1,11 +1,12 @@
 
 #include <drivers/mouse/MouseDriver.hpp>
 
+void printf(const char* str);
+
 MouseDriver::MouseDriver(InterruptManager* interruptManager, MouseEventHandler* mouseEventHandler)
     : InterruptHandler(interruptManager, 0x2C),
       dataPort(0x60),
-      commandPort(0x64)
-{
+      commandPort(0x64) {
     this->mouseEventHandler = mouseEventHandler;
 }
 
@@ -15,11 +16,11 @@ void MouseDriver::activate() {
     uint16_t* videoMemory = (uint16_t*)0xb8000;
     offset = 0;
     buttons = 0;
-    x = 40;
-    y = 12;
-    videoMemory[80 * y + x] = (videoMemory[80 * y + x] & 0x0F00) << 4
-                            | (videoMemory[80 * y + x] & 0xF000) >> 4
-                            | (videoMemory[80 * y + x] & 0x00FF);
+    
+    if (mouseEventHandler != nullptr) {
+        printf("\nActivating mouse event handler\n");
+        mouseEventHandler->onActivate();
+    }
 
     commandPort.write(0xA8);
     commandPort.write(0x20); // command 0x60 = read controller command byte
@@ -35,14 +36,11 @@ void MouseDriver::activate() {
 uint32_t MouseDriver::handleInterrupt(uint32_t esp)
 {
     uint8_t status = commandPort.read();
-    if (!(status & 0x20)) {
+    if (!(status & 0x20) || mouseEventHandler == nullptr) {
         return esp;
     }
 
     buffer[offset] = dataPort.read();
-    if (mouseEventHandler == nullptr) {
-        return esp;
-    }
     offset = (offset + 1) % 3;
 
     if (offset == 0) { 
