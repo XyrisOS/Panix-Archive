@@ -2,8 +2,9 @@
 #include <types.hpp>
 #include <cpu/GlobalDescriptorTable/GlobalDescriptorTable.hpp>
 #include <cpu/interrupts/InterruptManager.hpp>
-#include <drivers/KeyboardDriver.hpp>
-#include <drivers/MouseDriver.hpp>
+#include <drivers/keyboard/KeyboardDriver.hpp>
+#include <drivers/mouse/MouseDriver.hpp>
+#include <drivers/DriverManager.hpp>
 
 void printf(const char* str) {
     static uint16_t* videoMemory = (uint16_t*) 0xb8000;
@@ -41,7 +42,61 @@ void printf(const char* str) {
     }
 }
 
+class KeyboardPrintEventHandler : public KeyboardEventHandler {
+    public:
+        void onKeyDown(char c) {
+            const char str[2] = {c, '\0'};
+            printf(str);
+        }
+};
 
+class ConsoleMouseEventHandler : public MouseEventHandler {
+    private:
+        int8_t x;
+        int8_t y;
+
+    public:
+        ConsoleMouseEventHandler()
+        {
+        }
+        
+        virtual void onActivate()
+        {
+            uint16_t* videoMemory = (uint16_t*)0xb8000;
+            x = 40;
+            y = 12;
+            videoMemory[80 * y + x] = (videoMemory[80 * y + x] & 0x0F00) << 4
+                                    | (videoMemory[80 * y + x] & 0xF000) >> 4
+                                    | (videoMemory[80 * y + x] & 0x00FF);        
+        }
+        
+        virtual void OnMouseMove(int xoffset, int yoffset)
+        {
+            static uint16_t* videoMemory = (uint16_t*)0xb8000;
+            videoMemory[80 * y + x] = (videoMemory[80 * y + x] & 0x0F00) << 4
+                                    | (videoMemory[80 * y + x] & 0xF000) >> 4
+                                    | (videoMemory[80 * y + x] & 0x00FF);
+
+            x += xoffset;
+            if (x >= 80) {
+                x = 79;
+            }
+            if (x < 0) {
+                x = 0;
+            }
+            y += yoffset;
+            if (y >= 25) {
+                y = 24;
+            }
+            if (y < 0) {
+                y = 0;
+            }
+
+            videoMemory[80 * y + x] = (videoMemory[80 * y + x] & 0x0F00) << 4
+                                    | (videoMemory[80 * y + x] & 0xF000) >> 4
+                                    | (videoMemory[80 * y + x] & 0x00FF);
+        }
+};
 
 typedef void (*constructor)();
 extern "C" constructor start_ctors;
@@ -55,12 +110,27 @@ extern "C" void callConstructors()
 
 extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot_magic*/)
 {
-    printf("Panix");
+    printf("Panix\n");
 
     GlobalDescriptorTable gdt;
     InterruptManager interruptManager(0x20, &gdt);
-    KeyboardDriver keyboard(&interruptManager);
-    MouseDriver mouse(&interruptManager);
+
+    printf("Initializing Hardware, Stage 1\n");
+    
+    DriverManager driverManager;
+    
+    KeyboardPrintEventHandler keyboardPrintEventHandler;
+    KeyboardDriver keyboard(&interruptManager, &keyboardPrintEventHandler);
+    driverManager.addDriver(&keyboard);
+
+    ConsoleMouseEventHandler consoleMouseEventHandler;
+    MouseDriver mouse(&interruptManager, &consoleMouseEventHandler);
+    driverManager.addDriver(&mouse);
+
+    printf("Initializing Hardware, Stage 2\n");
+    driverManager.activateAll();
+        
+    printf("Initializing Hardware, Stage 3\n");
     interruptManager.activate();
 
     while(1);

@@ -1,0 +1,16 @@
+#ifndef MOUSE_EVENT_HANDLER_HPP
+#define MOUSE_EVENT_HANDLER_HPP
+
+#include <types.hpp>
+
+class MouseEventHandler {
+    public:
+        MouseEventHandler();
+
+        virtual void onActivate();
+        virtual void onMouseDown(uint8_t button);
+        virtual void onMouseUp(uint8_t button);
+        virtual void onMouseMove(int x, int y);
+};
+
+#endif /* MOUSE_EVENT_HANDLER_HPP */
