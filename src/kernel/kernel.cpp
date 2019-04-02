@@ -3,9 +3,10 @@
 #include <cpu/GlobalDescriptorTable/GlobalDescriptorTable.hpp>
 #include <cpu/interrupts/InterruptManager.hpp>
 #include <drivers/KeyboardDriver.hpp>
+#include <drivers/MouseDriver.hpp>
 
 void printf(const char* str) {
-    static uint16_t* VideoMemory = (uint16_t*) 0xb8000;
+    static uint16_t* videoMemory = (uint16_t*) 0xb8000;
 
     static uint8_t x=0,y=0;
     
@@ -18,7 +19,7 @@ void printf(const char* str) {
                 y++;
                 break;
             default:
-                VideoMemory[80*y+x] = (VideoMemory[80*y+x] & 0xFF00) | str[i];
+                videoMemory[80*y+x] = (videoMemory[80*y+x] & 0xFF00) | str[i];
                 x++;
                 break;
         }
@@ -33,7 +34,7 @@ void printf(const char* str) {
         {
             for(y = 0; y < 25; y++)
                 for(x = 0; x < 80; x++)
-                    VideoMemory[80*y+x] = (VideoMemory[80*y+x] & 0xFF00) | ' ';
+                    videoMemory[80*y+x] = (videoMemory[80*y+x] & 0xFF00) | ' ';
             x = 0;
             y = 0;
         }
@@ -59,6 +60,7 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     GlobalDescriptorTable gdt;
     InterruptManager interruptManager(0x20, &gdt);
     KeyboardDriver keyboard(&interruptManager);
+    MouseDriver mouse(&interruptManager);
     interruptManager.activate();
 
     while(1);

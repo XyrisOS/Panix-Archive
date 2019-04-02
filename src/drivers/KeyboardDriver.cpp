@@ -4,18 +4,18 @@ void printf(const char* str);
 
 KeyboardDriver::KeyboardDriver(InterruptManager* interruptManager) 
     : InterruptHandler(interruptManager, 0x21), 
-      dataport(0x60), 
-      commandport(0x64)
+      dataPort(0x60), 
+      commandPort(0x64)
 {
-    while(commandport.read() & 0x1) {
-        dataport.read();
+    while(commandPort.read() & 0x1) {
+        dataPort.read();
     }
-    commandport.write(0xae); // activate interrupts
-    commandport.write(0x20); // command 0x20 = read controller command byte
-    uint8_t status = (dataport.read() | 1) & ~0x10;
-    commandport.write(0x60); // command 0x60 = set controller command byte
-    dataport.write(status);
-    dataport.write(0xf4);
+    commandPort.write(0xae); // activate interrupts
+    commandPort.write(0x20); // command 0x20 = read controller command byte
+    uint8_t status = (dataPort.read() | 1) & ~0x10;
+    commandPort.write(0x60); // command 0x60 = set controller command byte
+    dataPort.write(status);
+    dataPort.write(0xf4);
 }
 
 KeyboardDriver::~KeyboardDriver()
@@ -24,7 +24,7 @@ KeyboardDriver::~KeyboardDriver()
 
 uint32_t KeyboardDriver::handleInterrupt(uint32_t esp)
 {
-    uint8_t key = dataport.read();
+    uint8_t key = dataPort.read();
     if (key < 0x80) {
         switch(key)
         {
