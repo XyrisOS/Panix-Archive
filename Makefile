@@ -2,8 +2,11 @@
 # sudo apt-get install g++ binutils
 # sudo apt-get install VirtualBox grub-pc:i386 xorriso
 
-CXX_SRC = $(wildcard src/*.cpp src/*/*.cpp)
-HEADERS = $(wildcard include/*.h include/*.hpp)
+CXX_SRC = $(shell find . -name "*.cpp")
+S_SRC = $(shell find . -name "*.s")
+HEADERS = $(shell find . -name "*.hpp")
+
+$(info $(CXX_SRC))
 
 AS = i386-elf-as
 GCC = i386-elf-gcc
@@ -26,7 +29,7 @@ LD_FLAGS = -melf_i386
 
 LINKER = src/boot/linker.ld
 
-OBJ = src/boot/loader.o $(CXX_SRC:.cpp=.o)
+OBJ = $(CXX_SRC:.cpp=.o) $(S_SRC:.s=.o)
 
 %.o: %.cpp $(HEADERS)
 	$(GCC) $(GCC_FLAGS) -c -o $@ $<
