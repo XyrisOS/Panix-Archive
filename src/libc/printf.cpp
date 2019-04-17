@@ -1,14 +1,19 @@
 #include <libc/printf.hpp>
 
-void printf(const char* str) {
-    static uint16_t* videoMemory = (uint16_t*) 0xb8000;
+uint8_t x = 0;
+uint8_t y = 0;
 
-    static uint8_t x=0,y=0;
-    
+void printf(const char* str) {    
     for(int i = 0; str[i] != '\0'; ++i)
     {
         switch(str[i])
         {
+            case 0x08:
+                if (x > 0) {
+                    x--;
+                }
+                videoMemory[80 * y + x] = (videoMemory[80 * y + x] & 0xFF00) | ' ';
+                break;
             case '\n':
                 x = 0;
                 y++;
@@ -33,5 +38,48 @@ void printf(const char* str) {
             x = 0;
             y = 0;
         }
+    }
+}
+
+void printfAtPosition(const char* str, uint8_t positionX, uint8_t positionY, bool resetCursor) {
+    for(int i = 0; str[i] != '\0'; ++i)
+    {
+        switch(str[i])
+        {
+            case 0x08:
+                if (positionX > 0) {
+                    positionX--;
+                }
+                videoMemory[80 * positionY + positionX] = (videoMemory[80 * positionY + positionX] & 0xFF00) | ' ';
+                break;
+            case '\n':
+                positionX = 0;
+                positionY++;
+                break;
+            default:
+                videoMemory[80*positionY+positionX] = (videoMemory[80*positionY+positionX] & 0xFF00) | str[i];
+                positionX++;
+                break;
+        }
+        
+        if(positionX >= 80)
+        {
+            positionX = 0;
+            positionY++;
+        }
+        
+        if(positionY >= 25)
+        {
+            for(positionY = 0; positionY < 25; positionY++)
+                for(positionX = 0; positionX < 80; positionX++)
+                    videoMemory[80*positionY+positionX] = (videoMemory[80*positionY+positionX] & 0xFF00) | ' ';
+            positionX = 0;
+            positionY = 0;
+        }
+    }
+
+    if (resetCursor) {
+        x = 0;
+        y = 0;
     }
 }
