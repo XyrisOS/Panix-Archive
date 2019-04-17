@@ -22,6 +22,9 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     
     DriverManager driverManager;
     
+    /*************************************************
+     * DO NOT SWITCH THE ORDER OF ADDING THESE DRIVERS 
+     *************************************************/
     MouseEventHandler mouseEventHandler;
     MouseDriver mouse(&interruptManager, &mouseEventHandler);
     driverManager.addDriver(&mouse);
