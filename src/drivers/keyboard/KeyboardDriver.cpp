@@ -1,7 +1,5 @@
 #include <drivers/keyboard/KeyboardDriver.hpp>
 
-void printf(const char* str);
-
 KeyboardDriver::KeyboardDriver(InterruptManager* interruptManager, KeyboardEventHandler* keyboardEventHandler) 
     : InterruptHandler(interruptManager, 0x21), 
       dataPort(0x60), 
@@ -25,7 +23,6 @@ void KeyboardDriver::activate() {
 
 uint32_t KeyboardDriver::handleInterrupt(uint32_t esp)
 {
-    printf("Handling keyboard interrupt\n");
     uint8_t key = dataPort.read();
     if (keyboardEventHandler == nullptr) {
         return esp;
@@ -75,6 +72,8 @@ uint32_t KeyboardDriver::handleInterrupt(uint32_t esp)
             case 0x33: keyboardEventHandler->onKeyDown(','); break;
             case 0x34: keyboardEventHandler->onKeyDown('.'); break;
             case 0x35: keyboardEventHandler->onKeyDown('-'); break;
+
+            case 0x0E: keyboardEventHandler->backspace(); break;
 
             case 0x1C: keyboardEventHandler->onKeyDown('\n'); break;
             case 0x39: keyboardEventHandler->onKeyDown(' '); break;

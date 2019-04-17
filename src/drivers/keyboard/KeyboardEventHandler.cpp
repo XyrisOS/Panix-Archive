@@ -2,6 +2,13 @@
 
 KeyboardEventHandler::KeyboardEventHandler() {}
 
-void KeyboardEventHandler::onKeyDown(char c) {}
+void KeyboardEventHandler::backspace() {
+    
+}
+
+void KeyboardEventHandler::onKeyDown(char c) {
+    const char str[2] = {c, '\0'};
+    printf(str);
+}
 
 void KeyboardEventHandler::onKeyUp(char c) {}

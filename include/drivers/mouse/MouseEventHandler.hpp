@@ -4,6 +4,9 @@
 #include <types.hpp>
 
 class MouseEventHandler {
+    private:
+        int8_t x;
+        int8_t y;
     public:
         MouseEventHandler();
 
