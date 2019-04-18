@@ -8,5 +8,6 @@
 #include <drivers/mouse/MouseDriver.hpp>
 #include <drivers/DriverManager.hpp>
 #include <libc/tty.hpp>
+#include <libc/shell.hpp>
 
 #endif /* KERNEL_HPP */
