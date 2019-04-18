@@ -2,8 +2,10 @@
 *.[oa]
 *.bin
 *.raw
-settings.json
-dist/panix.vdi
-dist/panix.vmdk
+*.elf
 .DS_Store
+# Ignore build directories
 obj/
+dist/
+# Ignore IDE directories
+.vscode/
