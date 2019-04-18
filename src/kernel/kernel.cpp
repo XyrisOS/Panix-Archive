@@ -15,7 +15,9 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
 {
     // Clear screen, print welcome message.
     clearScreen();
-    printf("Panix\n");
+    printf("Welcome to Panix\n");
+    printf("Developed by graduates and undergraduates of Cedarville University.\n");
+    printf("Copyright Keeton Feavel et al (c) 2019. All rights reserved.\n\n");
 
     GlobalDescriptorTable gdt;
     InterruptManager interruptManager(0x20, &gdt);

@@ -18,7 +18,7 @@ void MouseDriver::activate() {
     buttons = 0;
     
     if (mouseEventHandler != nullptr) {
-        printf("\nActivating mouse event handler\n");
+        printf("Activating mouse event handler\n");
         mouseEventHandler->onActivate();
     }
 

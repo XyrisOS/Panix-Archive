@@ -2,12 +2,17 @@
 
 MouseEventHandler::MouseEventHandler() {}
 
-void MouseEventHandler::onMouseDown(uint8_t button) {}
+void MouseEventHandler::onMouseDown(uint8_t button) {
+    printf("Mouse down event.\n");
+}
 
-void MouseEventHandler::onMouseUp(uint8_t button) {}
+void MouseEventHandler::onMouseUp(uint8_t button) {
+    printf("Mouse up event.\n");
+}
 
 void MouseEventHandler::onActivate() {
     uint16_t* videoMemory = (uint16_t*) 0xb8000;
+    //TODO: What are these values? If it is the screen size, can we make this dynamic?
     x = 40;
     y = 12;
     videoMemory[80 * y + x] = (videoMemory[80 * y + x] & 0x0F00) << 4
@@ -20,7 +25,7 @@ void MouseEventHandler::onMouseMove(int xoffset, int yoffset) {
     videoMemory[80 * y + x] = (videoMemory[80 * y + x] & 0x0F00) << 4
                             | (videoMemory[80 * y + x] & 0xF000) >> 4
                             | (videoMemory[80 * y + x] & 0x00FF);
-
+    //TODO: See comment above re: screen size
     x += xoffset;
     if (x >= 80) {
         x = 79;

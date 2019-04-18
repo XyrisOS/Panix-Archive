@@ -19,6 +19,7 @@ void KeyboardDriver::activate() {
     commandPort.write(0x60); // command 0x60 = set controller command byte
     dataPort.write(status);
     dataPort.write(0xf4);
+    printf("Activating keyboard event handler\n");
 }
 
 uint32_t KeyboardDriver::handleInterrupt(uint32_t esp)
@@ -46,7 +47,7 @@ uint32_t KeyboardDriver::handleInterrupt(uint32_t esp)
             case 0x12: keyboardEventHandler->onKeyDown('e'); break;
             case 0x13: keyboardEventHandler->onKeyDown('r'); break;
             case 0x14: keyboardEventHandler->onKeyDown('t'); break;
-            case 0x15: keyboardEventHandler->onKeyDown('z'); break;
+            case 0x15: keyboardEventHandler->onKeyDown('y'); break;
             case 0x16: keyboardEventHandler->onKeyDown('u'); break;
             case 0x17: keyboardEventHandler->onKeyDown('i'); break;
             case 0x18: keyboardEventHandler->onKeyDown('o'); break;
@@ -62,7 +63,7 @@ uint32_t KeyboardDriver::handleInterrupt(uint32_t esp)
             case 0x25: keyboardEventHandler->onKeyDown('k'); break;
             case 0x26: keyboardEventHandler->onKeyDown('l'); break;
 
-            case 0x2C: keyboardEventHandler->onKeyDown('y'); break;
+            case 0x2C: keyboardEventHandler->onKeyDown('z'); break;
             case 0x2D: keyboardEventHandler->onKeyDown('x'); break;
             case 0x2E: keyboardEventHandler->onKeyDown('c'); break;
             case 0x2F: keyboardEventHandler->onKeyDown('v'); break;

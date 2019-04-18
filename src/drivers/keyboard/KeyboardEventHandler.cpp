@@ -3,9 +3,8 @@
 KeyboardEventHandler::KeyboardEventHandler() {}
 
 void KeyboardEventHandler::backspace() {
-    // char backspaceString[] = { (char) 0x08, '\0' };
-    // printf(backspaceString);
-    clearScreen();
+    char backspaceString[] = { (char) 0x08, '\0' };
+    printf(backspaceString);
 }
 
 void KeyboardEventHandler::onKeyDown(char c) {
