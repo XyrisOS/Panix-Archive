@@ -7,5 +7,6 @@
 #include <drivers/keyboard/KeyboardDriver.hpp>
 #include <drivers/mouse/MouseDriver.hpp>
 #include <drivers/DriverManager.hpp>
+#include <libc/tty.hpp>
 
 #endif /* KERNEL_HPP */
