@@ -22,7 +22,7 @@ ifeq ($(UNAME_S),Linux)
 	LD = ld
 endif
 
-CXX_FLAGS = -fno-pie -g -ffreestanding -Wall -Wextra -fno-exceptions -m32 -lstdc++ -std=c++17
+CXX_FLAGS = -fno-pie -g -ffreestanding -Wall -Wextra -fno-exceptions -fno-stack-protector -m32 -lstdc++ -std=c++17
 
 # First rule is run by default
 dist/panix.raw: src/boot/boot32.bin src/kernel/kernel.bin
