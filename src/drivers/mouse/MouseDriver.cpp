@@ -33,8 +33,7 @@ void MouseDriver::activate() {
     dataPort.read();
 }
 
-uint32_t MouseDriver::handleInterrupt(uint32_t esp)
-{
+uint32_t MouseDriver::handleInterrupt(uint32_t esp) {
     uint8_t status = commandPort.read();
     if (!(status & 0x20) || mouseEventHandler == nullptr) {
         return esp;

@@ -11,8 +11,7 @@
 
 class MouseEventHandler;
 
-class MouseDriver : public InterruptHandler, public Driver
-{
+class MouseDriver : public InterruptHandler, public Driver {
     private:
         Port8Bit dataPort;
         Port8Bit commandPort;

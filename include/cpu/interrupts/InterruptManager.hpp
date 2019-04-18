@@ -27,8 +27,7 @@ class InterruptManager {
 
         static GateDescriptor interruptDescriptorTable[256];
 
-        struct InterruptDescriptorTablePointer
-        {
+        struct InterruptDescriptorTablePointer {
             uint16_t size;
             uint32_t base;
         } __attribute__((packed));
