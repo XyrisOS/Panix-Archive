@@ -24,7 +24,7 @@ ifeq ($(UNAME_S),Linux)
 endif
 
 # Compiler/Linker flags
-GCC_FLAGS = -m32 -Iinclude -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -Wno-write-strings
+GCC_FLAGS = -m32 -Iinclude -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -fno-stack-protector -Wno-write-strings
 AS_FLAGS = --32
 LD_FLAGS = -melf_i386
 
@@ -95,4 +95,5 @@ clean:
 	@ echo Cleaning bin files...
 	@ rm -rf dist/*.bin
 
-	@ echo "\nDone cleaning!"
+	@ echo "Done cleaning!"
+
