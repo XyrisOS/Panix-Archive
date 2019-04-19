@@ -1,4 +1,4 @@
-#include <string.h>
+#include <libc/string.hpp>
  
 size_t strlen(const char* str) {
 	size_t len = 0;

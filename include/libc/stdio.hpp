@@ -1,7 +1,7 @@
 #ifndef STDIO_H
 #define STDIO_H
  
-#include <libc/sys/cdefs.h>
+#include <libc/sys/cdefs.hpp>
 #include <libc/printf.hpp>
 #define EOF (-1)
  

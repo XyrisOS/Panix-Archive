@@ -1,7 +1,7 @@
 #ifndef STRING_H
 #define STRING_H
 
-#include <libc/sys/cdefs.h>
+#include <libc/sys/cdefs.hpp>
 #include <stddef.h>
  
 #ifdef __cplusplus

@@ -9,6 +9,6 @@
 #include <drivers/DriverManager.hpp>
 #include <libc/tty.hpp>
 #include <shell/shell.hpp>
-#include <libc/stdio.h>
+#include <libc/stdio.hpp>
 
 #endif /* KERNEL_HPP */

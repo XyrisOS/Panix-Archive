@@ -1,7 +1,7 @@
 #ifndef SHELL_HPP
 #define SHELL_HPP
 #include <libc/printf.hpp>
-#include <libc/string.h>
+#include <libc/string.hpp>
 // Number of commands available to the shell
 #define NUMBER_OF_COMMANDS 5
 
