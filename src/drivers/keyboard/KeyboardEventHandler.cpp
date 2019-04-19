@@ -17,6 +17,7 @@ void KeyboardEventHandler::onKeyDown(char c) {
         char str[2] = {c, '\0'};
         const char* cStr = toUpper(str);
         printf(cStr);
+    // print the lowercase version
     } else {
         const char str[2] = {c, '\0'};
         printf(str);

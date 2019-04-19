@@ -95,8 +95,8 @@ uint32_t KeyboardDriver::handleInterrupt(uint32_t esp)
         }
     } else {
         // Key is released. Call switch.
-        switch(key) {
-
+        switch(key)
+        {
             case 0xAA: keyboardEventHandler->setShiftKey(false);
             case 0xB6: keyboardEventHandler->setShiftKey(false);
             /*
@@ -111,6 +111,7 @@ uint32_t KeyboardDriver::handleInterrupt(uint32_t esp)
             }
             */
             default:
+                // Don't handle on key up.
                 break;
         }
     }
