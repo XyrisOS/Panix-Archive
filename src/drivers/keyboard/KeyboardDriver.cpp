@@ -74,6 +74,9 @@ uint32_t KeyboardDriver::handleInterrupt(uint32_t esp)
             case 0x34: keyboardEventHandler->onKeyDown('.'); break;
             case 0x35: keyboardEventHandler->onKeyDown('-'); break;
 
+            case 0x36: keyboardEventHandler->setShiftKey(true);
+            case 0x2A: keyboardEventHandler->setShiftKey(true);
+
             case 0x0E: keyboardEventHandler->backspace(); break;
 
             case 0x1C: keyboardEventHandler->onKeyDown('\n'); break;
