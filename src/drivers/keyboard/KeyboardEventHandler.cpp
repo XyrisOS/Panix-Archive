@@ -12,8 +12,8 @@ void KeyboardEventHandler::setShiftKey(bool isShiftPressed) {
 }
 
 void KeyboardEventHandler::onKeyDown(char c) {
-    // If the shift key boolean is enabled, print the capitol version
-    if (isShiftEnabled) {
+    // If the shift key boolean is enabled, print the capital version if not a space
+    if (isShiftEnabled && c != ' ') {
         char str[2] = {c, '\0'};
         const char* cStr = toUpper(str);
         printf(cStr);

@@ -29,6 +29,7 @@ uint32_t KeyboardDriver::handleInterrupt(uint32_t esp)
         return esp;
     }
     if (key < 0x80) {
+        // Key is pressed. Call switch.
         switch(key)
         {
             case 0x02: keyboardEventHandler->onKeyDown('1'); break;
@@ -91,6 +92,26 @@ uint32_t KeyboardDriver::handleInterrupt(uint32_t esp)
                 printf(foo);
                 break;
             }
+        }
+    } else {
+        // Key is released. Call switch.
+        switch(key) {
+
+            case 0xAA: keyboardEventHandler->setShiftKey(false);
+            case 0xB6: keyboardEventHandler->setShiftKey(false);
+            /*
+            default:
+            {
+                char* foo = "RELEASE 0x00 ";
+                char* hex = "0123456789ABCDEF";
+                foo[11] = hex[(key >> 4) & 0xF];
+                foo[12] = hex[key & 0xF];
+                printf(foo);
+                break;
+            }
+            */
+            default:
+                break;
         }
     }
 
