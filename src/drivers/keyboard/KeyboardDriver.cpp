@@ -75,8 +75,8 @@ uint32_t KeyboardDriver::handleInterrupt(uint32_t esp)
             case 0x34: keyboardEventHandler->onKeyDown('.'); break;
             case 0x35: keyboardEventHandler->onKeyDown('-'); break;
 
-            case 0x36: keyboardEventHandler->setShiftKey(true);
-            case 0x2A: keyboardEventHandler->setShiftKey(true);
+            case 0x36: keyboardEventHandler->setShiftKey(true); break;
+            case 0x2A: keyboardEventHandler->setShiftKey(true); break;
 
             case 0x0E: keyboardEventHandler->backspace(); break;
 
@@ -97,8 +97,8 @@ uint32_t KeyboardDriver::handleInterrupt(uint32_t esp)
         // Key is released. Call switch.
         switch(key)
         {
-            case 0xAA: keyboardEventHandler->setShiftKey(false);
-            case 0xB6: keyboardEventHandler->setShiftKey(false);
+            case 0xAA: keyboardEventHandler->setShiftKey(false); break;
+            case 0xB6: keyboardEventHandler->setShiftKey(false); break;
             /*
             default:
             {

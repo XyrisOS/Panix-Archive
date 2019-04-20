@@ -15,7 +15,15 @@ void KeyboardEventHandler::onKeyDown(char c) {
     // If the shift key boolean is enabled, print the capital version if not a space
     if (isShiftEnabled && c != ' ') {
         char str[2] = {c, '\0'};
-        const char* cStr = toUpper(str);
+        const char* cStr;
+        // Handle special characters
+        switch (c) {
+            case '1':
+                break;
+            default:
+                cStr = toUpper(str);
+                break;
+        }
         printf(cStr);
     // print the lowercase version
     } else {
