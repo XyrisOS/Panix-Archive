@@ -6,7 +6,11 @@
 #ifdef __cplusplus
     extern "C" {
 #endif
- 
+
+/**
+ * @brief Aborts a given (kernel) process
+ * 
+ */
 __attribute__((__noreturn__))
 void abort(void);
  
