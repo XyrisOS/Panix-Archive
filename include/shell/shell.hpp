@@ -7,6 +7,10 @@
 
 class shell {
     private:
+        /**
+         * @brief All of the commands currently supported by the kernel shell.
+         * 
+         */
         const char commandNames[NUMBER_OF_COMMANDS][16] = {
             "clear",
             "help",

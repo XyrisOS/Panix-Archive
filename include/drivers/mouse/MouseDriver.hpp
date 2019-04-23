@@ -21,9 +21,29 @@ class MouseDriver : public InterruptHandler, public Driver {
 
         MouseEventHandler* mouseEventHandler;
     public:
+        /**
+         * @brief Construct a new Mouse Driver object
+         * 
+         * @param interruptManager 
+         * @param mouseEventHandler 
+         */
         MouseDriver(InterruptManager* interruptManager, MouseEventHandler* mouseEventHandler);
+        /**
+         * @brief Destroy the Mouse Driver object
+         * 
+         */
         ~MouseDriver();
+        /**
+         * @brief 
+         * 
+         * @param esp 
+         * @return uint32_t 
+         */
         virtual uint32_t handleInterrupt(uint32_t esp);
+        /**
+         * @brief 
+         * 
+         */
         virtual void activate();
 };
 

@@ -16,9 +16,29 @@ class KeyboardDriver : public InterruptHandler, public Driver {
         Port8Bit commandPort;
         KeyboardEventHandler* keyboardEventHandler;
     public:
+        /**
+         * @brief Construct a new Keyboard Driver object
+         * 
+         * @param interruptManager 
+         * @param keyboardEventHandler 
+         */
         KeyboardDriver(InterruptManager* interruptManager, KeyboardEventHandler* keyboardEventHandler);
+        /**
+         * @brief Destroy the Keyboard Driver object
+         * 
+         */
         ~KeyboardDriver();
+        /**
+         * @brief 
+         * 
+         * @param esp 
+         * @return uint32_t 
+         */
         virtual uint32_t handleInterrupt(uint32_t esp);
+        /**
+         * @brief 
+         * 
+         */
         virtual void activate();
 };
 

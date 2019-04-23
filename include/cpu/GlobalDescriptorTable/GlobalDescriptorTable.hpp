@@ -16,8 +16,25 @@ class GlobalDescriptorTable {
                 uint8_t base_vhi;
 
             public:
+                /**
+                 * @brief Construct a new Segment Descriptor object
+                 * 
+                 * @param base 
+                 * @param limit 
+                 * @param type 
+                 */
                 SegmentDescriptor(uint32_t base, uint32_t limit, uint8_t type);
+                /**
+                 * @brief 
+                 * 
+                 * @return uint32_t 
+                 */
                 uint32_t Base();
+                /**
+                 * @brief 
+                 * 
+                 * @return uint32_t 
+                 */
                 uint32_t Limit();
         } __attribute__((packed));
 
@@ -29,8 +46,17 @@ class GlobalDescriptorTable {
 
     public:
         GlobalDescriptorTable();
-
+        /**
+         * @brief 
+         * 
+         * @return uint16_t 
+         */
         uint16_t CodeSegmentSelector();
+        /**
+         * @brief 
+         * 
+         * @return uint16_t 
+         */
         uint16_t DataSegmentSelector();
 };
 

@@ -12,8 +12,21 @@ class DriverManager {
         int numberOfDrivers;
         
     public:
+        /**
+         * @brief Construct a new Driver Manager object.
+         * 
+         */
         DriverManager();
+        /**
+         * @brief Adds a driver to the driver manager.
+         * 
+         * @param driver Driver to be added.
+         */
         void addDriver(Driver* driver);
+        /**
+         * @brief Activates all drivers in the manager.
+         * 
+         */
         void activateAll();
 };  
 
