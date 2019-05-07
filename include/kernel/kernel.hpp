@@ -6,6 +6,7 @@
 #include <cpu/interrupts/InterruptManager.hpp>
 #include <drivers/keyboard/KeyboardDriver.hpp>
 #include <drivers/mouse/MouseDriver.hpp>
+#include <drivers/pci/pci.hpp>
 #include <drivers/DriverManager.hpp>
 #include <libc/tty.hpp>
 #include <shell/shell.hpp>

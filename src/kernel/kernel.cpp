@@ -27,13 +27,17 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     /*************************************************
      * DO NOT SWITCH THE ORDER OF ADDING THESE DRIVERS 
      *************************************************/
+    // Mouse Interface Driver
     MouseEventHandler mouseEventHandler;
     MouseDriver mouse(&interruptManager, &mouseEventHandler);
     driverManager.addDriver(&mouse);
-
+    // Keyboard Interface Driver
     KeyboardEventHandler keyboardEventHandler;
     KeyboardDriver keyboard(&interruptManager, &keyboardEventHandler);
     driverManager.addDriver(&keyboard);
+    // PCI Interface Driver
+    PeripheralComponentInterconnectController PCIController;
+    PCIController.SelectDrivers(&driverManager);
     // Activate all the drivers we just added
     printf("Initializing Hardware, Stage 2\n");
     driverManager.activateAll();

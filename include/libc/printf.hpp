@@ -19,5 +19,11 @@ void printf(const char* str);
  * @param resetCursor Determines whether or not the cursor should be reset to the starting position.
  */
 void printfAtPosition(const char* str, uint8_t x, uint8_t y, bool resetCursor = false);
+/**
+ * @brief Prints a hexidecimal address to the kernel console.
+ * 
+ * @param key Hexidecimal value to print.
+ */
+void printfHex(uint8_t key);
 
 #endif /* PRINTF_HPP */

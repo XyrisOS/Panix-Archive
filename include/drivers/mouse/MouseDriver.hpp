@@ -5,7 +5,6 @@
 #include <types.hpp>
 #include <cpu/Port/Port.hpp>
 #include <cpu/interrupts/InterruptHandler.hpp>
-#include <cpu/interrupts/InterruptManager.hpp>
 #include <drivers/mouse/MouseEventHandler.hpp>
 #include <drivers/Driver.hpp>
 

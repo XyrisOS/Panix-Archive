@@ -9,5 +9,6 @@
     typedef unsigned int           uint32_t;
     typedef long long int           int64_t;
     typedef unsigned long long int uint64_t;
+    typedef const char*              string;
     
 #endif /* TYPES_HPP */
