@@ -37,7 +37,7 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     driverManager.addDriver(&keyboard);
     // PCI Interface Driver
     PeripheralComponentInterconnectController PCIController;
-    PCIController.SelectDrivers(&driverManager);
+    PCIController.SelectDrivers(&driverManager, &interruptManager);
     // Activate all the drivers we just added
     printf("Initializing Hardware, Stage 2\n");
     driverManager.activateAll();
