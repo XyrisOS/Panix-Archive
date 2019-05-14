@@ -19,7 +19,7 @@ void KeyboardDriver::activate() {
     commandPort.write(0x60); // command 0x60 = set controller command byte
     dataPort.write(status);
     dataPort.write(0xf4);
-    printf("Activating keyboard event handler\n");
+    kprint("Activating keyboard event handler\n");
 }
 
 uint32_t KeyboardDriver::handleInterrupt(uint32_t esp)
@@ -89,7 +89,7 @@ uint32_t KeyboardDriver::handleInterrupt(uint32_t esp)
                 char* hex = "0123456789ABCDEF";
                 foo[11] = hex[(key >> 4) & 0xF];
                 foo[12] = hex[key & 0xF];
-                printf(foo);
+                kprint(foo);
                 break;
             }
         }
@@ -106,7 +106,7 @@ uint32_t KeyboardDriver::handleInterrupt(uint32_t esp)
                 char* hex = "0123456789ABCDEF";
                 foo[11] = hex[(key >> 4) & 0xF];
                 foo[12] = hex[key & 0xF];
-                printf(foo);
+                kprint(foo);
                 break;
             }
             */

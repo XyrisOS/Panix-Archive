@@ -1,6 +1,6 @@
 #include <cpu/interrupts/InterruptManager.hpp>
 
-void printf(const char* str);
+void kprint(const char* str);
 
 InterruptManager::GateDescriptor InterruptManager::interruptDescriptorTable[256];
 InterruptManager* InterruptManager::activeInterruptManager = nullptr;
@@ -142,7 +142,7 @@ uint32_t InterruptManager::doHandleInterrupt(uint8_t interrupt, uint32_t esp) {
         char* hex = (char*) "0123456789ABCDEF";
         foo[22] = hex[(interrupt >> 4) & 0xF];
         foo[23] = hex[interrupt & 0xF];
-        printf(foo);
+        kprint(foo);
     }
 
     // hardware interrupts must be acknowledged

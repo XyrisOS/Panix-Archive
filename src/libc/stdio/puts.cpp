@@ -2,6 +2,6 @@
 // TODO: We need to fix these functions to actually follow the
 //		 standard C / C++ format.
 int puts(const char* string) {
-	printf(string);
+	kprint(string);
 	return 0;
 }

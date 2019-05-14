@@ -1,7 +1,7 @@
 
 #include <drivers/mouse/MouseDriver.hpp>
 
-void printf(const char* str);
+void kprint(const char* str);
 
 MouseDriver::MouseDriver(InterruptManager* interruptManager, MouseEventHandler* mouseEventHandler)
     : InterruptHandler(interruptManager, 0x2C),
@@ -18,7 +18,7 @@ void MouseDriver::activate() {
     buttons = 0;
     
     if (mouseEventHandler != nullptr) {
-        printf("Activating mouse event handler\n");
+        kprint("Activating mouse event handler\n");
         mouseEventHandler->onActivate();
     }
 

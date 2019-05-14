@@ -2,7 +2,7 @@
 #define MOUSE_EVENT_HANDLER_HPP
 
 #include <types.hpp>
-#include <libc/printf.hpp>
+#include <libc/kprint.hpp>
 
 class MouseEventHandler {
     private:

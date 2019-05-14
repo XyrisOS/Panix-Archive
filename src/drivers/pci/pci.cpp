@@ -71,22 +71,22 @@ void PeripheralComponentInterconnectController::SelectDrivers(DriverManager* dri
                     }
                 }
                 
-                printf("PCI BUS ");
-                printfHex(bus & 0xFF);
+                kprint("PCI BUS ");
+                kprintHex(bus & 0xFF);
                 
-                printf(", DEVICE ");
-                printfHex(device & 0xFF);
+                kprint(", DEVICE ");
+                kprintHex(device & 0xFF);
 
-                printf(", FUNCTION ");
-                printfHex(function & 0xFF);
+                kprint(", FUNCTION ");
+                kprintHex(function & 0xFF);
                 
-                printf(" = VENDOR ");
-                printfHex((dev.vendor_id & 0xFF00) >> 8);
-                printfHex(dev.vendor_id & 0xFF);
-                printf(", DEVICE ");
-                printfHex((dev.device_id & 0xFF00) >> 8);
-                printfHex(dev.device_id & 0xFF);
-                printf("\n");
+                kprint(" = VENDOR ");
+                kprintHex((dev.vendor_id & 0xFF00) >> 8);
+                kprintHex(dev.vendor_id & 0xFF);
+                kprint(", DEVICE ");
+                kprintHex((dev.device_id & 0xFF00) >> 8);
+                kprintHex(dev.device_id & 0xFF);
+                kprint("\n");
             }
         }
     }
@@ -131,7 +131,7 @@ Driver* PeripheralComponentInterconnectController::GetDriver(PeripheralComponent
         case 0x1022: // AMD
             switch(dev.device_id) {
                 case 0x2000: // am79c973
-                    printf("AMD am79c973 ");
+                    kprint("AMD am79c973 ");
                     break;
             }
             break;
@@ -147,7 +147,7 @@ Driver* PeripheralComponentInterconnectController::GetDriver(PeripheralComponent
         case 0x03: // graphics
             switch(dev.subclass_id) {
                 case 0x00: // VGA
-                    printf("VGA ");
+                    kprint("VGA ");
                     break;
             }
             break;

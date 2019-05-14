@@ -3,11 +3,11 @@
 MouseEventHandler::MouseEventHandler() {}
 
 void MouseEventHandler::onMouseDown(uint8_t button) {
-    printf("Mouse down event.\n");
+    kprint("Mouse down event.\n");
 }
 
 void MouseEventHandler::onMouseUp(uint8_t button) {
-    printf("Mouse up event.\n");
+    kprint("Mouse up event.\n");
 }
 
 void MouseEventHandler::onActivate() {
