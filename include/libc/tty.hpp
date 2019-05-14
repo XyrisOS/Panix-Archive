@@ -1,7 +1,7 @@
 #ifndef TTY_HPP
 #define TTY_HPP
 
-#include <libc/printf.hpp>
+#include <libc/kprint.hpp>
 
 /**
  * @brief Clears the kernel console.

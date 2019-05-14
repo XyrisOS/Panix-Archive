@@ -2,7 +2,7 @@
 #define KEYBOARD_EVENT_HANDLER_HPP
 
 #include <libc/ctype.hpp>
-#include <libc/printf.hpp>
+#include <libc/kprint.hpp>
 #include <libc/tty.hpp>
 
 class KeyboardEventHandler {

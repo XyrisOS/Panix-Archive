@@ -2,17 +2,17 @@
 #define STDIO_H
  
 #include <libc/sys/cdefs.hpp>
-#include <libc/printf.hpp>
+#include <libc/kprint.hpp>
 #define EOF (-1)
  
 #ifdef __cplusplus
     extern "C" {
 #endif
-// TODO: Need to port these to use our pre-made printf
-//int printf(const char* __restrict, ...);
+// TODO: Need to port these to use our pre-made kprint
+//int kprint(const char* __restrict, ...);
 //int putchar(int);
 /**
- * @brief Prints a given string to the kernel console. Simply calls printf.
+ * @brief Prints a given string to the kernel console. Simply calls kprint.
  * 
  * @return int Always returns 0 for now.
  */

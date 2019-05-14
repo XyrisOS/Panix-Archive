@@ -13,14 +13,14 @@ extern "C" void callConstructors() {
 extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot_magic*/) {
     // Clear screen, print welcome message.
     clearScreen();
-    printf("Welcome to Panix\n");
-    printf("Developed by graduates and undergraduates of Cedarville University.\n");
-    printf("Copyright Keeton Feavel et al (c) 2019. All rights reserved.\n\n");
+    kprint("Welcome to Panix\n");
+    kprint("Developed by graduates and undergraduates of Cedarville University.\n");
+    kprint("Copyright Keeton Feavel et al (c) 2019. All rights reserved.\n\n");
     // Initialize the GDT and interrupt manager
     GlobalDescriptorTable gdt;
     InterruptManager interruptManager(0x20, &gdt);
 
-    printf("Initializing Hardware, Stage 1 - Loading Drivers...\n");
+    kprint("Initializing Hardware, Stage 1 - Loading Drivers...\n");
     // Declare our driver manager
     DriverManager driverManager;
     
@@ -39,10 +39,10 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     PeripheralComponentInterconnectController PCIController;
     PCIController.SelectDrivers(&driverManager, &interruptManager);
     // Activate all the drivers we just added
-    printf("Initializing Hardware, Stage 2 - Activating Drivers...\n");
+    kprint("Initializing Hardware, Stage 2 - Activating Drivers...\n");
     driverManager.activateAll();
     // Activate our interrupt manager
-    printf("Initializing Hardware, Stage 3 - Activating Interrupts...\n");
+    kprint("Initializing Hardware, Stage 3 - Activating Interrupts...\n");
     interruptManager.activate();
     // Make sure the kernel never dies!
     while(1);

@@ -1,9 +1,9 @@
-#include <libc/printf.hpp>
+#include <libc/kprint.hpp>
 
 uint8_t x = 0;
 uint8_t y = 0;
 
-void printf(const char* str) {    
+void kprint(const char* str) {    
     for(int i = 0; str[i] != '\0'; ++i) {
         switch(str[i])
         {
@@ -40,7 +40,7 @@ void printf(const char* str) {
     }
 }
 
-void printfAtPosition(const char* str, uint8_t positionX, uint8_t positionY, bool resetCursor) {
+void kprintAtPosition(const char* str, uint8_t positionX, uint8_t positionY, bool resetCursor) {
     for(int i = 0; str[i] != '\0'; ++i)
     {
         switch(str[i])
@@ -83,11 +83,11 @@ void printfAtPosition(const char* str, uint8_t positionX, uint8_t positionY, boo
     }
 }
 
-void printfHex(uint8_t key)
+void kprintHex(uint8_t key)
 {
     char* foo = "00";
     char* hex = "0123456789ABCDEF";
     foo[0] = hex[(key >> 4) & 0xF];
     foo[1] = hex[key & 0xF];
-    printf(foo);
+    kprint(foo);
 }

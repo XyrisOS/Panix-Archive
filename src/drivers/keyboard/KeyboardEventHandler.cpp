@@ -4,7 +4,7 @@ KeyboardEventHandler::KeyboardEventHandler() {}
 
 void KeyboardEventHandler::backspace() {
     char backspaceString[] = { (char) 0x08, '\0' };
-    printf(backspaceString);
+    kprint(backspaceString);
 }
 
 void KeyboardEventHandler::setShiftKey(bool isShiftPressed) {
@@ -18,30 +18,30 @@ void KeyboardEventHandler::onKeyDown(char c) {
         const char* cStr;
         // Handle special characters
         switch (c) {
-            case '1': printf("!"); break;
-            case '2': printf("@"); break;
-            case '3': printf("#"); break;
-            case '4': printf("$"); break;
-            case '5': printf("%"); break;
-            case '6': printf("^"); break;
-            case '7': printf("&"); break;
-            case '8': printf("*"); break;
-            case '9': printf("("); break;
-            case '0': printf(")"); break;
-            case '-': printf("_"); break;
-            case '=': printf("+"); break;
-            case '/': printf("?"); break;
-            case '.': printf(">"); break;
-            case ',': printf("<"); break;
+            case '1': kprint("!"); break;
+            case '2': kprint("@"); break;
+            case '3': kprint("#"); break;
+            case '4': kprint("$"); break;
+            case '5': kprint("%"); break;
+            case '6': kprint("^"); break;
+            case '7': kprint("&"); break;
+            case '8': kprint("*"); break;
+            case '9': kprint("("); break;
+            case '0': kprint(")"); break;
+            case '-': kprint("_"); break;
+            case '=': kprint("+"); break;
+            case '/': kprint("?"); break;
+            case '.': kprint(">"); break;
+            case ',': kprint("<"); break;
             default:
                 cStr = toUpper(str);
-                printf(cStr);
+                kprint(cStr);
                 break;
         }
     // print the lowercase version
     } else {
         const char str[2] = {c, '\0'};
-        printf(str);
+        kprint(str);
     }
 }
 

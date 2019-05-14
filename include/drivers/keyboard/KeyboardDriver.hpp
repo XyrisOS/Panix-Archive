@@ -6,7 +6,7 @@
 #include <cpu/Port/Port.hpp>
 #include <drivers/keyboard/KeyboardEventHandler.hpp>
 #include <drivers/Driver.hpp>
-#include <libc/printf.hpp>
+#include <libc/kprint.hpp>
 
 class KeyboardEventHandler;
 

@@ -6,7 +6,7 @@
 #include <cpu/interrupts/InterruptHandler.hpp>
 #include <drivers/Driver.hpp>
 #include <drivers/DriverManager.hpp>
-#include <libc/printf.hpp>
+#include <libc/kprint.hpp>
 /**
  * @brief 
  * 
