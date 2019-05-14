@@ -1,4 +1,3 @@
-
 # sudo apt-get install g++ binutils qemu-system-i386 grub-pc:i386 xorriso
 
 # Sources and headers
@@ -36,12 +35,6 @@ OBJ = $(patsubst src/%.cpp, obj/%.o, $(CXX_SRC)) $(patsubst src/%.s, obj/%.o, $(
 # Object directories, mirroring source
 OBJ_DIRS = $(subst src, obj, $(shell find src -type d))
 
-# Create object file directories
-.PHONY: 
-	obj_directories
-obj_directories:
-	mkdir -p $(OBJ_DIRS)
-
 # Compile sources to objects
 obj/%.o: src/%.cpp $(HEADERS)
 	$(MAKE) obj_directories
@@ -63,7 +56,6 @@ dist/panix.iso: dist/panix.bin
 	@ mkdir -p iso/boot
 	@ mkdir -p iso/boot/grub
 	@ cp $< iso/boot/
-
 	@ echo Creating grub.cfg...
 	@ echo 'set timeout=0'                      > iso/boot/grub/grub.cfg
 	@ echo 'set default=0'                     >> iso/boot/grub/grub.cfg
@@ -72,16 +64,20 @@ dist/panix.iso: dist/panix.bin
 	@ echo '  multiboot /boot/panix.bin'       >> iso/boot/grub/grub.cfg
 	@ echo '  boot'                            >> iso/boot/grub/grub.cfg
 	@ echo '}'                                 >> iso/boot/grub/grub.cfg
-
 	@ echo Creating panix.iso...
 	@ grub-mkrescue -o dist/panix.iso iso
-
 	@ echo Cleaning up iso directory
 	@ rm -rf iso
 
+# Create object file directories
+.PHONY: 
+	obj_directories
+obj_directories:
+	mkdir -p $(OBJ_DIRS)
+
 # Run bootable ISO
 run: dist/panix.iso
-	qemu-system-i386 $< 
+	qemu-system-i386 -drive format=raw,file=$< 
 
 # Install BIN file to local system
 install: dist/panix.bin
@@ -91,9 +87,6 @@ install: dist/panix.bin
 clean:
 	@ echo Cleaning obj directory...
 	@ rm -rf obj
-
 	@ echo Cleaning bin files...
 	@ rm -rf dist/*.bin
-
 	@ echo "Done cleaning!"
-
