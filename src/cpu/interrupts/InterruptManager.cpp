@@ -30,8 +30,7 @@ InterruptManager::InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescr
     uint32_t CodeSegment = globalDescriptorTable->CodeSegmentSelector();
 
     const uint8_t IDT_INTERRUPT_GATE = 0xE;
-    for(uint8_t i = 255; i > 0; --i)
-    {
+    for(uint8_t i = 255; i > 0; --i) {
         setInterruptDescriptorTableEntry(i, CodeSegment, &interruptIgnore, 0, IDT_INTERRUPT_GATE);
     }
     setInterruptDescriptorTableEntry(0, CodeSegment, &interruptIgnore, 0, IDT_INTERRUPT_GATE);
@@ -96,18 +95,15 @@ InterruptManager::InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescr
     asm volatile("lidt %0" : : "m" (idt_pointer));
 }
 
-InterruptManager::~InterruptManager()
-{
+InterruptManager::~InterruptManager() {
     deactivate();
 }
 
-uint16_t InterruptManager::getHardwareInterruptOffset()
-{
+uint16_t InterruptManager::getHardwareInterruptOffset() {
     return hardwareInterruptOffset;
 }
 
-void InterruptManager::activate()
-{
+void InterruptManager::activate() {
     if(activeInterruptManager == nullptr)
     {
         activeInterruptManager = this;
@@ -115,8 +111,7 @@ void InterruptManager::activate()
     }
 }
 
-void InterruptManager::deactivate()
-{
+void InterruptManager::deactivate() {
     if (activeInterruptManager == this)
     {
         activeInterruptManager = nullptr;
@@ -126,8 +121,7 @@ void InterruptManager::deactivate()
     }
 }
 
-uint32_t InterruptManager::handleInterrupt(uint8_t interrupt, uint32_t esp)
-{
+uint32_t InterruptManager::handleInterrupt(uint8_t interrupt, uint32_t esp) {
     if (activeInterruptManager != nullptr) {
         return activeInterruptManager->doHandleInterrupt(interrupt, esp);
     }
