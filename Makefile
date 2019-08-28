@@ -83,6 +83,22 @@ run: dist/panix.iso
 install: dist/panix.bin
 	sudo cp $< /boot/panix.bin
 
+dist: dist/panix.bin
+	@ echo Building VDI image of Panix...
+	@ qemu-img convert -f raw -O vdi dist/panix.bin dist/panix.vdi
+	@ echo Done building VDI image of Panix!
+
+	@ echo "\nBuilding VMDK image of Panix..."
+	@ qemu-img convert -f raw -O vmdk dist/panix.bin dist/panix.vmdk
+	@ echo Done building VMDK image of Panix!
+
+# Open the connection to qemu and load our kernel-object file with symbols
+debug: dist/panix.iso
+	@ echo Booting from floppy...
+	qemu-system-i386 -drive format=raw,file=$< 
+	@ echo Setting up GDB with qemu...
+	${GDB} -ex "target remote localhost:1234" -ex "symbol-file panix.bin"
+
 # Clear out objects and BIN
 clean:
 	@ echo Cleaning obj directory...
