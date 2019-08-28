@@ -45,5 +45,6 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     kprint("Initializing Hardware, Stage 3 - Activating Interrupts...\n");
     interruptManager.activate();
     // Make sure the kernel never dies!
+    shell basch = shell();
     while(1);
 }

@@ -1,6 +1,7 @@
 #ifndef SHELL_HPP
 #define SHELL_HPP
 
+#include <kernel/shell/shellFuncs.hpp>
 #include <libc/kprint.hpp>
 #include <libc/string.hpp>
 #include <libc/tty.hpp>
@@ -9,10 +10,6 @@
 
 class shell {
     private:
-        /**
-         * @brief All of the commands currently supported by the kernel shell.
-         * 
-         */
         const char commandNames[NUMBER_OF_COMMANDS][16] = {
             "clear",
             "help",
@@ -21,28 +18,7 @@ class shell {
             "exit"
         };
 
-        /**
-         * @brief Function pointers to the commands above
-         * 
-         */
         void (*commandFunctions[NUMBER_OF_COMMANDS])();
-
-        /**
-         * @brief Prints the indicator for the shell.
-         * 
-         */
-        void printShellIndicator();
-
-        void clearShell();
-
-        void help();
-
-        void panic();
-
-        void printSplash();
-
-        void exit();
-
     public:
         /**
          * @brief Construct a new shell object
