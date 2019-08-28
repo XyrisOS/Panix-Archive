@@ -1,41 +1,41 @@
 #include <libc/kprint.hpp>
 
-uint8_t x = 0;
-uint8_t y = 0;
+uint8_t ttyCoordsX = 0;
+uint8_t ttyCoordsY = 0;
 
 void kprint(const char* str) {    
     for(int i = 0; str[i] != '\0'; ++i) {
         switch(str[i])
         {
             case 0x08:
-                if (x > 0) {
-                    x--;
+                if (ttyCoordsX > 0) {
+                    ttyCoordsX--;
                 }
-                videoMemory[80 * y + x] = (videoMemory[80 * y + x] & 0xFF00) | ' ';
+                videoMemory[80 * ttyCoordsY + ttyCoordsX] = (videoMemory[80 * ttyCoordsY + ttyCoordsX] & 0xFF00) | ' ';
                 break;
             case '\n':
-                x = 0;
-                y++;
+                ttyCoordsX = 0;
+                ttyCoordsY++;
                 break;
             default:
-                videoMemory[80*y+x] = (videoMemory[80*y+x] & 0xFF00) | str[i];
-                x++;
+                videoMemory[80*ttyCoordsY+ttyCoordsX] = (videoMemory[80*ttyCoordsY+ttyCoordsX] & 0xFF00) | str[i];
+                ttyCoordsX++;
                 break;
         }
         
-        if(x >= 80) {
-            x = 0;
-            y++;
+        if(ttyCoordsX >= 80) {
+            ttyCoordsX = 0;
+            ttyCoordsY++;
         }
         
-        if(y >= 25) {
-            for(y = 0; y < 25; y++) {
-                for(x = 0; x < 80; x++) {
-                    videoMemory[80*y+x] = (videoMemory[80*y+x] & 0xFF00) | ' ';
+        if(ttyCoordsY >= 25) {
+            for(ttyCoordsY = 0; ttyCoordsY < 25; ttyCoordsY++) {
+                for(ttyCoordsX = 0; ttyCoordsX < 80; ttyCoordsX++) {
+                    videoMemory[80*ttyCoordsY+ttyCoordsX] = (videoMemory[80*ttyCoordsY+ttyCoordsX] & 0xFF00) | ' ';
                 }
             }
-            x = 0;
-            y = 0;
+            ttyCoordsX = 0;
+            ttyCoordsY = 0;
         }
     }
 }
@@ -78,8 +78,8 @@ void kprintAtPosition(const char* str, uint8_t positionX, uint8_t positionY, boo
     }
 
     if (resetCursor) {
-        x = 0;
-        y = 0;
+        ttyCoordsX = 0;
+        ttyCoordsY = 0;
     }
 }
 
