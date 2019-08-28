@@ -5,7 +5,7 @@
 class Driver {
     public:
         Driver();
-        ~Driver();
+        ~Driver(); // TODO: Eventually needs to be virtual once delete is implemented
         /**
          * @brief Virtual function implemented by each driver. Used to
          * actually activate the driver for usage.
