@@ -1,7 +1,9 @@
 #ifndef SHELL_HPP
 #define SHELL_HPP
+
 #include <libc/kprint.hpp>
 #include <libc/string.hpp>
+#include <libc/tty.hpp>
 // Number of commands available to the shell
 #define NUMBER_OF_COMMANDS 5
 
@@ -16,9 +18,38 @@ class shell {
             "help",
             "panic",
             "splash",
-            "tick"
+            "exit"
         };
+
+        /**
+         * @brief Function pointers to the commands above
+         * 
+         */
+        void (*commandFunctions[NUMBER_OF_COMMANDS])();
+
+        /**
+         * @brief Prints the indicator for the shell.
+         * 
+         */
+        void printShellIndicator();
+
+        void clearShell();
+
+        void help();
+
+        void panic();
+
+        void printSplash();
+
+        void exit();
+
     public:
+        /**
+         * @brief Construct a new shell object
+         * 
+         */
+        shell();
+
         /**
          * @brief Processes the user keyboard input passed in from the
          * keyboard event handler.
