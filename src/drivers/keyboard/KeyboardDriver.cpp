@@ -1,5 +1,31 @@
 #include <drivers/keyboard/KeyboardDriver.hpp>
 
+// Note: The character after '=' is the backspace key
+const char scancodeAscii[] = { 
+    '?', '?', '1', '2', '3', '4', '5', '6',
+    '7', '8', '9', '0', '-', '=', '\0', '?',
+    'q', 'w', 'e', 'r', 't', 'y', 'u', 'i',
+    'o', 'p', '[', ']', '\0', '\0', 'a', 's',
+    'd', 'f', 'g', 'h', 'j', 'k', 'l', ';',
+    '\'', '`', '\0', '\\', 'z', 'x', 'c', 'v',
+    'b', 'n', 'm', ',', '.', '/', '\0', '\0',
+    '\0', ' '
+};
+const char scancodeName[64][16] = {
+    "ERROR", "Esc", "1", "2", "3", "4", "5", "6",
+    "7", "8", "9", "0", "-", "=", "Backspace", "Tab",
+    "Q", "W", "E", "R", "T", "Y", "U", "I",
+    "O", "P", "[", "]", "Enter", "Lctrl", "A", "S",
+    "D", "F", "G", "H", "J", "K", "L", ";",
+    "'", "`", "LShift", "\\", "Z", "X", "C", "V",
+    "B", "N", "M", ",", ".", "/", "RShift", "Keypad *",
+    "LAlt", "Spacebar"
+};
+char* keyBuffer = (char*) "\0";
+char* lastCommand = (char*) "\0";
+int lengthOfCurrentCommand = 0;
+
+
 KeyboardDriver::KeyboardDriver(InterruptManager* interruptManager, KeyboardEventHandler* keyboardEventHandler) 
     : InterruptHandler(interruptManager, 0x21), 
       dataPort(0x60), 
@@ -24,78 +50,71 @@ void KeyboardDriver::activate() {
 
 uint32_t KeyboardDriver::handleInterrupt(uint32_t esp)
 {
-    uint8_t key = dataPort.read();
+    uint8_t scancode = dataPort.read();
     if (keyboardEventHandler == nullptr) {
         return esp;
     }
-    if (key < 0x80) {
-        // Key is pressed. Call switch.
-        switch(key)
-        {
-            case 0x02: keyboardEventHandler->onKeyDown('1'); break;
-            case 0x03: keyboardEventHandler->onKeyDown('2'); break;
-            case 0x04: keyboardEventHandler->onKeyDown('3'); break;
-            case 0x05: keyboardEventHandler->onKeyDown('4'); break;
-            case 0x06: keyboardEventHandler->onKeyDown('5'); break;
-            case 0x07: keyboardEventHandler->onKeyDown('6'); break;
-            case 0x08: keyboardEventHandler->onKeyDown('7'); break;
-            case 0x09: keyboardEventHandler->onKeyDown('8'); break;
-            case 0x0A: keyboardEventHandler->onKeyDown('9'); break;
-            case 0x0B: keyboardEventHandler->onKeyDown('0'); break;
-
-            case 0x10: keyboardEventHandler->onKeyDown('q'); break;
-            case 0x11: keyboardEventHandler->onKeyDown('w'); break;
-            case 0x12: keyboardEventHandler->onKeyDown('e'); break;
-            case 0x13: keyboardEventHandler->onKeyDown('r'); break;
-            case 0x14: keyboardEventHandler->onKeyDown('t'); break;
-            case 0x15: keyboardEventHandler->onKeyDown('y'); break;
-            case 0x16: keyboardEventHandler->onKeyDown('u'); break;
-            case 0x17: keyboardEventHandler->onKeyDown('i'); break;
-            case 0x18: keyboardEventHandler->onKeyDown('o'); break;
-            case 0x19: keyboardEventHandler->onKeyDown('p'); break;
-
-            case 0x1E: keyboardEventHandler->onKeyDown('a'); break;
-            case 0x1F: keyboardEventHandler->onKeyDown('s'); break;
-            case 0x20: keyboardEventHandler->onKeyDown('d'); break;
-            case 0x21: keyboardEventHandler->onKeyDown('f'); break;
-            case 0x22: keyboardEventHandler->onKeyDown('g'); break;
-            case 0x23: keyboardEventHandler->onKeyDown('h'); break;
-            case 0x24: keyboardEventHandler->onKeyDown('j'); break;
-            case 0x25: keyboardEventHandler->onKeyDown('k'); break;
-            case 0x26: keyboardEventHandler->onKeyDown('l'); break;
-
-            case 0x2C: keyboardEventHandler->onKeyDown('z'); break;
-            case 0x2D: keyboardEventHandler->onKeyDown('x'); break;
-            case 0x2E: keyboardEventHandler->onKeyDown('c'); break;
-            case 0x2F: keyboardEventHandler->onKeyDown('v'); break;
-            case 0x30: keyboardEventHandler->onKeyDown('b'); break;
-            case 0x31: keyboardEventHandler->onKeyDown('n'); break;
-            case 0x32: keyboardEventHandler->onKeyDown('m'); break;
-            case 0x33: keyboardEventHandler->onKeyDown(','); break;
-            case 0x34: keyboardEventHandler->onKeyDown('.'); break;
-            case 0x35: keyboardEventHandler->onKeyDown('-'); break;
-
-            case 0x36: keyboardEventHandler->setShiftKey(true); break;
-            case 0x2A: keyboardEventHandler->setShiftKey(true); break;
-
-            case 0x0E: keyboardEventHandler->backspace(); break;
-
-            case 0x1C: keyboardEventHandler->onKeyDown('\n'); break;
-            case 0x39: keyboardEventHandler->onKeyDown(' '); break;
-
+    // If a scancode is pressed down
+    if (scancode < 0x80) {
+        // 
+        if (scancode == UP_ARROW && strlen(lastCommand) > 0) {
+            while (lengthOfCurrentCommand > 0) {
+                keyboardEventHandler->backspace();
+                --lengthOfCurrentCommand;
+            }
+            strcpy(lastCommand, keyBuffer);
+            lengthOfCurrentCommand = strlen(lastCommand);
+            kprint(lastCommand);
+            return esp;
+        }
+        if (scancode > SCANCODE_MAX) {
+            return esp;
+        }
+        if (scancode == BACKSPACE) {
+            if (lengthOfCurrentCommand > 0) {
+                --lengthOfCurrentCommand;
+                backspace(keyBuffer);
+                keyboardEventHandler->backspace();
+            }
+        }
+        if (scancode == ENTER) {
+            kprint("\n");
+            // TODO: Find a way to get this to the shell
+            //handleUserInput(keyBuffer);
+            if (lengthOfCurrentCommand >= 256) {
+                lengthOfCurrentCommand = 255;
+            }
+            keyBuffer[lengthOfCurrentCommand] = '\0';
+            strcpy(keyBuffer, lastCommand);
+            lengthOfCurrentCommand = 0;
+            keyBuffer[0] = '\0';
+        }
+        if (scancode == RIGHT_SHIFT || scancode == LEFT_SHIFT) {
+            keyboardEventHandler->setShiftKey(true);
+        }
+        else {
+            // Print the key to the screen
+            char key = scancodeAscii[(int) scancode];
+            keyboardEventHandler->onKeyDown(key);
+            // Append the letter to the buffer
+            char str[2] = {key, '\0'};
+            append(keyBuffer, key);
+            ++lengthOfCurrentCommand;
+        }
+/*
             default:
             {
                 char* foo = "KEYBOARD 0x00 ";
                 char* hex = "0123456789ABCDEF";
-                foo[11] = hex[(key >> 4) & 0xF];
-                foo[12] = hex[key & 0xF];
+                foo[11] = hex[(scancode >> 4) & 0xF];
+                foo[12] = hex[scancode & 0xF];
                 kprint(foo);
                 break;
             }
-        }
+*/
+    // Else the scancode is released.
     } else {
-        // Key is released. Call switch.
-        switch(key)
+        switch(scancode)
         {
             case 0xAA: keyboardEventHandler->setShiftKey(false); break;
             case 0xB6: keyboardEventHandler->setShiftKey(false); break;
@@ -104,14 +123,14 @@ uint32_t KeyboardDriver::handleInterrupt(uint32_t esp)
             {
                 char* foo = "RELEASE 0x00 ";
                 char* hex = "0123456789ABCDEF";
-                foo[11] = hex[(key >> 4) & 0xF];
-                foo[12] = hex[key & 0xF];
+                foo[11] = hex[(scancode >> 4) & 0xF];
+                foo[12] = hex[scancode & 0xF];
                 kprint(foo);
                 break;
             }
             */
             default:
-                // Don't handle on key up.
+                // Don't handle on scancode up.
                 break;
         }
     }

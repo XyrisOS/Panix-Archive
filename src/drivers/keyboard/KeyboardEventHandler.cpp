@@ -3,8 +3,8 @@
 KeyboardEventHandler::KeyboardEventHandler() {}
 
 void KeyboardEventHandler::backspace() {
-    char backspaceString[] = { (char) 0x08, '\0' };
-    kprint(backspaceString);
+    char backspace[] = { (char) 0x08, '\0' };
+    kprint(backspace);
 }
 
 void KeyboardEventHandler::setShiftKey(bool isShiftPressed) {
