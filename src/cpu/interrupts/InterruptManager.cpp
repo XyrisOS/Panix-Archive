@@ -103,20 +103,16 @@ uint16_t InterruptManager::getHardwareInterruptOffset() {
 }
 
 void InterruptManager::activate() {
-    if(activeInterruptManager == nullptr)
-    {
+    if(activeInterruptManager == nullptr) {
         activeInterruptManager = this;
         asm("sti");
     }
 }
 
 void InterruptManager::deactivate() {
-    if (activeInterruptManager == this)
-    {
+    if (activeInterruptManager == this) {
         activeInterruptManager = nullptr;
-        
         asm("cli");
-        
     }
 }
 
