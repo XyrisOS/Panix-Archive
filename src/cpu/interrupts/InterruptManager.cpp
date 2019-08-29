@@ -1,12 +1,13 @@
 #include <cpu/interrupts/InterruptManager.hpp>
 
-void kprint(const char* str);
-
 InterruptManager::GateDescriptor InterruptManager::interruptDescriptorTable[256];
 InterruptManager* InterruptManager::activeInterruptManager = nullptr;
 
-void InterruptManager::setInterruptDescriptorTableEntry(uint8_t interrupt,
-    uint16_t CodeSegment, void (*handler)(), uint8_t DescriptorPrivilegeLevel, uint8_t DescriptorType)
+void InterruptManager::setInterruptDescriptorTableEntry(
+    uint8_t interrupt,
+    uint16_t CodeSegment, void (*handler)(),
+    uint8_t DescriptorPrivilegeLevel,
+    uint8_t DescriptorType)
 {
     // address of pointer to code segment (relative to global descriptor table)
     // and address of the handler (relative to segment)
@@ -127,11 +128,13 @@ uint32_t InterruptManager::doHandleInterrupt(uint8_t interrupt, uint32_t esp) {
     if (handlers[interrupt] != 0) {
         esp = handlers[interrupt]->handleInterrupt(esp);
     } else if (interrupt != hardwareInterruptOffset) {
-        char* foo = (char*) "UNHANDLED INTERRUPT 0x00";
+        kprint("OH NO!\nPanix encountered an unhandled kernel error!\n");
+        char* panicCode = (char*) "UNHANDLED INTERRUPT 0x00";
         char* hex = (char*) "0123456789ABCDEF";
-        foo[22] = hex[(interrupt >> 4) & 0xF];
-        foo[23] = hex[interrupt & 0xF];
-        kprint(foo);
+        panicCode[22] = hex[(interrupt >> 4) & 0xF];
+        panicCode[23] = hex[interrupt & 0xF];
+        kprint(panicCode);
+        asm("hlt");
     }
 
     // hardware interrupts must be acknowledged

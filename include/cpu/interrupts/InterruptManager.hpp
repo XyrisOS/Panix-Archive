@@ -6,6 +6,7 @@
 #include <types.hpp>
 #include <cpu/Port/Port.hpp>
 #include <cpu/interrupts/InterruptHandler.hpp>
+#include <libc/kprint.hpp>
 
 /* Forward declaration */
 class InterruptHandler;
