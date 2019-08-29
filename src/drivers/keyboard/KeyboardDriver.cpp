@@ -103,34 +103,12 @@ uint32_t KeyboardDriver::handleInterrupt(uint32_t esp)
             append(keyBuffer, key);
             ++lengthOfCurrentCommand;
         }
-/*
-            default:
-            {
-                char* foo = "KEYBOARD 0x00 ";
-                char* hex = "0123456789ABCDEF";
-                foo[11] = hex[(scancode >> 4) & 0xF];
-                foo[12] = hex[scancode & 0xF];
-                kprint(foo);
-                break;
-            }
-*/
     // Else the scancode is released.
     } else {
         switch(scancode)
         {
             case 0xAA: keyboardEventHandler->setShiftKey(false); break;
             case 0xB6: keyboardEventHandler->setShiftKey(false); break;
-            /*
-            default:
-            {
-                char* foo = "RELEASE 0x00 ";
-                char* hex = "0123456789ABCDEF";
-                foo[11] = hex[(scancode >> 4) & 0xF];
-                foo[12] = hex[scancode & 0xF];
-                kprint(foo);
-                break;
-            }
-            */
             default:
                 // Don't handle on scancode up.
                 break;
