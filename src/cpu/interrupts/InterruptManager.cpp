@@ -35,26 +35,24 @@ InterruptManager::InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescr
     }
     setInterruptDescriptorTableEntry(0, CodeSegment, &interruptIgnore, 0, IDT_INTERRUPT_GATE);
 
-    setInterruptDescriptorTableEntry(0x00, CodeSegment, &handleException0x00, 0, IDT_INTERRUPT_GATE);
-    setInterruptDescriptorTableEntry(0x01, CodeSegment, &handleException0x01, 0, IDT_INTERRUPT_GATE);
-    setInterruptDescriptorTableEntry(0x02, CodeSegment, &handleException0x02, 0, IDT_INTERRUPT_GATE);
-    setInterruptDescriptorTableEntry(0x03, CodeSegment, &handleException0x03, 0, IDT_INTERRUPT_GATE);
-    setInterruptDescriptorTableEntry(0x04, CodeSegment, &handleException0x04, 0, IDT_INTERRUPT_GATE);
-    setInterruptDescriptorTableEntry(0x05, CodeSegment, &handleException0x05, 0, IDT_INTERRUPT_GATE);
-    setInterruptDescriptorTableEntry(0x06, CodeSegment, &handleException0x06, 0, IDT_INTERRUPT_GATE);
-    setInterruptDescriptorTableEntry(0x07, CodeSegment, &handleException0x07, 0, IDT_INTERRUPT_GATE);
-    setInterruptDescriptorTableEntry(0x08, CodeSegment, &handleException0x08, 0, IDT_INTERRUPT_GATE);
-    setInterruptDescriptorTableEntry(0x09, CodeSegment, &handleException0x09, 0, IDT_INTERRUPT_GATE);
-    setInterruptDescriptorTableEntry(0x0A, CodeSegment, &handleException0x0A, 0, IDT_INTERRUPT_GATE);
-    setInterruptDescriptorTableEntry(0x0B, CodeSegment, &handleException0x0B, 0, IDT_INTERRUPT_GATE);
-    setInterruptDescriptorTableEntry(0x0C, CodeSegment, &handleException0x0C, 0, IDT_INTERRUPT_GATE);
-    setInterruptDescriptorTableEntry(0x0D, CodeSegment, &handleException0x0D, 0, IDT_INTERRUPT_GATE);
-    setInterruptDescriptorTableEntry(0x0E, CodeSegment, &handleException0x0E, 0, IDT_INTERRUPT_GATE);
-    setInterruptDescriptorTableEntry(0x0F, CodeSegment, &handleException0x0F, 0, IDT_INTERRUPT_GATE);
-    setInterruptDescriptorTableEntry(0x10, CodeSegment, &handleException0x10, 0, IDT_INTERRUPT_GATE);
-    setInterruptDescriptorTableEntry(0x11, CodeSegment, &handleException0x11, 0, IDT_INTERRUPT_GATE);
-    setInterruptDescriptorTableEntry(0x12, CodeSegment, &handleException0x12, 0, IDT_INTERRUPT_GATE);
-    setInterruptDescriptorTableEntry(0x13, CodeSegment, &handleException0x13, 0, IDT_INTERRUPT_GATE);
+    void (* handleExceptionsArray [20])() = {
+        &handleException0x00, &handleException0x01, &handleException0x02, &handleException0x03,
+        &handleException0x04, &handleException0x05, &handleException0x06, &handleException0x07,
+        &handleException0x08, &handleException0x09, &handleException0x0A, &handleException0x0B, 
+        &handleException0x0C, &handleException0x0D, &handleException0x0E, &handleException0x0F,
+        &handleException0x10, &handleException0x11, &handleException0x12, &handleException0x13
+    };
+
+    int handleExceptionsCodeArray[20] = {
+        0x00, 0x01, 0x02, 0x03, 0x04,
+        0x05, 0x06, 0x07, 0x08, 0x09,
+        0x0A, 0x0B, 0x0C, 0x0D, 0x0E,
+        0x0F, 0x10, 0x11, 0x12, 0x13
+    };
+
+    for (int i = 0; i < 19; i++) {
+        setInterruptDescriptorTableEntry(handleExceptionsCodeArray[i], CodeSegment, handleExceptionsArray[i], 0, IDT_INTERRUPT_GATE);
+    }
 
     setInterruptDescriptorTableEntry(hardwareInterruptOffset + 0x00, CodeSegment, &handleInterruptRequest0x00, 0, IDT_INTERRUPT_GATE);
     setInterruptDescriptorTableEntry(hardwareInterruptOffset + 0x01, CodeSegment, &handleInterruptRequest0x01, 0, IDT_INTERRUPT_GATE);

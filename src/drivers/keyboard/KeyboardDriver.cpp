@@ -1,7 +1,6 @@
 #include <drivers/keyboard/KeyboardDriver.hpp>
 
-// Note: The character after '=' is the backspace key
-const char scancodeAscii[] = { 
+const char scancodeAscii[] = {
     '\0', '`', '1', '2', '3', '4', '5', '6',
     '7', '8', '9', '0', '-', '=', '\0', '?',
     'q', 'w', 'e', 'r', 't', 'y', 'u', 'i',
