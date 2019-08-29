@@ -44,16 +44,6 @@ InterruptManager::InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescr
         0x0F, 0x10, 0x11, 0x12, 0x13
     };
 
-    const uint8_t IDT_INTERRUPT_GATE = 0xE;
-    for(uint8_t i = 255; i > 0; --i) {
-        setInterruptDescriptorTableEntry(i, CodeSegment, &interruptIgnore, 0, IDT_INTERRUPT_GATE);
-    }
-    setInterruptDescriptorTableEntry(0, CodeSegment, &interruptIgnore, 0, IDT_INTERRUPT_GATE);
-
-    for (int i = 0; i < 19; i++) {
-        setInterruptDescriptorTableEntry(handleExceptionsCodeArray[i], CodeSegment, handleExceptionsArray[i], 0, IDT_INTERRUPT_GATE);
-    }
-
     void (* handleInterruptRequestArray [16])() = {
         &handleInterruptRequest0x00, &handleInterruptRequest0x01, &handleInterruptRequest0x02, &handleInterruptRequest0x03,
         &handleInterruptRequest0x04, &handleInterruptRequest0x05, &handleInterruptRequest0x06, &handleInterruptRequest0x07,
@@ -67,6 +57,15 @@ InterruptManager::InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescr
         0x08, 0x09, 0x0A, 0x0B,
         0x0C, 0x0D, 0x0E, 0x0F
     };
+
+    for(uint8_t i = 255; i > 0; --i) {
+        setInterruptDescriptorTableEntry(i, CodeSegment, &interruptIgnore, 0, IDT_INTERRUPT_GATE);
+    }
+    setInterruptDescriptorTableEntry(0, CodeSegment, &interruptIgnore, 0, IDT_INTERRUPT_GATE);
+
+    for (int i = 0; i < 19; i++) {
+        setInterruptDescriptorTableEntry(handleExceptionsCodeArray[i], CodeSegment, handleExceptionsArray[i], 0, IDT_INTERRUPT_GATE);
+    }
 
     for (int i = 0; i < 15; i++) {
             setInterruptDescriptorTableEntry(hardwareInterruptOffset + handleInterruptCodeArray[i], CodeSegment, handleInterruptRequestArray[i], 0, IDT_INTERRUPT_GATE);

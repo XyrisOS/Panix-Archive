@@ -16,6 +16,7 @@ class InterruptManager {
         uint16_t hardwareInterruptOffset;
         static InterruptManager* activeInterruptManager;
         InterruptHandler* handlers[256];
+        const uint8_t IDT_INTERRUPT_GATE = 0xE;
         /**
          * @brief 
          * 
