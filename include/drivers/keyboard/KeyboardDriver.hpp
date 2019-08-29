@@ -8,6 +8,7 @@
 #include <drivers/Driver.hpp>
 #include <libc/kprint.hpp>
 #include <libc/string.hpp>
+#include <kernel/shell/shell.hpp>
 
 class KeyboardEventHandler;
 
@@ -40,6 +41,12 @@ class KeyboardDriver : public InterruptHandler, public Driver {
          * 
          */
         inline static uint16_t lengthOfCurrentCommand;
+
+        /**
+         * @brief Kernel level shell to handle input
+         * 
+         */
+        shell *console;
     public:
         /**
          * @brief Construct a new Keyboard Driver object
@@ -65,6 +72,13 @@ class KeyboardDriver : public InterruptHandler, public Driver {
          * 
          */
         virtual void activate();
+
+        /**
+         * @brief Sets the keyboard driver kernel shell object
+         * 
+         * @param sh Kernel shell
+         */
+        void setConsole(shell* sh);
 };
 
 #endif /* KEYBOARD_DRIVER_HPP */

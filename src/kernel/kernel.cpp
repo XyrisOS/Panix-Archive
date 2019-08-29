@@ -46,6 +46,8 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     interruptManager.activate();
     // Make sure the kernel never dies!
     shell basch = shell();
+    // Tell the keyboard driver where the kernel console is.
+    keyboard.setConsole(&basch);
     while(1) {
         
     }

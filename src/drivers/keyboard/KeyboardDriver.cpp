@@ -80,7 +80,9 @@ uint32_t KeyboardDriver::handleInterrupt(uint32_t esp)
         if (scancode == ENTER) {
             kprint("\n");
             // TODO: Find a way to get this to the shell
-            //handleUserInput(keyBuffer);
+            if (this->console != nullptr) {
+                this->console->handleShellInput(keyBuffer);
+            }
             if (lengthOfCurrentCommand >= 256) {
                 lengthOfCurrentCommand = 255;
             }
@@ -136,4 +138,8 @@ uint32_t KeyboardDriver::handleInterrupt(uint32_t esp)
     }
 
     return esp;
+}
+
+void KeyboardDriver::setConsole(shell* sh) {
+    this->console = sh;
 }
