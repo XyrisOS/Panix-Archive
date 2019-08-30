@@ -15,7 +15,7 @@ class shell {
             "help",
             "panic",
             "splash",
-            "exit"
+            "vga"
         };
 
         void (*commandFunctions[NUMBER_OF_COMMANDS])();

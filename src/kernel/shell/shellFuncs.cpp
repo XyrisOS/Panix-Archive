@@ -33,6 +33,17 @@ void printSplash() {
     kprint("\n\nWelcome to Panix!\n\n");
 }
 
+void vgaStart() {
+    // Initialize the VGA driver
+    VideoGraphicsArray vga;
+    vga.setMode(320,200,8);
+    for(int32_t y = 0; y < 200; y++) {
+        for(int32_t x = 0; x < 320; x++) {
+            vga.setPixel(x, y, 0x00, 0x00, 0xA8);
+        }
+    }
+}
+
 void exit() {
     kprint("You can't exit the shell! It's part of the kernel!");
 }

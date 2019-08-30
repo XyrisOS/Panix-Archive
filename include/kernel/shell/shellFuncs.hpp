@@ -4,6 +4,7 @@
 #include <libc/kprint.hpp>
 #include <libc/string.hpp>
 #include <libc/tty.hpp>
+#include <drivers/vga/VGA.hpp>
 
 /**
  * @brief Prints the indicator for the shell.
@@ -18,6 +19,8 @@ void help();
 void panic();
 
 void printSplash();
+
+void vgaStart();
 
 void exit();
 

@@ -5,7 +5,7 @@ shell::shell() {
     commandFunctions[1] = help;
     commandFunctions[2] = panic;
     commandFunctions[3] = printSplash;
-    commandFunctions[4] = panic; //panixkernel::Kernel::printTick;
+    commandFunctions[4] = vgaStart; //panixkernel::Kernel::printTick;
     printShellIndicator();
 }
 
