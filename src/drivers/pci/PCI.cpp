@@ -1,4 +1,4 @@
-#include <drivers/pci/pci.hpp>
+#include <drivers/pci/PCI.hpp>
 
 PeripheralComponentInterconnectDeviceDescriptor::PeripheralComponentInterconnectDeviceDescriptor() {
 

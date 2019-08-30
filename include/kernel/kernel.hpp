@@ -6,8 +6,8 @@
 #include <cpu/interrupts/InterruptManager.hpp>
 #include <drivers/keyboard/KeyboardDriver.hpp>
 #include <drivers/mouse/MouseDriver.hpp>
-#include <drivers/pci/pci.hpp>
-#include <drivers/vga/vga.hpp>
+#include <drivers/pci/PCI.hpp>
+#include <drivers/vga/VGA.hpp>
 #include <drivers/DriverManager.hpp>
 #include <libc/tty.hpp>
 #include <kernel/shell/shell.hpp>

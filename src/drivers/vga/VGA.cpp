@@ -1,4 +1,4 @@
-#include <drivers/vga/vga.hpp>
+#include <drivers/vga/VGA.hpp>
 
 VideoGraphicsArray::VideoGraphicsArray() : 
     miscPort(0x3C2),
@@ -20,8 +20,7 @@ VideoGraphicsArray::~VideoGraphicsArray() {
     
 }
 
-void VideoGraphicsArray::writeRegisters(uint8_t* registers)
-{
+void VideoGraphicsArray::writeRegisters(uint8_t* registers) {
     //  misc
     miscPort.write(*(registers++));
 
@@ -31,7 +30,7 @@ void VideoGraphicsArray::writeRegisters(uint8_t* registers)
         sequencerDataPort.write(*(registers++));
     }
 
-    // cathode ray tube controller
+    // cathode ray tube controller (CRTC)
     crtcIndexPort.write(0x03);
     crtcDataPort.write(crtcDataPort.read() | 0x80);
     crtcIndexPort.write(0x11);
