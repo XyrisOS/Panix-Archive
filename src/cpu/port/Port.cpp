@@ -1,5 +1,5 @@
 
-#include <cpu/Port/Port.hpp>
+#include <cpu/port/Port.hpp>
 
 /* Port */
 Port::Port(uint16_t portnumber)

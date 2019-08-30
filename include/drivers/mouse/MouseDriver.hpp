@@ -3,7 +3,7 @@
 #define MOUSE_DRIVER_HPP
 
 #include <types.hpp>
-#include <cpu/Port/Port.hpp>
+#include <cpu/port/Port.hpp>
 #include <cpu/interrupts/InterruptHandler.hpp>
 #include <drivers/mouse/MouseEventHandler.hpp>
 #include <drivers/Driver.hpp>

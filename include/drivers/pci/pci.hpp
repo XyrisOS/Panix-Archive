@@ -2,7 +2,7 @@
 #define PCI_HPP
 // TODO: PCI needs some serious documentation. Refer to https://youtu.be/GE7iO2vlLD4 and https://youtu.be/yqjDYF4NCXg for info.
 #include <types.hpp>
-#include <cpu/Port/Port.hpp>
+#include <cpu/port/Port.hpp>
 #include <cpu/interrupts/InterruptHandler.hpp>
 #include <drivers/Driver.hpp>
 #include <drivers/DriverManager.hpp>

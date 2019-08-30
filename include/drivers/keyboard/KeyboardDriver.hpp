@@ -3,7 +3,7 @@
 
 #include <types.hpp>
 #include <cpu/interrupts/InterruptManager.hpp>
-#include <cpu/Port/Port.hpp>
+#include <cpu/port/Port.hpp>
 #include <drivers/keyboard/KeyboardEventHandler.hpp>
 #include <drivers/Driver.hpp>
 #include <libc/kprint.hpp>

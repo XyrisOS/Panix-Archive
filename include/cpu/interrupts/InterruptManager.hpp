@@ -2,9 +2,9 @@
 #ifndef INTERRUPT_MANAGER_HPP
 #define INTERRUPT_MANAGER_HPP
 
-#include <cpu/GlobalDescriptorTable/GlobalDescriptorTable.hpp>
+#include <cpu/gdt/GlobalDescriptorTable.hpp>
 #include <types.hpp>
-#include <cpu/Port/Port.hpp>
+#include <cpu/port/Port.hpp>
 #include <cpu/interrupts/InterruptHandler.hpp>
 #include <libc/kprint.hpp>
 

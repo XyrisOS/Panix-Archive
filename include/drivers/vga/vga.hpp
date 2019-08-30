@@ -2,7 +2,7 @@
 #define VGA_HPP
 
 #include <types.hpp>
-#include <cpu/Port/Port.hpp>
+#include <cpu/port/Port.hpp>
 #include <drivers/Driver.hpp>
 
 class VideoGraphicsArray {

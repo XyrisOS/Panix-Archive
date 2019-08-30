@@ -1,5 +1,5 @@
 
-#include <cpu/GlobalDescriptorTable/GlobalDescriptorTable.hpp>
+#include <cpu/gdt/GlobalDescriptorTable.hpp>
 
 GlobalDescriptorTable::GlobalDescriptorTable()
     : nullSegmentSelector(0, 0, 0),
