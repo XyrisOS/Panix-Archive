@@ -11,10 +11,12 @@ GCC = i386-elf-gcc
 GDB = i386-elf-gdb
 LD = i386-elf-ld
 NASM = i386-elf-nasm
+SYS = "Other (Likely macOS)"
 
 # Change for Linux
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
+	SYS = "Linux"
 	AS = as
 	GCC = gcc
 	GDB = gdb
@@ -25,7 +27,7 @@ endif
 # Compiler/Linker flags
 GCC_FLAGS = -m32 -Iinclude -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -fno-stack-protector -Wno-write-strings -std=c++17
 AS_FLAGS = --32
-LD_FLAGS = -melf_i386
+LD_FLAGS = -melf_x86_64
 
 # Linker file
 LINKER = src/boot/linker.ld
@@ -46,6 +48,7 @@ obj/%.o: src/%.s
 
 # Link objects into BIN
 dist/panix.bin: $(LINKER) $(OBJ)
+	@ echo "\033[0;33m[INFO] Compiled panix using $(SYS) settings.\e[0m"
 	@ mkdir -p dist
 	$(LD) $(LD_FLAGS) -T $< -o $@ $(OBJ)
 
