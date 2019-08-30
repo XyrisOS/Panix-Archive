@@ -11,6 +11,5 @@
 #include <drivers/DriverManager.hpp>
 #include <libc/tty.hpp>
 #include <kernel/shell/shell.hpp>
-#include <libc/stdio.hpp>
 
 #endif /* KERNEL_HPP */

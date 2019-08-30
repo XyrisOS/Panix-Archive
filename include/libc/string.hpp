@@ -1,7 +1,6 @@
 #ifndef STRING_H
 #define STRING_H
 
-#include <libc/sys/cdefs.hpp>
 #include <stddef.h>
 #include <types.hpp>
 
