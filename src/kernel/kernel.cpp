@@ -44,6 +44,14 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     // Activate our interrupt manager
     kprint("Initializing Hardware, Stage 3 - Activating Interrupts...\n");
     interruptManager.activate();
+    // Initialize the VGA driver
+    VideoGraphicsArray vga;
+    vga.setMode(320,200,8);
+    for(int32_t y = 0; y < 200; y++) {
+        for(int32_t x = 0; x < 320; x++) {
+            vga.setPixel(x, y, 0x00, 0x00, 0xA8);
+        }
+    }
     // Make sure the kernel never dies!
     shell basch = shell();
     // Tell the keyboard driver where the kernel console is.

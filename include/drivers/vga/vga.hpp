@@ -29,8 +29,8 @@ class VideoGraphicsArray {
 
         virtual bool supportsMode(uint32_t width, uint32_t height, uint32_t depth);
         virtual bool setMode(uint32_t width, uint32_t height, uint32_t depth);
-        virtual void setPixel(uint32_t x, uint32_t y, uint32_t r, uint32_t g, uint32_t b);
-        virtual void setPixel(uint32_t x, uint32_t y, uint8_t depth);
+        virtual void setPixel(uint8_t x, uint8_t y, uint8_t depth);
+        virtual void setPixel(uint32_t x, uint32_t y, uint8_t r, uint8_t g, uint8_t b);
 };
 
 #endif /* VGA_HPP */
