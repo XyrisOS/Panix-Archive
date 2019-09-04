@@ -129,7 +129,9 @@ uint32_t InterruptManager::doHandleInterrupt(uint8_t interrupt, uint32_t esp) {
         esp = handlers[interrupt]->handleInterrupt(esp);
     } else if (interrupt == 0x00) {
         kprint("[ERR] Panix attempted to divide by 0.\n");
-        kprint("HANDLED INTERRUPT 0x00");
+        kprint("HANDLED INTERRUPT 0x00\n");
+        // This might fix the loop...?
+        return esp;
     } else if (interrupt != hardwareInterruptOffset) {
         kprint("OH NO!\nPanix encountered an unhandled kernel error!\n");
         char* panicCode = (char*) "UNHANDLED INTERRUPT 0x00";
