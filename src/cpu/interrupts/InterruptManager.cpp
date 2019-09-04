@@ -117,38 +117,38 @@ void InterruptManager::deactivate() {
     }
 }
 
+// Is this function really necessary? Or can we combine the doHandleInterrupt into this?
 uint32_t InterruptManager::handleInterrupt(uint8_t interrupt, uint32_t esp) {
     if (activeInterruptManager != nullptr) {
-        return activeInterruptManager->doHandleInterrupt(interrupt, esp);
-    }
-    return esp;
-}
+        //return activeInterruptManager->doHandleInterrupt(interrupt, esp);
+        if (activeInterruptManager->handlers[interrupt] != 0) {
+            // This handleInterrupt function is located in the InterruptHandler.cpp file
+            esp = activeInterruptManager->handlers[interrupt]->handleInterrupt(esp);
+        } else if (interrupt == 0x00) {
+            kprint("[ERR] Panix attempted to divide by 0.\n");
+            kprint("HANDLED INTERRUPT 0x00\n");
+            // This might fix the loop...?
+            asm("hlt");
+        } else if (interrupt != activeInterruptManager->hardwareInterruptOffset) {
+            kprint("OH NO!\nPanix encountered an unhandled kernel error!\n");
+            char* panicCode = (char*) "UNHANDLED INTERRUPT 0x00";
+            char* hex = (char*) "0123456789ABCDEF";
+            panicCode[22] = hex[(interrupt >> 4) & 0xF];
+            panicCode[23] = hex[interrupt & 0xF];
+            kprint(panicCode);
+            asm("hlt");
+        }
 
-uint32_t InterruptManager::doHandleInterrupt(uint8_t interrupt, uint32_t esp) {
-    if (handlers[interrupt] != 0) {
-        esp = handlers[interrupt]->handleInterrupt(esp);
-    } else if (interrupt == 0x00) {
-        kprint("[ERR] Panix attempted to divide by 0.\n");
-        kprint("HANDLED INTERRUPT 0x00\n");
-        // This might fix the loop...?
-        return esp;
-    } else if (interrupt != hardwareInterruptOffset) {
-        kprint("OH NO!\nPanix encountered an unhandled kernel error!\n");
-        char* panicCode = (char*) "UNHANDLED INTERRUPT 0x00";
-        char* hex = (char*) "0123456789ABCDEF";
-        panicCode[22] = hex[(interrupt >> 4) & 0xF];
-        panicCode[23] = hex[interrupt & 0xF];
-        kprint(panicCode);
-        asm("hlt");
-    }
-
-    // hardware interrupts must be acknowledged
-    if (hardwareInterruptOffset <= interrupt && interrupt < hardwareInterruptOffset + 16) {
-        programmableInterruptControllerMasterCommandPort.write(0x20);
-        if (hardwareInterruptOffset + 8 <= interrupt) {
-            programmableInterruptControllerSlaveCommandPort.write(0x20);
+        // hardware interrupts must be acknowledged
+        if (activeInterruptManager->hardwareInterruptOffset <= interrupt 
+        && interrupt < activeInterruptManager->hardwareInterruptOffset + 16) 
+        {
+            activeInterruptManager->programmableInterruptControllerMasterCommandPort.write(0x20);
+            if (activeInterruptManager->hardwareInterruptOffset + 8 <= interrupt) {
+                activeInterruptManager->programmableInterruptControllerSlaveCommandPort.write(0x20);
+            }
         }
     }
-
+    
     return esp;
 }

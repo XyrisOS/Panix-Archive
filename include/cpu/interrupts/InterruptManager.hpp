@@ -107,7 +107,6 @@ class InterruptManager {
          * @return uint32_t 
          */
         static uint32_t handleInterrupt(uint8_t interrupt, uint32_t esp);
-        uint32_t doHandleInterrupt(uint8_t interrupt, uint32_t esp);
 
         Port8BitSlow programmableInterruptControllerMasterCommandPort;
         Port8BitSlow programmableInterruptControllerMasterDataPort;
