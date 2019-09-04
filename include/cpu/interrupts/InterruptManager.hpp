@@ -7,6 +7,7 @@
 #include <cpu/port/Port.hpp>
 #include <cpu/interrupts/InterruptHandler.hpp>
 #include <libc/kprint.hpp>
+#include <libc/tty.hpp>
 
 /* Forward declaration */
 class InterruptHandler;
@@ -133,12 +134,12 @@ class InterruptManager {
          */
         uint16_t getHardwareInterruptOffset();
         /**
-         * @brief 
+         * @brief Activates the interrupt and exception handlers
          * 
          */
         void activate();
         /**
-         * @brief 
+         * @brief Deactivates the interrupt and exception handlers
          * 
          */
         void deactivate();

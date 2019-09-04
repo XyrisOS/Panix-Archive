@@ -8,3 +8,14 @@ void clearScreen() {
         }
     }
 }
+
+void printPanicScreen() {
+    kprint(" ________________________\n");
+    kprint("< OH NO! Panix panicked! >\n");
+    kprint(" ------------------------\n");
+    kprint("        \\   ^__^\n");
+    kprint("         \\  (XX)\\_______\n");
+    kprint("            (__)\\       )\\/\\\n");
+    kprint("                ||----w |\n");
+    kprint("                ||     ||\n");
+}

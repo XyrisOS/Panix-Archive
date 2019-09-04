@@ -2,6 +2,16 @@
 
 InterruptManager::GateDescriptor InterruptManager::interruptDescriptorTable[256];
 InterruptManager* InterruptManager::activeInterruptManager = nullptr;
+const char exceptionDescriptions[33][16] = {
+    "Divide-By-Zero", "Debugging", "Non-Maskable", "Breakpoint",
+    "Overflow", "Out Bound Range", "Invalid Opcode", "Device Not Avbl",
+    "Double Fault", "Co-CPU Overrun", "Invalid TSS", "Sgmnt !Present",
+    "Seg Fault", "Protection Flt", "Page Fault", "RESERVED",
+    "Floating Pnt", "Alignment Check", "Machine Check", "SIMD Flt Pnt",
+    "Virtualization", "RESERVED", "RESERVED", "RESERVED",
+    "RESERVED", "RESERVED", "RESERVED", "RESERVED",
+    "RESERVED", "Security Excptn", "RESERVED", "Triple Fault", "FPU Error"
+};
 
 void InterruptManager::setInterruptDescriptorTableEntry(
     uint8_t interrupt,
@@ -124,18 +134,16 @@ uint32_t InterruptManager::handleInterrupt(uint8_t interrupt, uint32_t esp) {
         if (activeInterruptManager->handlers[interrupt] != 0) {
             // This handleInterrupt function is located in the InterruptHandler.cpp file
             esp = activeInterruptManager->handlers[interrupt]->handleInterrupt(esp);
-        } else if (interrupt == 0x00) {
-            kprint("[ERR] Panix attempted to divide by 0.\n");
-            kprint("HANDLED INTERRUPT 0x00\n");
-            // This might fix the loop...?
-            asm("hlt");
         } else if (interrupt != activeInterruptManager->hardwareInterruptOffset) {
-            kprint("OH NO!\nPanix encountered an unhandled kernel error!\n");
-            char* panicCode = (char*) "UNHANDLED INTERRUPT 0x00";
+            clearScreen();
+            //kprint("OH NO!\nPanix encountered an unhandled kernel error!\n");
+            printPanicScreen();
+            char* panicCode = (char*) "UNHANDLED INTERRUPT 0x00 - ";
             char* hex = (char*) "0123456789ABCDEF";
             panicCode[22] = hex[(interrupt >> 4) & 0xF];
             panicCode[23] = hex[interrupt & 0xF];
             kprint(panicCode);
+            kprint(exceptionDescriptions[interrupt]);
             asm("hlt");
         }
 
