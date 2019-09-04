@@ -70,7 +70,7 @@ InterruptManager::InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescr
     }
 
     for (int i = 0; i < 15; i++) {
-            setInterruptDescriptorTableEntry(hardwareInterruptOffset + handleInterruptCodeArray[i], CodeSegment, handleInterruptRequestArray[i], 0, IDT_INTERRUPT_GATE);
+        setInterruptDescriptorTableEntry(hardwareInterruptOffset + handleInterruptCodeArray[i], CodeSegment, handleInterruptRequestArray[i], 0, IDT_INTERRUPT_GATE);
     }
 
     programmableInterruptControllerMasterCommandPort.write(0x11);
@@ -127,6 +127,9 @@ uint32_t InterruptManager::handleInterrupt(uint8_t interrupt, uint32_t esp) {
 uint32_t InterruptManager::doHandleInterrupt(uint8_t interrupt, uint32_t esp) {
     if (handlers[interrupt] != 0) {
         esp = handlers[interrupt]->handleInterrupt(esp);
+    } else if (interrupt == 0x00) {
+        kprint("[ERR] Panix attempted to divide by 0.\n");
+        kprint("HANDLED INTERRUPT 0x00");
     } else if (interrupt != hardwareInterruptOffset) {
         kprint("OH NO!\nPanix encountered an unhandled kernel error!\n");
         char* panicCode = (char*) "UNHANDLED INTERRUPT 0x00";
