@@ -58,7 +58,7 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     shell basch = shell();
     // Tell the keyboard driver where the kernel console is.
     keyboard.setConsole(&basch);
-    while(!basch.isTerminated) {
-        
-    }
+    while(!basch.isTerminated) { }// Keep the kernel alive
+    // Halt the processor after the kernel is done executing
+    asm("hlt");
 }
