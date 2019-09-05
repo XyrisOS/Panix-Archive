@@ -1,6 +1,7 @@
 #ifndef SHELLFUNCS_HPP
 #define SHELLFUNCS_HPP
 
+#include <kernel/shell/shell.hpp>
 #include <libc/kprint.hpp>
 #include <libc/string.hpp>
 #include <libc/tty.hpp>
@@ -21,7 +22,5 @@ void panic();
 void printSplash();
 
 void vgaStart();
-
-void exit();
 
 #endif /* SHELLFUNCS_HPP */

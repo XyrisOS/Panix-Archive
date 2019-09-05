@@ -43,7 +43,3 @@ void vgaStart() {
         }
     }
 }
-
-void exit() {
-    kprint("You can't exit the shell! It's part of the kernel!");
-}

@@ -20,6 +20,12 @@ void shell::handleShellInput(char* line) {
             break;
         }
     }
+    if (strcmp((char*)"shutdown", line) == 0) {
+        clearScreen();
+        kprint("It's now safe to turn off your computer.");
+        isTerminated = true;
+        return;
+    }
     if (foundCommand == false) {
         kprint("Command does not exist.\n");
     }
