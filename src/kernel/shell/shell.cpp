@@ -12,11 +12,16 @@ shell::shell() {
 void shell::handleShellInput(char* line) {
     // Loop through available commands and check if one
     // of them was inputted by the user.
+    bool foundCommand = false;
     for (int i = 0; i < NUMBER_OF_COMMANDS; i++) {
         if (strcmp((char*) commandNames[i], line) == 0) {
             (*commandFunctions[i])();
+            foundCommand = true;
             break;
         }
+    }
+    if (foundCommand == false) {
+        kprint("Command does not exist.\n");
     }
     printShellIndicator();
 }

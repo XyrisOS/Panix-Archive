@@ -2,6 +2,10 @@
 
 InterruptManager::GateDescriptor InterruptManager::interruptDescriptorTable[256];
 InterruptManager* InterruptManager::activeInterruptManager = nullptr;
+// This is a freaking massive array. It definitely makes panicking slower.
+// It also eats up a significant chunk of the kernel memory since it's not
+// dynamic, so maybe we need to come back to this eventually?
+// TODO: Come back to this and make it dynamic
 const char exceptionDescriptions[33][16] = {
     "Divide-By-Zero", "Debugging", "Non-Maskable", "Breakpoint",
     "Overflow", "Out Bound Range", "Invalid Opcode", "Device Not Avbl",
@@ -136,7 +140,6 @@ uint32_t InterruptManager::handleInterrupt(uint8_t interrupt, uint32_t esp) {
             esp = activeInterruptManager->handlers[interrupt]->handleInterrupt(esp);
         } else if (interrupt != activeInterruptManager->hardwareInterruptOffset) {
             clearScreen();
-            //kprint("OH NO!\nPanix encountered an unhandled kernel error!\n");
             printPanicScreen();
             char* panicCode = (char*) "UNHANDLED INTERRUPT 0x00 - ";
             char* hex = (char*) "0123456789ABCDEF";
