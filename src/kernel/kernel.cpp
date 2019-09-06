@@ -38,6 +38,9 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     // PCI Interface Driver
     PeripheralComponentInterconnectController PCIController;
     PCIController.SelectDrivers(&driverManager, &interruptManager);
+    // PC Beeper Driver
+    Speaker speaker = Speaker();
+    driverManager.addDriver(&speaker);
     // Activate all the drivers we just added
     kprint("Initializing Hardware, Stage 2 - Activating Drivers...\n");
     driverManager.activateAll();

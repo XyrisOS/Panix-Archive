@@ -12,6 +12,7 @@ GDB = i386-elf-gdb
 LD = i386-elf-ld
 NASM = i386-elf-nasm
 SYS = "Other (Likely macOS)"
+QEMU = qemu-system-x86_64
 
 # Change for Linux
 UNAME_S := $(shell uname -s)
@@ -22,6 +23,7 @@ ifeq ($(UNAME_S),Linux)
 	GDB = gdb
 	LD = ld
 	NASM = nasm
+	QEMU = qemu-system-x86_64
 endif
 
 # Compiler/Linker flags
@@ -80,7 +82,7 @@ obj_directories:
 
 # Run bootable ISO
 run: dist/panix.iso
-	qemu-system-i386 -drive format=raw,file=$< 
+	$(QEMU) -drive format=raw,file=$< -soundhw pcspk
 
 # Install BIN file to local system
 install: dist/panix.bin
@@ -98,7 +100,7 @@ dist: dist/panix.bin
 # Open the connection to qemu and load our kernel-object file with symbols
 debug: dist/panix.iso
 	@ echo Booting from floppy...
-	qemu-system-i386 -drive format=raw,file=$< 
+	$(QEMU) -drive format=raw,file=$<
 	@ echo Setting up GDB with qemu...
 	${GDB} -ex "target remote localhost:1234" -ex "symbol-file panix.bin"
 

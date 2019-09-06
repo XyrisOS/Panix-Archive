@@ -41,11 +41,9 @@ class Port8BitSlow : public Port8Bit {
         static inline void write8Slow(uint16_t _port, uint8_t _data) {
             __asm__ volatile("outb %0, %1\njmp 1f\n1: jmp 1f\n1:" : : "a" (_data), "Nd" (_port));
         }
-
 };
 
-class Port16Bit : public Port
-{
+class Port16Bit : public Port {
     public:
         Port16Bit(uint16_t portnumber);
         //virtual ~Port16Bit();
