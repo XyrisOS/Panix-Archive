@@ -16,6 +16,7 @@ Update Progress (Starting August 2019)
     - Refactored some of the interrupt logic to be more centrally located
     - Added exception descriptions to help debug when a panic occurs
     - Added the cowsay "deadcow" art when the kernel panics
+    - Added rudementary PC speaker support. Plays any square wave frequency.
     - PLANNED: More VGA support
 
 ### Course Requirements:
