@@ -8,6 +8,7 @@
 #include <cpu/interrupts/InterruptHandler.hpp>
 #include <libc/kprint.hpp>
 #include <libc/tty.hpp>
+#include <drivers/speaker/Speaker.hpp>
 
 /* Forward declaration */
 class InterruptHandler;

@@ -138,7 +138,10 @@ uint32_t InterruptManager::handleInterrupt(uint8_t interrupt, uint32_t esp) {
         if (activeInterruptManager->handlers[interrupt] != 0) {
             // This handleInterrupt function is located in the InterruptHandler.cpp file
             esp = activeInterruptManager->handlers[interrupt]->handleInterrupt(esp);
+        // Panic because we don't know how to handle this. Also make an annoying sound
         } else if (interrupt != activeInterruptManager->hardwareInterruptOffset) {
+            Speaker speaker = Speaker();
+            speaker.playSound(880);
             clearScreen();
             printPanicScreen();
             char* panicCode = (char*) "UNHANDLED INTERRUPT 0x00 - ";
