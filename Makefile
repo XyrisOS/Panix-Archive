@@ -1,135 +1,113 @@
-# $@ = target file
-# $< = first dependency
-# $^ = all dependencies
+# sudo apt-get install g++ binutils qemu-system-i386 grub-pc:i386 xorriso
 
-CXX_SOURCES = $(wildcard src/kernel/*.cpp src/kernel/util/*.cpp src/drivers/*.cpp src/drivers/*/*.cpp src/cpu/*.cpp src/cpu/*/*.cpp src/libc/*.cpp src/libc/*/*.cpp)
-HEADERS = $(wildcard src/kernel/*.h src/kernel/util/*.h src/drivers/*.h src/drivers/*/*.h src/cpu/*.h src/cpu/*/*.h src/libc/*.h src/libc/*/*.h)
+# Sources and headers
+CXX_SRC = $(shell find src/ -name "*.cpp")
+S_SRC = $(shell find src/ -name "*.s")
+HEADERS = $(shell find include/ -name "*.hpp")
 
-# Nice syntax for file extension replacement
-CXX_OBJ = ${CXX_SOURCES:.cpp=.o src/cpu/interrupt.o}
-
-# Change this if your cross-compiler is somewhere else
-# Installing i386-elf-binutils using brew on macOS fixes
-# the need for a custom cross compiler
-CXX = i386-elf-gcc
+# Compilers/Assemblers/Linkers
+AS = i386-elf-as
+GCC = i386-elf-gcc
 GDB = i386-elf-gdb
 LD = i386-elf-ld
+NASM = i386-elf-nasm
+SYS = "Other (Likely macOS)"
+QEMU = qemu-system-x86_64
 
+# Change for Linux
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
-	CXX = gcc
+	SYS = "Linux"
+	AS = as
+	GCC = gcc
 	GDB = gdb
 	LD = ld
+	NASM = nasm
+	QEMU = qemu-system-x86_64
 endif
 
-CXX_FLAGS = -fno-pie -g -ffreestanding -Wall -Wextra -fno-exceptions -fno-stack-protector -m32 -lstdc++ -std=c++17
+# Compiler/Linker flags
+GCC_FLAGS = -m32 -Iinclude -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -fno-stack-protector -Wno-write-strings -std=c++17
+AS_FLAGS = --32
+LD_FLAGS = -melf_x86_64
 
-# First rule is run by default
-dist/panix.raw: src/boot/boot32.bin src/kernel/kernel.bin
-	mkdir -p dist
-	cat $^ > $@
+# Linker file
+LINKER = src/boot/linker.ld
 
-LD_FLAGS = -m elf_i386
+# All objects
+OBJ = $(patsubst src/%.cpp, obj/%.o, $(CXX_SRC)) $(patsubst src/%.s, obj/%.o, $(S_SRC))
+# Object directories, mirroring source
+OBJ_DIRS = $(subst src, obj, $(shell find src -type d))
 
-# '--oformat binary' deletes all symbols as a collateral, so we don't need
-# to 'strip' them manually on this case
-src/kernel/kernel.bin: src/boot/32bit/kernel_entry.o ${CXX_OBJ}
-	${LD} ${LD_FLAGS} -o $@ -Ttext 0x1000 $^ --oformat binary
+# Compile sources to objects
+obj/%.o: src/%.cpp $(HEADERS)
+	$(MAKE) obj_directories
+	$(GCC) $(GCC_FLAGS) -c -o $@ $<
 
-# Used for debugging purposes
-kernel.elf: src/boot/32bit/kernel_entry.o ${CXX_OBJ}
-	${LD} ${LD_FLAGS} -o $@ -Ttext 0x1000 $^ 
+obj/%.o: src/%.s
+	$(MAKE) obj_directories
+	$(AS) $(AS_FLAGS) -o $@ $<
 
-run: dist/panix.raw
-	@ echo Booting from disk...
-	qemu-system-i386 $< -boot c
+# Link objects into BIN
+dist/panix.bin: $(LINKER) $(OBJ)
+	@ echo "\033[0;33m[INFO] Compiled panix using $(SYS) settings.\e[0m"
+	@ mkdir -p dist
+	$(LD) $(LD_FLAGS) -T $< -o $@ $(OBJ)
 
-run_from_disk: dist/panix.raw
-	@ echo Booting from disk...
-	qemu-system-i386 $< -boot c
+# Create bootable ISO
+dist/panix.iso: dist/panix.bin
+	@ echo Making iso directory...
+	@ mkdir -p iso
+	@ mkdir -p iso/boot
+	@ mkdir -p iso/boot/grub
+	@ cp $< iso/boot/
+	@ echo Creating grub.cfg...
+	@ echo 'set timeout=0'                      > iso/boot/grub/grub.cfg
+	@ echo 'set default=0'                     >> iso/boot/grub/grub.cfg
+	@ echo ''                                  >> iso/boot/grub/grub.cfg
+	@ echo 'menuentry "Panix" {'               >> iso/boot/grub/grub.cfg
+	@ echo '  multiboot /boot/panix.bin'       >> iso/boot/grub/grub.cfg
+	@ echo '  boot'                            >> iso/boot/grub/grub.cfg
+	@ echo '}'                                 >> iso/boot/grub/grub.cfg
+	@ echo Creating panix.iso...
+	@ grub-mkrescue -o dist/panix.iso iso
+	@ echo Cleaning up iso directory
+	@ rm -rf iso
 
-run_from_floppy: dist/panix.raw
-	@ echo Booting from floppy...
-	qemu-system-i386 -fda $<
+# Create object file directories
+.PHONY: 
+	obj_directories
+obj_directories:
+	mkdir -p $(OBJ_DIRS)
 
-dist: dist/panix.raw
+# Run bootable ISO
+run: dist/panix.iso
+	$(QEMU) -drive format=raw,file=$< -soundhw pcspk
+
+# Install BIN file to local system
+install: dist/panix.bin
+	sudo cp $< /boot/panix.bin
+
+dist: dist/panix.bin
 	@ echo Building VDI image of Panix...
-	@ qemu-img convert -f raw -O vdi dist/panix.raw dist/panix.vdi
+	@ qemu-img convert -f raw -O vdi dist/panix.bin dist/panix.vdi
 	@ echo Done building VDI image of Panix!
 
 	@ echo "\nBuilding VMDK image of Panix..."
-	@ qemu-img convert -f raw -O vmdk dist/panix.raw dist/panix.vmdk
+	@ qemu-img convert -f raw -O vmdk dist/panix.bin dist/panix.vmdk
 	@ echo Done building VMDK image of Panix!
 
 # Open the connection to qemu and load our kernel-object file with symbols
-debug: dist/panix.raw kernel.elf
+debug: dist/panix.iso
 	@ echo Booting from floppy...
-	qemu-system-i386 -s -fda $< &
+	$(QEMU) -drive format=raw,file=$<
 	@ echo Setting up GDB with qemu...
-	${GDB} -ex "target remote localhost:1234" -ex "symbol-file kernel.elf"
+	${GDB} -ex "target remote localhost:1234" -ex "symbol-file panix.bin"
 
-# Generic rules for wildcards
-# To make an object, always compile from its .cpp
-%.o: %.cpp ${HEADERS}
-	${CXX} ${CXX_FLAGS} -c $< -o $@
-
-%.o: %.asm
-	nasm $< -f elf -o $@
-
-%.bin: %.asm
-	nasm $< -f bin -o $@
-
+# Clear out objects and BIN
 clean:
-	@ echo Cleaning root directory...
-	@ rm -rf *.bin *.dis *.o dist/panix.raw *.elf
-	
-	@ echo Cleaning boot directories...
-	@ rm -rf src/boot/*.bin src/boot/*.o 
-	@ rm -rf src/boot/32bit/*.bin src/boot/32bit/*.o
-	
-	@ echo Cleaning cpu directories...
-	@ rm -rf src/cpu/*.bin src/cpu/*.o
-	@ rm -rf src/cpu/*/*.bin src/cpu/*/*.o
-	
-	@ echo Cleaning driver directories...
-	@ rm -rf src/drivers/*.bin src/drivers/*.o
-	@ rm -rf src/drivers/*/*.bin src/drivers/*/*.o
-	
-	@ echo Cleaning kernel directory...
-	@ rm -rf src/kernel/*.bin src/kernel/*.o
-	
-	@ echo Cleaning libc directories...
-	@ rm -rf src/libc/*.bin src/libc/*.o
-	@ rm -rf src/libc/*.bin src/libc/*/*.o
-
-	@ echo "\nDone cleaning!"
-
-clean-docs:
-	@ echo Cleaning old documentation...
-	@ find docs/ ! -name CNAME ! -name robots.txt -type f -delete
-	@ echo "\nDone cleaning documentation!"
-
-.PHONY: docs
-docs: 
-	@ echo Generating documentation...
-	@ doxygen ./Doxyfile
-	@ echo "\nDone generating documentation!"
-
-.PHONY: mac-setup
-mac-setup:
-	@ echo "Using Brew to install necessary command line tools..."
-	@ brew install nasm
-	@ brew install qemu
-	@ brew install i386-elf-gcc
-	@ brew install i386-elf-binutils
-	@ echo "\nDone installing brews!"
-
-.PHONY: ubuntu-setup
-ubuntu-setup:
-	@ echo "Using apt to install necessary command line tools..."
-	@ echo "You will need to enter your password to use apt.\n"
-	@ sudo apt install nasm
-	@ sudo apt install qemu
-	@ sudo apt install binutils
-	@ sudo apt install gcc
-	@ echo "\nDone installing brews!"
+	@ echo Cleaning obj directory...
+	@ rm -rf obj
+	@ echo Cleaning bin files...
+	@ rm -rf dist/*.bin
+	@ echo "Done cleaning!"
