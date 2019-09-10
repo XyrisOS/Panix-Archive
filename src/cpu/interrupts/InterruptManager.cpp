@@ -2,20 +2,7 @@
 
 InterruptManager::GateDescriptor InterruptManager::interruptDescriptorTable[256];
 InterruptManager* InterruptManager::activeInterruptManager = nullptr;
-// This is a freaking massive array. It definitely makes panicking slower.
-// It also eats up a significant chunk of the kernel memory since it's not
-// dynamic, so maybe we need to come back to this eventually?
-// TODO: Come back to this and make it dynamic
-const char exceptionDescriptions[33][16] = {
-    "Divide-By-Zero", "Debugging", "Non-Maskable", "Breakpoint",
-    "Overflow", "Out Bound Range", "Invalid Opcode", "Device Not Avbl",
-    "Double Fault", "Co-CPU Overrun", "Invalid TSS", "Sgmnt !Present",
-    "Seg Fault", "Protection Flt", "Page Fault", "RESERVED",
-    "Floating Pnt", "Alignment Check", "Machine Check", "SIMD Flt Pnt",
-    "Virtualization", "RESERVED", "RESERVED", "RESERVED",
-    "RESERVED", "RESERVED", "RESERVED", "RESERVED",
-    "RESERVED", "Security Excptn", "RESERVED", "Triple Fault", "FPU Error"
-};
+Timer* InterruptManager::activeInterruptManagerTimer = nullptr;
 
 void InterruptManager::setInterruptDescriptorTableEntry(
     uint8_t interrupt,
@@ -43,6 +30,8 @@ InterruptManager::InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescr
 {
     this->hardwareInterruptOffset = hardwareInterruptOffset;
     uint32_t CodeSegment = globalDescriptorTable->CodeSegmentSelector();
+    Timer activeTimer = Timer();
+    this->setInterruptManagerTimer(&activeTimer);
 
     void (* handleExceptionsArray [20])() = {
         &handleException0x00, &handleException0x01, &handleException0x02, &handleException0x03,
@@ -111,10 +100,19 @@ InterruptManager::InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescr
 
 InterruptManager::~InterruptManager() {
     deactivate();
+    activeInterruptManager->activeInterruptManagerTimer->deactivate();
 }
 
 uint16_t InterruptManager::getHardwareInterruptOffset() {
     return hardwareInterruptOffset;
+}
+
+void InterruptManager::setInterruptManagerTimer(Timer* timer) {
+    activeInterruptManagerTimer = timer;
+}
+
+Timer* InterruptManager::getInterruptManagerTimer() {
+    return activeInterruptManagerTimer;
 }
 
 void InterruptManager::activate() {
@@ -127,6 +125,7 @@ void InterruptManager::activate() {
 void InterruptManager::deactivate() {
     if (activeInterruptManager == this) {
         activeInterruptManager = nullptr;
+        activeInterruptManagerTimer = nullptr;
         asm("cli");
     }
 }
@@ -136,24 +135,19 @@ uint32_t InterruptManager::handleInterrupt(uint8_t interrupt, uint32_t esp) {
     if (activeInterruptManager != nullptr) {
         // TODO: Put the system clock manager in this if statement
         if (interrupt == 0x00 + activeInterruptManager->hardwareInterruptOffset) {
-            kprint("TICK\n");
+            if (activeInterruptManager->activeInterruptManagerTimer != nullptr) {
+                activeInterruptManager->activeInterruptManagerTimer->callback();
+            } else {
+                kprint("CPU timer did not activate!\n");
+            }
         }
         if (activeInterruptManager->handlers[interrupt] != 0) { 
             // This handleInterrupt function is located in the InterruptHandler.cpp file
             esp = activeInterruptManager->handlers[interrupt]->handleInterrupt(esp);
         // Panic because we don't know how to handle this. Also make an annoying sound
         } else if (interrupt != activeInterruptManager->hardwareInterruptOffset) {
-            Speaker speaker = Speaker();
-            speaker.playSound(880);
-            clearScreen();
-            printPanicScreen();
-            char* panicCode = (char*) "UNHANDLED EXCEPTION 0x00 - ";
-            char* hex = (char*) "0123456789ABCDEF";
-            panicCode[22] = hex[(interrupt >> 4) & 0xF];
-            panicCode[23] = hex[interrupt & 0xF];
-            kprint(panicCode);
-            kprint(exceptionDescriptions[interrupt]);
-            asm("hlt");
+            // Call the LibC panic() function defined in stdio.hpp
+            panic(interrupt);
         }
 
         // hardware interrupts must be acknowledged

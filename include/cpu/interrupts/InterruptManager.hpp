@@ -2,13 +2,15 @@
 #ifndef PANIX_INTERRUPT_MANAGER_HPP
 #define PANIX_INTERRUPT_MANAGER_HPP
 
-#include <cpu/gdt/GlobalDescriptorTable.hpp>
 #include <types.hpp>
 #include <cpu/port/Port.hpp>
+#include <cpu/timer/Timer.hpp>
+#include <cpu/gdt/GlobalDescriptorTable.hpp>
 #include <cpu/interrupts/InterruptHandler.hpp>
+#include <drivers/speaker/Speaker.hpp>
+#include <libc/stdio.hpp>
 #include <libc/kprint.hpp>
 #include <libc/tty.hpp>
-#include <drivers/speaker/Speaker.hpp>
 
 /* Forward declaration */
 class InterruptHandler;
@@ -18,6 +20,7 @@ class InterruptManager {
     protected:
         uint16_t hardwareInterruptOffset;
         static InterruptManager* activeInterruptManager;
+        static Timer* activeInterruptManagerTimer;
         InterruptHandler* handlers[256];
         const uint8_t IDT_INTERRUPT_GATE = 0xE;
         /**
@@ -134,6 +137,18 @@ class InterruptManager {
          * @return uint16_t 
          */
         uint16_t getHardwareInterruptOffset();
+        /**
+         * @brief Set the Interrupt Manager Timer object
+         * 
+         * @param timer 
+         */
+        void setInterruptManagerTimer(Timer* timer);
+        /**
+         * @brief Get the Interrupt Manager Timer object
+         * 
+         * @return Timer 
+         */
+        Timer* getInterruptManagerTimer();
         /**
          * @brief Activates the interrupt and exception handlers
          * 
