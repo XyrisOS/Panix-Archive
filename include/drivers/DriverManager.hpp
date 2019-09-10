@@ -1,5 +1,5 @@
-#ifndef DRIVER_MANAGER_HPP
-#define DRIVER_MANAGER_HPP
+#ifndef PANIX_DRIVER_MANAGER_HPP
+#define PANIX_DRIVER_MANAGER_HPP
 
 #include <drivers/Driver.hpp>
 
@@ -30,4 +30,4 @@ class DriverManager {
         void activateAll();
 };  
 
-#endif /* DRIVER_MANAGER_HPP */
+#endif /* PANIX_DRIVER_MANAGER_HPP */

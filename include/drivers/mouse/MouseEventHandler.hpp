@@ -1,5 +1,5 @@
-#ifndef MOUSE_EVENT_HANDLER_HPP
-#define MOUSE_EVENT_HANDLER_HPP
+#ifndef PANIX_MOUSE_EVENT_HANDLER_HPP
+#define PANIX_MOUSE_EVENT_HANDLER_HPP
 
 #include <types.hpp>
 #include <libc/kprint.hpp>
@@ -40,4 +40,4 @@ class MouseEventHandler {
         virtual void onMouseMove(int x, int y);
 };
 
-#endif /* MOUSE_EVENT_HANDLER_HPP */
+#endif /* PANIX_MOUSE_EVENT_HANDLER_HPP */

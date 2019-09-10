@@ -1,5 +1,5 @@
-#ifndef SHELL_HPP
-#define SHELL_HPP
+#ifndef PANIX_SHELL_HPP
+#define PANIX_SHELL_HPP
 
 #include <kernel/shell/shellFuncs.hpp>
 #include <libc/kprint.hpp>
@@ -41,4 +41,4 @@ class shell {
         bool isTerminated;
 };
 
-#endif /* SHELL_HPP */
+#endif /* PANIX_SHELL_HPP */

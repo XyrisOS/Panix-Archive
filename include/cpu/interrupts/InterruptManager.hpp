@@ -1,6 +1,6 @@
 
-#ifndef INTERRUPT_MANAGER_HPP
-#define INTERRUPT_MANAGER_HPP
+#ifndef PANIX_INTERRUPT_MANAGER_HPP
+#define PANIX_INTERRUPT_MANAGER_HPP
 
 #include <cpu/gdt/GlobalDescriptorTable.hpp>
 #include <types.hpp>
@@ -146,4 +146,4 @@ class InterruptManager {
         void deactivate();
 };
 
-#endif /* INTERRUPT_MANAGER_HPP */
+#endif /* PANIX_INTERRUPT_MANAGER_HPP */

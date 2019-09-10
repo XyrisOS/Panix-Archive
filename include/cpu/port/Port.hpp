@@ -1,6 +1,6 @@
 
-#ifndef PORT_HPP
-#define PORT_HPP
+#ifndef PANIX_PORT_HPP
+#define PANIX_PORT_HPP
 
 #include <types.hpp>
 
@@ -83,4 +83,4 @@ class Port32Bit : public Port {
         }
 };
 
-#endif /* PORT_HPP */
+#endif /* PANIX_PORT_HPP */

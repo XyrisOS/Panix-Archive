@@ -1,5 +1,5 @@
-#ifndef KEYBOARD_DRIVER_HPP
-#define KEYBOARD_DRIVER_HPP
+#ifndef PANIX_KEYBOARD_DRIVER_HPP
+#define PANIX_KEYBOARD_DRIVER_HPP
 
 #include <types.hpp>
 #include <cpu/interrupts/InterruptManager.hpp>
@@ -81,4 +81,4 @@ class KeyboardDriver : public InterruptHandler, public Driver {
         void setConsole(shell* sh);
 };
 
-#endif /* KEYBOARD_DRIVER_HPP */
+#endif /* PANIX_KEYBOARD_DRIVER_HPP */

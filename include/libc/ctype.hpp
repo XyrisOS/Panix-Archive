@@ -1,5 +1,5 @@
-#ifndef CTYPE_H
-#define CTYPE_H
+#ifndef PANIX_CTYPE_H
+#define PANIX_CTYPE_H
 
 /**
  * @brief Converts a given char array to its uppercase equivalent.
@@ -9,4 +9,4 @@
  */
 char* toUpper(char* string);
 
-#endif /* CTYPE_H */
+#endif /* PANIX_CTYPE_H */

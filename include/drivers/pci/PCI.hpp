@@ -1,5 +1,5 @@
-#ifndef PCI_HPP
-#define PCI_HPP
+#ifndef PANIX_PCI_HPP
+#define PANIX_PCI_HPP
 // TODO: PCI needs some serious documentation. Refer to https://youtu.be/GE7iO2vlLD4 and https://youtu.be/yqjDYF4NCXg for info.
 #include <types.hpp>
 #include <cpu/port/Port.hpp>
@@ -140,4 +140,4 @@ class PeripheralComponentInterconnectController : public Driver {
         BaseAddressRegister GetBaseAddressRegister(uint16_t bus, uint16_t device, uint16_t function, uint16_t bar);
 };
 
-#endif /* PCI_HPP */
+#endif /* PANIX_PCI_HPP */

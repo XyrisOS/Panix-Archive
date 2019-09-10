@@ -1,5 +1,5 @@
-#ifndef KPRINT_HPP
-#define KPRINT_HPP
+#ifndef PANIX_KPRINT_HPP
+#define PANIX_KPRINT_HPP
 
 #include <types.hpp>
 
@@ -26,4 +26,4 @@ void kprintAtPosition(const char* str, uint8_t x, uint8_t y, bool resetCursor = 
  */
 void kprintHex(uint8_t key);
 
-#endif /* KPRINT_HPP */
+#endif /* PANIX_KPRINT_HPP */

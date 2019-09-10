@@ -1,5 +1,5 @@
-#ifndef SPEAKER_HPP
-#define SPEAKER_HPP
+#ifndef PANIX_SPEAKER_HPP
+#define PANIX_SPEAKER_HPP
 #include <types.hpp>
 #include <cpu/port/Port.hpp>
 #include <cpu/interrupts/InterruptHandler.hpp>
@@ -23,4 +23,4 @@ class Speaker : public Driver {
         void beep(uint32_t freq, uint32_t dur);
 };
 
-#endif /* SPEAKER_HPP */
+#endif /* PANIX_SPEAKER_HPP */

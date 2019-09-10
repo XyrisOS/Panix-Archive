@@ -1,5 +1,5 @@
-#ifndef SHELLFUNCS_HPP
-#define SHELLFUNCS_HPP
+#ifndef PANIX_SHELLFUNCS_HPP
+#define PANIX_SHELLFUNCS_HPP
 
 #include <kernel/shell/shell.hpp>
 #include <libc/kprint.hpp>
@@ -23,4 +23,4 @@ void printSplash();
 
 void vgaStart();
 
-#endif /* SHELLFUNCS_HPP */
+#endif /* PANIX_SHELLFUNCS_HPP */
