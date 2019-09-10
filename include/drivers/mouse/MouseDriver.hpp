@@ -1,6 +1,6 @@
 
-#ifndef MOUSE_DRIVER_HPP
-#define MOUSE_DRIVER_HPP
+#ifndef PANIX_MOUSE_DRIVER_HPP
+#define PANIX_MOUSE_DRIVER_HPP
 
 #include <types.hpp>
 #include <cpu/port/Port.hpp>
@@ -46,4 +46,4 @@ class MouseDriver : public InterruptHandler, public Driver {
         virtual void activate();
 };
 
-#endif /* MOUSE_DRIVER_HPP */
+#endif /* PANIX_MOUSE_DRIVER_HPP */

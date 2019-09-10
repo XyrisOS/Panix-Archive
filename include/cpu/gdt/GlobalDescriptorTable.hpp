@@ -1,5 +1,5 @@
-#ifndef GLOBAL_DESCRIPTOR_TABLE_HPP
-#define GLOBAL_DESCRIPTOR_TABLE_HPP
+#ifndef PANIX_GLOBAL_DESCRIPTOR_TABLE_HPP
+#define PANIX_GLOBAL_DESCRIPTOR_TABLE_HPP
 
 #include <types.hpp>
 
@@ -60,4 +60,4 @@ class GlobalDescriptorTable {
         uint16_t DataSegmentSelector();
 };
 
-#endif /* GLOBAL_DESCRIPTOR_TABLE_HPP */
+#endif /* PANIX_GLOBAL_DESCRIPTOR_TABLE_HPP */

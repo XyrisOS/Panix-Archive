@@ -1,5 +1,5 @@
-#ifndef TYPES_HPP
-#define TYPES_HPP
+#ifndef PANIX_TYPES_HPP
+#define PANIX_TYPES_HPP
 
     typedef char                     int8_t;
     typedef unsigned char           uint8_t;
@@ -11,4 +11,4 @@
     typedef unsigned long long int uint64_t;
     typedef const char*              string;
     
-#endif /* TYPES_HPP */
+#endif /* PANIX_TYPES_HPP */

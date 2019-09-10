@@ -1,5 +1,5 @@
-#ifndef KEYBOARD_DRIVER_HPP
-#define KEYBOARD_DRIVER_HPP
+#ifndef PANIX_KEYBOARD_DRIVER_HPP
+#define PANIX_KEYBOARD_DRIVER_HPP
 
 #include <types.hpp>
 #include <cpu/interrupts/InterruptManager.hpp>
@@ -12,12 +12,12 @@
 
 class KeyboardEventHandler;
 
-#define BACKSPACE 0x0E
-#define ENTER 0x1C
-#define LEFT_SHIFT 0x2A
-#define RIGHT_SHIFT 0x36
-#define UP_ARROW 0x48
-#define SCANCODE_MAX 57
+#define PANIX_BACKSPACE 0x0E
+#define PANIX_ENTER 0x1C
+#define PANIX_LEFT_SHIFT 0x2A
+#define PANIX_RIGHT_SHIFT 0x36
+#define PANIX_UP_ARROW 0x48
+#define PANIX_SCANCODE_MAX 57
 
 class KeyboardDriver : public InterruptHandler, public Driver {
     private:
@@ -81,4 +81,4 @@ class KeyboardDriver : public InterruptHandler, public Driver {
         void setConsole(shell* sh);
 };
 
-#endif /* KEYBOARD_DRIVER_HPP */
+#endif /* PANIX_KEYBOARD_DRIVER_HPP */

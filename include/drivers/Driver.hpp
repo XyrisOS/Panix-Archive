@@ -1,6 +1,6 @@
  
-#ifndef DRIVER_HPP
-#define DRIVER_HPP
+#ifndef PANIX_DRIVER_HPP
+#define PANIX_DRIVER_HPP
 
 class Driver {
     public:
@@ -27,4 +27,4 @@ class Driver {
         virtual void deactivate();
 };
     
-#endif /* DRIVER_HPP */
+#endif /* PANIX_DRIVER_HPP */

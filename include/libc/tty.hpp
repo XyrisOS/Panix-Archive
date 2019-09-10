@@ -1,5 +1,5 @@
-#ifndef TTY_HPP
-#define TTY_HPP
+#ifndef PANIX_TTY_HPP
+#define PANIX_TTY_HPP
 
 #include <libc/kprint.hpp>
 
@@ -15,4 +15,4 @@ void clearScreen();
  */
 void printPanicScreen();
 
-#endif /* TTY_HPP */
+#endif /* PANIX_TTY_HPP */

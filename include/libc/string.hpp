@@ -1,5 +1,5 @@
-#ifndef STRING_H
-#define STRING_H
+#ifndef PANIX_STRING_H
+#define PANIX_STRING_H
 
 #include <stddef.h>
 #include <types.hpp>

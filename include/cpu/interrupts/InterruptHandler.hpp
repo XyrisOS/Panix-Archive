@@ -1,5 +1,5 @@
-#ifndef INTERRUPT_HANDLER_HPP
-#define INTERRUPT_HANDLER_HPP
+#ifndef PANIX_INTERRUPT_HANDLER_HPP
+#define PANIX_INTERRUPT_HANDLER_HPP
 
 #include <types.hpp>
 #include <cpu/interrupts/InterruptManager.hpp>
@@ -33,4 +33,4 @@ class InterruptHandler {
         virtual uint32_t handleInterrupt(uint32_t esp);
 };
 
-#endif /* INTERRUPT_HANDLER_HPP */
+#endif /* PANIX_INTERRUPT_HANDLER_HPP */

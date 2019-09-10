@@ -1,5 +1,5 @@
-#ifndef KERNEL_HPP
-#define KERNEL_HPP
+#ifndef PANIX_KERNEL_HPP
+#define PANIX_KERNEL_HPP
 
 #include <types.hpp>
 #include <cpu/gdt/GlobalDescriptorTable.hpp>
@@ -13,4 +13,4 @@
 #include <libc/tty.hpp>
 #include <kernel/shell/shell.hpp>
 
-#endif /* KERNEL_HPP */
+#endif /* PANIX_KERNEL_HPP */

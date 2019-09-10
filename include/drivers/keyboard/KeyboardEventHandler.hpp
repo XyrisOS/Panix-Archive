@@ -1,5 +1,5 @@
-#ifndef KEYBOARD_EVENT_HANDLER_HPP
-#define KEYBOARD_EVENT_HANDLER_HPP
+#ifndef PANIX_KEYBOARD_EVENT_HANDLER_HPP
+#define PANIX_KEYBOARD_EVENT_HANDLER_HPP
 
 #include <libc/ctype.hpp>
 #include <libc/kprint.hpp>
@@ -43,4 +43,4 @@ class KeyboardEventHandler {
         virtual void backspace();
 };
 
-#endif /* KEYBOARD_EVENT_HANDLER_HPP */
+#endif /* PANIX_KEYBOARD_EVENT_HANDLER_HPP */

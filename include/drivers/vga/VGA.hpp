@@ -1,5 +1,5 @@
-#ifndef VGA_HPP
-#define VGA_HPP
+#ifndef PANIX_VGA_HPP
+#define PANIX_VGA_HPP
 
 #include <types.hpp>
 #include <cpu/port/Port.hpp>
@@ -33,4 +33,4 @@ class VideoGraphicsArray {
         virtual void setPixel(uint32_t x, uint32_t y, uint8_t r, uint8_t g, uint8_t b);
 };
 
-#endif /* VGA_HPP */
+#endif /* PANIX_VGA_HPP */
