@@ -7,6 +7,7 @@
 class Timer {
     private:
         bool isTick;
+        uint32_t tick;
     public:
         Timer();
         ~Timer();

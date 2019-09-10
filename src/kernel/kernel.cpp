@@ -19,7 +19,7 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     // Initialize the GDT and interrupt manager
     GlobalDescriptorTable gdt;
     InterruptManager interruptManager(0x20, &gdt);
-    Timer* timer = interruptManager.getInterruptManagerTimer();
+    Timer timer = Timer();
 
     kprint("Initializing Hardware, Stage 1 - Loading Drivers...\n");
     // Declare our driver manager
@@ -47,7 +47,7 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     driverManager.activateAll();
     // Activate our interrupt manager
     kprint("Initializing Hardware, Stage 3 - Activating Interrupts...\n");
-    timer->activate();
+    interruptManager.setInterruptManagerTimer(&timer);
     interruptManager.activate();
     /*
     // Initialize the VGA driver

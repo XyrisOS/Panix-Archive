@@ -30,9 +30,7 @@ InterruptManager::InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescr
 {
     this->hardwareInterruptOffset = hardwareInterruptOffset;
     uint32_t CodeSegment = globalDescriptorTable->CodeSegmentSelector();
-    Timer activeTimer = Timer();
-    this->setInterruptManagerTimer(&activeTimer);
-
+    // TODO: Look into this. I think the timer gets deconstructed after this.
     void (* handleExceptionsArray [20])() = {
         &handleException0x00, &handleException0x01, &handleException0x02, &handleException0x03,
         &handleException0x04, &handleException0x05, &handleException0x06, &handleException0x07,
@@ -100,7 +98,7 @@ InterruptManager::InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescr
 
 InterruptManager::~InterruptManager() {
     deactivate();
-    activeInterruptManager->activeInterruptManagerTimer->deactivate();
+    activeInterruptManagerTimer->deactivate();
 }
 
 uint16_t InterruptManager::getHardwareInterruptOffset() {
@@ -135,8 +133,8 @@ uint32_t InterruptManager::handleInterrupt(uint8_t interrupt, uint32_t esp) {
     if (activeInterruptManager != nullptr) {
         // TODO: Put the system clock manager in this if statement
         if (interrupt == 0x00 + activeInterruptManager->hardwareInterruptOffset) {
-            if (activeInterruptManager->activeInterruptManagerTimer != nullptr) {
-                activeInterruptManager->activeInterruptManagerTimer->callback();
+            if (activeInterruptManagerTimer != nullptr) {
+                activeInterruptManagerTimer->callback();
             } else {
                 kprint("CPU timer did not activate!\n");
             }

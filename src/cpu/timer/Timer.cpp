@@ -18,11 +18,14 @@ void Timer::deactivate() {
 }
 
 void Timer::callback() {
+    /*
     if (isTick) {
-        //kprint("Tick. ");
+        kprint("Tick. ");
         isTick = false;
     } else {
-        //kprint("Tock. ");
+        kprint("Tock. ");
         isTick = true;
     }
+    */
+    tick++;
 }
