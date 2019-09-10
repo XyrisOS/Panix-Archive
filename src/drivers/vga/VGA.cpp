@@ -127,3 +127,12 @@ void VideoGraphicsArray::setPixel(uint8_t x, uint8_t y, uint8_t depth) {
 void VideoGraphicsArray::setPixel(uint32_t x, uint32_t y, uint8_t r, uint8_t g, uint8_t b) {
     setPixel(x, y, getColorIndex(r,g,b));
 }
+
+
+void VideoGraphicsArray::fillRect(uint32_t x, uint32_t y, uint32_t w, uint32_t h, uint8_t r, uint8_t g, uint8_t b) {
+    for (int32_t i = y; i < y + h; i++) {
+        for (int32_t j = x; j < x + w; j++) {
+            setPixel(i, j, r, g, b);
+        }
+    }
+}
