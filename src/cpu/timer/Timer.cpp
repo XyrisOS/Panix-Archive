@@ -18,14 +18,5 @@ void Timer::deactivate() {
 }
 
 void Timer::callback() {
-    /*
-    if (isTick) {
-        kprint("Tick. ");
-        isTick = false;
-    } else {
-        kprint("Tock. ");
-        isTick = true;
-    }
-    */
     tick++;
 }
