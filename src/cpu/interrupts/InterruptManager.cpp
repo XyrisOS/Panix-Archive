@@ -134,8 +134,11 @@ void InterruptManager::deactivate() {
 // Is this function really necessary? Or can we combine the doHandleInterrupt into this?
 uint32_t InterruptManager::handleInterrupt(uint8_t interrupt, uint32_t esp) {
     if (activeInterruptManager != nullptr) {
-        //return activeInterruptManager->doHandleInterrupt(interrupt, esp);
-        if (activeInterruptManager->handlers[interrupt] != 0) {
+        // TODO: Put the system clock manager in this if statement
+        if (interrupt == 0x00 + activeInterruptManager->hardwareInterruptOffset) {
+            kprint("TICK\n");
+        }
+        if (activeInterruptManager->handlers[interrupt] != 0) { 
             // This handleInterrupt function is located in the InterruptHandler.cpp file
             esp = activeInterruptManager->handlers[interrupt]->handleInterrupt(esp);
         // Panic because we don't know how to handle this. Also make an annoying sound
@@ -144,7 +147,7 @@ uint32_t InterruptManager::handleInterrupt(uint8_t interrupt, uint32_t esp) {
             speaker.playSound(880);
             clearScreen();
             printPanicScreen();
-            char* panicCode = (char*) "UNHANDLED INTERRUPT 0x00 - ";
+            char* panicCode = (char*) "UNHANDLED EXCEPTION 0x00 - ";
             char* hex = (char*) "0123456789ABCDEF";
             panicCode[22] = hex[(interrupt >> 4) & 0xF];
             panicCode[23] = hex[interrupt & 0xF];
