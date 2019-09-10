@@ -6,7 +6,7 @@
 #include <libc/string.hpp>
 #include <libc/tty.hpp>
 // Number of commands available to the shell
-#define PANIX_NUMBER_OF_COMMANDS 5
+#define NUMBER_OF_COMMANDS 5
 
 class shell {
     private:
