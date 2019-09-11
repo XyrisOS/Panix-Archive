@@ -19,7 +19,8 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     // Initialize the GDT, interrupt manager, and timer
     GlobalDescriptorTable gdt;
     InterruptManager interruptManager(0x20, &gdt);
-    Timer timer = Timer(50);
+    // Set the timer to operate at 60Hz
+    Timer timer = Timer(60);
     
     kprint("Initializing Hardware, Stage 1 - Loading Drivers...\n");
     // Declare our driver manager
@@ -49,16 +50,7 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     kprint("Initializing Hardware, Stage 3 - Activating Interrupts...\n");
     interruptManager.setInterruptManagerTimer(&timer);
     interruptManager.activate();
-    /*
-    // Initialize the VGA driver
-    VideoGraphicsArray vga;
-    vga.setMode(320,200,8);
-    for(int32_t y = 0; y < 200; y++) {
-        for(int32_t x = 0; x < 320; x++) {
-            vga.setPixel(x, y, 0x00, 0x00, 0xA8);
-        }
-    }
-    */
+
     // Make sure the kernel never dies!
     shell basch = shell();
     // Tell the keyboard driver where the kernel console is.
