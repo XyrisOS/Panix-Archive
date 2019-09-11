@@ -20,6 +20,14 @@ Timer::~Timer() {
     // kprint("Destroying CPU timer...\n");
 }
 
+void Timer::printTick() {
+    kprint("Tick: ");
+    char tickStr[10];
+    intToString(tick, tickStr);
+    kprint(tickStr);
+    kprint("\n");
+}
+
 void Timer::callback() {
     tick++;
 }

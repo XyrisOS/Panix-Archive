@@ -15,6 +15,7 @@ class Timer {
     public:
         Timer(int freq);
         ~Timer();
+        void printTick();
         void callback();
 };
 

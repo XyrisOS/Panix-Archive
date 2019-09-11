@@ -16,11 +16,11 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     kprint("Welcome to Panix\n");
     kprint("Developed by graduates and undergraduates of Cedarville University.\n");
     kprint("Copyright Keeton Feavel et al (c) 2019. All rights reserved.\n\n");
-    // Initialize the GDT and interrupt manager
+    // Initialize the GDT, interrupt manager, and timer
     GlobalDescriptorTable gdt;
     InterruptManager interruptManager(0x20, &gdt);
     Timer timer = Timer(50);
-
+    
     kprint("Initializing Hardware, Stage 1 - Loading Drivers...\n");
     // Declare our driver manager
     DriverManager driverManager;
