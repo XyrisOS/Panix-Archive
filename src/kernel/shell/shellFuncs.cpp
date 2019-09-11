@@ -10,7 +10,7 @@ void clearShell() {
 
 void help() {
     kprint("Baschel Fortner - The Panix Kernel Level Shell\n");
-    kprint("Version: 0.1 - Build: m08d28y19\n");
+    kprint("Version: 0.1 - Build: m09d10y19\n");
     // I can't get these functions to work in the shell object for
     // whatever reason. And because the shell commands are private
     // I can't access them from here. So I'll have to come back to
