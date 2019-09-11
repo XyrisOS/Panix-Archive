@@ -126,7 +126,6 @@ void InterruptManager::deactivate() {
     }
 }
 
-// Is this function really necessary? Or can we combine the doHandleInterrupt into this?
 uint32_t InterruptManager::handleInterrupt(uint8_t interrupt, uint32_t esp) {
     if (activeInterruptManager != nullptr) {
         if (interrupt == 0x00 + activeInterruptManager->hardwareInterruptOffset) {
