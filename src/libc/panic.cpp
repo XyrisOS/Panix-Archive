@@ -4,7 +4,6 @@
 // This is a freaking massive array. It definitely makes panicking slower.
 // It also eats up a significant chunk of the kernel memory since it's not
 // dynamic, so maybe we need to come back to this eventually?
-// TODO: Come back to this and make it dynamic
 const char exceptionDescriptions[33][16] = {
     "Divide-By-Zero", "Debugging", "Non-Maskable", "Breakpoint",
     "Overflow", "Out Bound Range", "Invalid Opcode", "Device Not Avbl",

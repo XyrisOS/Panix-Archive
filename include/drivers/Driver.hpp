@@ -16,7 +16,7 @@ class Driver {
          * @brief Virtual function implemented by each driver.
          * Resets the driver. Used in the event of a catastropic error.
          * 
-         * @return int Return code. TODO: Update w/ specifics
+         * @return int Return code. Always 0 right now.
          */
         virtual int reset();
         /**

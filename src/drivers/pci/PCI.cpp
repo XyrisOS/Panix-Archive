@@ -139,7 +139,7 @@ Driver* PeripheralComponentInterconnectController::GetDriver(PeripheralComponent
         case 0x8086: // Intel
             break;
         default:
-            // TODO: Add error code here
+            kprint("[ERROR] Unknown Vendor - Can't load driver.\n");
             break;
     }
     
@@ -152,7 +152,7 @@ Driver* PeripheralComponentInterconnectController::GetDriver(PeripheralComponent
             }
             break;
         default:
-            // TODO: Add error code here
+            kprint("[ERROR] Unknown Device - Can't load driver.\n");
             break;
     }
     

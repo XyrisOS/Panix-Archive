@@ -78,7 +78,6 @@ uint32_t KeyboardDriver::handleInterrupt(uint32_t esp)
         }
         if (scancode == ENTER) {
             kprint("\n");
-            // TODO: Find a way to get this to the shell
             if (this->console != nullptr) {
                 this->console->handleShellInput(keyBuffer);
             }
