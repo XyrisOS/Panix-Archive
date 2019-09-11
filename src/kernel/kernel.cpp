@@ -19,7 +19,7 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     // Initialize the GDT and interrupt manager
     GlobalDescriptorTable gdt;
     InterruptManager interruptManager(0x20, &gdt);
-    Timer timer = Timer();
+    Timer timer = Timer(50);
 
     kprint("Initializing Hardware, Stage 1 - Loading Drivers...\n");
     // Declare our driver manager

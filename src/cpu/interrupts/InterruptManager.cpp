@@ -98,7 +98,6 @@ InterruptManager::InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescr
 
 InterruptManager::~InterruptManager() {
     deactivate();
-    activeInterruptManagerTimer->deactivate();
 }
 
 uint16_t InterruptManager::getHardwareInterruptOffset() {
