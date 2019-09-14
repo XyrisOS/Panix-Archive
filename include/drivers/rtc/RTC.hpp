@@ -21,6 +21,7 @@ class RTC : public Driver {
         uint8_t day;
         uint8_t month;
         uint8_t year;
+        char* getDayNameFromInt(int day);
         int getUpdateInProgress();
         unsigned char getRTCRegister(int reg);
         void readRTC();

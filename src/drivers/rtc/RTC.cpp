@@ -28,17 +28,47 @@ uint8_t RTC::getRTCRegister(int reg) {
     return dataPort.read();
 }
 
+char* RTC::getDayNameFromInt(int day) {
+    switch (day) {
+        case 1:
+            return "Sunday";
+        case 2:
+            return "Monday";
+        case 3:
+            return "Tuesday";
+        case 4:
+            return "Wednesday";
+        case 5:
+            return "Thursday";
+        case 6:
+            return "Friday";
+        case 7:
+            return "Saturday";
+        default:
+            return "Noneday";
+    };
+}
+
 void RTC::printTimeAndDate() {
     readRTC();
-    char hourStr[4];
-    char minuteStr[4];
+    char hourStr[3];
+    char minuteStr[3];
+    char dayStr[3];
+    char monthStr[3];
+    //kprint(getDayNameFromInt(weekday));
     intToString(hour, hourStr);
     intToString(minute, minuteStr);
-    kprint("Current time (UTC) - ");
+    intToString(day, dayStr);
+    intToString(month, monthStr);
+    kprint("\nToday's Date: ");
+    kprint(dayStr);
+    kprint("/");
+    kprint(monthStr);
+    kprint(" - UTC: ");
     kprint(hourStr);
     kprint(":");
     kprint(minuteStr);
-    kprint("\n");
+    kprint("\n\n");
 }
 
 /*
