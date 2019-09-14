@@ -15,6 +15,7 @@
 #include <drivers/pci/PCI.hpp>
 #include <drivers/vga/VGA.hpp>
 #include <drivers/speaker/Speaker.hpp>
+#include <drivers/rtc/RTC.hpp>
 // Kernel Helpers
 #include <kernel/shell/shell.hpp>
 

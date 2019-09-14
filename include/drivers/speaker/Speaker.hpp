@@ -4,7 +4,6 @@
 #include <cpu/port/Port.hpp>
 #include <cpu/interrupts/InterruptHandler.hpp>
 #include <drivers/Driver.hpp>
-#include <drivers/DriverManager.hpp>
 #include <libc/kprint.hpp>
 
 class Speaker : public Driver {
