@@ -13,7 +13,7 @@ class shell {
         const char commandNames[NUMBER_OF_COMMANDS][16] = {
             "clear",
             "help",
-            "panic",
+            "time",
             "splash",
             "vga"
         };

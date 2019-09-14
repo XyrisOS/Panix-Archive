@@ -33,6 +33,10 @@ void printSplash() {
     kprint("\n\nWelcome to Panix!\n\n");
 }
 
+void printTime() {
+    kprint("Coming soon.\n");
+}
+
 void vgaStart() {
     // Initialize the VGA driver
     VideoGraphicsArray vga;

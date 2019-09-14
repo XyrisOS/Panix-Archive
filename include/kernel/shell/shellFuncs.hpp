@@ -17,9 +17,9 @@ void clearShell();
 
 void help();
 
-void panic();
-
 void printSplash();
+
+void printTime();
 
 void vgaStart();
 

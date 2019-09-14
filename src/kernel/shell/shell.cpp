@@ -3,7 +3,7 @@
 shell::shell() {
     commandFunctions[0] = clearShell;
     commandFunctions[1] = help;
-    commandFunctions[2] = panic;
+    commandFunctions[2] = printTime;
     commandFunctions[3] = printSplash;
     commandFunctions[4] = vgaStart; //panixkernel::Kernel::printTick;
     printShellIndicator();
