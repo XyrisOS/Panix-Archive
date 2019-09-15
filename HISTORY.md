@@ -18,13 +18,15 @@ Update Progress (Starting August 2019)
     - Added rudementary PC speaker support. Plays any square wave frequency. (w/o tutorial)
 - September 8-14:
     - Added move VGA support for windows, widgets, desktop, etc. Ongoing.
-    - Added CPU timer to the InterruptManager (w/o tutorial)
+    - Added CPU timer to the InterruptManager (w/o tutorial) (wiki)
     - Accidentally tested and proved that memory protection and it's associated kernel panic works perfectly.
     - Cleaned up more InterruptManager code by moving panic code to a function in stdio.hpp (w/o tutorial)
-    - Added RTC as a driver and used code from OSDevWiki to help convert to necessary formats (UTC)
+    - Added RTC as a driver and used code from OSDevWiki to help convert to necessary formats (UTC) (w/o tutorial) (wiki)
     - Moved the CPU timer to a driver to be more inline with the rest of the OS convention
     - Documented what happens when kernelMain returns
     - Removed the panic terminal function since it's been tested and proven to work for a lot of cases (accidentally)
+    - Added color to the kernel terminal! (w/o tutorial) (wiki)
+    - Refactored part of the kprint function to support a better print method (wiki)
 
 ### Course Requirements:
 Turn-in Requirements:

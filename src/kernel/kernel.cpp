@@ -13,6 +13,7 @@ extern "C" void callConstructors() {
 extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot_magic*/) {
     // Clear screen, print welcome message.
     clearScreen();
+    kprintSetColor(Yellow, Black);
     kprint("Welcome to Panix\n");
     kprint("Developed by graduates and undergraduates of Cedarville University.\n");
     kprint("Copyright Keeton Feavel et al (c) 2019. All rights reserved.\n\n");
@@ -20,8 +21,9 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     GlobalDescriptorTable gdt;
     InterruptManager interruptManager(0x20, &gdt);
     interruptManager.deactivate();
-    
+    kprintSetColor(Red, Black);
     kprint("Stage 1 - Loading Drivers...\n");
+    kprintSetColor(White, Black);
     // Declare our driver manager
     DriverManager driverManager;
     
@@ -49,13 +51,19 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     RTC rtc = RTC();
     driverManager.addDriver(&rtc);
     // Activate all the drivers we just added
+    kprintSetColor(Red, Black);
     kprint("Stage 2 - Activating Drivers...\n");
+    kprintSetColor(White, Black);
     driverManager.activateAll();
     // Activate our interrupt manager
+    kprintSetColor(Red, Black);
     kprint("Stage 3 - Activating Interrupts...\n");
+    kprintSetColor(White, Black);
     interruptManager.setInterruptManagerTimer(&timer);
     interruptManager.activate();
+    kprintSetColor(LightCyan, Black);
     rtc.printTimeAndDate();
+    kprintSetColor(White, Black);
     // Make sure the kernel never dies!
     shell basch = shell();
     // Tell the keyboard driver where the kernel console is.

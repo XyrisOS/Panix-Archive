@@ -3,6 +3,25 @@
 
 #include <types.hpp>
 
+enum TTYColor {
+    Black           = 0x0,
+    Blue            = 0x1,
+    Green           = 0x2,
+    Cyan            = 0x3,
+    Red             = 0x4,
+    Magenta         = 0x5,
+    Brown           = 0x6,
+    LightGrey       = 0x7,
+    DarkGrey        = 0x8,
+    LightBlue       = 0x9,
+    LightGreen      = 0xA,
+    LightCyan       = 0xB,
+    LightRed        = 0xC,
+    LightMagenta    = 0xD,
+    Yellow          = 0xE,
+    White           = 0xF
+};
+
 inline uint16_t* videoMemory = (uint16_t*) 0xb8000;
 /**
  * @brief Prints a given string to the kernel display.
@@ -25,5 +44,13 @@ void kprintAtPosition(const char* str, uint8_t x, uint8_t y, bool resetCursor = 
  * @param key Hexidecimal value to print.
  */
 void kprintHex(uint8_t key);
+
+/**
+ * @brief Set the color of the text when the next kprint is called.
+ * 
+ * @param fore Foreground color
+ * @param back Background color
+ */
+void kprintSetColor(TTYColor fore, TTYColor back);
 
 #endif /* PANIX_KPRINT_HPP */
