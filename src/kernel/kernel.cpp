@@ -63,8 +63,6 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     while(!basch.isTerminated) {
         // Keep the kernel alive
     }
+    // Return control back to loader.s to cli & hlt.
     return;
-    // Halt the processor after the kernel is done executing
-    // Do we want to halt or just return?
-    //asm("hlt");
 }

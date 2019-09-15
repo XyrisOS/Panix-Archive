@@ -11,7 +11,7 @@ Timer::Timer(int freq) :
 }
 
 Timer::~Timer() {
-    kprint("Destroying CPU timer\n");
+    //kprint("Destroying CPU timer\n");
 }
 
 void Timer::activate() {

@@ -10,7 +10,7 @@ dataPort(0x71)
 }
 
 RTC::~RTC() {
-    kprint("Destroying RTC\n");
+    //kprint("Destroying RTC\n");
 }
 
 void RTC::activate() {

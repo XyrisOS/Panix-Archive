@@ -21,7 +21,8 @@ loader:
     push %ebx
     call kernelMain
 
-
+# When the kernel is done we move down to stop, so we disable interrupts
+# and then halt the CPU
 _stop:
     cli
     hlt
