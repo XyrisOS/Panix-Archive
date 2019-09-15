@@ -10,6 +10,8 @@ void clearScreen() {
 }
 
 void printPanicScreen() {
+    kprintSetColor(Black, White);
+    clearScreen();
     kprint(" ________________________\n");
     kprint("< OH NO! Panix panicked! >\n");
     kprint(" ------------------------\n");
