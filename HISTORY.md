@@ -10,7 +10,6 @@ Update Progress (Starting August 2019)
     - Unused kernel libc functions and files were removed to slim kernel size
     - Ported some useful string functions from the master branch into the Switch-to-Grub branch
     - Basic refactorization in various areas (variable renames, comment and syntax cleaning, etc.)
-
 - September 1-7:
     - Added shutdown command which allows the kernel to complete and halt the processor (w/o tutorial)
     - Refactored some of the interrupt logic to be more centrally located (w/o tutorial)
@@ -22,6 +21,10 @@ Update Progress (Starting August 2019)
     - Added CPU timer to the InterruptManager (w/o tutorial)
     - Accidentally tested and proved that memory protection and it's associated kernel panic works perfectly.
     - Cleaned up more InterruptManager code by moving panic code to a function in stdio.hpp (w/o tutorial)
+    - Added RTC as a driver and used code from OSDevWiki to help convert to necessary formats (UTC)
+    - Moved the CPU timer to a driver to be more inline with the rest of the OS convention
+    - Documented what happens when kernelMain returns
+    - Removed the panic terminal function since it's been tested and proven to work for a lot of cases (accidentally)
 
 ### Course Requirements:
 Turn-in Requirements:
