@@ -5,17 +5,20 @@ cmosPort(0x70),
 dataPort(0x71)
 {
     // Initializer
-    kprint("Initializing RTC...\n");
     cmosPort.write(0x8A);
     dataPort.write(0x20);
 }
 
+RTC::~RTC() {
+    kprint("Destroying RTC\n");
+}
+
 void RTC::activate() {
-    kprint("Activating RTC...\n");
+    kprint("Activating RTC\n");
 }
 
 void RTC::deactivate() {
-    kprint("Deactivating RTC...\n");
+    kprint("Deactivating RTC\n");
 }
  
 int RTC::getUpdateInProgress() {

@@ -20,10 +20,8 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     GlobalDescriptorTable gdt;
     InterruptManager interruptManager(0x20, &gdt);
     interruptManager.deactivate();
-    // Set the timer to operate at 60Hz
-    Timer timer = Timer(60);
     
-    kprint("Initializing Hardware, Stage 1 - Loading Drivers...\n");
+    kprint("Stage 1 - Loading Drivers...\n");
     // Declare our driver manager
     DriverManager driverManager;
     
@@ -44,14 +42,17 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     // PC Beeper Driver
     Speaker speaker = Speaker();
     driverManager.addDriver(&speaker);
+    // Set the timer to operate at 60Hz
+    Timer timer = Timer(60);
+    driverManager.addDriver(&timer);
     // Real Time Clock Driver
     RTC rtc = RTC();
     driverManager.addDriver(&rtc);
     // Activate all the drivers we just added
-    kprint("Initializing Hardware, Stage 2 - Activating Drivers...\n");
+    kprint("Stage 2 - Activating Drivers...\n");
     driverManager.activateAll();
     // Activate our interrupt manager
-    kprint("Initializing Hardware, Stage 3 - Activating Interrupts...\n");
+    kprint("Stage 3 - Activating Interrupts...\n");
     interruptManager.setInterruptManagerTimer(&timer);
     interruptManager.activate();
     rtc.printTimeAndDate();
@@ -61,8 +62,9 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     keyboard.setConsole(&basch);
     while(!basch.isTerminated) {
         // Keep the kernel alive
-        //rtc.printTimeAndDate();
     }
+    return;
     // Halt the processor after the kernel is done executing
-    asm("hlt");
+    // Do we want to halt or just return?
+    //asm("hlt");
 }

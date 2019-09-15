@@ -27,6 +27,7 @@ class RTC : public Driver {
         void readRTC();
     public:
         RTC();
+        ~RTC();
         void activate();
         void deactivate();
         void printTimeAndDate();

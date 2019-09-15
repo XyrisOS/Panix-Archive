@@ -22,7 +22,7 @@ void shell::handleShellInput(char* line) {
     }
     if (strcmp((char*)"shutdown", line) == 0) {
         clearScreen();
-        kprint("It's now safe to turn off your computer.");
+        kprint("It's now safe to turn off your computer.\n");
         isTerminated = true;
         return;
     }

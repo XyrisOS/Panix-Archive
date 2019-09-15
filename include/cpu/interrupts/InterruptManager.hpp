@@ -4,9 +4,9 @@
 
 #include <types.hpp>
 #include <cpu/port/Port.hpp>
-#include <cpu/timer/Timer.hpp>
 #include <cpu/gdt/GlobalDescriptorTable.hpp>
 #include <cpu/interrupts/InterruptHandler.hpp>
+#include <drivers/timer/Timer.hpp>
 #include <drivers/speaker/Speaker.hpp>
 #include <libc/stdio.hpp>
 #include <libc/kprint.hpp>
