@@ -3,6 +3,6 @@
 
 #include <drivers/vga/VGA.hpp>
 
-typedef GraphicsContext VideoGraphicsArray;
+typedef VideoGraphicsArray GraphicsContext;
 
 #endif /* GRAPHICS_CONTEXT_HPP */
