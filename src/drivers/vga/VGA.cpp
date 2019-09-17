@@ -25,7 +25,7 @@ void VideoGraphicsArray::writeRegisters(uint8_t* registers) {
     miscPort.write(*(registers++));
 
     // sequencer
-    for(uint8_t i = 0; i < 5; i++) {
+    for (uint8_t i = 0; i < 5; i++) {
         sequencerIndexPort.write(i);
         sequencerDataPort.write(*(registers++));
     }
@@ -137,7 +137,7 @@ void VideoGraphicsArray::setPixel(int32_t x, int32_t y, uint8_t r, uint8_t g, ui
 void VideoGraphicsArray::fillRect(uint32_t x, uint32_t y, uint32_t w, uint32_t h, uint8_t r, uint8_t g, uint8_t b) {
     for (int32_t i = y; i < y + h; i++) {
         for (int32_t j = x; j < x + w; j++) {
-            setPixel(i, j, r, g, b);
+            setPixel(j, i, r, g, b);
         }
     }
 }

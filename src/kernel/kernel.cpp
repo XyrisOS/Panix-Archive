@@ -27,7 +27,7 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     // Declare our driver manager
     DriverManager driverManager;
     // Create a desktop environment
-    Desktop desktop(320,200, 0x00,0x00,0xA8);
+    Desktop desktop(320, 200, 0x00,0x00,0xA8);
     
     /*************************************************
      * DO NOT SWITCH THE ORDER OF ADDING THESE DRIVERS 
@@ -73,7 +73,7 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     VideoGraphicsArray vga;
     vga.setMode(320, 200, 8);
     vga.fillRect(0, 0, 320, 200, 0x00, 0x00, 0xA8);
-    vga.setMode(320,200,8);
+    vga.setMode(320,200, 8);
     Window win1(&desktop, 10,10,20,20, 0xA8,0x00,0x00);
     desktop.addChild(&win1);
     Window win2(&desktop, 40,15,30,30, 0x00,0xA8,0x00);
