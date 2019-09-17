@@ -112,19 +112,24 @@ uint8_t* VideoGraphicsArray::getFrameBufferSegment() {
 }
 
 uint8_t VideoGraphicsArray::getColorIndex(uint8_t r, uint8_t g, uint8_t b) {
-    if (r == 0x00, g == 0x00, b == 0xA8) {
-        return 0x01;
-    }
+    if(r == 0x00 && g == 0x00 && b == 0x00) return 0x00; // black
+    if(r == 0x00 && g == 0x00 && b == 0xA8) return 0x01; // blue
+    if(r == 0x00 && g == 0xA8 && b == 0x00) return 0x02; // green
+    if(r == 0xA8 && g == 0x00 && b == 0x00) return 0x04; // red
+    if(r == 0xFF && g == 0xFF && b == 0xFF) return 0x3F; // white
     return 0x00;
 }
 
 
-void VideoGraphicsArray::setPixel(uint8_t x, uint8_t y, uint8_t depth) {
+void VideoGraphicsArray::setPixel(int32_t x, int32_t y, uint8_t depth) {
+    if (x < 0 || 320 <= x || y < 0 || 200 <= y) {
+        return;
+    }
     uint8_t* pixelAddress = getFrameBufferSegment() + 320 * y + x;
     *pixelAddress = depth;
 }
 
-void VideoGraphicsArray::setPixel(uint32_t x, uint32_t y, uint8_t r, uint8_t g, uint8_t b) {
+void VideoGraphicsArray::setPixel(int32_t x, int32_t y, uint8_t r, uint8_t g, uint8_t b) {
     setPixel(x, y, getColorIndex(r,g,b));
 }
 

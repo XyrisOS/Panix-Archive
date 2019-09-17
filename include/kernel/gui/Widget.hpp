@@ -1,10 +1,11 @@
-#ifndef WIDGET_HPP
-#define WIDGET_HPP
+#ifndef PANIX_GUI_WIDGET_HPP
+#define PANIX_GUI_WIDGET_HPP
 
 #include <types.hpp>
+#include <drivers/keyboard/KeyboardEventHandler.hpp>
 #include <kernel/gui/GraphicsContext.hpp>
 
-class Widget {
+class Widget : public KeyboardEventHandler {
     protected:
         // Parent widget
         Widget* parent;
@@ -26,11 +27,12 @@ class Widget {
         virtual void getFocus(Widget* widget);
         virtual void modelToScreen(int32_t &x, int32_t &y);
         virtual void draw(GraphicsContext* gc);
-        virtual void onMouseDown(int32_t x, int32_t y);
-        virtual void onMouseUp(int32_t x, int32_t y);
+        virtual bool containsCoordinate(int32_t x, int32_t y);
+        virtual void onMouseDown(int32_t x, int32_t y, uint8_t button);
+        virtual void onMouseUp(int32_t x, int32_t y, uint8_t button);
         virtual void onMouseMove(int32_t oldX, int32_t oldY, int32_t newX, int32_t newY);
-        virtual void onKeyDown(int32_t x, int32_t y);
-        virtual void onKeyUp(int32_t x, int32_t y);
+        virtual void onKeyDown(char c);
+        virtual void onKeyUp(char c);
 
 };
 
@@ -44,14 +46,14 @@ class CompositeWidget : public Widget {
         ~CompositeWidget();
 
         virtual void getFocus(Widget* widget);
-        virtual void modelToScreen(int32_t &x, int32_t &y);
+        virtual bool addChild(Widget* child);
         virtual void draw(GraphicsContext* gc);
-        virtual void onMouseDown(int32_t x, int32_t y);
-        virtual void onMouseUp(int32_t x, int32_t y);
+        virtual void onMouseDown(int32_t x, int32_t y, uint8_t button);
+        virtual void onMouseUp(int32_t x, int32_t y, uint8_t button);
         virtual void onMouseMove(int32_t oldX, int32_t oldY, int32_t newX, int32_t newY);
-        virtual void onKeyDown(int32_t x, int32_t y);
-        virtual void onKeyUp(int32_t x, int32_t y);
+        virtual void onKeyDown(char c);
+        virtual void onKeyUp(char c);
 
 };
 
-#endif /* WIDGET_HPP */
+#endif /* PANIX_GUI_WIDGET_HPP */

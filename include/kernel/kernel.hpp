@@ -16,6 +16,9 @@
 #include <drivers/speaker/Speaker.hpp>
 #include <drivers/timer/Timer.hpp>
 #include <drivers/rtc/RTC.hpp>
+// Graphical Interface
+#include <kernel/gui/Desktop.hpp>
+#include <kernel/gui/Window.hpp>
 // Kernel Helpers
 #include <kernel/shell/shell.hpp>
 
