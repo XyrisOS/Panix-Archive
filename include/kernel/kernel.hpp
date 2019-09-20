@@ -21,5 +21,7 @@
 #include <kernel/gui/Window.hpp>
 // Kernel Helpers
 #include <kernel/shell/shell.hpp>
+#include <kernel/shell/KeyboardShellEventHandler.hpp>
+#include <kernel/shell/MouseShellEventHandler.hpp>
 
 #endif /* PANIX_KERNEL_HPP */

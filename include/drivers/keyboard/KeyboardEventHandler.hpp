@@ -6,12 +6,6 @@
 #include <libc/tty.hpp>
 
 class KeyboardEventHandler {
-    private:
-        /**
-         * @brief Variable to determine if the user is holding the shift key
-         * 
-         */
-        bool isShiftEnabled;
     public:
         /**
          * @brief Construct a new Keyboard Event Handler object
@@ -37,7 +31,7 @@ class KeyboardEventHandler {
          */
         virtual void onKeyUp(char c);
         /**
-         * @brief Prints a backspace.
+         * @brief Handles backspace
          * 
          */
         virtual void backspace();

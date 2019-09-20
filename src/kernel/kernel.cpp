@@ -27,18 +27,18 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     // Declare our driver manager
     DriverManager driverManager;
     // Create a desktop environment
-    Desktop desktop(320, 200, 0x00,0x00,0xA8);
+    //Desktop desktop(320, 200, 0x00,0x00,0xA8);
     
     /*************************************************
      * DO NOT SWITCH THE ORDER OF ADDING THESE DRIVERS 
      *************************************************/
     // Mouse Interface Driver
-    //MouseEventHandler mouseEventHandler;
-    MouseDriver mouse(&interruptManager, &desktop); //&mouseEventHandler for shell
+    MouseShellEventHandler mouseShellEventHandler;
+    MouseDriver mouse(&interruptManager, &mouseShellEventHandler); //&mouseEventHandler for shell
     driverManager.addDriver(&mouse);
     // Keyboard Interface Driver
-    //KeyboardEventHandler keyboardEventHandler;
-    KeyboardDriver keyboard(&interruptManager, &desktop); //&keyboardEventHandler for shell
+    KeyboardShellEventHandler keyboardShellEventHandler;
+    KeyboardDriver keyboard(&interruptManager, &keyboardShellEventHandler); //&keyboardEventHandler for shell
     driverManager.addDriver(&keyboard);
     // PC Beeper Driver
     Speaker speaker = Speaker();
@@ -67,10 +67,10 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     rtc.printTimeAndDate();
     kprintSetColor(White, Black);
     // Make sure the kernel never dies!
-    //shell basch = shell();
+    shell basch = shell();
     // Tell the keyboard driver where the kernel console is.
-    //keyboard.setConsole(&basch);
-    
+    keyboard.setConsole(&basch);
+    /*
     VideoGraphicsArray vga;
     vga.setMode(320, 200, 8);
     vga.fillRect(0, 0, 320, 200, 0x00, 0x00, 0xA8);
@@ -79,10 +79,10 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     desktop.addChild(&win1);
     Window win2(&desktop, 40,15,30,30, 0x00,0xA8,0x00);
     desktop.addChild(&win2);
-    
+    */
     while (1) { //(!basch.isTerminated) {
         // Keep the kernel alive
-        desktop.Draw(&vga);
+        //desktop.Draw(&vga);
     }
     // Return control back to loader.s to cli & hlt.
     return;
