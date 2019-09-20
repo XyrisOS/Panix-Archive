@@ -7,6 +7,13 @@ KeyboardEventHandler()
 }
 
 void ShellKeyboardEventHandler::handleScancode(uint8_t scancode) {
+    // Handle the shift key
+    if (scancode == RIGHT_SHIFT || scancode == LEFT_SHIFT) {
+        setShiftKey(true);
+    } else if (scancode == 0xAA || scancode == 0xB6) {
+        setShiftKey(false);
+    }
+    // Handle the up arrow for last command
     if (scancode == UP_ARROW && strlen(lastCommand) > 0) {
         while (lengthOfCurrentCommand > 0) {
             backspace();

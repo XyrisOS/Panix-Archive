@@ -1,5 +1,6 @@
 #include <drivers/keyboard/KeyboardDriver.hpp>
 
+// Any non-ASCII keys should have '\0'
 const char scancodeAscii[] = {
     '\0', '`', '1', '2', '3', '4', '5', '6',
     '7', '8', '9', '0', '-', '=', '\0', '?',
@@ -58,38 +59,26 @@ uint32_t KeyboardDriver::handleInterrupt(uint32_t esp)
     }
     // If a scancode is pressed down
     if (scancode < 0x80) {
-        if (scancode == BACKSPACE) {
-            keyboardEventHandler->backspace();
-        }
-        // TODO: Add more non-ascii scancode checks to this.
-        if (scancode == UP_ARROW) {
-            keyboardEventHandler->handleScancode(scancode);
-            return esp;
-        }
         if (scancode > SCANCODE_MAX) {
             return esp;
         }
-        // This can stay or we can just handle it like normal and move it into the handler.
-        // We already have a function for it so I suppose it's fine for now.
-        if (scancode == RIGHT_SHIFT || scancode == LEFT_SHIFT) {
-            keyboardEventHandler->setShiftKey(true);
+        if (scancode == BACKSPACE) {
+            keyboardEventHandler->backspace();
         }
         else {
             // Print the key to the screen
             char key = scancodeAscii[(int) scancode];
+            // If there is no ascii code when we've done all other checks then
+            // hand it off to the event handler. This might need to be checked
+            // if any weird keyboard bugs come up in the future.
+            if (key == '\0') {
+                keyboardEventHandler->handleScancode(scancode);
+            }
             keyboardEventHandler->onKeyDown(key);
         }
     // Else the scancode is released.
     } else {
-        switch (scancode)
-        {
-            case 0xAA: keyboardEventHandler->setShiftKey(false); break;
-            case 0xB6: keyboardEventHandler->setShiftKey(false); break;
-            default:
-                // Don't handle on scancode up.
-                // Or do we want to make a handler function for that now?
-                break;
-        }
+        keyboardEventHandler->handleScancode(scancode);
     }
 
     return esp;
