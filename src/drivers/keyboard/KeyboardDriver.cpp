@@ -49,13 +49,16 @@ void KeyboardDriver::activate() {
 
 uint32_t KeyboardDriver::handleInterrupt(uint32_t esp)
 {
+    // TODO: Move all of this code into the event handler or make 
+    // each special key call a function in the event handler. Either
+    // way the driver shouldn't have a buffer or anything
     uint8_t scancode = dataPort.read();
     if (keyboardEventHandler == nullptr) {
         return esp;
     }
     // If a scancode is pressed down
     if (scancode < 0x80) {
-        // 
+        // This needs to be moved into the shell handler
         if (scancode == UP_ARROW && strlen(lastCommand) > 0) {
             while (lengthOfCurrentCommand > 0) {
                 keyboardEventHandler->backspace();
@@ -69,6 +72,7 @@ uint32_t KeyboardDriver::handleInterrupt(uint32_t esp)
         if (scancode > SCANCODE_MAX) {
             return esp;
         }
+        // Move the buffer stuff into the handler and just call backspace()
         if (scancode == BACKSPACE) {
             if (lengthOfCurrentCommand > 0) {
                 --lengthOfCurrentCommand;
@@ -76,6 +80,7 @@ uint32_t KeyboardDriver::handleInterrupt(uint32_t esp)
                 keyboardEventHandler->backspace();
             }
         }
+        // Move handleShellInput out of here (see above)
         if (scancode == ENTER) {
             kprint("\n");
             if (this->console != nullptr) {
@@ -89,6 +94,8 @@ uint32_t KeyboardDriver::handleInterrupt(uint32_t esp)
             lengthOfCurrentCommand = 0;
             keyBuffer[0] = '\0';
         }
+        // This can stay or we can just handle it like normal and move it into the handler.
+        // We already have a function for it so I suppose it's fine for now.
         if (scancode == RIGHT_SHIFT || scancode == LEFT_SHIFT) {
             keyboardEventHandler->setShiftKey(true);
         }
@@ -97,18 +104,20 @@ uint32_t KeyboardDriver::handleInterrupt(uint32_t esp)
             char key = scancodeAscii[(int) scancode];
             keyboardEventHandler->onKeyDown(key);
             // Append the letter to the buffer
+            // Move this into the handler
             char str[2] = {key, '\0'};
             append(keyBuffer, key);
             ++lengthOfCurrentCommand;
         }
     // Else the scancode is released.
     } else {
-        switch(scancode)
+        switch (scancode)
         {
             case 0xAA: keyboardEventHandler->setShiftKey(false); break;
             case 0xB6: keyboardEventHandler->setShiftKey(false); break;
             default:
                 // Don't handle on scancode up.
+                // Or do we want to make a handler function for that now?
                 break;
         }
     }
@@ -117,5 +126,12 @@ uint32_t KeyboardDriver::handleInterrupt(uint32_t esp)
 }
 
 void KeyboardDriver::setConsole(shell* sh) {
+    // TODO: Move all of this shell related code into the ShellKeyboardEventHandler
+    // because all code that handles an event related to the shell should be in there
+    // even if it means refactoring a lot of this code.
     this->console = sh;
+}
+
+void KeyboardDriver::setHandler(KeyboardEventHandler *handler) {
+    this->keyboardEventHandler = handler;
 }

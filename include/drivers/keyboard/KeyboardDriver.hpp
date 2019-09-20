@@ -78,7 +78,14 @@ class KeyboardDriver : public InterruptHandler, public Driver {
          * 
          * @param sh Kernel shell
          */
-        void setConsole(shell* sh);
+        virtual void setConsole(shell* sh);
+
+        /**
+         * @brief Used to update the keyboard event handler
+         * 
+         * @param handler 
+         */
+        virtual void setHandler(KeyboardEventHandler *handler);
 };
 
 #endif /* PANIX_KEYBOARD_DRIVER_HPP */

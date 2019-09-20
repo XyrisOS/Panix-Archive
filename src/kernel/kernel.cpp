@@ -33,12 +33,12 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
      * DO NOT SWITCH THE ORDER OF ADDING THESE DRIVERS 
      *************************************************/
     // Mouse Interface Driver
-    ShellMouseEventHandler ShellMouseEventHandler;
-    MouseDriver mouse(&interruptManager, &desktop);
+    ShellMouseEventHandler shellMouse;
+    MouseDriver mouse(&interruptManager, &shellMouse);
     driverManager.addDriver(&mouse);
     // Keyboard Interface Driver
-    ShellKeyboardEventHandler ShellKeyboardEventHandler;
-    KeyboardDriver keyboard(&interruptManager, &desktop);
+    ShellKeyboardEventHandler shellKeyboard;
+    KeyboardDriver keyboard(&interruptManager, &shellKeyboard);
     driverManager.addDriver(&keyboard);
     // PC Beeper Driver
     Speaker speaker = Speaker();
@@ -72,6 +72,8 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     keyboard.setConsole(&basch);
     
     VideoGraphicsArray vga;
+    mouse.setHandler(&desktop);
+    keyboard.setHandler(&desktop);
     vga.setMode(320, 200, 8);
     vga.fillRect(0, 0, 320, 200, 0x00, 0x00, 0xA8);
     vga.setMode(320,200, 8);

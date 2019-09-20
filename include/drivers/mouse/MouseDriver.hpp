@@ -40,10 +40,17 @@ class MouseDriver : public InterruptHandler, public Driver {
          */
         virtual uint32_t handleInterrupt(uint32_t esp);
         /**
-         * @brief 
+         * @brief Activates the mouse driver
          * 
          */
         virtual void activate();
+
+        /**
+         * @brief Used to update the mouse driver event handler
+         * 
+         * @param handler 
+         */
+        virtual void setHandler(MouseEventHandler* handler);
 };
 
 #endif /* PANIX_MOUSE_DRIVER_HPP */

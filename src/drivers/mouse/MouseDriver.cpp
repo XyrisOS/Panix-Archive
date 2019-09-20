@@ -61,3 +61,7 @@ uint32_t MouseDriver::handleInterrupt(uint32_t esp) {
     
     return esp;
 }
+
+void MouseDriver::setHandler(MouseEventHandler* handler) {
+    this->mouseEventHandler = handler;
+}
