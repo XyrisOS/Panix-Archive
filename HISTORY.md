@@ -27,6 +27,13 @@ Update Progress (Starting August 2019)
     - Removed the panic terminal function since it's been tested and proven to work for a lot of cases (accidentally)
     - Added color to the kernel terminal! (w/o tutorial) (wiki)
     - Refactored part of the kprint function to support a better print method (wiki)
+- September 15-21:
+    - Completed WYOOS desktop, window, widget and VGA implementation
+    - Moved keyboard and mouse handlers into their appropriate classes (w/o tutorial ???)
+        - Note: This fixed a serious bug where basically all events were being handled by the driver itself
+                instead of the appropriate event handler we would set. It just wasn't obvious now until I
+                had another event handler (the desktop) I wanted to use.
+    - NEXT: multitasking (i.e. launching "processes" though this is used loosely)
 
 ### Course Requirements:
 Turn-in Requirements:
