@@ -4,12 +4,12 @@
 #include <types.hpp>
 #include <drivers/mouse/MouseEventHandler.hpp>
 
-class MouseShellEventHandler : public MouseEventHandler {
+class ShellMouseEventHandler : public MouseEventHandler {
     private:
         int8_t x;
         int8_t y;
     public:
-        MouseShellEventHandler();
+        ShellMouseEventHandler();
         void onMouseDown(uint8_t button);
         void onMouseUp(uint8_t button);
         void onActivate();

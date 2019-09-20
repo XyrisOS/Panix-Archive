@@ -4,11 +4,11 @@
 #include <types.hpp>
 #include <drivers/keyboard/KeyboardEventHandler.hpp>
 
-class KeyboardShellEventHandler : public KeyboardEventHandler {
+class ShellKeyboardEventHandler : public KeyboardEventHandler {
     private:
         bool isShiftEnabled;
     public:
-        KeyboardShellEventHandler();
+        ShellKeyboardEventHandler();
         void setShiftKey(bool isShiftPressed);
         void onKeyDown(char c);
         void onKeyUp(char c);

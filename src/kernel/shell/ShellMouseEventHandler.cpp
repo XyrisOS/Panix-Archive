@@ -1,16 +1,16 @@
-#include <kernel/shell/MouseShellEventHandler.hpp>
+#include <kernel/shell/ShellMouseEventHandler.hpp>
 
-MouseShellEventHandler::MouseShellEventHandler() {}
+ShellMouseEventHandler::ShellMouseEventHandler() {}
 
-void MouseShellEventHandler::onMouseDown(uint8_t button) {
+void ShellMouseEventHandler::onMouseDown(uint8_t button) {
     kprint("Mouse down event.\n");
 }
 
-void MouseShellEventHandler::onMouseUp(uint8_t button) {
+void ShellMouseEventHandler::onMouseUp(uint8_t button) {
     kprint("Mouse up event.\n");
 }
 
-void MouseShellEventHandler::onActivate() {
+void ShellMouseEventHandler::onActivate() {
     uint16_t* videoMemory = (uint16_t*) 0xb8000;
     //TODO: What are these values? If it is the screen size, can we make this dynamic?
     x = 40;
@@ -20,7 +20,7 @@ void MouseShellEventHandler::onActivate() {
                             | (videoMemory[80 * y + x] & 0x00FF);
 }
 
-void MouseShellEventHandler::onMouseMove(int xoffset, int yoffset) {
+void ShellMouseEventHandler::onMouseMove(int xoffset, int yoffset) {
     static uint16_t* videoMemory = (uint16_t*) 0xb8000;
     videoMemory[80 * y + x] = (videoMemory[80 * y + x] & 0x0F00) << 4
                             | (videoMemory[80 * y + x] & 0xF000) >> 4

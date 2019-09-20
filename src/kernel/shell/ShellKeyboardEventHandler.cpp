@@ -1,21 +1,21 @@
-#include <kernel/shell/KeyboardShellEventHandler.hpp>
+#include <kernel/shell/ShellKeyboardEventHandler.hpp>
 
-KeyboardShellEventHandler::KeyboardShellEventHandler() : 
+ShellKeyboardEventHandler::ShellKeyboardEventHandler() : 
 KeyboardEventHandler()
 {
 
 }
 
-void KeyboardShellEventHandler::backspace() {
+void ShellKeyboardEventHandler::backspace() {
     char backspace[] = { (char) 0x08, '\0' };
     kprint(backspace);
 }
 
-void KeyboardShellEventHandler::setShiftKey(bool isShiftPressed) {
+void ShellKeyboardEventHandler::setShiftKey(bool isShiftPressed) {
     isShiftEnabled = isShiftPressed;
 }
 
-void KeyboardShellEventHandler::onKeyDown(char c) {
+void ShellKeyboardEventHandler::onKeyDown(char c) {
     // If the shift key boolean is enabled, print the capital version if not a space
     if (isShiftEnabled && c != ' ') {
         char str[2] = {c, '\0'};
@@ -52,6 +52,6 @@ void KeyboardShellEventHandler::onKeyDown(char c) {
     }
 }
 
-void KeyboardShellEventHandler::onKeyUp(char c) {
+void ShellKeyboardEventHandler::onKeyUp(char c) {
     // Need to check if the shift key has been released
 }
