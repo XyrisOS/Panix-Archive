@@ -146,8 +146,7 @@ uint32_t InterruptManager::handleInterrupt(uint8_t interrupt, uint32_t esp) {
 
         // hardware interrupts must be acknowledged
         if (activeInterruptManager->hardwareInterruptOffset <= interrupt 
-        && interrupt < activeInterruptManager->hardwareInterruptOffset + 16) 
-        {
+        && interrupt < activeInterruptManager->hardwareInterruptOffset + 16) {
             activeInterruptManager->programmableInterruptControllerMasterCommandPort.write(0x20);
             if (activeInterruptManager->hardwareInterruptOffset + 8 <= interrupt) {
                 activeInterruptManager->programmableInterruptControllerSlaveCommandPort.write(0x20);

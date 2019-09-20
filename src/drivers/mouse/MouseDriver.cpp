@@ -43,8 +43,8 @@ uint32_t MouseDriver::handleInterrupt(uint32_t esp) {
     offset = (offset + 1) % 3;
 
     if (offset == 0) { 
-        if (buffer[1] != 0 || buffer[2] != 0 ) { 
-            mouseEventHandler->onMouseMove((int8_t)buffer[1], -(int8_t)buffer[2]);
+        if (buffer[1] != 0 || buffer[2] != 0 ) {
+            mouseEventHandler->onMouseMove((int8_t)buffer[1], -((int8_t)buffer[2]));
         }
 
         for(uint8_t i = 0; i < 3; i++) {

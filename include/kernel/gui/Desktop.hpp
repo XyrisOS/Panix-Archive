@@ -13,10 +13,11 @@ class Desktop : public CompositeWidget, public MouseEventHandler {
         Desktop(int32_t w, int32_t h, uint8_t r, uint8_t g, uint8_t b);
         ~Desktop();
 
+        void onActivate();
         void Draw(GraphicsContext* gc);
-        void OnMouseDown(uint8_t button);
-        void OnMouseUp(uint8_t button);
-        void OnMouseMove(int x, int y);
+        void onMouseDown(uint8_t button);
+        void onMouseUp(uint8_t button);
+        void onMouseMove(int x, int y);
 };
 
 #endif /* PANIX_GUI_DESKTOP_HPP */

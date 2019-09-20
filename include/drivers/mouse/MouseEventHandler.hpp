@@ -5,9 +5,6 @@
 #include <libc/kprint.hpp>
 
 class MouseEventHandler {
-    private:
-        int8_t x;
-        int8_t y;
     public:
         /**
          * @brief Construct a new Mouse Event Handler object

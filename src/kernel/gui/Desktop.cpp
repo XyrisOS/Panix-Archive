@@ -12,6 +12,10 @@ Desktop::~Desktop() {
 
 }
 
+void Desktop::onActivate() {
+    
+}
+
 void Desktop::Draw(GraphicsContext* gc) {
     CompositeWidget::draw(gc);
 
@@ -23,15 +27,15 @@ void Desktop::Draw(GraphicsContext* gc) {
     }
 }
 
-void Desktop::OnMouseDown(uint8_t button) {
+void Desktop::onMouseDown(uint8_t button) {
     CompositeWidget::onMouseDown(mouseX, mouseY, button);
 }
 
-void Desktop::OnMouseUp(uint8_t button) {
+void Desktop::onMouseUp(uint8_t button) {
     CompositeWidget::onMouseUp(mouseX, mouseY, button);
 }
 
-void Desktop::OnMouseMove(int x, int y) {
+void Desktop::onMouseMove(int x, int y) {
     x /= 4;
     y /= 4;
 

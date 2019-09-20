@@ -33,16 +33,13 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
      * DO NOT SWITCH THE ORDER OF ADDING THESE DRIVERS 
      *************************************************/
     // Mouse Interface Driver
-    MouseEventHandler mouseEventHandler;
+    //MouseEventHandler mouseEventHandler;
     MouseDriver mouse(&interruptManager, &desktop); //&mouseEventHandler for shell
     driverManager.addDriver(&mouse);
     // Keyboard Interface Driver
-    KeyboardEventHandler keyboardEventHandler;
+    //KeyboardEventHandler keyboardEventHandler;
     KeyboardDriver keyboard(&interruptManager, &desktop); //&keyboardEventHandler for shell
     driverManager.addDriver(&keyboard);
-    // PCI Interface Driver
-    PeripheralComponentInterconnectController PCIController;
-    PCIController.SelectDrivers(&driverManager, &interruptManager);
     // PC Beeper Driver
     Speaker speaker = Speaker();
     driverManager.addDriver(&speaker);
@@ -52,6 +49,9 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     // Real Time Clock Driver
     RTC rtc = RTC();
     driverManager.addDriver(&rtc);
+    // PCI Interface Driver
+    PeripheralComponentInterconnectController PCIController;
+    PCIController.SelectDrivers(&driverManager, &interruptManager);
     // Activate all the drivers we just added
     kprintSetColor(Red, Black);
     kprint("Stage 2 - Activating Drivers...\n");
@@ -70,6 +70,7 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     //shell basch = shell();
     // Tell the keyboard driver where the kernel console is.
     //keyboard.setConsole(&basch);
+    
     VideoGraphicsArray vga;
     vga.setMode(320, 200, 8);
     vga.fillRect(0, 0, 320, 200, 0x00, 0x00, 0xA8);
@@ -78,6 +79,7 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     desktop.addChild(&win1);
     Window win2(&desktop, 40,15,30,30, 0x00,0xA8,0x00);
     desktop.addChild(&win2);
+    
     while (1) { //(!basch.isTerminated) {
         // Keep the kernel alive
         desktop.Draw(&vga);
