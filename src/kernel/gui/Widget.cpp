@@ -65,6 +65,10 @@ void Widget::onKeyUp(char c) {
     // Stubbed
 }
 
+void Widget::handleScancode(uint8_t code) {
+    // Stubbed
+}
+
 #pragma mark CompositeWidget
 
 CompositeWidget::CompositeWidget(Widget *parent, uint32_t x, uint32_t y, uint32_t w, uint32_t h, uint8_t r, uint8_t g, uint8_t b) 
@@ -148,4 +152,8 @@ void CompositeWidget::onKeyUp(char c) {
     if(childWithFocus != 0) {
         childWithFocus->onKeyUp(c);
     }
+}
+
+void CompositeWidget::handleScancode(uint8_t code) {
+    // Stubbed
 }

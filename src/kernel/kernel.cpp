@@ -66,11 +66,13 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     kprintSetColor(LightCyan, Black);
     rtc.printTimeAndDate();
     kprintSetColor(White, Black);
+    
     // Make sure the kernel never dies!
     shell basch = shell();
-    // Tell the keyboard driver where the kernel console is.
-    keyboard.setConsole(&basch);
-    
+    // Tell the shell keyboard handler where the shell is.
+    shellKeyboard.setConsole(&basch);
+    // Setup VGA desktops
+    /*
     VideoGraphicsArray vga;
     mouse.setHandler(&desktop);
     keyboard.setHandler(&desktop);
@@ -81,10 +83,10 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     desktop.addChild(&win1);
     Window win2(&desktop, 40,15,30,30, 0x00,0xA8,0x00);
     desktop.addChild(&win2);
-    
+    */
     while (1) { //(!basch.isTerminated) {
         // Keep the kernel alive
-        desktop.Draw(&vga);
+        //desktop.Draw(&vga);
     }
     // Return control back to loader.s to cli & hlt.
     return;
