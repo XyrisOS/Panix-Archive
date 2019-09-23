@@ -100,6 +100,6 @@ void ShellKeyboardEventHandler::onKeyUp(char c) {
     // Need to check if the shift key has been released
 }
 
-void ShellKeyboardEventHandler::setConsole(shell* console) {
+void ShellKeyboardEventHandler::setConsole(Shell* console) {
     this->console = console;
 }

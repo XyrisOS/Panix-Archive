@@ -68,7 +68,7 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     kprintSetColor(White, Black);
     
     // Make sure the kernel never dies!
-    shell basch = shell();
+    Shell basch = Shell();
     // Tell the shell keyboard handler where the shell is.
     shellKeyboard.setConsole(&basch);
     // Setup VGA desktops

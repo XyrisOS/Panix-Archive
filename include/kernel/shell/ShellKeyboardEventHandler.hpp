@@ -16,7 +16,7 @@ class ShellKeyboardEventHandler : public KeyboardEventHandler {
     private:
         bool isShiftEnabled;
         // TODO: Make shell class uppercase
-        shell* console;
+        Shell* console;
         char keyBuffer[256] = "\0";
         char lastCommand[256] = "\0";
         uint16_t lengthOfCurrentCommand = 0;
@@ -27,7 +27,7 @@ class ShellKeyboardEventHandler : public KeyboardEventHandler {
         void onKeyDown(char c);
         void onKeyUp(char c);
         void backspace();
-        void setConsole(shell* console);
+        void setConsole(Shell* console);
 };
 
 #endif /* PANIX_KEYBOARD_SHELL_EVENT_HANDLER */

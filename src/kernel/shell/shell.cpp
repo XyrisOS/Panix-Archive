@@ -1,6 +1,6 @@
 #include <kernel/shell/shell.hpp>
 
-shell::shell() {
+Shell::Shell() {
     commandFunctions[0] = clearShell;
     commandFunctions[1] = help;
     commandFunctions[2] = printTime;
@@ -9,7 +9,7 @@ shell::shell() {
     printShellIndicator();
 }
 
-void shell::handleShellInput(char* line) {
+void Shell::handleShellInput(char* line) {
     // Loop through available commands and check if one
     // of them was inputted by the user.
     bool foundCommand = false;

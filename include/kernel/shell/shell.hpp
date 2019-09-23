@@ -8,7 +8,7 @@
 // Number of commands available to the shell
 #define NUMBER_OF_COMMANDS 5
 
-class shell {
+class Shell {
     private:
         const char commandNames[NUMBER_OF_COMMANDS][16] = {
             "clear",
@@ -24,7 +24,7 @@ class shell {
          * @brief Construct a new shell object
          * 
          */
-        shell();
+        Shell();
 
         /**
          * @brief Processes the user keyboard input passed in from the
