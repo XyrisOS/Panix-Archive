@@ -57,7 +57,7 @@ void append(char* s, char n);
  * 
  * @param s TODO: Document
  */
-void backspace(char* s);
+void backspaceString(char* s);
 
 /**
  * @brief Converts a given hex arrangement into an ASCII string

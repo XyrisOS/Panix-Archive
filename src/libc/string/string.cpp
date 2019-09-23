@@ -6,7 +6,7 @@ void append(char* s, char n) {
     s[length + 1] = '\0';
 }
 
-void backspace(char* s) {
+void backspaceString(char* s) {
     int length = strlen(s);
     s[length - 1] = '\0';
 }

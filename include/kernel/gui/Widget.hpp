@@ -33,6 +33,7 @@ class Widget : public KeyboardEventHandler {
         virtual void onMouseMove(int32_t oldX, int32_t oldY, int32_t newX, int32_t newY);
         virtual void onKeyDown(char c);
         virtual void onKeyUp(char c);
+        virtual void handleScancode(uint8_t code);
 
 };
 
@@ -53,6 +54,7 @@ class CompositeWidget : public Widget {
         virtual void onMouseMove(int32_t oldX, int32_t oldY, int32_t newX, int32_t newY);
         virtual void onKeyDown(char c);
         virtual void onKeyUp(char c);
+        virtual void handleScancode(uint8_t code);
 
 };
 

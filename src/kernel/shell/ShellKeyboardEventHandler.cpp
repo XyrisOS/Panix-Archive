@@ -3,12 +3,35 @@
 ShellKeyboardEventHandler::ShellKeyboardEventHandler() : 
 KeyboardEventHandler()
 {
+    
+}
 
+void ShellKeyboardEventHandler::handleScancode(uint8_t scancode) {
+    // Handle the shift key
+    if (scancode == RIGHT_SHIFT || scancode == LEFT_SHIFT) {
+        setShiftKey(true);
+    } else if (scancode == 0xAA || scancode == 0xB6) {
+        setShiftKey(false);
+    }
+    // Handle the up arrow for last command
+    if (scancode == UP_ARROW && strlen(lastCommand) > 0) {
+        while (lengthOfCurrentCommand > 0) {
+            backspace();
+            --lengthOfCurrentCommand;
+        }
+        strcpy(lastCommand, keyBuffer);
+        lengthOfCurrentCommand = strlen(lastCommand);
+        kprint(lastCommand);
+    }
 }
 
 void ShellKeyboardEventHandler::backspace() {
-    char backspace[] = { (char) 0x08, '\0' };
-    kprint(backspace);
+    if (lengthOfCurrentCommand > 0) {
+        --lengthOfCurrentCommand;
+        backspaceString(keyBuffer);
+        char backspace[] = { (char) 0x08, '\0' };
+        kprint(backspace);
+    }
 }
 
 void ShellKeyboardEventHandler::setShiftKey(bool isShiftPressed) {
@@ -16,6 +39,22 @@ void ShellKeyboardEventHandler::setShiftKey(bool isShiftPressed) {
 }
 
 void ShellKeyboardEventHandler::onKeyDown(char c) {
+    // If we get a newline
+    if (c == '\n') {
+        kprint("\n");
+        // Add a null char to the end and copy
+        keyBuffer[lengthOfCurrentCommand] = '\0';
+        strcpy(keyBuffer, lastCommand);
+        lengthOfCurrentCommand = 0;
+        keyBuffer[0] = '\0';
+        if (this->console != nullptr) {
+            this->console->handleShellInput(lastCommand);
+        }
+        if (lengthOfCurrentCommand >= 256) {
+            lengthOfCurrentCommand = 255;
+        }
+        return;
+    }
     // If the shift key boolean is enabled, print the capital version if not a space
     if (isShiftEnabled && c != ' ') {
         char str[2] = {c, '\0'};
@@ -50,8 +89,17 @@ void ShellKeyboardEventHandler::onKeyDown(char c) {
         const char str[2] = {c, '\0'};
         kprint(str);
     }
+    // Append the letter to the buffer
+    // Move this into the handler
+    char str[2] = {c, '\0'};
+    append(keyBuffer, c);
+    ++lengthOfCurrentCommand;
 }
 
 void ShellKeyboardEventHandler::onKeyUp(char c) {
     // Need to check if the shift key has been released
+}
+
+void ShellKeyboardEventHandler::setConsole(shell* console) {
+    this->console = console;
 }

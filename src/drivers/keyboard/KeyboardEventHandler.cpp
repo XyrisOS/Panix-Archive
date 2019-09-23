@@ -17,3 +17,7 @@ void KeyboardEventHandler::onKeyDown(char c) {
 void KeyboardEventHandler::onKeyUp(char c) {
     
 }
+
+void KeyboardEventHandler::handleScancode(uint8_t code) {
+    
+}

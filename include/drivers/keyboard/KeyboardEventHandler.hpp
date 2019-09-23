@@ -12,6 +12,8 @@ class KeyboardEventHandler {
          * 
          */
         KeyboardEventHandler();
+
+        virtual void handleScancode(uint8_t scancode);
         /**
          * @brief Set the Shift Key object
          * 

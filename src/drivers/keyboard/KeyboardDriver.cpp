@@ -1,10 +1,11 @@
 #include <drivers/keyboard/KeyboardDriver.hpp>
 
+// Any non-ASCII keys should have '\0'
 const char scancodeAscii[] = {
     '\0', '`', '1', '2', '3', '4', '5', '6',
     '7', '8', '9', '0', '-', '=', '\0', '?',
     'q', 'w', 'e', 'r', 't', 'y', 'u', 'i',
-    'o', 'p', '[', ']', '\0', '\0', 'a', 's',
+    'o', 'p', '[', ']', '\n', '\0', 'a', 's',
     'd', 'f', 'g', 'h', 'j', 'k', 'l', ';',
     '\'', '`', '\0', '\\', 'z', 'x', 'c', 'v',
     'b', 'n', 'm', ',', '.', '/', '\0', '\0',
@@ -20,10 +21,10 @@ const char scancodeName[64][16] = {
     "B", "N", "M", ",", ".", "/", "RShift", "Keypad *",
     "LAlt", "Spacebar"
 };
+
 char* keyBuffer = (char*) "\0";
 char* lastCommand = (char*) "\0";
 int lengthOfCurrentCommand = 0;
-
 
 KeyboardDriver::KeyboardDriver(InterruptManager* interruptManager, KeyboardEventHandler* keyboardEventHandler) 
     : InterruptHandler(interruptManager, 0x21), 
@@ -58,78 +59,29 @@ uint32_t KeyboardDriver::handleInterrupt(uint32_t esp)
     }
     // If a scancode is pressed down
     if (scancode < 0x80) {
-        // This needs to be moved into the shell handler
-        if (scancode == UP_ARROW && strlen(lastCommand) > 0) {
-            while (lengthOfCurrentCommand > 0) {
-                keyboardEventHandler->backspace();
-                --lengthOfCurrentCommand;
-            }
-            strcpy(lastCommand, keyBuffer);
-            lengthOfCurrentCommand = strlen(lastCommand);
-            kprint(lastCommand);
-            return esp;
-        }
         if (scancode > SCANCODE_MAX) {
             return esp;
         }
-        // Move the buffer stuff into the handler and just call backspace()
         if (scancode == BACKSPACE) {
-            if (lengthOfCurrentCommand > 0) {
-                --lengthOfCurrentCommand;
-                backspace(keyBuffer);
-                keyboardEventHandler->backspace();
-            }
-        }
-        // Move handleShellInput out of here (see above)
-        if (scancode == ENTER) {
-            kprint("\n");
-            if (this->console != nullptr) {
-                this->console->handleShellInput(keyBuffer);
-            }
-            if (lengthOfCurrentCommand >= 256) {
-                lengthOfCurrentCommand = 255;
-            }
-            keyBuffer[lengthOfCurrentCommand] = '\0';
-            strcpy(keyBuffer, lastCommand);
-            lengthOfCurrentCommand = 0;
-            keyBuffer[0] = '\0';
-        }
-        // This can stay or we can just handle it like normal and move it into the handler.
-        // We already have a function for it so I suppose it's fine for now.
-        if (scancode == RIGHT_SHIFT || scancode == LEFT_SHIFT) {
-            keyboardEventHandler->setShiftKey(true);
+            keyboardEventHandler->backspace();
         }
         else {
             // Print the key to the screen
             char key = scancodeAscii[(int) scancode];
+            // If there is no ascii code when we've done all other checks then
+            // hand it off to the event handler. This might need to be checked
+            // if any weird keyboard bugs come up in the future.
+            if (key == '\0') {
+                keyboardEventHandler->handleScancode(scancode);
+            }
             keyboardEventHandler->onKeyDown(key);
-            // Append the letter to the buffer
-            // Move this into the handler
-            char str[2] = {key, '\0'};
-            append(keyBuffer, key);
-            ++lengthOfCurrentCommand;
         }
     // Else the scancode is released.
     } else {
-        switch (scancode)
-        {
-            case 0xAA: keyboardEventHandler->setShiftKey(false); break;
-            case 0xB6: keyboardEventHandler->setShiftKey(false); break;
-            default:
-                // Don't handle on scancode up.
-                // Or do we want to make a handler function for that now?
-                break;
-        }
+        keyboardEventHandler->handleScancode(scancode);
     }
 
     return esp;
-}
-
-void KeyboardDriver::setConsole(shell* sh) {
-    // TODO: Move all of this shell related code into the ShellKeyboardEventHandler
-    // because all code that handles an event related to the shell should be in there
-    // even if it means refactoring a lot of this code.
-    this->console = sh;
 }
 
 void KeyboardDriver::setHandler(KeyboardEventHandler *handler) {

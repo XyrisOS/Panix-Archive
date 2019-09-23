@@ -24,29 +24,6 @@ class KeyboardDriver : public InterruptHandler, public Driver {
         Port8Bit dataPort;
         Port8Bit commandPort;
         KeyboardEventHandler* keyboardEventHandler;
-        /**
-         * @brief A buffer holding the text of a shell command
-         * 
-         */
-        inline static char keyBuffer[256];
-
-        /**
-         * @brief A buffer holding the last shell command
-         * 
-         */
-        inline static char lastCommand[256];
-
-        /**
-         * @brief Tracks the length of the current shell commands
-         * 
-         */
-        inline static uint16_t lengthOfCurrentCommand;
-
-        /**
-         * @brief Kernel level shell to handle input
-         * 
-         */
-        shell *console;
     public:
         /**
          * @brief Construct a new Keyboard Driver object
@@ -72,13 +49,6 @@ class KeyboardDriver : public InterruptHandler, public Driver {
          * 
          */
         virtual void activate();
-
-        /**
-         * @brief Sets the keyboard driver kernel shell object
-         * 
-         * @param sh Kernel shell
-         */
-        virtual void setConsole(shell* sh);
 
         /**
          * @brief Used to update the keyboard event handler
