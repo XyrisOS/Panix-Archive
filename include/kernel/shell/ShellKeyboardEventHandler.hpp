@@ -15,7 +15,6 @@
 class ShellKeyboardEventHandler : public KeyboardEventHandler {
     private:
         bool isShiftEnabled;
-        // TODO: Make shell class uppercase
         Shell* console;
         char keyBuffer[256] = "\0";
         char lastCommand[256] = "\0";

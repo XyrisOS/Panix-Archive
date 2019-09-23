@@ -48,11 +48,7 @@ void KeyboardDriver::activate() {
     kprint("Activating keyboard event handler\n");
 }
 
-uint32_t KeyboardDriver::handleInterrupt(uint32_t esp)
-{
-    // TODO: Move all of this code into the event handler or make 
-    // each special key call a function in the event handler. Either
-    // way the driver shouldn't have a buffer or anything
+uint32_t KeyboardDriver::handleInterrupt(uint32_t esp) {
     uint8_t scancode = dataPort.read();
     if (keyboardEventHandler == nullptr) {
         return esp;
