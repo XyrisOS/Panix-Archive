@@ -33,6 +33,7 @@ Update Progress (Starting August 2019)
         - Note: This fixed a serious bug where basically all events were being handled by the driver itself
                 instead of the appropriate event handler we would set. It just wasn't obvious now until I
                 had another event handler (the desktop) I wanted to use.
+    - Fixed issue in shell console where the prompt could be erased using backspace.
     - NEXT: multitasking (i.e. launching "processes" though this is used loosely)
 
 ### Course Requirements:
