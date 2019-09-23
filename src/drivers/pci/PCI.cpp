@@ -1,19 +1,19 @@
 #include <drivers/pci/PCI.hpp>
 
 PeripheralComponentInterconnectDeviceDescriptor::PeripheralComponentInterconnectDeviceDescriptor() {
-
+    // Stubbed
 }
 
 PeripheralComponentInterconnectDeviceDescriptor::~PeripheralComponentInterconnectDeviceDescriptor() {
-
+    // Stubbed
 }
 
 PeripheralComponentInterconnectController::PeripheralComponentInterconnectController() : dataPort(0xCFC), commandPort(0xCF8) {
-
+    // Stubbed
 }
 
 PeripheralComponentInterconnectController::~PeripheralComponentInterconnectController() {
-
+    // Stubbed
 }
 
 uint32_t PeripheralComponentInterconnectController::read(uint16_t bus, uint16_t device, uint16_t function, uint32_t registeroffset) {
@@ -70,16 +70,16 @@ void PeripheralComponentInterconnectController::SelectDrivers(DriverManager* dri
                         driverManager->addDriver(driver);
                     }
                 }
-                
+                // Print the bus address
                 kprint("PCI BUS ");
                 kprintHex(bus & 0xFF);
-                
+                // Print the device name
                 kprint(", DEVICE ");
                 kprintHex(device & 0xFF);
-
+                // Print the device function
                 kprint(", FUNCTION ");
                 kprintHex(function & 0xFF);
-                
+                // Print vendor info
                 kprint(" = VENDOR ");
                 kprintHex((dev.vendor_id & 0xFF00) >> 8);
                 kprintHex(dev.vendor_id & 0xFF);
@@ -92,17 +92,16 @@ void PeripheralComponentInterconnectController::SelectDrivers(DriverManager* dri
     }
 }
 
-
 BaseAddressRegister PeripheralComponentInterconnectController::GetBaseAddressRegister(uint16_t bus, uint16_t device, uint16_t function, uint16_t bar) {
+    // Define the BaseAddressRegister to be set
     BaseAddressRegister result;
-    
     uint32_t headertype = read(bus, device, function, 0x0E) & 0x7F;
     //
     int maxBARs = 6 - (4*headertype);
     if(bar >= maxBARs) {
         return result;
     }
-    
+    //
     uint32_t bar_value = read(bus, device, function, 0x10 + 4*bar);
     result.type = (bar_value & 0x1) ? InputOutput : MemoryMapping;
     uint32_t temp;
@@ -121,7 +120,7 @@ BaseAddressRegister PeripheralComponentInterconnectController::GetBaseAddressReg
         result.address = (uint8_t*)(bar_value & ~0x3);
         result.prefetchable = false;
     }
-    
+    // Return the base address register
     return result;
 }
 
@@ -135,7 +134,6 @@ Driver* PeripheralComponentInterconnectController::GetDriver(PeripheralComponent
                     break;
             }
             break;
-
         case 0x8086: // Intel
             break;
         default:
@@ -143,7 +141,7 @@ Driver* PeripheralComponentInterconnectController::GetDriver(PeripheralComponent
             //kprint("[ERROR] Unknown Vendor - Can't load driver.\n");
             break;
     }
-    
+    // Get the PCI device function
     switch(dev.class_id) {
         case 0x03: // graphics
             switch(dev.subclass_id) {
@@ -160,8 +158,6 @@ Driver* PeripheralComponentInterconnectController::GetDriver(PeripheralComponent
     
     return 0;
 }
-
-
 
 PeripheralComponentInterconnectDeviceDescriptor PeripheralComponentInterconnectController::GetDeviceDescriptor(uint16_t bus, uint16_t device, uint16_t function) {
     PeripheralComponentInterconnectDeviceDescriptor result;
