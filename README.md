@@ -1,3 +1,4 @@
+[![CodeFactor](https://www.codefactor.io/repository/github/panix-os-dev-team/panix/badge)](https://www.codefactor.io/repository/github/panix-os-dev-team/panix)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/panix-os-dev-team/Panix.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/panix-os-dev-team/Panix/alerts/)
 [![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/panix-os-dev-team/Panix.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/panix-os-dev-team/Panix/context:cpp)
 
