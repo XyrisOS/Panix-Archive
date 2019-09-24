@@ -17,8 +17,8 @@ class MouseDriver : public InterruptHandler, public Driver {
         uint8_t buffer[3];
         uint8_t offset;
         uint8_t buttons;
-
         MouseEventHandler* mouseEventHandler;
+
     public:
         /**
          * @brief Construct a new Mouse Driver object

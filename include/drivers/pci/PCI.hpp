@@ -61,8 +61,10 @@ class PeripheralComponentInterconnectDeviceDescriptor : public Driver {
  * 
  */
 class PeripheralComponentInterconnectController : public Driver {
+    private:
         Port32Bit dataPort;
         Port32Bit commandPort;
+        
     public:
         /**
          * @brief Construct a new Peripheral Component Interconnect Controller object

@@ -20,6 +20,7 @@ class Widget : public KeyboardEventHandler {
         uint8_t b;
         // Focus information
         bool isFocusable;
+        
     public:
         Widget(Widget *parent, uint32_t x, uint32_t y, uint32_t w, uint32_t h, uint8_t r, uint8_t g, uint8_t b);
         ~Widget();
@@ -41,6 +42,7 @@ class CompositeWidget : public Widget {
         Widget* children[100];
         int childCount;
         Widget* childWithFocus;
+
     public:
         CompositeWidget(Widget *parent, uint32_t x, uint32_t y, uint32_t w, uint32_t h, uint8_t r, uint8_t g, uint8_t b);
         ~CompositeWidget();
