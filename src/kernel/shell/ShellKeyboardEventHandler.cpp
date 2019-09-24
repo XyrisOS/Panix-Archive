@@ -3,7 +3,7 @@
 ShellKeyboardEventHandler::ShellKeyboardEventHandler() : 
 KeyboardEventHandler()
 {
-    
+    // Stubbed
 }
 
 void ShellKeyboardEventHandler::handleScancode(uint8_t scancode) {
@@ -41,49 +41,12 @@ void ShellKeyboardEventHandler::setShiftKey(bool isShiftPressed) {
 void ShellKeyboardEventHandler::onKeyDown(char c) {
     // If we get a newline
     if (c == '\n') {
-        kprint("\n");
-        // Add a null char to the end and copy
-        keyBuffer[lengthOfCurrentCommand] = '\0';
-        strcpy(keyBuffer, lastCommand);
-        lengthOfCurrentCommand = 0;
-        keyBuffer[0] = '\0';
-        if (this->console != nullptr) {
-            this->console->handleShellInput(lastCommand);
-        }
-        if (lengthOfCurrentCommand >= 256) {
-            lengthOfCurrentCommand = 255;
-        }
+        this->handleNewLine();
         return;
     }
     // If the shift key boolean is enabled, print the capital version if not a space
     if (isShiftEnabled && c != ' ') {
-        char str[2] = {c, '\0'};
-        const char* cStr;
-        // Handle special characters
-        switch (c) {
-            case '1': kprint("!"); break;
-            case '2': kprint("@"); break;
-            case '3': kprint("#"); break;
-            case '4': kprint("$"); break;
-            case '5': kprint("%"); break;
-            case '6': kprint("^"); break;
-            case '7': kprint("&"); break;
-            case '8': kprint("*"); break;
-            case '9': kprint("("); break;
-            case '0': kprint(")"); break;
-            case '-': kprint("_"); break;
-            case '=': kprint("+"); break;
-            case '/': kprint("?"); break;
-            case '.': kprint(">"); break;
-            case ',': kprint("<"); break;
-            case '[': kprint("{"); break;
-            case ']': kprint("}"); break;
-
-            default:
-                cStr = toUpper(str);
-                kprint(cStr);
-                break;
-        }
+        this->handleSpecialCharacters(c);
     // print the lowercase version
     } else {
         const char str[2] = {c, '\0'};
@@ -102,4 +65,49 @@ void ShellKeyboardEventHandler::onKeyUp(char c) {
 
 void ShellKeyboardEventHandler::setConsole(Shell* console) {
     this->console = console;
+}
+
+void ShellKeyboardEventHandler::handleNewLine() {
+    kprint("\n");
+    // Add a null char to the end and copy
+    keyBuffer[lengthOfCurrentCommand] = '\0';
+    strcpy(keyBuffer, lastCommand);
+    lengthOfCurrentCommand = 0;
+    keyBuffer[0] = '\0';
+    if (this->console != nullptr) {
+        this->console->handleShellInput(lastCommand);
+    }
+    if (lengthOfCurrentCommand >= 256) {
+        lengthOfCurrentCommand = 255;
+    }
+}
+
+void ShellKeyboardEventHandler::handleSpecialCharacters(char c) {
+    char str[2] = {c, '\0'};
+    const char* cStr;
+    // Handle special characters
+    switch (c) {
+        case '`': kprint("~"); break;
+        case '1': kprint("!"); break;
+        case '2': kprint("@"); break;
+        case '3': kprint("#"); break;
+        case '4': kprint("$"); break;
+        case '5': kprint("%"); break;
+        case '6': kprint("^"); break;
+        case '7': kprint("&"); break;
+        case '8': kprint("*"); break;
+        case '9': kprint("("); break;
+        case '0': kprint(")"); break;
+        case '-': kprint("_"); break;
+        case '=': kprint("+"); break;
+        case '/': kprint("?"); break;
+        case '.': kprint(">"); break;
+        case ',': kprint("<"); break;
+        case '[': kprint("{"); break;
+        case ']': kprint("}"); break;
+        default:
+            cStr = toUpper(str);
+            kprint(cStr);
+            break;
+    }
 }

@@ -9,16 +9,16 @@ MouseEventHandler()
 }
 
 Desktop::~Desktop() {
-
+    // Stubbed
 }
 
 void Desktop::onActivate() {
-    
+    // Stubbed
 }
 
 void Desktop::Draw(GraphicsContext* gc) {
     CompositeWidget::draw(gc);
-
+    // Draw the mouse cursor
     for(int i = 0; i < 4; i++) {
         gc->setPixel(mouseX - i, mouseY, 0xFF, 0xFF, 0xFF);
         gc->setPixel(mouseX + i, mouseY, 0xFF, 0xFF, 0xFF);

@@ -5,7 +5,6 @@
 
 class GlobalDescriptorTable {
     public:
-
         class SegmentDescriptor {
             private:
                 uint16_t limit_lo;
@@ -14,7 +13,7 @@ class GlobalDescriptorTable {
                 uint8_t type;
                 uint8_t limit_hi;
                 uint8_t base_vhi;
-
+                
             public:
                 /**
                  * @brief Construct a new Segment Descriptor object

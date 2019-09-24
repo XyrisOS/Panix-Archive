@@ -7,7 +7,7 @@ Window::Window(Widget* parent, int32_t x, int32_t y, int32_t w, int32_t h, uint8
 }
 
 Window::~Window() {
-
+    // Stubbed
 }
 
 void Window::onMouseDown(int32_t x, int32_t y, uint8_t button) {
