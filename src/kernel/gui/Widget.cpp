@@ -14,7 +14,7 @@ Widget::Widget(Widget *parent, uint32_t x, uint32_t y, uint32_t w, uint32_t h, u
 }
 
 Widget::~Widget() {
-
+    // Stubbed
 }
 
 void Widget::getFocus(Widget* widget) {
@@ -79,7 +79,7 @@ CompositeWidget::CompositeWidget(Widget *parent, uint32_t x, uint32_t y, uint32_
 }
 
 CompositeWidget::~CompositeWidget() {
-    
+    // Stubbed
 }
 
 void CompositeWidget::getFocus(Widget* widget) {

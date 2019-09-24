@@ -13,11 +13,11 @@ VideoGraphicsArray::VideoGraphicsArray() :
     attributeControllerWritePort(0x3C0),
     attributeControllerResetPort(0x3DA)
 {
-    //
+    // Stubbed
 }
 
 VideoGraphicsArray::~VideoGraphicsArray() {
-    
+    // Stubbed
 }
 
 void VideoGraphicsArray::writeRegisters(uint8_t* registers) {
@@ -120,7 +120,6 @@ uint8_t VideoGraphicsArray::getColorIndex(uint8_t r, uint8_t g, uint8_t b) {
     return 0x00;
 }
 
-
 void VideoGraphicsArray::setPixel(int32_t x, int32_t y, uint8_t depth) {
     if (x < 0 || 320 <= x || y < 0 || 200 <= y) {
         return;
@@ -132,7 +131,6 @@ void VideoGraphicsArray::setPixel(int32_t x, int32_t y, uint8_t depth) {
 void VideoGraphicsArray::setPixel(int32_t x, int32_t y, uint8_t r, uint8_t g, uint8_t b) {
     setPixel(x, y, getColorIndex(r,g,b));
 }
-
 
 void VideoGraphicsArray::fillRect(uint32_t x, uint32_t y, uint32_t w, uint32_t h, uint8_t r, uint8_t g, uint8_t b) {
     for (int32_t i = y; i < y + h; i++) {

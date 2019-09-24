@@ -34,7 +34,6 @@ class Widget : public KeyboardEventHandler {
         virtual void onKeyDown(char c);
         virtual void onKeyUp(char c);
         virtual void handleScancode(uint8_t code);
-
 };
 
 class CompositeWidget : public Widget {

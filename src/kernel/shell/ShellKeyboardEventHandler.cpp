@@ -3,7 +3,7 @@
 ShellKeyboardEventHandler::ShellKeyboardEventHandler() : 
 KeyboardEventHandler()
 {
-    
+    // Stubbed
 }
 
 void ShellKeyboardEventHandler::handleScancode(uint8_t scancode) {
