@@ -54,7 +54,6 @@ class CompositeWidget : public Widget {
         virtual void onKeyDown(char c);
         virtual void onKeyUp(char c);
         virtual void handleScancode(uint8_t code);
-
 };
 
 #endif /* PANIX_GUI_WIDGET_HPP */

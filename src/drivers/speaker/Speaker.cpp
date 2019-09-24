@@ -3,11 +3,14 @@
 Speaker::Speaker() : 
     port42(0x42), 
     port43(0x43), 
-    port61(0x61) {
-
+    port61(0x61)
+{
+    // Stubbbed
 }
 
-Speaker::~Speaker() {}
+Speaker::~Speaker() {
+    // Stubbed
+}
 
 void Speaker::activate() {
     stopSound();

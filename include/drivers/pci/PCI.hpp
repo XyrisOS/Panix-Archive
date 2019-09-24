@@ -55,7 +55,6 @@ class PeripheralComponentInterconnectDeviceDescriptor : public Driver {
          * 
          */
         ~PeripheralComponentInterconnectDeviceDescriptor();
-
 };
 /**
  * @brief 

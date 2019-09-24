@@ -59,7 +59,6 @@ void VideoGraphicsArray::writeRegisters(uint8_t* registers) {
 
     attributeControllerResetPort.read();
     attributeControllerIndexPort.write(0x20);
-
 }
 
 bool VideoGraphicsArray::supportsMode(uint32_t width, uint32_t height, uint32_t colordepth) {
