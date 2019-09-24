@@ -23,12 +23,6 @@ void help() {
     */
 }
 
-void panic() {
-    // This is here to demonstrate the panic screen when implemented.
-    int result = 0 / 0;
-    result++;
-}
-
 void printSplash() {
     kprint("\n\nWelcome to Panix!\n\n");
 }

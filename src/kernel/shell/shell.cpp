@@ -26,7 +26,8 @@ void Shell::handleShellInput(char* line) {
         isTerminated = true;
         return;
     }
-    if (foundCommand == false) {
+    // strcmp will return "false" (0) if they're the same so anything else is true
+    if (foundCommand == false && (strcmp("", line) != 0)) {
         kprint("Command does not exist.\n");
     }
     printShellIndicator();
