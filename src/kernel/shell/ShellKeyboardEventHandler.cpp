@@ -105,7 +105,6 @@ void ShellKeyboardEventHandler::handleSpecialCharacters(char c) {
         case ',': kprint("<"); break;
         case '[': kprint("{"); break;
         case ']': kprint("}"); break;
-
         default:
             cStr = toUpper(str);
             kprint(cStr);
