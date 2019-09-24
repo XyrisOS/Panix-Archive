@@ -87,6 +87,7 @@ void ShellKeyboardEventHandler::handleSpecialCharacters(char c) {
     const char* cStr;
     // Handle special characters
     switch (c) {
+        case '`': kprint("~"); break;
         case '1': kprint("!"); break;
         case '2': kprint("@"); break;
         case '3': kprint("#"); break;
