@@ -34,6 +34,7 @@ Update Progress (Starting August 2019)
                 instead of the appropriate event handler we would set. It just wasn't obvious now until I
                 had another event handler (the desktop) I wanted to use.
     - Fixed issue in shell console where the prompt could be erased using backspace.
+    - Cleaned up some of the CPU port implementation. Moved inline ASM to source file instead of header.
     - NEXT: multitasking (i.e. launching "processes" though this is used loosely)
 
 ### Course Requirements:
