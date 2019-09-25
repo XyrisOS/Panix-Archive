@@ -19,6 +19,8 @@ class ShellKeyboardEventHandler : public KeyboardEventHandler {
         char keyBuffer[256] = "\0";
         char lastCommand[256] = "\0";
         uint16_t lengthOfCurrentCommand = 0;
+        void handleNewLine();
+        void handleSpecialCharacters(char c);
     public:
         ShellKeyboardEventHandler();
         void handleScancode(uint8_t scancode);

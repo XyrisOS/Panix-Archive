@@ -24,6 +24,7 @@ class KeyboardDriver : public InterruptHandler, public Driver {
         Port8Bit dataPort;
         Port8Bit commandPort;
         KeyboardEventHandler* keyboardEventHandler;
+        
     public:
         /**
          * @brief Construct a new Keyboard Driver object

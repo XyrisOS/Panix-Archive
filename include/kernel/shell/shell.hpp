@@ -17,15 +17,14 @@ class Shell {
             "splash",
             "vga"
         };
-
         void (*commandFunctions[NUMBER_OF_COMMANDS])();
+
     public:
         /**
          * @brief Construct a new shell object
          * 
          */
         Shell();
-
         /**
          * @brief Processes the user keyboard input passed in from the
          * keyboard event handler.
