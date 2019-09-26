@@ -9,7 +9,7 @@
  * 
  */
 #include <drivers/mouse/MouseEventHandler.hpp>
-// TODO: Do we need this file? See comment in KeyboardEventHandler.cpp.
+
 MouseEventHandler::MouseEventHandler() {
     // Stubbed
 }
