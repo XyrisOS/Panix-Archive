@@ -13,9 +13,14 @@
 #define PANIX_PORT_HPP
 
 #include <types.hpp>
-
+// TODO: Refactor some of these functions to remove the extra read / write protected funcs.
 class Port {
     protected:
+        /**
+         * @brief Construct a new Port object
+         * 
+         * @param portnumber Port number to be used
+         */
         explicit Port(uint16_t portnumber);
         //virtual ~Port();
         uint16_t portnumber;
@@ -23,9 +28,24 @@ class Port {
 
 class PortByte : public Port {
     public:
+        /**
+         * @brief Construct a new Port Byte object
+         * 
+         * @param portnumber Port number to be used
+         */
         explicit PortByte(uint16_t portnumber);
         //virtual ~PortByte();
+        /**
+         * @brief Read in a byte from the port specified by the constructor.
+         * 
+         * @return uint8_t Byte read in from the port.
+         */
         virtual uint8_t read();
+        /**
+         * @brief Writes a byte to the port specified by the constructor.
+         * 
+         * @param data Byte to write to the port.
+         */
         virtual void write(uint8_t data);
 
     protected:
@@ -35,8 +55,18 @@ class PortByte : public Port {
 
 class PortByteSlow : public PortByte {
     public:
+        /**
+         * @brief Construct a new Port Byte Slow object
+         * 
+         * @param portnumber 
+         */
         explicit PortByteSlow(uint16_t portnumber);
         //virtual ~PortByteSlow();
+        /**
+         * @brief Writes a byte slowly to the port specified by the constructor.
+         * 
+         * @param data Byte to write to the port.
+         */
         virtual void write(uint8_t data);
 
     protected:
@@ -45,9 +75,24 @@ class PortByteSlow : public PortByte {
 
 class PortWord : public Port {
     public:
+        /**
+         * @brief Construct a new Port Word object
+         * 
+         * @param portnumber 
+         */
         explicit PortWord(uint16_t portnumber);
         //virtual ~PortWord();
+        /**
+         * @brief Read in a word from the port specified by the constructor.
+         * 
+         * @return uint16_t Word read in from the port.
+         */
         virtual uint16_t read();
+        /**
+         * @brief Writes a word to the port specified by the constructor.
+         * 
+         * @param data Word to write to the port.
+         */
         virtual void write(uint16_t data);
 
     protected:
@@ -57,9 +102,24 @@ class PortWord : public Port {
 
 class PortLong : public Port {
     public:
+        /**
+         * @brief Construct a new Port Long object
+         * 
+         * @param portnumber 
+         */
         explicit PortLong(uint16_t portnumber);
         //virtual ~PortLong();
+        /**
+         * @brief Read in a long from the port specified by the constructor.
+         * 
+         * @return uint32_t Long read in from the port.
+         */
         virtual uint32_t read();
+        /**
+         * @brief Writes a long to the port specified by the constructor.
+         * 
+         * @param data Long to write to the port.
+         */
         virtual void write(uint32_t data);
 
     protected:
