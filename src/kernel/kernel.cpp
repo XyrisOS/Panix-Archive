@@ -19,6 +19,17 @@ extern "C" void callConstructors() {
     }
 }
 
+void taskA() {
+    while(true) {
+        kprint("A");
+    }
+}
+void taskB() {
+    while(true) {
+        kprint("B");
+    }
+}
+
 extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot_magic*/) {
     // Clear screen, print welcome message.
     clearScreen();
@@ -77,11 +88,17 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     kprintSetColor(LightCyan, Black);
     rtc.printTimeAndDate();
     kprintSetColor(White, Black);
-    
+
     // Make sure the kernel never dies!
     Shell basch = Shell();
     // Tell the shell keyboard handler where the shell is.
     shellKeyboard.setConsole(&basch);
+    // Begin multitasking example
+    Task task1(&gdt, taskA);
+    Task task2(&gdt, taskB);
+    taskManager.addTask(&task1);
+    taskManager.addTask(&task2);
+
     // Setup VGA desktops
     /*
     VideoGraphicsArray vga;
