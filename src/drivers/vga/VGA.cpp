@@ -1,3 +1,13 @@
+/**
+ * @file VGA.cpp
+ * @author Keeton Feavel (keetonfeavel@cedarville.edu)
+ * @brief 
+ * @version 0.1
+ * @date 2019-09-26
+ * 
+ * @copyright Copyright (c) 2019
+ * 
+ */
 #include <drivers/vga/VGA.hpp>
 
 VideoGraphicsArray::VideoGraphicsArray() : 

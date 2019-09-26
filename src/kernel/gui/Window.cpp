@@ -1,3 +1,13 @@
+/**
+ * @file Window.cpp
+ * @author Keeton Feavel (keetonfeavel@cedarville.edu)
+ * @brief 
+ * @version 0.1
+ * @date 2019-09-26
+ * 
+ * @copyright Copyright (c) 2019
+ * 
+ */
 #include <kernel/gui/Window.hpp>
 
 Window::Window(Widget* parent, int32_t x, int32_t y, int32_t w, int32_t h, uint8_t r, uint8_t g, uint8_t b)
