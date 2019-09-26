@@ -1,3 +1,13 @@
+/**
+ * @file GlobalDescriptorTable.hpp
+ * @author Keeton Feavel (keetonfeavel@cedarville.edu)
+ * @brief 
+ * @version 0.1
+ * @date 2019-09-26
+ * 
+ * @copyright Copyright (c) 2019
+ * 
+ */
 #ifndef PANIX_GLOBAL_DESCRIPTOR_TABLE_HPP
 #define PANIX_GLOBAL_DESCRIPTOR_TABLE_HPP
 

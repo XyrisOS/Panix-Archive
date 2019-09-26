@@ -11,7 +11,7 @@ GCC = i386-elf-gcc
 GDB = i386-elf-gdb
 LD = i386-elf-ld
 NASM = i386-elf-nasm
-SYS = "Other (Likely macOS)"
+SYS = "Other: Likely macOS"
 QEMU = qemu-system-x86_64
 
 # Change for Linux
@@ -29,7 +29,7 @@ endif
 # Compiler/Linker flags
 GCC_FLAGS = -m32 -Iinclude -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -fno-stack-protector -Wno-write-strings -std=c++17
 AS_FLAGS = --32
-LD_FLAGS = -melf_x86_64
+LD_FLAGS = -melf_i386
 
 # Linker file
 LINKER = src/boot/linker.ld
@@ -50,7 +50,7 @@ obj/%.o: src/%.s
 
 # Link objects into BIN
 dist/panix.bin: $(LINKER) $(OBJ)
-	@ echo "\033[0;33m[INFO] Compiled panix using $(SYS) settings.\e[0m"
+	@ echo "\033[0;33m[INFO] Compiled panix using $(SYS) settings.\033[0m"
 	@ mkdir -p dist
 	$(LD) $(LD_FLAGS) -T $< -o $@ $(OBJ)
 
@@ -62,13 +62,7 @@ dist/panix.iso: dist/panix.bin
 	@ mkdir -p iso/boot/grub
 	@ cp $< iso/boot/
 	@ echo Creating grub.cfg...
-	@ echo 'set timeout=0'                      > iso/boot/grub/grub.cfg
-	@ echo 'set default=0'                     >> iso/boot/grub/grub.cfg
-	@ echo ''                                  >> iso/boot/grub/grub.cfg
-	@ echo 'menuentry "Panix" {'               >> iso/boot/grub/grub.cfg
-	@ echo '  multiboot /boot/panix.bin'       >> iso/boot/grub/grub.cfg
-	@ echo '  boot'                            >> iso/boot/grub/grub.cfg
-	@ echo '}'                                 >> iso/boot/grub/grub.cfg
+	@ cp src/boot/grub.cfg iso/boot/grub/
 	@ echo Creating panix.iso...
 	@ grub-mkrescue -o dist/panix.iso iso
 	@ echo Cleaning up iso directory
@@ -110,4 +104,5 @@ clean:
 	@ rm -rf obj
 	@ echo Cleaning bin files...
 	@ rm -rf dist/*.bin
+	@ rm -rf iso
 	@ echo "Done cleaning!"

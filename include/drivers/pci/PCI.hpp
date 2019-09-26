@@ -1,3 +1,13 @@
+/**
+ * @file PCI.hpp
+ * @author Keeton Feavel (keetonfeavel@cedarville.edu)
+ * @brief 
+ * @version 0.1
+ * @date 2019-09-26
+ * 
+ * @copyright Copyright (c) 2019
+ * 
+ */
 #ifndef PANIX_PCI_HPP
 #define PANIX_PCI_HPP
 // TODO: PCI needs some serious documentation. Refer to https://youtu.be/GE7iO2vlLD4 and https://youtu.be/yqjDYF4NCXg for info.
@@ -62,8 +72,8 @@ class PeripheralComponentInterconnectDeviceDescriptor : public Driver {
  */
 class PeripheralComponentInterconnectController : public Driver {
     private:
-        Port32Bit dataPort;
-        Port32Bit commandPort;
+        PortLong dataPort;
+        PortLong commandPort;
         
     public:
         /**

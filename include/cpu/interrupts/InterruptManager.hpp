@@ -1,4 +1,13 @@
-
+/**
+ * @file InterruptManager.hpp
+ * @author Keeton Feavel (keetonfeavel@cedarville.edu)
+ * @brief 
+ * @version 0.1
+ * @date 2019-09-26
+ * 
+ * @copyright Copyright (c) 2019
+ * 
+ */
 #ifndef PANIX_INTERRUPT_MANAGER_HPP
 #define PANIX_INTERRUPT_MANAGER_HPP
 
@@ -113,10 +122,10 @@ class InterruptManager {
          */
         static uint32_t handleInterrupt(uint8_t interrupt, uint32_t esp);
 
-        Port8BitSlow programmableInterruptControllerMasterCommandPort;
-        Port8BitSlow programmableInterruptControllerMasterDataPort;
-        Port8BitSlow programmableInterruptControllerSlaveCommandPort;
-        Port8BitSlow programmableInterruptControllerSlaveDataPort;
+        PortByteSlow programmableInterruptControllerMasterCommandPort;
+        PortByteSlow programmableInterruptControllerMasterDataPort;
+        PortByteSlow programmableInterruptControllerSlaveCommandPort;
+        PortByteSlow programmableInterruptControllerSlaveDataPort;
 
     public:
         /**

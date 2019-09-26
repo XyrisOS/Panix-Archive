@@ -1,3 +1,13 @@
+/**
+ * @file RTC.hpp
+ * @author Keeton Feavel (keetonfeavel@cedarville.edu)
+ * @brief 
+ * @version 0.1
+ * @date 2019-09-26
+ * 
+ * @copyright Copyright (c) 2019
+ * 
+ */
 #ifndef PANIX_RTC_DRIVER
 #define PANIX_RTC_DRIVER
 
@@ -13,8 +23,8 @@
 
 class RTC : public Driver {
     private:
-        Port8Bit cmosPort;
-        Port8Bit dataPort;
+        PortByte cmosPort;
+        PortByte dataPort;
         uint8_t second;
         uint8_t minute;
         uint8_t hour;

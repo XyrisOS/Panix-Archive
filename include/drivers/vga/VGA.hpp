@@ -1,3 +1,13 @@
+/**
+ * @file VGA.hpp
+ * @author Keeton Feavel (keetonfeavel@cedarville.edu)
+ * @brief 
+ * @version 0.1
+ * @date 2019-09-26
+ * 
+ * @copyright Copyright (c) 2019
+ * 
+ */
 #ifndef PANIX_VGA_HPP
 #define PANIX_VGA_HPP
 
@@ -14,17 +24,17 @@ class VideoGraphicsArray {
          * Wiki at wiki.osdev.org
          * 
          */
-        Port8Bit miscPort;
-        Port8Bit crtcIndexPort;
-        Port8Bit crtcDataPort;
-        Port8Bit sequencerIndexPort;
-        Port8Bit sequencerDataPort;
-        Port8Bit graphicsControllerIndexPort;
-        Port8Bit graphicsControllerDataPort;
-        Port8Bit attributeControllerIndexPort;
-        Port8Bit attributeControllerReadPort;
-        Port8Bit attributeControllerWritePort;
-        Port8Bit attributeControllerResetPort;
+        PortByte miscPort;
+        PortByte crtcIndexPort;
+        PortByte crtcDataPort;
+        PortByte sequencerIndexPort;
+        PortByte sequencerDataPort;
+        PortByte graphicsControllerIndexPort;
+        PortByte graphicsControllerDataPort;
+        PortByte attributeControllerIndexPort;
+        PortByte attributeControllerReadPort;
+        PortByte attributeControllerWritePort;
+        PortByte attributeControllerResetPort;
 
         /**
          * @brief Writes the VGA registers
