@@ -93,7 +93,7 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     Window win2(&desktop, 40,15,30,30, 0x00,0xA8,0x00);
     desktop.addChild(&win2);
     */
-    while (1) { //(!basch.isTerminated) {
+    while (!basch.isTerminated) {
         // Keep the kernel alive
         //desktop.Draw(&vga);
     }
