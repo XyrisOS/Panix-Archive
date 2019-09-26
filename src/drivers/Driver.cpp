@@ -9,7 +9,7 @@
  * 
  */
 #include <drivers/Driver.hpp>
-// TODO: Do we need this file? It doesn't really do anything except return 0 for reset.
+
 Driver::Driver() {
     // Stubbed
 }
