@@ -1,4 +1,14 @@
-
+/**
+ * @file Port.hpp
+ * @author Keeton Feavel (keetonfeavel@cedarville.edu)
+ * @brief Ports header file. Provides a class
+ * for getting and setting values at different ports.
+ * @version 0.1
+ * @date 2019-09-26
+ * 
+ * @copyright Copyright (c) 2019
+ * 
+ */
 #ifndef PANIX_PORT_HPP
 #define PANIX_PORT_HPP
 
