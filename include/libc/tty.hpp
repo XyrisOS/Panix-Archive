@@ -19,10 +19,4 @@
  */
 void clearScreen();
 
-/**
- * @brief Prints a dead cow ASCII art for the panic screen
- * 
- */
-void printPanicScreen();
-
 #endif /* PANIX_TTY_HPP */
