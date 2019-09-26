@@ -32,12 +32,13 @@ void InterruptManager::setInterruptDescriptorTableEntry(
 }
 
 
-InterruptManager::InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescriptorTable* globalDescriptorTable)
+InterruptManager::InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescriptorTable* globalDescriptorTable, TaskManager* taskManager)
     : programmableInterruptControllerMasterCommandPort(0x20),
       programmableInterruptControllerMasterDataPort(0x21),
       programmableInterruptControllerSlaveCommandPort(0xA0),
       programmableInterruptControllerSlaveDataPort(0xA1)
 {
+    this->activeTaskManager = taskManager;
     this->hardwareInterruptOffset = hardwareInterruptOffset;
     uint32_t CodeSegment = globalDescriptorTable->CodeSegmentSelector();
     void (* handleExceptionsArray [20])() = {
@@ -145,6 +146,7 @@ uint32_t InterruptManager::handleInterrupt(uint8_t interrupt, uint32_t esp) {
                 kprint("CPU timer did not activate!\n");
             }
         }
+        // If there is a handler for the interrupt
         if (activeInterruptManager->handlers[interrupt] != 0) { 
             // This handleInterrupt function is located in the InterruptHandler.cpp file
             esp = activeInterruptManager->handlers[interrupt]->handleInterrupt(esp);
@@ -153,7 +155,10 @@ uint32_t InterruptManager::handleInterrupt(uint8_t interrupt, uint32_t esp) {
             // Call the LibC panic() function defined in stdio.hpp
             panic(interrupt);
         }
-
+        // Schedule a new task as a process
+        if (interrupt == activeInterruptManager->hardwareInterruptOffset) {
+            esp = (uint32_t)activeInterruptManager->activeTaskManager->schedule((CPUState*)esp);
+        }
         // hardware interrupts must be acknowledged
         if (activeInterruptManager->hardwareInterruptOffset <= interrupt 
         && interrupt < activeInterruptManager->hardwareInterruptOffset + 16) {

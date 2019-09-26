@@ -26,9 +26,11 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     kprint("Welcome to Panix\n");
     kprint("Developed by graduates and undergraduates of Cedarville University.\n");
     kprint("Copyright Keeton Feavel et al (c) 2019. All rights reserved.\n\n");
+    // Initialize the Task Manager for Multitasking
+    TaskManager taskManager;
     // Initialize the GDT, interrupt manager, and timer
     GlobalDescriptorTable gdt;
-    InterruptManager interruptManager(0x20, &gdt);
+    InterruptManager interruptManager(0x20, &gdt, &taskManager);
     interruptManager.deactivate();
     kprintSetColor(Red, Black);
     kprint("Stage 1 - Loading Drivers...\n");

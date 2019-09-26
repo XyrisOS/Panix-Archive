@@ -28,16 +28,7 @@ class InterruptHandler;
 class InterruptManager {
     friend class InterruptHandler;
     protected:
-        uint16_t hardwareInterruptOffset;
-        // Active managers
-        static InterruptManager* activeInterruptManager;
-        static Timer* activeInterruptManagerTimer;
-        TaskManager* activeTaskManager;
-        // Array of handler functions
-        InterruptHandler* handlers[256];
-        static GateDescriptor interruptDescriptorTable[256];
-        const uint8_t IDT_INTERRUPT_GATE = 0xE;
-
+        // Data structures
         struct GateDescriptor {
             uint16_t handlerAddressLowBits;
             uint16_t gdt_codeSegmentSelector;
@@ -50,6 +41,16 @@ class InterruptManager {
             uint16_t size;
             uint32_t base;
         } __attribute__((packed));
+        // Interrupt vs. exception offset
+        uint16_t hardwareInterruptOffset;
+        // Active managers
+        static InterruptManager* activeInterruptManager;
+        static Timer* activeInterruptManagerTimer;
+        TaskManager* activeTaskManager;
+        // Array of handler functions
+        InterruptHandler* handlers[256];
+        static GateDescriptor interruptDescriptorTable[256];
+        const uint8_t IDT_INTERRUPT_GATE = 0xE;
 
         /**
          * @brief Set the Interrupt Descriptor Table Entry object
@@ -138,7 +139,7 @@ class InterruptManager {
          * @param hardwareInterruptOffset 
          * @param globalDescriptorTable 
          */
-        InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescriptorTable* globalDescriptorTable);
+        InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescriptorTable* globalDescriptorTable, TaskManager* taskManager);
         /**
          * @brief Destroy the Interrupt Manager object
          * 
