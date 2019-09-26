@@ -62,13 +62,7 @@ dist/panix.iso: dist/panix.bin
 	@ mkdir -p iso/boot/grub
 	@ cp $< iso/boot/
 	@ echo Creating grub.cfg...
-	@ echo 'set timeout=0'                      > iso/boot/grub/grub.cfg
-	@ echo 'set default=0'                     >> iso/boot/grub/grub.cfg
-	@ echo ''                                  >> iso/boot/grub/grub.cfg
-	@ echo 'menuentry "Panix" {'               >> iso/boot/grub/grub.cfg
-	@ echo '  multiboot /boot/panix.bin'       >> iso/boot/grub/grub.cfg
-	@ echo '  boot'                            >> iso/boot/grub/grub.cfg
-	@ echo '}'                                 >> iso/boot/grub/grub.cfg
+	@ cp src/boot/grub.cfg iso/boot/grub/
 	@ echo Creating panix.iso...
 	@ grub-mkrescue -o dist/panix.iso iso
 	@ echo Cleaning up iso directory
@@ -110,4 +104,5 @@ clean:
 	@ rm -rf obj
 	@ echo Cleaning bin files...
 	@ rm -rf dist/*.bin
+	@ rm -rf iso
 	@ echo "Done cleaning!"
