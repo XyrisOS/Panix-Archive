@@ -8,7 +8,7 @@
  * @copyright Copyright (c) 2019
  * 
  */
-ifndef PANIX_CPU_TIMER
+#ifndef PANIX_CPU_TIMER
 #define PANIX_CPU_TIMER
 
 #include <types.hpp>

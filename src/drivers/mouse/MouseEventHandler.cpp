@@ -7,7 +7,7 @@
  * 
  * @copyright Copyright (c) 2019
  * 
- *
+ */
 #include <drivers/mouse/MouseEventHandler.hpp>
 // TODO: Do we need this file? See comment in KeyboardEventHandler.cpp.
 MouseEventHandler::MouseEventHandler() {
@@ -29,4 +29,3 @@ void MouseEventHandler::onMouseUp(uint8_t button) {
 void MouseEventHandler::onMouseMove(int x, int y) {
     // Stubbed
 }
-*/
