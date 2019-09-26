@@ -21,8 +21,8 @@ class KeyboardEventHandler;
 
 class KeyboardDriver : public InterruptHandler, public Driver {
     private:
-        Port8Bit dataPort;
-        Port8Bit commandPort;
+        PortByte dataPort;
+        PortByte commandPort;
         KeyboardEventHandler* keyboardEventHandler;
         
     public:

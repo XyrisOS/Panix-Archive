@@ -12,8 +12,8 @@ class MouseEventHandler;
 
 class MouseDriver : public InterruptHandler, public Driver {
     private:
-        Port8Bit dataPort;
-        Port8Bit commandPort;
+        PortByte dataPort;
+        PortByte commandPort;
         uint8_t buffer[3];
         uint8_t offset;
         uint8_t buttons;

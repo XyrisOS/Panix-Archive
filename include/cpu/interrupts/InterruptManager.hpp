@@ -113,10 +113,10 @@ class InterruptManager {
          */
         static uint32_t handleInterrupt(uint8_t interrupt, uint32_t esp);
 
-        Port8BitSlow programmableInterruptControllerMasterCommandPort;
-        Port8BitSlow programmableInterruptControllerMasterDataPort;
-        Port8BitSlow programmableInterruptControllerSlaveCommandPort;
-        Port8BitSlow programmableInterruptControllerSlaveDataPort;
+        PortByteSlow programmableInterruptControllerMasterCommandPort;
+        PortByteSlow programmableInterruptControllerMasterDataPort;
+        PortByteSlow programmableInterruptControllerSlaveCommandPort;
+        PortByteSlow programmableInterruptControllerSlaveDataPort;
 
     public:
         /**

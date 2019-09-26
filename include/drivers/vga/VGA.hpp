@@ -14,17 +14,17 @@ class VideoGraphicsArray {
          * Wiki at wiki.osdev.org
          * 
          */
-        Port8Bit miscPort;
-        Port8Bit crtcIndexPort;
-        Port8Bit crtcDataPort;
-        Port8Bit sequencerIndexPort;
-        Port8Bit sequencerDataPort;
-        Port8Bit graphicsControllerIndexPort;
-        Port8Bit graphicsControllerDataPort;
-        Port8Bit attributeControllerIndexPort;
-        Port8Bit attributeControllerReadPort;
-        Port8Bit attributeControllerWritePort;
-        Port8Bit attributeControllerResetPort;
+        PortByte miscPort;
+        PortByte crtcIndexPort;
+        PortByte crtcDataPort;
+        PortByte sequencerIndexPort;
+        PortByte sequencerDataPort;
+        PortByte graphicsControllerIndexPort;
+        PortByte graphicsControllerDataPort;
+        PortByte attributeControllerIndexPort;
+        PortByte attributeControllerReadPort;
+        PortByte attributeControllerWritePort;
+        PortByte attributeControllerResetPort;
 
         /**
          * @brief Writes the VGA registers

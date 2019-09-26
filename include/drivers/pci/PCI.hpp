@@ -62,8 +62,8 @@ class PeripheralComponentInterconnectDeviceDescriptor : public Driver {
  */
 class PeripheralComponentInterconnectController : public Driver {
     private:
-        Port32Bit dataPort;
-        Port32Bit commandPort;
+        PortLong dataPort;
+        PortLong commandPort;
         
     public:
         /**

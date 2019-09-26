@@ -13,8 +13,8 @@ class Timer : public Driver {
         uint32_t tick;
         uint8_t high;
         uint8_t low;
-        Port8Bit commandPort;
-        Port8Bit dataPort;
+        PortByte commandPort;
+        PortByte dataPort;
     public:
         Timer(int freq);
         ~Timer();

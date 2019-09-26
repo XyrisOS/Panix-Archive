@@ -13,8 +13,8 @@
 
 class RTC : public Driver {
     private:
-        Port8Bit cmosPort;
-        Port8Bit dataPort;
+        PortByte cmosPort;
+        PortByte dataPort;
         uint8_t second;
         uint8_t minute;
         uint8_t hour;

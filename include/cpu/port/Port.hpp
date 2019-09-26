@@ -11,10 +11,10 @@ class Port {
         uint16_t portnumber;
 };
 
-class Port8Bit : public Port {
+class PortByte : public Port {
     public:
-        Port8Bit(uint16_t portnumber);
-        //virtual ~Port8Bit();
+        PortByte(uint16_t portnumber);
+        //virtual ~PortByte();
         virtual uint8_t read();
         virtual void write(uint8_t data);
 
@@ -23,20 +23,20 @@ class Port8Bit : public Port {
         static void write8(uint16_t _port, uint8_t _data);
 };
 
-class Port8BitSlow : public Port8Bit {
+class PortByteSlow : public PortByte {
     public:
-        Port8BitSlow(uint16_t portnumber);
-        //virtual ~Port8BitSlow();
+        PortByteSlow(uint16_t portnumber);
+        //virtual ~PortByteSlow();
         virtual void write(uint8_t data);
 
     protected:
         static void write8Slow(uint16_t _port, uint8_t _data);
 };
 
-class Port16Bit : public Port {
+class PortWord : public Port {
     public:
-        Port16Bit(uint16_t portnumber);
-        //virtual ~Port16Bit();
+        PortWord(uint16_t portnumber);
+        //virtual ~PortWord();
         virtual uint16_t read();
         virtual void write(uint16_t data);
 
@@ -45,10 +45,10 @@ class Port16Bit : public Port {
         static void write16(uint16_t _port, uint16_t _data);
 };
 
-class Port32Bit : public Port {
+class PortLong : public Port {
     public:
-        Port32Bit(uint16_t portnumber);
-        //virtual ~Port32Bit();
+        PortLong(uint16_t portnumber);
+        //virtual ~PortLong();
         virtual uint32_t read();
         virtual void write(uint32_t data);
 
