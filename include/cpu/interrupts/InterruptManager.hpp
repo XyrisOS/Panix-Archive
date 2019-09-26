@@ -15,6 +15,7 @@
 #include <cpu/port/Port.hpp>
 #include <cpu/gdt/GlobalDescriptorTable.hpp>
 #include <cpu/interrupts/InterruptHandler.hpp>
+#include <cpu/multitasking/Multitasking.hpp>
 #include <drivers/timer/Timer.hpp>
 #include <drivers/speaker/Speaker.hpp>
 #include <libc/stdio.hpp>
@@ -28,14 +29,15 @@ class InterruptManager {
     friend class InterruptHandler;
     protected:
         uint16_t hardwareInterruptOffset;
+        // Active managers
         static InterruptManager* activeInterruptManager;
         static Timer* activeInterruptManagerTimer;
+        TaskManager* activeTaskManager;
+        // Array of handler functions
         InterruptHandler* handlers[256];
+        static GateDescriptor interruptDescriptorTable[256];
         const uint8_t IDT_INTERRUPT_GATE = 0xE;
-        /**
-         * @brief 
-         * 
-         */
+
         struct GateDescriptor {
             uint16_t handlerAddressLowBits;
             uint16_t gdt_codeSegmentSelector;
@@ -43,19 +45,12 @@ class InterruptManager {
             uint8_t access;
             uint16_t handlerAddressHighBits;
         } __attribute__((packed));
-        /**
-         * @brief 
-         * 
-         */
-        static GateDescriptor interruptDescriptorTable[256];
-        /**
-         * @brief 
-         * 
-         */
+        
         struct InterruptDescriptorTablePointer {
             uint16_t size;
             uint32_t base;
         } __attribute__((packed));
+
         /**
          * @brief Set the Interrupt Descriptor Table Entry object
          * 
@@ -70,11 +65,15 @@ class InterruptManager {
             uint8_t DescriptorPrivilegeLevel, uint8_t DescriptorType);
 
         /**
-         * @brief 
+         * @brief Ignores a given interrupt. Used as a handler function.
          * 
          */
         static void interruptIgnore();
 
+        /**
+         * @brief Interrupt handler functions
+         * 
+         */
         static void handleInterruptRequest0x00();
         static void handleInterruptRequest0x01();
         static void handleInterruptRequest0x02();
@@ -93,6 +92,10 @@ class InterruptManager {
         static void handleInterruptRequest0x0F();
         static void handleInterruptRequest0x31();
 
+        /**
+         * @brief Exception handler functions
+         * 
+         */
         static void handleException0x00();
         static void handleException0x01();
         static void handleException0x02();
@@ -113,12 +116,13 @@ class InterruptManager {
         static void handleException0x11();
         static void handleException0x12();
         static void handleException0x13();
+        
         /**
-         * @brief 
+         * @brief Handles an interrupt from the CPU.
          * 
-         * @param interrupt 
-         * @param esp 
-         * @return uint32_t 
+         * @param interrupt Interrupt code
+         * @param esp Stack pointer
+         * @return uint32_t Returned stack pointer
          */
         static uint32_t handleInterrupt(uint8_t interrupt, uint32_t esp);
 
