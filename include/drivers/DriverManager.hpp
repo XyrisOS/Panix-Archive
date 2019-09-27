@@ -13,9 +13,6 @@
 
 #include <drivers/Driver.hpp>
 
-/* Forward declaration */
-class Driver;
-
 class DriverManager {
     private:
         Driver* drivers[265];
@@ -38,6 +35,11 @@ class DriverManager {
          * 
          */
         void activateAll();
+        /**
+         * @brief Activates the last driver added to the manager.
+         * 
+         */
+        void activateLast();
 };  
 
 #endif /* PANIX_DRIVER_MANAGER_HPP */

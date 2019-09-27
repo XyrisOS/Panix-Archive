@@ -38,6 +38,11 @@ class ShellKeyboardEventHandler : public KeyboardEventHandler {
          */
         ShellKeyboardEventHandler();
         /**
+         * @brief Callback for keyboard driver handler activation
+         * 
+         */
+        void onActivate();
+        /**
          * @brief Handles a non-ascii keyboard input
          * 
          * @param scancode 

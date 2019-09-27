@@ -22,12 +22,12 @@ MouseDriver::MouseDriver(InterruptManager* interruptManager, MouseEventHandler* 
 MouseDriver::~MouseDriver() {}
 
 void MouseDriver::activate() {
+    kprint("Activating mouse driver\n");
     uint16_t* videoMemory = (uint16_t*)0xb8000;
     offset = 0;
     buttons = 0;
     
     if (mouseEventHandler != nullptr) {
-        kprint("Activating mouse event handler\n");
         mouseEventHandler->onActivate();
     }
 

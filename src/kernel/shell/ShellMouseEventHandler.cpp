@@ -21,6 +21,7 @@ void ShellMouseEventHandler::onMouseUp(uint8_t button) {
 }
 
 void ShellMouseEventHandler::onActivate() {
+    kprint("Activating shell mouse event handler.\n");
     uint16_t* videoMemory = (uint16_t*) 0xb8000;
     x = 40;
     y = 12;
