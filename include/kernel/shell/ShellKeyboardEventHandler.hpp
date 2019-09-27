@@ -32,12 +32,45 @@ class ShellKeyboardEventHandler : public KeyboardEventHandler {
         void handleNewLine();
         void handleSpecialCharacters(char c);
     public:
+        /**
+         * @brief Construct a new Shell Keyboard Event Handler object
+         * 
+         */
         ShellKeyboardEventHandler();
+        /**
+         * @brief Handles a non-ascii keyboard input
+         * 
+         * @param scancode 
+         */
         void handleScancode(uint8_t scancode);
+        /**
+         * @brief Tell the driver if the shift key is being held
+         * 
+         * @param isShiftPressed 
+         */
         void setShiftKey(bool isShiftPressed);
+        /**
+         * @brief Callback for when a key is pressed.
+         * 
+         * @param c 
+         */
         void onKeyDown(char c);
+        /**
+         * @brief Callback for when a key is released.
+         * 
+         * @param c 
+         */
         void onKeyUp(char c);
+        /**
+         * @brief Handles the backspace key
+         * 
+         */
         void backspace();
+        /**
+         * @brief Set the Console object
+         * 
+         * @param console 
+         */
         void setConsole(Shell* console);
 };
 

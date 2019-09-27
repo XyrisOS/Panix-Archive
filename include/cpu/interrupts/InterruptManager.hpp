@@ -41,6 +41,11 @@ class InterruptManager {
             uint16_t size;
             uint32_t base;
         } __attribute__((packed));
+        // Define the PIC CPU ports
+        PortByteSlow programmableInterruptControllerMasterCommandPort;
+        PortByteSlow programmableInterruptControllerMasterDataPort;
+        PortByteSlow programmableInterruptControllerSlaveCommandPort;
+        PortByteSlow programmableInterruptControllerSlaveDataPort;
         // Interrupt vs. exception offset
         uint16_t hardwareInterruptOffset;
         // Active managers
@@ -51,7 +56,6 @@ class InterruptManager {
         InterruptHandler* handlers[256];
         static GateDescriptor interruptDescriptorTable[256];
         const uint8_t IDT_INTERRUPT_GATE = 0xE;
-
         /**
          * @brief Set the Interrupt Descriptor Table Entry object
          * 
@@ -64,13 +68,11 @@ class InterruptManager {
         static void setInterruptDescriptorTableEntry(uint8_t interrupt,
             uint16_t codeSegmentSelectorOffset, void (*handler)(),
             uint8_t DescriptorPrivilegeLevel, uint8_t DescriptorType);
-
         /**
          * @brief Ignores a given interrupt. Used as a handler function.
          * 
          */
         static void interruptIgnore();
-
         /**
          * @brief Interrupt handler functions
          * 
@@ -92,7 +94,6 @@ class InterruptManager {
         static void handleInterruptRequest0x0E();
         static void handleInterruptRequest0x0F();
         static void handleInterruptRequest0x31();
-
         /**
          * @brief Exception handler functions
          * 
@@ -116,8 +117,7 @@ class InterruptManager {
         static void handleException0x10();
         static void handleException0x11();
         static void handleException0x12();
-        static void handleException0x13();
-        
+        static void handleException0x13(); 
         /**
          * @brief Handles an interrupt from the CPU.
          * 
@@ -126,12 +126,6 @@ class InterruptManager {
          * @return uint32_t Returned stack pointer
          */
         static uint32_t handleInterrupt(uint8_t interrupt, uint32_t esp);
-
-        PortByteSlow programmableInterruptControllerMasterCommandPort;
-        PortByteSlow programmableInterruptControllerMasterDataPort;
-        PortByteSlow programmableInterruptControllerSlaveCommandPort;
-        PortByteSlow programmableInterruptControllerSlaveDataPort;
-
     public:
         /**
          * @brief Construct a new Interrupt Manager object
