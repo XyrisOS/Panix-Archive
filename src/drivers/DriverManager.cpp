@@ -17,10 +17,16 @@ DriverManager::DriverManager() {
 void DriverManager::addDriver(Driver* driver) {
     drivers[numberOfDrivers] = driver;
     numberOfDrivers++;
+    
 }
 
 void DriverManager::activateAll() {
     for (int i = 0; i < numberOfDrivers; i++) {
         drivers[i]->activate();
     }
+}
+
+void DriverManager::activateLast() {
+    int index = numberOfDrivers - 1;
+    drivers[index]->activate();
 }
