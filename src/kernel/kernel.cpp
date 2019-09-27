@@ -39,6 +39,8 @@ void startShellAsProcess() {
     // Tell the keyboard to use this shell
     kprintSetColor(White, Black);
     shellKeyboard.setConsole(&basch);
+    // Activate the shell
+    basch.activate();
     while (!basch.isTerminated) {
         // Do nothing
     }
