@@ -62,6 +62,9 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     GlobalDescriptorTable gdt;
     InterruptManager interruptManager(0x20, &gdt, &taskManager);
     interruptManager.deactivate();
+    /**************************
+     * STAGE 1 - LOAD DRIVERS *
+     **************************/
     kprintSetColor(LightGreen, Black);
     kprint("Stage 1 - Loading Drivers...\n");
     kprintSetColor(White, Black);
@@ -71,11 +74,6 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     kernelDriverManager = &driverManager;
     kernelTaskManager = &taskManager;
     kernelInterruptManager = &interruptManager;
-    // Create a desktop environment
-    Desktop desktop(320, 200, 0x00,0x00,0xA8);
-    /*************************************************
-     * DO NOT SWITCH THE ORDER OF ADDING THESE DRIVERS 
-     *************************************************/
     // PC Beeper Driver
     Speaker speaker = Speaker();
     driverManager.addDriver(&speaker);
@@ -88,11 +86,22 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     // PCI Interface Driver
     PeripheralComponentInterconnectController PCIController;
     PCIController.SelectDrivers(&driverManager, &interruptManager);
+
+    // If we put all of the code in startShellAsProcess here then it works.
+    // But if we make the call to it here then it doesn't.
+
+    /******************************
+     * STAGE 2 - ACTIVATE DRIVERS *
+     ******************************/
     // Activate all the drivers we just added
     kprintSetColor(LightGreen, Black);
     kprint("Stage 2 - Activating Drivers...\n");
     kprintSetColor(White, Black);
     driverManager.activateAll();
+
+    /*********************************
+     * STAGE 3 - ACTIVATE INTERRUPTS *
+     *********************************/
     // Activate our interrupt manager
     kprintSetColor(LightGreen, Black);
     kprint("Stage 3 - Activating Interrupts...\n");
@@ -102,6 +111,10 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     kprintSetColor(LightCyan, Black);
     rtc.printTimeAndDate();
     kprintSetColor(White, Black);
+
+    /*****************************
+     * STAGE 4 - START PROCESSES *
+     *****************************/
     // Activate processes
     kprintSetColor(LightGreen, Black);
     kprint("Stage 4 - Starting shell process...\n");
@@ -112,6 +125,8 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
 
     // Setup VGA desktops
     /*
+    // Create a desktop environment
+    Desktop desktop(320, 200, 0x00,0x00,0xA8);
     VideoGraphicsArray vga;
     mouse.setHandler(&desktop);
     keyboard.setHandler(&desktop);
