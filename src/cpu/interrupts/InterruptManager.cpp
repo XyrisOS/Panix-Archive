@@ -153,6 +153,11 @@ uint32_t InterruptManager::handleInterrupt(uint8_t interrupt, uint32_t esp) {
         // If there is a handler for the interrupt
         if (activeInterruptManager->handlers[interrupt] != 0) { 
             // This handleInterrupt function is located in the InterruptHandler.cpp file
+            // When a class that implements the InterruptHandler class registers itself via
+            // the constructor, it assigns the interrupt value it wants to recieve and then
+            // the InterruptManager it wants to have handle it. This is calling the
+            // handleInterrupt(uint32_t esp) function in whichever class registered to recieve
+            // said interrupt.
             esp = activeInterruptManager->handlers[interrupt]->handleInterrupt(esp);
         // Panic because we don't know how to handle this. Also make an annoying sound
         } else if (interrupt != activeInterruptManager->hardwareInterruptOffset) {
