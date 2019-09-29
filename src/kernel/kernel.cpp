@@ -21,7 +21,7 @@ extern "C" void callConstructors() {
 
 void startShellAsProcess() {
     // Clear the screen and begin shell process
-    clearScreen();
+    //clearScreen();
     kprintSetColor(LightBlue, Black);
     // Make sure the kernel never dies!
     kprint("Activating shell class...\n");

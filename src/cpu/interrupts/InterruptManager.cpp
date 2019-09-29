@@ -139,7 +139,11 @@ void InterruptManager::deactivate() {
 
 uint32_t InterruptManager::handleInterrupt(uint8_t interrupt, uint32_t esp) {
     if (activeInterruptManager != nullptr) {
-        if (interrupt == 0x00 + activeInterruptManager->hardwareInterruptOffset) {
+        // Handle interrupt 0x00 (0x20 with hardware offset)
+        if (interrupt == activeInterruptManager->hardwareInterruptOffset) {
+            // Schedule a new task as a process
+            esp = (uint32_t)activeInterruptManager->activeTaskManager->schedule((CPUState*)esp);
+            // Handle the interrupt manager time
             if (activeInterruptManagerTimer != nullptr) {
                 activeInterruptManagerTimer->callback();
             } else {
@@ -154,10 +158,6 @@ uint32_t InterruptManager::handleInterrupt(uint8_t interrupt, uint32_t esp) {
         } else if (interrupt != activeInterruptManager->hardwareInterruptOffset) {
             // Call the LibC panic() function defined in stdio.hpp
             panic(interrupt);
-        }
-        // Schedule a new task as a process
-        if (interrupt == activeInterruptManager->hardwareInterruptOffset) {
-            esp = (uint32_t)activeInterruptManager->activeTaskManager->schedule((CPUState*)esp);
         }
         // hardware interrupts must be acknowledged
         if (activeInterruptManager->hardwareInterruptOffset <= interrupt 
