@@ -1,7 +1,14 @@
 /**
  * @file InterruptHandler.hpp
  * @author Keeton Feavel (keetonfeavel@cedarville.edu)
- * @brief 
+ * @brief The interrupt handler is an interface class that
+ * allows other classes to register themselves as having a
+ * callback for a specific interrupt (or possibly exception).
+ * All a class has to do is add `public InterruptHandler` to
+ * their class declaration and then call the constructor with
+ * the interrupt manager and interrupt value it wants to
+ * register. The handleInterupt() function must be implemented
+ * in said class.
  * @version 0.1
  * @date 2019-09-26
  * 
@@ -24,8 +31,8 @@ class InterruptHandler {
         /**
          * @brief Construct a new Interrupt Handler object
          * 
-         * @param interruptManager 
-         * @param InterruptNumber 
+         * @param interruptManager Kernel interrupt manager
+         * @param InterruptNumber Interrupt number to be registered for callback.
          */
         InterruptHandler(InterruptManager* interruptManager, uint8_t InterruptNumber);
         /**
