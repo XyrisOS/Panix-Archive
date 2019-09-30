@@ -54,19 +54,19 @@ class KeyboardDriver : public InterruptHandler, public Driver {
          * @param esp 
          * @return uint32_t 
          */
-        virtual uint32_t handleInterrupt(uint32_t esp);
+        uint32_t handleInterrupt(uint32_t esp);
         /**
          * @brief 
          * 
          */
-        virtual void activate();
+        void activate();
 
         /**
          * @brief Used to update the keyboard event handler
          * 
          * @param handler 
          */
-        virtual void setHandler(KeyboardEventHandler *handler);
+        void setHandler(KeyboardEventHandler *handler);
 };
 
 #endif /* PANIX_KEYBOARD_DRIVER_HPP */
