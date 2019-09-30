@@ -35,7 +35,9 @@ Update Progress (Starting August 2019)
                 had another event handler (the desktop) I wanted to use.
     - Fixed issue in shell console where the prompt could be erased using backspace.
     - Cleaned up some of the CPU port implementation. Moved inline ASM to source file instead of header.
-    - NEXT: multitasking (i.e. launching "processes" though this is used loosely)
+    - Function based (parameterless) multitasking has been implemented
+    - PIT and RTC now register for interrupts and use the InterruptHandler interface
+    - Cleaned up some areas of code and began adding more documentation to areas like InterruptHandler
 
 ### Course Requirements:
 Turn-in Requirements:
