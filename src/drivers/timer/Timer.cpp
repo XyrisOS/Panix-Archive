@@ -59,7 +59,13 @@ uint32_t Timer::handleInterrupt(uint32_t esp) {
 }
 
 void Timer::sleep(uint32_t ticks) {
-
+    uint32_t current = tick;
+    uint32_t end = tick + ticks;
+    while (current < end) {
+        // Do nothing and waste precious CPU cycles
+        // like the monster we are.
+    }
+    return;
 }
 
 char* Timer::getDriverTypeTag() {
