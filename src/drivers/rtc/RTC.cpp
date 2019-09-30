@@ -20,6 +20,12 @@ RTC::RTC(InterruptManager* interruptManager) :
     // Initializer
     cmosPort.write(0x8A);
     dataPort.write(0x20);
+    // Enable IRQ 8 - Make sure interrupts are disabled beforehand
+    cmosPort.write(0x8B);
+    char prev = dataPort.read();
+    cmosPort.write(0x8B);
+    dataPort.write(prev | 0x40);
+    // Make sure interrupts are enabled again
 }
 
 RTC::~RTC() {
