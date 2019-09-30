@@ -50,12 +50,7 @@ void startShellAsProcess() {
 
 extern "C" void kernelMain(const void* multiboot_structure, uint32_t multiboot_magic) {
     // Clear screen, print welcome message.
-    clearScreen();
-    kprintSetColor(Yellow, Black);
-    kprint("Welcome to Panix\n");
-    kprint("Developed by graduates and undergraduates of Cedarville University.\n");
-    kprint("Copyright Keeton Feavel et al (c) 2019. All rights reserved.\n\n");
-    
+    printSplash();
     // Initialize the Task Manager for Multitasking
     TaskManager taskManager;
     // Initialize the GDT, interrupt manager, and timer

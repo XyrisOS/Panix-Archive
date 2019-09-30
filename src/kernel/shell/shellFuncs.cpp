@@ -11,7 +11,9 @@
 #include <kernel/shell/shellFuncs.hpp>
 
 void printShellIndicator() {
+    kprintSetColor(LightRed, Black);
     kprint("basch#");
+    kprintSetColor(White, Black);
 }
 
 void clearShell() {
@@ -34,7 +36,12 @@ void help() {
 }
 
 void printSplash() {
-    kprint("\n\nWelcome to Panix!\n\n");
+    clearScreen();
+    kprintSetColor(Yellow, Black);
+    kprint("Welcome to Panix\n");
+    kprint("Developed by graduates and undergraduates of Cedarville University.\n");
+    kprint("Copyright Keeton Feavel et al (c) 2019. All rights reserved.\n\n");
+    kprintSetColor(White, Black);
 }
 
 void printTime() {
