@@ -33,7 +33,6 @@
 #include <kernel/shell/ShellKeyboardEventHandler.hpp>
 #include <kernel/shell/ShellMouseEventHandler.hpp>
 
-// TODO: Place this in a kernel class?
 TaskManager* kernelTaskManager;
 InterruptManager* kernelInterruptManager;
 DriverManager* kernelDriverManager;

@@ -39,4 +39,6 @@ Driver* DriverManager::getDriverWithTag(char* tag) {
             return drivers[i];
         }
     }
+    // Nothing was found.
+    return nullptr;
 }
