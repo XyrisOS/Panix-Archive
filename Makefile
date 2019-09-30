@@ -50,7 +50,7 @@ obj/%.o: src/%.s
 
 # Link objects into BIN
 dist/panix.bin: $(LINKER) $(OBJ)
-	@ echo "\033[0;33m[INFO] Compiled panix using $(SYS) settings.\033[0m"
+	@ echo -e "\033[0;33m[INFO] Compiled panix using $(SYS) settings.\033[0m"
 	@ mkdir -p dist
 	$(LD) $(LD_FLAGS) -T $< -o $@ $(OBJ)
 
