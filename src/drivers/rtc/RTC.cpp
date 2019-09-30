@@ -10,9 +10,12 @@
  */
 #include <drivers/rtc/RTC.hpp>
 
-RTC::RTC() : 
-cmosPort(0x70), 
-dataPort(0x71)
+RTC::RTC(InterruptManager* interruptManager) :
+// Remember that our hardware offset is 0x20, and RTC has an IRQ of 0x08
+// so we have to register for 0x20 + 0x08 = 0x28.
+    InterruptHandler(interruptManager, 0x28),
+    cmosPort(0x70), 
+    dataPort(0x71)
 {
     // Initializer
     cmosPort.write(0x8A);
@@ -29,6 +32,12 @@ void RTC::activate() {
 
 void RTC::deactivate() {
     kprint("Deactivating RTC\n");
+}
+
+
+uint32_t RTC::handleInterrupt(uint32_t esp) {
+    kprint("Interrupt 0x08");
+    return esp;
 }
  
 int RTC::getUpdateInProgress() {

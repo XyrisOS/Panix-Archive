@@ -35,10 +35,12 @@ class InterruptHandler {
         ~InterruptHandler();
     public:
         /**
-         * @brief 
+         * @brief Interface function that acts as a callback for a registered interrupt.
+         * When the interrupt manager gets an interrupt of a given number, it will call
+         * this function in all classes which implement the InterruptManager interface.
          * 
-         * @param esp 
-         * @return uint32_t 
+         * @param esp Stack pointer. Must be returned.
+         * @return uint32_t Returned stack pointer.
          */
         virtual uint32_t handleInterrupt(uint32_t esp);
 };

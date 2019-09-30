@@ -13,6 +13,8 @@
 
 #include <types.hpp>
 #include <cpu/port/Port.hpp>
+#include <cpu/interrupts/InterruptHandler.hpp>
+#include <cpu/interrupts/InterruptManager.hpp>
 #include <drivers/Driver.hpp>
 #include <drivers/DriverManager.hpp>
 #include <libc/string.hpp>
@@ -21,7 +23,7 @@
 #define CURRENT_YEAR 2019
 #define CENTURY_REGISTER 0x00
 
-class RTC : public Driver {
+class RTC : public InterruptHandler, public Driver {
     private:
         PortByte cmosPort;
         PortByte dataPort;
@@ -36,11 +38,12 @@ class RTC : public Driver {
         unsigned char getRTCRegister(int reg);
         void readRTC();
     public:
-        RTC();
+        RTC(InterruptManager* interruptManager);
         ~RTC();
         void activate();
         void deactivate();
         void printTimeAndDate();
+        uint32_t handleInterrupt(uint32_t esp);
 };
 
 #endif /* PANIX_RTC_DRIVER */

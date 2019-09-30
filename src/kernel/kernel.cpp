@@ -82,7 +82,7 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     Timer timer = Timer(&interruptManager, 60);
     driverManager.addDriver(&timer);
     // Real Time Clock Driver
-    RTC rtc = RTC();
+    RTC rtc = RTC(&interruptManager);
     driverManager.addDriver(&rtc);
     // PCI Interface Driver
     PeripheralComponentInterconnectController PCIController;
