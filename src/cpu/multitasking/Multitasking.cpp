@@ -35,7 +35,6 @@ Task::Task(GlobalDescriptorTable *gdt, void entrypoint()) {
     cpustate -> cs = gdt->CodeSegmentSelector();
     // cpustate -> ss = ;
     cpustate -> eflags = 0x202;
-    
 }
 
 Task::~Task() {

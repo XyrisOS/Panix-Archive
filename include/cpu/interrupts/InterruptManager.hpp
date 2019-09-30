@@ -125,6 +125,7 @@ class InterruptManager {
          * @return uint32_t Returned stack pointer
          */
         static uint32_t handleInterrupt(uint8_t interrupt, uint32_t esp);
+        
     public:
         /**
          * @brief Construct a new Interrupt Manager object

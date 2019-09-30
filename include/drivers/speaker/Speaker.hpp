@@ -24,6 +24,7 @@ class Speaker : public Driver {
         PortByte port43;
         PortByte port42;
         PortByte port61;
+        
     public:
         Speaker();
         ~Speaker();

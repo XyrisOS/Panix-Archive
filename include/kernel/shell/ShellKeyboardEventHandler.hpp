@@ -31,6 +31,7 @@ class ShellKeyboardEventHandler : public KeyboardEventHandler {
         uint16_t lengthOfCurrentCommand = 0;
         void handleNewLine();
         void handleSpecialCharacters(char c);
+        
     public:
         /**
          * @brief Construct a new Shell Keyboard Event Handler object

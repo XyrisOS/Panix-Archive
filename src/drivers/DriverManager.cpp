@@ -17,7 +17,6 @@ DriverManager::DriverManager() {
 void DriverManager::addDriver(Driver* driver) {
     drivers[numberOfDrivers] = driver;
     numberOfDrivers++;
-    
 }
 
 void DriverManager::activateAll() {

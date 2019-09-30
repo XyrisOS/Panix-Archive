@@ -33,6 +33,7 @@ class InterruptHandler {
          * 
          */
         ~InterruptHandler();
+        
     public:
         /**
          * @brief Interface function that acts as a callback for a registered interrupt.

@@ -37,6 +37,7 @@ class RTC : public InterruptHandler, public Driver {
         int getUpdateInProgress();
         unsigned char getRTCRegister(int reg);
         void readRTC();
+        
     public:
         RTC(InterruptManager* interruptManager);
         ~RTC();

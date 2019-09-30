@@ -9,7 +9,8 @@
  * 
  */
 #include <libc/stdio.hpp>
-#include <drivers/speaker/Speaker.hpp>
+#include <libc/kprint.hpp>
+#include <libc/tty.hpp>
 
 // This is a freaking massive array. It definitely makes panicking slower.
 // It also eats up a significant chunk of the kernel memory since it's not
@@ -39,9 +40,17 @@ void printPanicScreen() {
 }
 
 void panic(int exception) {
-    // Play an annoying noise
-    Speaker speaker = Speaker();
-    speaker.playSound(880);
+    /*
+    // Get the drivers we need
+    Speaker* speaker = (Speaker*) kernelDriverManager->getDriverWithTag("SPEAKER");
+    Timer* timer = (Timer*) kernelDriverManager->getDriverWithTag("PIT");
+    // If we have a speaker driver, play a sound
+    if (speaker != nullptr) {
+        speaker->playSound(880);
+        timer->sleep(200);
+        speaker->playSound(1046);
+    }
+    */
     // Clear the screen
     clearScreen();
     // Print the panic cow
@@ -59,9 +68,11 @@ void panic(int exception) {
 }
 
 void panic(int exception, char* msg) {
+    /*
     // Play an annoying noise
     Speaker speaker = Speaker();
     speaker.playSound(880);
+    */
     // Clear the screen
     clearScreen();
     // Print the panic cow
@@ -82,9 +93,11 @@ void panic(int exception, char* msg) {
 }
 
 void panic(char* msg) {
+    /*
     // Play an annoying noise
     Speaker speaker = Speaker();
     speaker.playSound(880);
+    */
     // Clear the screen
     clearScreen();
     // Print the panic cow

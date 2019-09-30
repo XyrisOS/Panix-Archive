@@ -31,6 +31,7 @@ class Timer : public InterruptHandler, public Driver {
         uint8_t low;
         PortByte commandPort;
         PortByte dataPort;
+        
     public:
         Timer(InterruptManager* interruptManager, int freq);
         ~Timer();
