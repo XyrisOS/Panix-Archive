@@ -11,6 +11,8 @@
 #include <drivers/timer/Timer.hpp>
 
 Timer::Timer(InterruptManager* interruptManager, int freq) : 
+// Remember that our hardware offset is 0x20, and the PIT has an IRQ of 0x00
+// so we have to register for 0x20 + 0x00 = 0x20.
     InterruptHandler(interruptManager, 0x20),
     commandPort(0x43), 
     dataPort(0x40)
