@@ -38,7 +38,7 @@ InterruptManager* kernelInterruptManager;
 DriverManager* kernelDriverManager;
 
 extern "C" void callConstructors();
+extern "C" void kernelMain(const void* multiboot_structure, uint32_t multiboot_magic);
 void startShellAsProcess();
-extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot_magic*/);
 
 #endif /* PANIX_KERNEL_HPP */
