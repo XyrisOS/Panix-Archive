@@ -16,9 +16,9 @@
 #include <cpu/gdt/GlobalDescriptorTable.hpp>
 #include <cpu/interrupts/InterruptHandler.hpp>
 #include <cpu/multitasking/Multitasking.hpp>
-#include <drivers/timer/Timer.hpp>
 #include <drivers/speaker/Speaker.hpp>
 #include <libc/stdio.hpp>
+#include <libc/string.hpp>
 #include <libc/kprint.hpp>
 #include <libc/tty.hpp>
 
@@ -50,7 +50,6 @@ class InterruptManager {
         uint16_t hardwareInterruptOffset;
         // Active managers
         static InterruptManager* activeInterruptManager;
-        static Timer* activeInterruptManagerTimer;
         TaskManager* activeTaskManager;
         // Array of handler functions
         InterruptHandler* handlers[256];
@@ -145,18 +144,6 @@ class InterruptManager {
          * @return uint16_t 
          */
         uint16_t getHardwareInterruptOffset();
-        /**
-         * @brief Set the Interrupt Manager Timer object
-         * 
-         * @param timer 
-         */
-        void setInterruptManagerTimer(Timer* timer);
-        /**
-         * @brief Get the Interrupt Manager Timer object
-         * 
-         * @return Timer 
-         */
-        Timer* getInterruptManagerTimer();
         /**
          * @brief Activates the interrupt and exception handlers
          * 

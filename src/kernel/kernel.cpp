@@ -62,6 +62,7 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     GlobalDescriptorTable gdt;
     InterruptManager interruptManager(0x20, &gdt, &taskManager);
     interruptManager.deactivate();
+
     /**************************
      * STAGE 1 - LOAD DRIVERS *
      **************************/
@@ -78,7 +79,7 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     Speaker speaker = Speaker();
     driverManager.addDriver(&speaker);
     // Set the timer to operate at 60Hz
-    Timer timer = Timer(60);
+    Timer timer = Timer(&interruptManager, 60);
     driverManager.addDriver(&timer);
     // Real Time Clock Driver
     RTC rtc = RTC();
@@ -106,7 +107,6 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
     kprintSetColor(LightGreen, Black);
     kprint("Stage 3 - Activating Interrupts...\n");
     kprintSetColor(White, Black);
-    interruptManager.setInterruptManagerTimer(&timer);
     interruptManager.activate();
     kprintSetColor(LightCyan, Black);
     rtc.printTimeAndDate();
