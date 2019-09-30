@@ -97,3 +97,7 @@ uint32_t KeyboardDriver::handleInterrupt(uint32_t esp) {
 void KeyboardDriver::setHandler(KeyboardEventHandler *handler) {
     this->keyboardEventHandler = handler;
 }
+
+char* KeyboardDriver::getDriverTypeTag() {
+    return "KEYBOARD";
+}

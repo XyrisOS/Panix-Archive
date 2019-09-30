@@ -30,3 +30,14 @@ void DriverManager::activateLast() {
     int index = numberOfDrivers - 1;
     drivers[index]->activate();
 }
+
+Driver* DriverManager::getDriverWithTag(char* tag) {
+    // Cycle through the drivers which have been added
+    for (int i = 0; i < numberOfDrivers; i++) {
+        // If we find a matching tag
+        if (drivers[i]->getDriverTypeTag() == tag) {
+            // Return the associated driver
+            return drivers[i];
+        }
+    }
+}

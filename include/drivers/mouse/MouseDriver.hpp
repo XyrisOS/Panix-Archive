@@ -59,6 +59,14 @@ class MouseDriver : public InterruptHandler, public Driver {
          * @param handler 
          */
         void setHandler(MouseEventHandler* handler);
+        /**
+         * @brief Returns the short tag type of the driver. Used to identify
+         * the driver and its purpose. Used by the driver manager to get a
+         * specific driver type.
+         * 
+         * @return char* Short driver type tag
+         */
+        char* getDriverTypeTag();
 };
 
 #endif /* PANIX_MOUSE_DRIVER_HPP */

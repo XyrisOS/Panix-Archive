@@ -29,3 +29,7 @@ int Driver::reset() {
 void Driver::deactivate() {
     // Stubbed
 }
+
+char* Driver::getDriverTypeTag() {
+    return "GENERIC";
+}

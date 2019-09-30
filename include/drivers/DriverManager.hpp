@@ -40,6 +40,14 @@ class DriverManager {
          * 
          */
         void activateLast();
+        /**
+         * @brief Returns a pointer to a driver which has been added
+         * to the driver manager and returns the given tag which has
+         * been requested.
+         * 
+         * @param tag Driver tag
+         */
+        Driver* getDriverWithTag(char* tag);
 };  
 
 #endif /* PANIX_DRIVER_MANAGER_HPP */

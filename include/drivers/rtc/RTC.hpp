@@ -43,7 +43,21 @@ class RTC : public InterruptHandler, public Driver {
         void activate();
         void deactivate();
         void printTimeAndDate();
+        /**
+         * @brief 
+         * 
+         * @param esp 
+         * @return uint32_t 
+         */
         uint32_t handleInterrupt(uint32_t esp);
+        /**
+         * @brief Returns the short tag type of the driver. Used to identify
+         * the driver and its purpose. Used by the driver manager to get a
+         * specific driver type.
+         * 
+         * @return char* Short driver type tag
+         */
+        char* getDriverTypeTag();
 };
 
 #endif /* PANIX_RTC_DRIVER */

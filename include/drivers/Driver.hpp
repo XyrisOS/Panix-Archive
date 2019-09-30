@@ -34,6 +34,14 @@ class Driver {
          * 
          */
         virtual void deactivate();
+        /**
+         * @brief Returns the short tag type of the driver. Used to identify
+         * the driver and its purpose. Used by the driver manager to get a
+         * specific driver type.
+         * 
+         * @return char* Short driver type tag
+         */
+        virtual char* getDriverTypeTag();
 };
     
 #endif /* PANIX_DRIVER_HPP */

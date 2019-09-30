@@ -74,3 +74,6 @@ uint32_t MouseDriver::handleInterrupt(uint32_t esp) {
 void MouseDriver::setHandler(MouseEventHandler* handler) {
     this->mouseEventHandler = handler;
 }
+char* MouseDriver::getDriverTypeTag() {
+    return "MOUSE";
+}

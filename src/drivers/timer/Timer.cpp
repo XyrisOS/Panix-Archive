@@ -57,3 +57,11 @@ uint32_t Timer::handleInterrupt(uint32_t esp) {
     tick++;
     return esp;
 }
+
+void Timer::sleep(uint32_t ticks) {
+
+}
+
+char* Timer::getDriverTypeTag() {
+    return "PIT";
+}

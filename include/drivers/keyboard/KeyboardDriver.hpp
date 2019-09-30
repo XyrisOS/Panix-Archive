@@ -60,13 +60,20 @@ class KeyboardDriver : public InterruptHandler, public Driver {
          * 
          */
         void activate();
-
         /**
          * @brief Used to update the keyboard event handler
          * 
          * @param handler 
          */
         void setHandler(KeyboardEventHandler *handler);
+        /**
+         * @brief Returns the short tag type of the driver. Used to identify
+         * the driver and its purpose. Used by the driver manager to get a
+         * specific driver type.
+         * 
+         * @return char* Short driver type tag
+         */
+        char* getDriverTypeTag();
 };
 
 #endif /* PANIX_KEYBOARD_DRIVER_HPP */

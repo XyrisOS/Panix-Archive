@@ -34,10 +34,13 @@ void RTC::deactivate() {
     kprint("Deactivating RTC\n");
 }
 
-
 uint32_t RTC::handleInterrupt(uint32_t esp) {
     kprint("Interrupt 0x08");
     return esp;
+}
+
+char* RTC::getDriverTypeTag() {
+    return "RTC";
 }
  
 int RTC::getUpdateInProgress() {

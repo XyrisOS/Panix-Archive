@@ -38,7 +38,30 @@ class Timer : public InterruptHandler, public Driver {
         void activate();
         void deactivate();
         int reset();
+        /**
+         * @brief 
+         * 
+         * @param esp 
+         * @return uint32_t 
+         */
         uint32_t handleInterrupt(uint32_t esp);
+        /**
+         * @brief Returns the short tag type of the driver. Used to identify
+         * the driver and its purpose. Used by the driver manager to get a
+         * specific driver type.
+         * 
+         * @return char* Short driver type tag
+         */
+        char* getDriverTypeTag();
+        /**
+         * @brief Waits until a given number of ticks have passed before returning.
+         * Please note, this is a really awful sleep function that eats up CPU cycles
+         * without purpose. This should basically never be used other than just testing
+         * since it practically halts all of the kernel until it returns.
+         * 
+         * @param ticks Number of PIT ticks to sleep for.
+         */
+        void sleep(uint32_t ticks);
 };
 
 #endif /* PANIX_CPU_TIMER */

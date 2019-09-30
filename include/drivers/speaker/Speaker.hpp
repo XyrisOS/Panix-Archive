@@ -31,6 +31,14 @@ class Speaker : public Driver {
         void playSound(uint32_t freqeuncy);
         void stopSound();
         void beep(uint32_t freq, uint32_t dur);
+        /**
+         * @brief Returns the short tag type of the driver. Used to identify
+         * the driver and its purpose. Used by the driver manager to get a
+         * specific driver type.
+         * 
+         * @return char* Short driver type tag
+         */
+        char* getDriverTypeTag();
 };
 
 #endif /* PANIX_SPEAKER_HPP */
