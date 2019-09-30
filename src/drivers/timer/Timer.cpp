@@ -62,6 +62,8 @@ void Timer::sleep(uint32_t ticks) {
     uint32_t current = tick;
     uint32_t end = tick + ticks;
     while (current < end) {
+        // Update current
+        current = tick;
         // Do nothing and waste precious CPU cycles
         // like the monster we are.
     }
