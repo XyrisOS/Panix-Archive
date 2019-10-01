@@ -13,6 +13,7 @@
 Timer::Timer(InterruptManager* interruptManager, int freq) :
 InterruptHandler(interruptManager, 0x20) {
     isTick = true;
+    tick = 0;
     uint32_t divisor = 1193182 / freq;
     low = (uint8_t)(divisor & 0xFF);
     high = ((uint8_t)(divisor >> 8) & 0xFF);
@@ -29,6 +30,7 @@ void Timer::activate() {
     // Write to the data port
     writeByte(TIMER_DATA_PORT, low);
     writeByte(TIMER_DATA_PORT, high);
+    tick = 0;
 }
 
 int Timer::reset() {
@@ -38,11 +40,12 @@ int Timer::reset() {
 
 void Timer::deactivate() {
     // We can't deactivate the CPU timer
+    tick = 0;
 }
 
 void Timer::printTick() {
     kprint("Tick: ");
-    char tickStr[10];
+    char tickStr[11];
     intToString(tick, tickStr);
     kprint(tickStr);
     kprint("\n");

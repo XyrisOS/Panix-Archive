@@ -15,7 +15,8 @@ Shell::Shell(DriverManager* driverManager) {
     commandFunctions[1] = &Shell::help;
     commandFunctions[2] = &Shell::printTime;
     commandFunctions[3] = &Shell::printSplash;
-    commandFunctions[4] = &Shell::vgaStart; //panixkernel::Kernel::printTick;
+    commandFunctions[4] = &Shell::vgaStart;
+    commandFunctions[5] = &Shell::printTick;
     this->driverManager = driverManager;
 }
 
@@ -85,7 +86,13 @@ void Shell::printSplash() {
 }
 
 void Shell::printTime() {
-    kprint("Coming soon.\n");
+    RTC* rtc = (RTC*)driverManager->getDriverWithTag("RTC");
+    rtc->printTimeAndDate();
+}
+
+void Shell::printTick() {
+    Timer* timer = (Timer*)driverManager->getDriverWithTag("TIMER");
+    timer->printTick();
 }
 
 void Shell::vgaStart() {
