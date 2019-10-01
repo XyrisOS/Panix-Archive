@@ -25,7 +25,7 @@ void startShellAsProcess() {
     kprintSetColor(LightBlue, Black);
     // Make sure the kernel never dies!
     kprint("Activating shell class...\n");
-    Shell basch = Shell(kernelInterruptManager, kernelDriverManager);
+    Shell basch = Shell(kernelDriverManager);
     // Mouse Interface Driver
     kprint("Activating shell mouse...\n");
     ShellMouseEventHandler shellMouse;
@@ -50,7 +50,7 @@ void startShellAsProcess() {
 
 extern "C" void kernelMain(const void* multiboot_structure, uint32_t multiboot_magic) {
     // Clear screen, print welcome message.
-    printSplash();
+    printKernelSplash();
     // Initialize the Task Manager for Multitasking
     TaskManager taskManager;
     // Initialize the GDT, interrupt manager, and timer
@@ -140,4 +140,13 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t multiboot_m
 
     // Return control back to loader.s to cli & hlt.
     return;
+}
+
+void printKernelSplash() {
+    clearScreen();
+    kprintSetColor(Yellow, Black);
+    kprint("Welcome to Panix\n");
+    kprint("Developed by graduates and undergraduates of Cedarville University.\n");
+    kprint("Copyright Keeton Feavel et al (c) 2019. All rights reserved.\n\n");
+    kprintSetColor(White, Black);
 }
