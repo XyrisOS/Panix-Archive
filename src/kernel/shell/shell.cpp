@@ -10,12 +10,13 @@
  */
 #include <kernel/shell/shell.hpp>
 
-Shell::Shell(InterruptManager* interruptManager, DriverManager* driverManager) {
+Shell::Shell(DriverManager* driverManager) {
     commandFunctions[0] = &Shell::clearShell;
     commandFunctions[1] = &Shell::help;
     commandFunctions[2] = &Shell::printTime;
     commandFunctions[3] = &Shell::printSplash;
     commandFunctions[4] = &Shell::vgaStart; //panixkernel::Kernel::printTick;
+    this->driverManager = driverManager;
 }
 
 void Shell::handleShellInput(char* line) {

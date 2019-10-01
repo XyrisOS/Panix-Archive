@@ -13,9 +13,6 @@
 
 #include <drivers/DriverManager.hpp>
 #include <drivers/vga/VGA.hpp>
-#include <drivers/keyboard/KeyboardDriver.hpp>
-#include <drivers/mouse/MouseDriver.hpp>
-#include <cpu/interrupts/InterruptManager.hpp>
 #include <libc/kprint.hpp>
 #include <libc/string.hpp>
 #include <libc/tty.hpp>
@@ -25,6 +22,7 @@
 
 class Shell {
     private:
+        DriverManager* driverManager;
         const char commandNames[NUMBER_OF_COMMANDS][16] = {
             "clear",
             "help",
@@ -33,21 +31,12 @@ class Shell {
             "vga"
         };
         void (Shell::*commandFunctions[NUMBER_OF_COMMANDS])();
-
-        /**
-         * @brief Prints the indicator for the shell.
-         * 
-         */
+        // Available commands
         void printShellIndicator();
-
         void clearShell();
-
         void help();
-
         void printSplash();
-
         void printTime();
-
         void vgaStart();
 
     public:
@@ -55,7 +44,7 @@ class Shell {
          * @brief Construct a new shell object
          * 
          */
-        Shell(InterruptManager* interruptManager, DriverManager* driverManager);
+        Shell(DriverManager* driverManager);
         /**
          * @brief Processes the user keyboard input passed in from the
          * keyboard event handler.

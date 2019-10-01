@@ -25,7 +25,7 @@ void startShellAsProcess() {
     kprintSetColor(LightBlue, Black);
     // Make sure the kernel never dies!
     kprint("Activating shell class...\n");
-    Shell basch = Shell(kernelInterruptManager, kernelDriverManager);
+    Shell basch = Shell(kernelDriverManager);
     // Mouse Interface Driver
     kprint("Activating shell mouse...\n");
     ShellMouseEventHandler shellMouse;
