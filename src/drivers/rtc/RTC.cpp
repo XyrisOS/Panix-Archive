@@ -10,7 +10,9 @@
  */
 #include <drivers/rtc/RTC.hpp>
 
-RTC::RTC() {
+RTC::RTC(InterruptManager* interruptManager) : 
+InterruptHandler(interruptManager, 0x28)
+{
     // Initializer
     writeByte(CMOS_PORT, 0x8A);
     writeByte(DATA_PORT, 0x20);

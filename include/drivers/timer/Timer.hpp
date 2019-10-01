@@ -26,7 +26,7 @@
 #define TIMER_COMMAND_PORT 0x43
 #define TIMER_DATA_PORT 0x40
 
-class Timer : public Driver {
+class Timer : public Driver, public InterruptHandler {
     private:
         bool isTick;
         uint32_t tick;

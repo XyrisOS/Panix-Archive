@@ -46,11 +46,6 @@ class InterruptManager {
             uint16_t size;
             uint32_t base;
         } __attribute__((packed));
-        // Define the PIC CPU ports
-        PortByteSlow programmableInterruptControllerMasterCommandPort;
-        PortByteSlow programmableInterruptControllerMasterDataPort;
-        PortByteSlow programmableInterruptControllerSlaveCommandPort;
-        PortByteSlow programmableInterruptControllerSlaveDataPort;
         // Interrupt vs. exception offset
         uint16_t hardwareInterruptOffset;
         // Active managers

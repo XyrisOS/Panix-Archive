@@ -31,7 +31,8 @@ void InterruptManager::setInterruptDescriptorTableEntry(
 }
 
 
-InterruptManager::InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescriptorTable* globalDescriptorTable) {
+InterruptManager::InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescriptorTable* globalDescriptorTable, TaskManager* taskManager) {
+    this->activeTaskManager = taskManager;
     this->hardwareInterruptOffset = hardwareInterruptOffset;
     uint32_t CodeSegment = globalDescriptorTable->CodeSegmentSelector();
     void (* handleExceptionsArray [20])() = {

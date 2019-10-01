@@ -10,7 +10,8 @@
  */
 #include <drivers/timer/Timer.hpp>
 
-Timer::Timer(int freq) {
+Timer::Timer(InterruptManager* interruptManager, int freq) :
+InterruptHandler(interruptManager, 0x20) {
     isTick = true;
     uint32_t divisor = 1193182 / freq;
     low = (uint8_t)(divisor & 0xFF);
