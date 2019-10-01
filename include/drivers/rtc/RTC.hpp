@@ -20,8 +20,8 @@
 #include <libc/string.hpp>
 #include <libc/kprint.hpp>
 
-#define CMOS_PORT 0x70
-#define DATA_PORT 0x71
+#define RTC_CMOS_PORT 0x70
+#define RTC_DATA_PORT 0x71
 
 #define CURRENT_YEAR 2019
 #define CENTURY_REGISTER 0x00

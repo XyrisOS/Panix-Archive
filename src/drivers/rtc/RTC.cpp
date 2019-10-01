@@ -14,8 +14,13 @@ RTC::RTC(InterruptManager* interruptManager) :
 InterruptHandler(interruptManager, 0x28)
 {
     // Initializer
-    writeByte(CMOS_PORT, 0x8A);
-    writeByte(DATA_PORT, 0x20);
+    writeByte(RTC_CMOS_PORT, 0x8A);
+    writeByte(RTC_DATA_PORT, 0x20);
+    // Enable IRQ 8 - Make sure interrupts are disabled beforehand
+    writeByte(RTC_CMOS_PORT, 0x8B);
+    char prev = readByte(RTC_DATA_PORT);
+    writeByte(RTC_CMOS_PORT, 0x8B);
+    writeByte(RTC_DATA_PORT, (prev | 0x40));
 }
 
 RTC::~RTC() {
@@ -40,13 +45,13 @@ char* RTC::getDriverTypeTag() {
 }
  
 int RTC::getUpdateInProgress() {
-    writeByte(CMOS_PORT, 0x0A);
-    return (readByte(DATA_PORT) & 0x80);
+    writeByte(RTC_CMOS_PORT, 0x0A);
+    return (readByte(RTC_DATA_PORT) & 0x80);
 }
  
 uint8_t RTC::getRTCRegister(int reg) {
-    writeByte(CMOS_PORT, reg);
-    return readByte(DATA_PORT);
+    writeByte(RTC_CMOS_PORT, reg);
+    return readByte(RTC_DATA_PORT);
 }
 
 char* RTC::getDayNameFromInt(int day) {
