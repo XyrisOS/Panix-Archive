@@ -15,27 +15,27 @@
 #include <cpu/port/Port.hpp>
 #include <drivers/Driver.hpp>
 
+/**
+ * @brief These ports are single byte (8 bit) ports
+ * which access the display VGA controller. The specification
+ * for VGA and all of these ports can be found on the OSDev
+ * Wiki at wiki.osdev.org
+ * 
+ */
+#define MISC_PORT 0x3C2
+#define CRTC_INDEX_PORT 0x3D4
+#define CRTC_DATA_PORT 0x3D5
+#define SEQUENCER_INDEX_PORT 0x3C4
+#define SEQUENCER_DATA_PORT 0x3C5
+#define GRAPHICS_CONTROLLER_INDEX_PORT 0x3CE
+#define GRAPHICS_CONTROLLER_DATA_PORT 0x3CF
+#define ATTRIBUTE_CONTROLLER_INDEX_PORT 0x3C0
+#define ATTRIBUTE_CONTROLLER_READ_PORT 0x3C1
+#define ATTRIBUTE_CONTROLLER_WRITE_PORT 0x3C0
+#define ATTRIBUTE_CONTROLLER_RESET_PORT 0x3DA
+
 class VideoGraphicsArray {
     protected:
-        /**
-         * @brief These ports are single byte (8 bit) ports
-         * which access the display VGA controller. The specification
-         * for VGA and all of these ports can be found on the OSDev
-         * Wiki at wiki.osdev.org
-         * 
-         */
-        PortByte miscPort;
-        PortByte crtcIndexPort;
-        PortByte crtcDataPort;
-        PortByte sequencerIndexPort;
-        PortByte sequencerDataPort;
-        PortByte graphicsControllerIndexPort;
-        PortByte graphicsControllerDataPort;
-        PortByte attributeControllerIndexPort;
-        PortByte attributeControllerReadPort;
-        PortByte attributeControllerWritePort;
-        PortByte attributeControllerResetPort;
-
         /**
          * @brief Writes the VGA registers
          * 

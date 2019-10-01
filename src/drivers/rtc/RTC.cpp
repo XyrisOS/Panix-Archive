@@ -10,13 +10,10 @@
  */
 #include <drivers/rtc/RTC.hpp>
 
-RTC::RTC() : 
-cmosPort(0x70), 
-dataPort(0x71)
-{
+RTC::RTC() {
     // Initializer
-    cmosPort.write(0x8A);
-    dataPort.write(0x20);
+    writeByte(CMOS_PORT, 0x8A);
+    writeByte(DATA_PORT, 0x20);
 }
 
 RTC::~RTC() {
@@ -32,13 +29,13 @@ void RTC::deactivate() {
 }
  
 int RTC::getUpdateInProgress() {
-    cmosPort.write(0x0A);
-    return (dataPort.read() & 0x80);
+    writeByte(CMOS_PORT, 0x0A);
+    return (readByte(DATA_PORT) & 0x80);
 }
  
 uint8_t RTC::getRTCRegister(int reg) {
-    cmosPort.write(reg);
-    return dataPort.read();
+    writeByte(CMOS_PORT, reg);
+    return readByte(DATA_PORT);
 }
 
 char* RTC::getDayNameFromInt(int day) {

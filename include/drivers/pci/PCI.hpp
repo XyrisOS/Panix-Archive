@@ -17,6 +17,10 @@
 #include <drivers/Driver.hpp>
 #include <drivers/DriverManager.hpp>
 #include <libc/kprint.hpp>
+
+#define PCI_COMMAND_PORT 0xCF8
+#define PCI_DATA_PORT 0xCFC
+
 /**
  * @brief 
  * 
@@ -71,10 +75,6 @@ class PeripheralComponentInterconnectDeviceDescriptor : public Driver {
  * 
  */
 class PeripheralComponentInterconnectController : public Driver {
-    private:
-        PortLong dataPort;
-        PortLong commandPort;
-        
     public:
         /**
          * @brief Construct a new Peripheral Component Interconnect Controller object

@@ -17,14 +17,15 @@
 #include <libc/string.hpp>
 #include <libc/kprint.hpp>
 
+#define TIMER_COMMAND_PORT 0x43
+#define TIMER_DATA_PORT 0x40
+
 class Timer : public Driver {
     private:
         bool isTick;
         uint32_t tick;
         uint8_t high;
         uint8_t low;
-        PortByte commandPort;
-        PortByte dataPort;
     public:
         Timer(int freq);
         ~Timer();

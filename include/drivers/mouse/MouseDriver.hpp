@@ -17,12 +17,13 @@
 #include <drivers/mouse/MouseEventHandler.hpp>
 #include <drivers/Driver.hpp>
 
+#define MOUSE_COMMAND_PORT 0x60
+#define MOUSE_DATA_PORT 0x64
+
 class MouseEventHandler;
 
 class MouseDriver : public InterruptHandler, public Driver {
     private:
-        PortByte dataPort;
-        PortByte commandPort;
         uint8_t buffer[3];
         uint8_t offset;
         uint8_t buttons;

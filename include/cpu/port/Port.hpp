@@ -15,19 +15,16 @@
 #include <types.hpp>
 
 // Byte (8 bits)
-uint8_t readByte(uint16_t _port);
-void writeByte(uint16_t _port, uint8_t _data);
-void writeByteSlow(uint16_t _port, uint8_t _data);
+uint8_t readByte(uint16_t port);
+void writeByte(uint16_t port, uint8_t data);
+void writeByteSlow(uint16_t port, uint8_t data);
 
 // Word (16 bits)
-uint16_t readWord(uint16_t _port);
-void writeWord(uint16_t _port, uint16_t _data);
+uint16_t readWord(uint16_t port);
+void writeWord(uint16_t port, uint16_t data);
 
 // Long (32 bits)
-uint32_t readLong(uint16_t _port);
-void writeLong(uint16_t _port, uint32_t _data);
-
-// Long long (64 bits)
-// Lol not yet
+uint32_t readLong(uint16_t port);
+void writeLong(uint16_t port, uint32_t data);
 
 #endif /* PANIX_PORT_HPP */

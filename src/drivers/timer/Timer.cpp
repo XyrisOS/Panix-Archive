@@ -10,10 +10,7 @@
  */
 #include <drivers/timer/Timer.hpp>
 
-Timer::Timer(int freq) : 
-    commandPort(0x43), 
-    dataPort(0x40)
-{
+Timer::Timer(int freq) {
     isTick = true;
     uint32_t divisor = 1193180 / freq;
     low = (uint8_t)(divisor & 0xFF);
@@ -27,10 +24,10 @@ Timer::~Timer() {
 void Timer::activate() {
     kprint("Activating CPU programmable timer\n");
     // Write to the command port
-    commandPort.write(0x36);
+    writeByte(TIMER_COMMAND_PORT, 0x36);
     // Write to the data port
-    dataPort.write(low);
-    dataPort.write(high);
+    writeByte(TIMER_DATA_PORT, low);
+    writeByte(TIMER_DATA_PORT, high);
 }
 
 int Timer::reset() {

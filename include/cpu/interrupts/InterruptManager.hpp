@@ -21,6 +21,11 @@
 #include <libc/kprint.hpp>
 #include <libc/tty.hpp>
 
+#define MASTER_COMMAND 0x20
+#define MASTER_DATA 0x21
+#define SLAVE_COMMAND 0xA0
+#define SLAVE_DATA 0xA1
+
 /* Forward declaration */
 class InterruptHandler;
 
@@ -121,11 +126,6 @@ class InterruptManager {
          * @return uint32_t 
          */
         static uint32_t handleInterrupt(uint8_t interrupt, uint32_t esp);
-
-        PortByteSlow programmableInterruptControllerMasterCommandPort;
-        PortByteSlow programmableInterruptControllerMasterDataPort;
-        PortByteSlow programmableInterruptControllerSlaveCommandPort;
-        PortByteSlow programmableInterruptControllerSlaveDataPort;
 
     public:
         /**

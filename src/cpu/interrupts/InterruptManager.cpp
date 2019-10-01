@@ -32,12 +32,7 @@ void InterruptManager::setInterruptDescriptorTableEntry(
 }
 
 
-InterruptManager::InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescriptorTable* globalDescriptorTable)
-    : programmableInterruptControllerMasterCommandPort(0x20),
-      programmableInterruptControllerMasterDataPort(0x21),
-      programmableInterruptControllerSlaveCommandPort(0xA0),
-      programmableInterruptControllerSlaveDataPort(0xA1)
-{
+InterruptManager::InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescriptorTable* globalDescriptorTable) {
     this->hardwareInterruptOffset = hardwareInterruptOffset;
     uint32_t CodeSegment = globalDescriptorTable->CodeSegmentSelector();
     void (* handleExceptionsArray [20])() = {
@@ -83,21 +78,21 @@ InterruptManager::InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescr
         setInterruptDescriptorTableEntry(hardwareInterruptOffset + handleInterruptCodeArray[i], CodeSegment, handleInterruptRequestArray[i], 0, IDT_INTERRUPT_GATE);
     }
 
-    programmableInterruptControllerMasterCommandPort.write(0x11);
-    programmableInterruptControllerSlaveCommandPort.write(0x11);
+    writeByteSlow(MASTER_COMMAND, 0x11);
+    writeByteSlow(SLAVE_COMMAND, 0x11);
 
     // remap
-    programmableInterruptControllerMasterDataPort.write(hardwareInterruptOffset);
-    programmableInterruptControllerSlaveDataPort.write(hardwareInterruptOffset + 8);
+    writeByteSlow(MASTER_DATA, hardwareInterruptOffset);
+    writeByteSlow(SLAVE_DATA, hardwareInterruptOffset + 8);
 
-    programmableInterruptControllerMasterDataPort.write(0x04);
-    programmableInterruptControllerSlaveDataPort.write(0x02);
+    writeByteSlow(MASTER_DATA, 0x04);
+    writeByteSlow(SLAVE_DATA, 0x02);
 
-    programmableInterruptControllerMasterDataPort.write(0x01);
-    programmableInterruptControllerSlaveDataPort.write(0x01);
+    writeByteSlow(MASTER_DATA, 0x01);
+    writeByteSlow(SLAVE_DATA, 0x01);
 
-    programmableInterruptControllerMasterDataPort.write(0x00);
-    programmableInterruptControllerSlaveDataPort.write(0x00);
+    writeByteSlow(MASTER_DATA, 0x00);
+    writeByteSlow(SLAVE_DATA, 0x00);
 
     InterruptDescriptorTablePointer idt_pointer;
     idt_pointer.size  = 256 * sizeof(GateDescriptor) - 1;
@@ -157,9 +152,9 @@ uint32_t InterruptManager::handleInterrupt(uint8_t interrupt, uint32_t esp) {
         // hardware interrupts must be acknowledged
         if (activeInterruptManager->hardwareInterruptOffset <= interrupt 
         && interrupt < activeInterruptManager->hardwareInterruptOffset + 16) {
-            activeInterruptManager->programmableInterruptControllerMasterCommandPort.write(0x20);
+            writeByteSlow(MASTER_COMMAND, 0x20);
             if (activeInterruptManager->hardwareInterruptOffset + 8 <= interrupt) {
-                activeInterruptManager->programmableInterruptControllerSlaveCommandPort.write(0x20);
+                writeByteSlow(SLAVE_COMMAND, 0x20);
             }
         }
     }
