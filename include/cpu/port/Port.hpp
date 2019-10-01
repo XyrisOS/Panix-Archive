@@ -14,17 +14,38 @@
 
 #include <types.hpp>
 
-// Byte (8 bits)
-uint8_t readByte(uint16_t port);
-void writeByte(uint16_t port, uint8_t data);
-void writeByteSlow(uint16_t port, uint8_t data);
+inline uint8_t readByte(uint16_t port) {
+    uint8_t result;
+    __asm__ volatile("inb %1, %0" : "=a" (result) : "Nd" (port));
+    return result;
+}
 
-// Word (16 bits)
-uint16_t readWord(uint16_t port);
-void writeWord(uint16_t port, uint16_t data);
+inline void writeByte(uint16_t port, uint8_t data) {
+    __asm__ volatile("outb %0, %1" : : "a" (data), "Nd" (port));
+}
 
-// Long (32 bits)
-uint32_t readLong(uint16_t port);
-void writeLong(uint16_t port, uint32_t data);
+inline void writeByteSlow(uint16_t port, uint8_t data) {
+    __asm__ volatile("outb %0, %1\njmp 1f\n1: jmp 1f\n1:" : : "a" (data), "Nd" (port));
+}
+
+inline uint16_t readWord(uint16_t port) {
+    uint16_t result;
+    __asm__ volatile("inw %1, %0" : "=a" (result) : "Nd" (port));
+    return result;
+}
+
+inline void writeWord(uint16_t port, uint16_t data) {
+    __asm__ volatile("outw %0, %1" : : "a" (data), "Nd" (port));
+}
+
+inline uint32_t readLong(uint16_t port) {
+    uint32_t result;
+    __asm__ volatile("inl %1, %0" : "=a" (result) : "Nd" (port));
+    return result;
+}
+
+inline void writeLong(uint16_t port, uint32_t data) {
+    __asm__ volatile("outl %0, %1" : : "a"(data), "Nd" (port));
+}
 
 #endif /* PANIX_PORT_HPP */
