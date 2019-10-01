@@ -34,7 +34,7 @@ Driver* DriverManager::getDriverWithTag(char* tag) {
     // Cycle through the drivers which have been added
     for (int i = 0; i < numberOfDrivers; i++) {
         // If we find a matching tag
-        if (drivers[i]->getDriverTypeTag() == tag) {
+        if (strcmp(drivers[i]->getDriverTypeTag(), tag) == 0) {
             // Return the associated driver
             return drivers[i];
         }
