@@ -13,6 +13,8 @@
 
 #include <types.hpp>
 #include <cpu/port/Port.hpp>
+#include <cpu/interrupts/InterruptHandler.hpp>
+#include <cpu/interrupts/InterruptManager.hpp>
 #include <drivers/Driver.hpp>
 #include <drivers/DriverManager.hpp>
 #include <libc/string.hpp>
@@ -21,7 +23,7 @@
 #define CURRENT_YEAR 2019
 #define CENTURY_REGISTER 0x00
 
-class RTC : public Driver {
+class RTC : public InterruptHandler, public Driver {
     private:
         PortByte cmosPort;
         PortByte dataPort;
@@ -35,12 +37,28 @@ class RTC : public Driver {
         int getUpdateInProgress();
         unsigned char getRTCRegister(int reg);
         void readRTC();
+        
     public:
-        RTC();
+        RTC(InterruptManager* interruptManager);
         ~RTC();
         void activate();
         void deactivate();
         void printTimeAndDate();
+        /**
+         * @brief 
+         * 
+         * @param esp 
+         * @return uint32_t 
+         */
+        uint32_t handleInterrupt(uint32_t esp);
+        /**
+         * @brief Returns the short tag type of the driver. Used to identify
+         * the driver and its purpose. Used by the driver manager to get a
+         * specific driver type.
+         * 
+         * @return char* Short driver type tag
+         */
+        char* getDriverTypeTag();
 };
 
 #endif /* PANIX_RTC_DRIVER */

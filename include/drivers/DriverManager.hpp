@@ -11,10 +11,8 @@
 #ifndef PANIX_DRIVER_MANAGER_HPP
 #define PANIX_DRIVER_MANAGER_HPP
 
+#include <libc/string.hpp>
 #include <drivers/Driver.hpp>
-
-/* Forward declaration */
-class Driver;
 
 class DriverManager {
     private:
@@ -38,6 +36,19 @@ class DriverManager {
          * 
          */
         void activateAll();
+        /**
+         * @brief Activates the last driver added to the manager.
+         * 
+         */
+        void activateLast();
+        /**
+         * @brief Returns a pointer to a driver which has been added
+         * to the driver manager and returns the given tag which has
+         * been requested.
+         * 
+         * @param tag Driver tag
+         */
+        Driver* getDriverWithTag(char* tag);
 };  
 
 #endif /* PANIX_DRIVER_MANAGER_HPP */

@@ -15,6 +15,7 @@ _ZN16InterruptManager19handleException\num\()Ev:
 .global _ZN16InterruptManager26handleInterruptRequest\num\()Ev
 _ZN16InterruptManager26handleInterruptRequest\num\()Ev:
     movb $\num + IRQ_BASE, (interruptnumber)
+    pushl $0
     jmp int_bottom
 .endm
 
@@ -58,33 +59,34 @@ handleInterruptRequest 0x0F
 handleInterruptRequest 0x31
 
 int_bottom:
+    # save registers
+    pushl %ebp
+    pushl %edi
+    pushl %esi
 
-    # register sichern
-    pusha
-    pushl %ds
-    pushl %es
-    pushl %fs
-    pushl %gs
+    pushl %edx
+    pushl %ecx
+    pushl %ebx
+    pushl %eax
 
-    # ring 0 segment register laden
-    #cld
-    #mov $0x10, %eax
-    #mov %eax, %eds
-    #mov %eax, %ees
-
-    # C++ Handler aufrufen
+    # Call the C++ Handler
     pushl %esp
     push (interruptnumber)
     call _ZN16InterruptManager15handleInterruptEhj
-    add %esp, 6
-    mov %eax, %esp # den stack wechseln
+    # Switch the Stack
+    mov %eax, %esp
 
-    # register laden
-    pop %gs
-    pop %fs
-    pop %es
-    pop %ds
-    popa
+    # Restore Registers
+    popl %eax
+    popl %ebx
+    popl %ecx
+    popl %edx
+
+    popl %esi
+    popl %edi
+    popl %ebp
+
+    add $4, %esp
 
 .global _ZN16InterruptManager15interruptIgnoreEv
 _ZN16InterruptManager15interruptIgnoreEv:

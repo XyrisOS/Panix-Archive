@@ -22,7 +22,16 @@ class KeyboardEventHandler {
          * 
          */
         KeyboardEventHandler();
-
+        /**
+         * @brief Handler activation callback function
+         * 
+         */
+        virtual void onActivate();
+        /**
+         * @brief Handles a non-ascii keyboard input
+         * 
+         * @param scancode 
+         */
         virtual void handleScancode(uint8_t scancode);
         /**
          * @brief Set the Shift Key object

@@ -11,6 +11,10 @@
 #ifndef PANIX_SHELL_HPP
 #define PANIX_SHELL_HPP
 
+#include <drivers/DriverManager.hpp>
+#include <drivers/keyboard/KeyboardDriver.hpp>
+#include <drivers/mouse/MouseDriver.hpp>
+#include <cpu/interrupts/InterruptManager.hpp>
 #include <kernel/shell/shellFuncs.hpp>
 #include <libc/kprint.hpp>
 #include <libc/string.hpp>
@@ -34,7 +38,7 @@ class Shell {
          * @brief Construct a new shell object
          * 
          */
-        Shell();
+        Shell(InterruptManager* interruptManager, DriverManager* driverManager);
         /**
          * @brief Processes the user keyboard input passed in from the
          * keyboard event handler.
@@ -42,6 +46,12 @@ class Shell {
          * @param line User input. Should include the '\n' character
          */
         void handleShellInput(char* line);
+        /**
+         * @brief Prints out the shell indicator to inform the user that the
+         * shell is now ready to recieve input.
+         * 
+         */
+        void activate();
         /**
          * @brief Boolean value which signals if the user has enterd a command
          * which should exit the shell / kernel (i.e. exit, logout, etc.)

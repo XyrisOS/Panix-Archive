@@ -12,7 +12,6 @@
 
 InterruptManager::GateDescriptor InterruptManager::interruptDescriptorTable[256];
 InterruptManager* InterruptManager::activeInterruptManager = nullptr;
-Timer* InterruptManager::activeInterruptManagerTimer = nullptr;
 
 void InterruptManager::setInterruptDescriptorTableEntry(
     uint8_t interrupt,
@@ -31,13 +30,13 @@ void InterruptManager::setInterruptDescriptorTableEntry(
     interruptDescriptorTable[interrupt].reserved = 0;
 }
 
-
-InterruptManager::InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescriptorTable* globalDescriptorTable)
+InterruptManager::InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescriptorTable* globalDescriptorTable, TaskManager* taskManager)
     : programmableInterruptControllerMasterCommandPort(0x20),
       programmableInterruptControllerMasterDataPort(0x21),
       programmableInterruptControllerSlaveCommandPort(0xA0),
       programmableInterruptControllerSlaveDataPort(0xA1)
 {
+    this->activeTaskManager = taskManager;
     this->hardwareInterruptOffset = hardwareInterruptOffset;
     uint32_t CodeSegment = globalDescriptorTable->CodeSegmentSelector();
     void (* handleExceptionsArray [20])() = {
@@ -113,14 +112,6 @@ uint16_t InterruptManager::getHardwareInterruptOffset() {
     return hardwareInterruptOffset;
 }
 
-void InterruptManager::setInterruptManagerTimer(Timer* timer) {
-    activeInterruptManagerTimer = timer;
-}
-
-Timer* InterruptManager::getInterruptManagerTimer() {
-    return activeInterruptManagerTimer;
-}
-
 void InterruptManager::activate() {
     if(activeInterruptManager == nullptr) {
         activeInterruptManager = this;
@@ -131,30 +122,32 @@ void InterruptManager::activate() {
 void InterruptManager::deactivate() {
     if (activeInterruptManager == this) {
         activeInterruptManager = nullptr;
-        activeInterruptManagerTimer = nullptr;
         asm("cli");
     }
 }
 
 uint32_t InterruptManager::handleInterrupt(uint8_t interrupt, uint32_t esp) {
     if (activeInterruptManager != nullptr) {
-        if (interrupt == 0x00 + activeInterruptManager->hardwareInterruptOffset) {
-            if (activeInterruptManagerTimer != nullptr) {
-                activeInterruptManagerTimer->callback();
-            } else {
-                kprint("CPU timer did not activate!\n");
-            }
+        // Handle interrupt 0x00 (0x20 with hardware offset)
+        if (interrupt == activeInterruptManager->hardwareInterruptOffset) {
+            // Schedule a new task as a process
+            esp = (uint32_t)activeInterruptManager->activeTaskManager->schedule((CPUState*)esp);
         }
-        if (activeInterruptManager->handlers[interrupt] != 0) { 
+        // If there is a handler for the interrupt that we recieved, call the appropriate function.
+        if (activeInterruptManager->handlers[interrupt] != 0) {
             // This handleInterrupt function is located in the InterruptHandler.cpp file
+            // When a class that implements the InterruptHandler class registers itself via
+            // the constructor, it assigns the interrupt value it wants to recieve and then
+            // the InterruptManager it wants to have handle it. This is calling the
+            // handleInterrupt(uint32_t esp) function in whichever class registered to recieve
+            // said interrupt.
             esp = activeInterruptManager->handlers[interrupt]->handleInterrupt(esp);
-        // Panic because we don't know how to handle this. Also make an annoying sound
+        // Panic because we don't know how to handle this.
         } else if (interrupt != activeInterruptManager->hardwareInterruptOffset) {
             // Call the LibC panic() function defined in stdio.hpp
             panic(interrupt);
         }
-
-        // hardware interrupts must be acknowledged
+        // Hardware interrupts must be acknowledged
         if (activeInterruptManager->hardwareInterruptOffset <= interrupt 
         && interrupt < activeInterruptManager->hardwareInterruptOffset + 16) {
             activeInterruptManager->programmableInterruptControllerMasterCommandPort.write(0x20);

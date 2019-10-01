@@ -46,6 +46,7 @@ KeyboardDriver::KeyboardDriver(InterruptManager* interruptManager, KeyboardEvent
 KeyboardDriver::~KeyboardDriver() {}
 
 void KeyboardDriver::activate() {
+    kprint("Activating keyboard driver\n");
     while(commandPort.read() & 0x1) {
         dataPort.read();
     }
@@ -55,7 +56,10 @@ void KeyboardDriver::activate() {
     commandPort.write(0x60); // command 0x60 = set controller command byte
     dataPort.write(status);
     dataPort.write(0xf4);
-    kprint("Activating keyboard event handler\n");
+    // Activate the handler
+    if (keyboardEventHandler != nullptr) {
+        keyboardEventHandler->onActivate();
+    }
 }
 
 uint32_t KeyboardDriver::handleInterrupt(uint32_t esp) {
@@ -92,4 +96,8 @@ uint32_t KeyboardDriver::handleInterrupt(uint32_t esp) {
 
 void KeyboardDriver::setHandler(KeyboardEventHandler *handler) {
     this->keyboardEventHandler = handler;
+}
+
+char* KeyboardDriver::getDriverTypeTag() {
+    return "KEYBOARD";
 }

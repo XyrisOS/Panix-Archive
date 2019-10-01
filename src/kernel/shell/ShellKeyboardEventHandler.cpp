@@ -16,6 +16,10 @@ KeyboardEventHandler()
     // Stubbed
 }
 
+void ShellKeyboardEventHandler::onActivate() {
+    kprint("Activating shell keyboard event handler.\n");
+}
+
 void ShellKeyboardEventHandler::handleScancode(uint8_t scancode) {
     // Handle the shift key
     if (scancode == RIGHT_SHIFT || scancode == LEFT_SHIFT) {

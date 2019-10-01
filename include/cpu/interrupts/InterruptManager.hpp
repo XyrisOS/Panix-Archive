@@ -15,9 +15,10 @@
 #include <cpu/port/Port.hpp>
 #include <cpu/gdt/GlobalDescriptorTable.hpp>
 #include <cpu/interrupts/InterruptHandler.hpp>
-#include <drivers/timer/Timer.hpp>
+#include <cpu/multitasking/Multitasking.hpp>
 #include <drivers/speaker/Speaker.hpp>
 #include <libc/stdio.hpp>
+#include <libc/string.hpp>
 #include <libc/kprint.hpp>
 #include <libc/tty.hpp>
 
@@ -27,15 +28,7 @@ class InterruptHandler;
 class InterruptManager {
     friend class InterruptHandler;
     protected:
-        uint16_t hardwareInterruptOffset;
-        static InterruptManager* activeInterruptManager;
-        static Timer* activeInterruptManagerTimer;
-        InterruptHandler* handlers[256];
-        const uint8_t IDT_INTERRUPT_GATE = 0xE;
-        /**
-         * @brief 
-         * 
-         */
+        // Data structures
         struct GateDescriptor {
             uint16_t handlerAddressLowBits;
             uint16_t gdt_codeSegmentSelector;
@@ -43,19 +36,25 @@ class InterruptManager {
             uint8_t access;
             uint16_t handlerAddressHighBits;
         } __attribute__((packed));
-        /**
-         * @brief 
-         * 
-         */
-        static GateDescriptor interruptDescriptorTable[256];
-        /**
-         * @brief 
-         * 
-         */
+        
         struct InterruptDescriptorTablePointer {
             uint16_t size;
             uint32_t base;
         } __attribute__((packed));
+        // Define the PIC CPU ports
+        PortByteSlow programmableInterruptControllerMasterCommandPort;
+        PortByteSlow programmableInterruptControllerMasterDataPort;
+        PortByteSlow programmableInterruptControllerSlaveCommandPort;
+        PortByteSlow programmableInterruptControllerSlaveDataPort;
+        // Interrupt vs. exception offset
+        uint16_t hardwareInterruptOffset;
+        // Active managers
+        static InterruptManager* activeInterruptManager;
+        TaskManager* activeTaskManager;
+        // Array of handler functions
+        InterruptHandler* handlers[256];
+        static GateDescriptor interruptDescriptorTable[256];
+        const uint8_t IDT_INTERRUPT_GATE = 0xE;
         /**
          * @brief Set the Interrupt Descriptor Table Entry object
          * 
@@ -68,13 +67,15 @@ class InterruptManager {
         static void setInterruptDescriptorTableEntry(uint8_t interrupt,
             uint16_t codeSegmentSelectorOffset, void (*handler)(),
             uint8_t DescriptorPrivilegeLevel, uint8_t DescriptorType);
-
         /**
-         * @brief 
+         * @brief Ignores a given interrupt. Used as a handler function.
          * 
          */
         static void interruptIgnore();
-
+        /**
+         * @brief Interrupt handler functions
+         * 
+         */
         static void handleInterruptRequest0x00();
         static void handleInterruptRequest0x01();
         static void handleInterruptRequest0x02();
@@ -92,7 +93,10 @@ class InterruptManager {
         static void handleInterruptRequest0x0E();
         static void handleInterruptRequest0x0F();
         static void handleInterruptRequest0x31();
-
+        /**
+         * @brief Exception handler functions
+         * 
+         */
         static void handleException0x00();
         static void handleException0x01();
         static void handleException0x02();
@@ -112,21 +116,16 @@ class InterruptManager {
         static void handleException0x10();
         static void handleException0x11();
         static void handleException0x12();
-        static void handleException0x13();
+        static void handleException0x13(); 
         /**
-         * @brief 
+         * @brief Handles an interrupt from the CPU.
          * 
-         * @param interrupt 
-         * @param esp 
-         * @return uint32_t 
+         * @param interrupt Interrupt code
+         * @param esp Stack pointer
+         * @return uint32_t Returned stack pointer
          */
         static uint32_t handleInterrupt(uint8_t interrupt, uint32_t esp);
-
-        PortByteSlow programmableInterruptControllerMasterCommandPort;
-        PortByteSlow programmableInterruptControllerMasterDataPort;
-        PortByteSlow programmableInterruptControllerSlaveCommandPort;
-        PortByteSlow programmableInterruptControllerSlaveDataPort;
-
+        
     public:
         /**
          * @brief Construct a new Interrupt Manager object
@@ -134,7 +133,7 @@ class InterruptManager {
          * @param hardwareInterruptOffset 
          * @param globalDescriptorTable 
          */
-        InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescriptorTable* globalDescriptorTable);
+        InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescriptorTable* globalDescriptorTable, TaskManager* taskManager);
         /**
          * @brief Destroy the Interrupt Manager object
          * 
@@ -146,18 +145,6 @@ class InterruptManager {
          * @return uint16_t 
          */
         uint16_t getHardwareInterruptOffset();
-        /**
-         * @brief Set the Interrupt Manager Timer object
-         * 
-         * @param timer 
-         */
-        void setInterruptManagerTimer(Timer* timer);
-        /**
-         * @brief Get the Interrupt Manager Timer object
-         * 
-         * @return Timer 
-         */
-        Timer* getInterruptManagerTimer();
         /**
          * @brief Activates the interrupt and exception handlers
          * 

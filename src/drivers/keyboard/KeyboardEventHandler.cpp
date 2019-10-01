@@ -14,6 +14,10 @@ KeyboardEventHandler::KeyboardEventHandler() {
     // Stubbed
 }
 
+void KeyboardEventHandler::onActivate() {
+    // Stubbed
+}
+
 void KeyboardEventHandler::backspace() {
     // Stubbed    
 }
