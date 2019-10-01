@@ -38,6 +38,7 @@ Update Progress (Starting August 2019)
     - Function based (parameterless) multitasking has been implemented
     - PIT and RTC now register for interrupts and use the InterruptHandler interface
     - Cleaned up some areas of code and began adding more documentation to areas like InterruptHandler
+    - Shell now properly calls member function pointers and lists available commands
 
 ### Course Requirements:
 Turn-in Requirements:

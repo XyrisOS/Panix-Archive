@@ -50,7 +50,7 @@ void Shell::activate() {
 
 void Shell::printShellIndicator() {
     kprintSetColor(LightRed, Black);
-    kprint("basch#");
+    kprint("basch# ");
     kprintSetColor(White, Black);
 }
 
@@ -60,15 +60,18 @@ void Shell::clearShell() {
 
 void Shell::help() {
     kprint("Baschel Fortner - The Panix Kernel Level Shell\n");
-    kprint("Version: 0.1 - Build: 290919a\n");
+    kprint("Version: 0.1 - Build: 290919a\n\n");
     // I can't get these functions to work in the shell object for
     // whatever reason. And because the shell commands are private
     // I can't access them from here. So I'll have to come back to
     // this at another time.
+    kprintSetColor(LightGreen, Black);
     for (auto commandName : commandNames) {
         kprint(commandName);
         kprint("\n");
     }
+    kprint("\n");
+    kprintSetColor(White, Black);
 }
 
 void Shell::printSplash() {
