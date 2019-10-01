@@ -82,6 +82,8 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t multiboot_m
     // PCI Interface Driver
     PeripheralComponentInterconnectController PCIController;
     PCIController.SelectDrivers(&driverManager, &interruptManager);
+    Rs232 serial = Rs232(COM1, &interruptManager);
+    driverManager.addDriver(&serial);
 
     // If we put all of the code in startShellAsProcess here then it works.
     // But if we make the call to it here then it doesn't.
@@ -94,6 +96,8 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t multiboot_m
     kprint("Stage 2 - Activating Drivers...\n");
     kprintSetColor(White, Black);
     driverManager.activateAll();
+
+    serial.print("I think it works?");
 
     /*********************************
      * STAGE 3 - ACTIVATE INTERRUPTS *

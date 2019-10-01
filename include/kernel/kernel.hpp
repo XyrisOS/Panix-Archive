@@ -25,6 +25,7 @@
 #include <drivers/speaker/Speaker.hpp>
 #include <drivers/timer/Timer.hpp>
 #include <drivers/rtc/RTC.hpp>
+#include <drivers/serial/Rs232.hpp>
 // Graphical Interface
 #include <kernel/gui/Desktop.hpp>
 #include <kernel/gui/Window.hpp>

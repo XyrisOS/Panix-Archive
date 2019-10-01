@@ -76,7 +76,7 @@ obj_directories:
 
 # Run bootable ISO
 run: dist/panix.iso
-	$(QEMU) -drive format=raw,file=$< -soundhw pcspk -rtc clock=host -vga std
+	$(QEMU) -drive format=raw,file=$< -soundhw pcspk -rtc clock=host -vga std -serial mon:stdio
 
 # Install BIN file to local system
 install: dist/panix.bin
