@@ -22,6 +22,9 @@
 
 class KeyboardEventHandler;
 
+#define KEYBOARD_COMMAND_PORT 0x64
+#define KEYBOARD_DATA_PORT 0x60
+
 #define BACKSPACE 0x0E
 #define ENTER 0x1C
 #define LEFT_SHIFT 0x2A
@@ -31,8 +34,6 @@ class KeyboardEventHandler;
 
 class KeyboardDriver : public InterruptHandler, public Driver {
     private:
-        PortByte dataPort;
-        PortByte commandPort;
         KeyboardEventHandler* keyboardEventHandler;
         
     public:

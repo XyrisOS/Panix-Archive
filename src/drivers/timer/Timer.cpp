@@ -10,13 +10,8 @@
  */
 #include <drivers/timer/Timer.hpp>
 
-Timer::Timer(InterruptManager* interruptManager, int freq) : 
-// Remember that our hardware offset is 0x20, and the PIT has an IRQ of 0x00
-// so we have to register for 0x20 + 0x00 = 0x20.
-    InterruptHandler(interruptManager, 0x20),
-    commandPort(0x43), 
-    dataPort(0x40)
-{
+Timer::Timer(InterruptManager* interruptManager, int freq) :
+InterruptHandler(interruptManager, 0x20) {
     isTick = true;
     uint32_t divisor = 1193182 / freq;
     low = (uint8_t)(divisor & 0xFF);
@@ -30,10 +25,10 @@ Timer::~Timer() {
 void Timer::activate() {
     kprint("Activating CPU programmable timer (PIT)\n");
     // Write to the command port
-    commandPort.write(0x36);
+    writeByte(TIMER_COMMAND_PORT, 0x36);
     // Write to the data port
-    dataPort.write(low);
-    dataPort.write(high);
+    writeByte(TIMER_DATA_PORT, low);
+    writeByte(TIMER_DATA_PORT, high);
 }
 
 int Timer::reset() {

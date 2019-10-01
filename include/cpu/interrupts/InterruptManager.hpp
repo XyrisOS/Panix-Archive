@@ -22,6 +22,11 @@
 #include <libc/kprint.hpp>
 #include <libc/tty.hpp>
 
+#define MASTER_COMMAND 0x20
+#define MASTER_DATA 0x21
+#define SLAVE_COMMAND 0xA0
+#define SLAVE_DATA 0xA1
+
 /* Forward declaration */
 class InterruptHandler;
 
@@ -41,11 +46,6 @@ class InterruptManager {
             uint16_t size;
             uint32_t base;
         } __attribute__((packed));
-        // Define the PIC CPU ports
-        PortByteSlow programmableInterruptControllerMasterCommandPort;
-        PortByteSlow programmableInterruptControllerMasterDataPort;
-        PortByteSlow programmableInterruptControllerSlaveCommandPort;
-        PortByteSlow programmableInterruptControllerSlaveDataPort;
         // Interrupt vs. exception offset
         uint16_t hardwareInterruptOffset;
         // Active managers

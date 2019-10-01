@@ -1,7 +1,7 @@
 /**
  * @file Port.hpp
  * @author Keeton Feavel (keetonfeavel@cedarville.edu)
- * @brief Ports header file. Provides a class
+ * @brief Ports header file. Provides inline functions
  * for getting and setting values at different ports.
  * @version 0.1
  * @date 2019-09-26
@@ -13,118 +13,39 @@
 #define PANIX_PORT_HPP
 
 #include <types.hpp>
-// TODO: Refactor some of these functions to remove the extra read / write protected funcs.
-class Port {
-    protected:
-        /**
-         * @brief Construct a new Port object
-         * 
-         * @param portnumber Port number to be used
-         */
-        explicit Port(uint16_t portnumber);
-        //virtual ~Port();
-        uint16_t portnumber;
-};
 
-class PortByte : public Port {
-    public:
-        /**
-         * @brief Construct a new Port Byte object
-         * 
-         * @param portnumber Port number to be used
-         */
-        explicit PortByte(uint16_t portnumber);
-        //virtual ~PortByte();
-        /**
-         * @brief Read in a byte from the port specified by the constructor.
-         * 
-         * @return uint8_t Byte read in from the port.
-         */
-        virtual uint8_t read();
-        /**
-         * @brief Writes a byte to the port specified by the constructor.
-         * 
-         * @param data Byte to write to the port.
-         */
-        virtual void write(uint8_t data);
+inline uint8_t readByte(uint16_t port) {
+    uint8_t result;
+    __asm__ volatile("inb %1, %0" : "=a" (result) : "Nd" (port));
+    return result;
+}
 
-    protected:
-        static uint8_t read8(uint16_t _port);
-        static void write8(uint16_t _port, uint8_t _data);
-};
+inline void writeByte(uint16_t port, uint8_t data) {
+    __asm__ volatile("outb %0, %1" : : "a" (data), "Nd" (port));
+}
 
-class PortByteSlow : public PortByte {
-    public:
-        /**
-         * @brief Construct a new Port Byte Slow object
-         * 
-         * @param portnumber 
-         */
-        explicit PortByteSlow(uint16_t portnumber);
-        //virtual ~PortByteSlow();
-        /**
-         * @brief Writes a byte slowly to the port specified by the constructor.
-         * 
-         * @param data Byte to write to the port.
-         */
-        virtual void write(uint8_t data);
+inline void writeByteSlow(uint16_t port, uint8_t data) {
+    __asm__ volatile("outb %0, %1\njmp 1f\n1: jmp 1f\n1:" : : "a" (data), "Nd" (port));
+}
 
-    protected:
-        static void write8Slow(uint16_t _port, uint8_t _data);
-};
+inline uint16_t readWord(uint16_t port) {
+    uint16_t result;
+    __asm__ volatile("inw %1, %0" : "=a" (result) : "Nd" (port));
+    return result;
+}
 
-class PortWord : public Port {
-    public:
-        /**
-         * @brief Construct a new Port Word object
-         * 
-         * @param portnumber 
-         */
-        explicit PortWord(uint16_t portnumber);
-        //virtual ~PortWord();
-        /**
-         * @brief Read in a word from the port specified by the constructor.
-         * 
-         * @return uint16_t Word read in from the port.
-         */
-        virtual uint16_t read();
-        /**
-         * @brief Writes a word to the port specified by the constructor.
-         * 
-         * @param data Word to write to the port.
-         */
-        virtual void write(uint16_t data);
+inline void writeWord(uint16_t port, uint16_t data) {
+    __asm__ volatile("outw %0, %1" : : "a" (data), "Nd" (port));
+}
 
-    protected:
-        static uint16_t read16(uint16_t _port);
-        static void write16(uint16_t _port, uint16_t _data);
-};
+inline uint32_t readLong(uint16_t port) {
+    uint32_t result;
+    __asm__ volatile("inl %1, %0" : "=a" (result) : "Nd" (port));
+    return result;
+}
 
-class PortLong : public Port {
-    public:
-        /**
-         * @brief Construct a new Port Long object
-         * 
-         * @param portnumber 
-         */
-        explicit PortLong(uint16_t portnumber);
-        //virtual ~PortLong();
-        /**
-         * @brief Read in a long from the port specified by the constructor.
-         * 
-         * @return uint32_t Long read in from the port.
-         */
-        virtual uint32_t read();
-        /**
-         * @brief Writes a long to the port specified by the constructor.
-         * 
-         * @param data Long to write to the port.
-         */
-        virtual void write(uint32_t data);
-
-    protected:
-        static uint32_t read32(uint16_t _port);
-        static void write32(uint16_t _port, uint32_t _data);
-};
+inline void writeLong(uint16_t port, uint32_t data) {
+    __asm__ volatile("outl %0, %1" : : "a"(data), "Nd" (port));
+}
 
 #endif /* PANIX_PORT_HPP */

@@ -20,13 +20,14 @@
 #include <libc/string.hpp>
 #include <libc/kprint.hpp>
 
+#define RTC_CMOS_PORT 0x70
+#define RTC_DATA_PORT 0x71
+
 #define CURRENT_YEAR 2019
 #define CENTURY_REGISTER 0x00
 
 class RTC : public InterruptHandler, public Driver {
     private:
-        PortByte cmosPort;
-        PortByte dataPort;
         uint8_t second;
         uint8_t minute;
         uint8_t hour;
