@@ -12,13 +12,14 @@
 #define PANIX_SHELL_HPP
 
 #include <drivers/DriverManager.hpp>
+#include <drivers/vga/VGA.hpp>
 #include <drivers/keyboard/KeyboardDriver.hpp>
 #include <drivers/mouse/MouseDriver.hpp>
 #include <cpu/interrupts/InterruptManager.hpp>
-#include <kernel/shell/shellFuncs.hpp>
 #include <libc/kprint.hpp>
 #include <libc/string.hpp>
 #include <libc/tty.hpp>
+
 // Number of commands available to the shell
 #define NUMBER_OF_COMMANDS 5
 
@@ -31,7 +32,23 @@ class Shell {
             "splash",
             "vga"
         };
-        void (*commandFunctions[NUMBER_OF_COMMANDS])();
+        void (Shell::*commandFunctions[NUMBER_OF_COMMANDS])();
+
+        /**
+         * @brief Prints the indicator for the shell.
+         * 
+         */
+        void printShellIndicator();
+
+        void clearShell();
+
+        void help();
+
+        void printSplash();
+
+        void printTime();
+
+        void vgaStart();
 
     public:
         /**
