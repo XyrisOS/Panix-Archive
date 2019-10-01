@@ -42,3 +42,7 @@ void Speaker::beep(uint32_t freq, uint32_t dur) {
     //delay(dur);
     stopSound();
 }
+
+char* Speaker::getDriverTypeTag() {
+    return "SPEAKER";
+}

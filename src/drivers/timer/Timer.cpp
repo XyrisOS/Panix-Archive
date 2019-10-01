@@ -12,7 +12,7 @@
 
 Timer::Timer(int freq) {
     isTick = true;
-    uint32_t divisor = 1193180 / freq;
+    uint32_t divisor = 1193182 / freq;
     low = (uint8_t)(divisor & 0xFF);
     high = ((uint8_t)(divisor >> 8) & 0xFF);
 }
@@ -22,7 +22,7 @@ Timer::~Timer() {
 }
 
 void Timer::activate() {
-    kprint("Activating CPU programmable timer\n");
+    kprint("Activating CPU programmable timer (PIT)\n");
     // Write to the command port
     writeByte(TIMER_COMMAND_PORT, 0x36);
     // Write to the data port
@@ -47,6 +47,23 @@ void Timer::printTick() {
     kprint("\n");
 }
 
-void Timer::callback() {
+uint32_t Timer::handleInterrupt(uint32_t esp) {
     tick++;
+    return esp;
+}
+
+void Timer::sleep(uint32_t ticks) {
+    uint32_t current = tick;
+    uint32_t end = tick + ticks;
+    while (current < end) {
+        // Update current
+        current = tick;
+        // Do nothing and waste precious CPU cycles
+        // like the monster we are.
+    }
+    return;
+}
+
+char* Timer::getDriverTypeTag() {
+    return "PIT";
 }

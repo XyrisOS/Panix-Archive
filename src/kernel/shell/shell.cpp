@@ -10,13 +10,12 @@
  */
 #include <kernel/shell/shell.hpp>
 
-Shell::Shell() {
+Shell::Shell(InterruptManager* interruptManager, DriverManager* driverManager) {
     commandFunctions[0] = clearShell;
     commandFunctions[1] = help;
     commandFunctions[2] = printTime;
     commandFunctions[3] = printSplash;
     commandFunctions[4] = vgaStart; //panixkernel::Kernel::printTick;
-    printShellIndicator();
 }
 
 void Shell::handleShellInput(char* line) {
@@ -40,5 +39,9 @@ void Shell::handleShellInput(char* line) {
     if (foundCommand == false && (strcmp("", line) != 0)) {
         kprint("Command does not exist.\n");
     }
+    printShellIndicator();
+}
+
+void Shell::activate() {
     printShellIndicator();
 }
