@@ -11,6 +11,8 @@
 #include <libc/stdio.hpp>
 #include <libc/kprint.hpp>
 #include <libc/tty.hpp>
+#include <drivers/speaker/Speaker.hpp>
+#include <drivers/timer/Timer.hpp>
 
 // This is a freaking massive array. It definitely makes panicking slower.
 // It also eats up a significant chunk of the kernel memory since it's not
