@@ -11,34 +11,50 @@
 #ifndef PANIX_SHELL_HPP
 #define PANIX_SHELL_HPP
 
+#include <cpu/power/Power.hpp>
 #include <drivers/DriverManager.hpp>
-#include <drivers/keyboard/KeyboardDriver.hpp>
-#include <drivers/mouse/MouseDriver.hpp>
-#include <cpu/interrupts/InterruptManager.hpp>
-#include <kernel/shell/shellFuncs.hpp>
+#include <drivers/timer/Timer.hpp>
+#include <drivers/rtc/RTC.hpp>
+#include <drivers/vga/VGA.hpp>
+#include <libc/stdio.hpp>
 #include <libc/kprint.hpp>
 #include <libc/string.hpp>
 #include <libc/tty.hpp>
+
 // Number of commands available to the shell
-#define NUMBER_OF_COMMANDS 5
+#define NUMBER_OF_COMMANDS 8
 
 class Shell {
     private:
+        DriverManager* driverManager;
         const char commandNames[NUMBER_OF_COMMANDS][16] = {
             "clear",
             "help",
             "time",
             "splash",
-            "vga"
+            "vga",
+            "tick",
+            "shutdown",
+            "reboot"
         };
-        void (*commandFunctions[NUMBER_OF_COMMANDS])();
+        void (Shell::*commandFunctions[NUMBER_OF_COMMANDS])();
+        // Available commands
+        void printShellIndicator();
+        void clearShell();
+        void help();
+        void printSplash();
+        void printTime();
+        void vgaStart();
+        void printTick();
+        void callShutdown();
+        void callReboot();
 
     public:
         /**
          * @brief Construct a new shell object
          * 
          */
-        Shell(InterruptManager* interruptManager, DriverManager* driverManager);
+        Shell(DriverManager* driverManager);
         /**
          * @brief Processes the user keyboard input passed in from the
          * keyboard event handler.

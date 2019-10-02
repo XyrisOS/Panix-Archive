@@ -11,6 +11,8 @@
 #ifndef PANIX_LIBC_STDIO
 #define PANIX_LIBC_STDIO
 
+#define P_KERNEL_BUILD "b2019.10.02"
+
 /**
  * @brief Panics the kernel and halts the CPU.
  * 

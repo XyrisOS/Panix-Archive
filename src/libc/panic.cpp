@@ -11,19 +11,21 @@
 #include <libc/stdio.hpp>
 #include <libc/kprint.hpp>
 #include <libc/tty.hpp>
+#include <drivers/speaker/Speaker.hpp>
+#include <drivers/timer/Timer.hpp>
 
 // This is a freaking massive array. It definitely makes panicking slower.
 // It also eats up a significant chunk of the kernel memory since it's not
 // dynamic, so maybe we need to come back to this eventually?
-const char exceptionDescriptions[33][16] = {
-    "Divide-By-Zero", "Debugging", "Non-Maskable", "Breakpoint",
-    "Overflow", "Out Bound Range", "Invalid Opcode", "Device Not Avbl",
-    "Double Fault", "Co-CPU Overrun", "Invalid TSS", "Sgmnt !Present",
-    "Seg Fault", "Protection Flt", "Page Fault", "RESERVED",
-    "Floating Pnt", "Alignment Check", "Machine Check", "SIMD Flt Pnt",
-    "Virtualization", "RESERVED", "RESERVED", "RESERVED",
-    "RESERVED", "RESERVED", "RESERVED", "RESERVED",
-    "RESERVED", "Security Excptn", "RESERVED", "Triple Fault", "FPU Error"
+const char exceptionDescriptions[33][17] = {
+    "Divide-By-Zero\0", "Debugging\0", "Non-Maskable\0", "Breakpoint\0",
+    "Overflow\0", "Out Bound Range\0", "Invalid Opcode\0", "Device Not Avbl\0",
+    "Double Fault\0", "Co-CPU Overrun\0", "Invalid TSS\0", "Sgmnt !Present\0",
+    "Seg Fault\0", "Protection Flt\0", "Page Fault\0", "RESERVED\0",
+    "Floating Pnt\0", "Alignment Check\0", "Machine Check\0", "SIMD Flt Pnt\0",
+    "Virtualization\0", "RESERVED\0", "RESERVED\0", "RESERVED\0",
+    "RESERVED\0", "RESERVED\0", "RESERVED\0", "RESERVED\0",
+    "RESERVED\0", "Security Excptn\0", "RESERVED\0", "Triple Fault\0", "FPU Error\0"
 };
 
 void printPanicScreen() {
