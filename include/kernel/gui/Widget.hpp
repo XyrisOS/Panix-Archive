@@ -11,7 +11,7 @@
 #ifndef PANIX_GUI_WIDGET_HPP
 #define PANIX_GUI_WIDGET_HPP
 
-#include <types.hpp>
+#include <common/types.hpp>
 #include <drivers/keyboard/KeyboardEventHandler.hpp>
 #include <kernel/gui/GraphicsContext.hpp>
 

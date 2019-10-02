@@ -18,7 +18,7 @@
 #ifndef PANIX_INTERRUPT_HANDLER_HPP
 #define PANIX_INTERRUPT_HANDLER_HPP
 
-#include <types.hpp>
+#include <common/types.hpp>
 #include <cpu/interrupts/InterruptManager.hpp>
 
 /* Forward declaration */

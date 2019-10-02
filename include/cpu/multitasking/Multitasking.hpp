@@ -12,7 +12,7 @@
 #ifndef PANIX_CPU_MULTITASKING
 #define PANIX_CPU_MULTITASKING
 
-#include <types.hpp>
+#include <common/types.hpp>
 #include <cpu/gdt/GlobalDescriptorTable.hpp>
 
 struct CPUState {

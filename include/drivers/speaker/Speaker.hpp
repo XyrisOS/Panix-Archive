@@ -11,7 +11,7 @@
 #ifndef PANIX_SPEAKER_HPP
 #define PANIX_SPEAKER_HPP
 
-#include <types.hpp>
+#include <common/types.hpp>
 #include <cpu/port/Port.hpp>
 #include <cpu/interrupts/InterruptHandler.hpp>
 #include <drivers/Driver.hpp>

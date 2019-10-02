@@ -12,7 +12,7 @@
 #define PANIX_STRING_H
 
 #include <stddef.h>
-#include <types.hpp>
+#include <common/types.hpp>
 
 /**
  * @brief Compares memory at pointer A to pointer B

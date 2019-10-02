@@ -11,7 +11,7 @@
 #ifndef PANIX_MOUSE_EVENT_HANDLER_HPP
 #define PANIX_MOUSE_EVENT_HANDLER_HPP
 
-#include <types.hpp>
+#include <common/types.hpp>
 #include <libc/kprint.hpp>
 
 class MouseEventHandler {

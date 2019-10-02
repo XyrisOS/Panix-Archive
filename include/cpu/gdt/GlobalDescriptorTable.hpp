@@ -11,7 +11,7 @@
 #ifndef PANIX_GLOBAL_DESCRIPTOR_TABLE_HPP
 #define PANIX_GLOBAL_DESCRIPTOR_TABLE_HPP
 
-#include <types.hpp>
+#include <common/types.hpp>
 
 class GlobalDescriptorTable {
     public:

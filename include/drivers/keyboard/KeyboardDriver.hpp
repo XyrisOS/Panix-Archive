@@ -11,7 +11,7 @@
 #ifndef PANIX_KEYBOARD_DRIVER_HPP
 #define PANIX_KEYBOARD_DRIVER_HPP
 
-#include <types.hpp>
+#include <common/types.hpp>
 #include <cpu/interrupts/InterruptManager.hpp>
 #include <cpu/port/Port.hpp>
 #include <drivers/keyboard/KeyboardEventHandler.hpp>

@@ -11,7 +11,7 @@
 #ifndef PANIX_INTERRUPT_MANAGER_HPP
 #define PANIX_INTERRUPT_MANAGER_HPP
 
-#include <types.hpp>
+#include <common/types.hpp>
 #include <cpu/port/Port.hpp>
 #include <cpu/gdt/GlobalDescriptorTable.hpp>
 #include <cpu/interrupts/InterruptHandler.hpp>

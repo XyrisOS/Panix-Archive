@@ -11,7 +11,7 @@
 #ifndef PANIX_KERNEL_HPP
 #define PANIX_KERNEL_HPP
 // LibC
-#include <types.hpp>
+#include <common/types.hpp>
 #include <libc/tty.hpp>
 // CPU
 #include <cpu/gdt/GlobalDescriptorTable.hpp>

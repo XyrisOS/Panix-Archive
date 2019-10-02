@@ -12,7 +12,7 @@
 #ifndef PANIX_PORT_HPP
 #define PANIX_PORT_HPP
 
-#include <types.hpp>
+#include <common/types.hpp>
 
 inline uint8_t readByte(uint16_t port) {
     uint8_t result;

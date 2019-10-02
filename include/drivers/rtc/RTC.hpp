@@ -11,7 +11,7 @@
 #ifndef PANIX_RTC_DRIVER
 #define PANIX_RTC_DRIVER
 
-#include <types.hpp>
+#include <common/types.hpp>
 #include <cpu/port/Port.hpp>
 #include <cpu/interrupts/InterruptHandler.hpp>
 #include <cpu/interrupts/InterruptManager.hpp>
