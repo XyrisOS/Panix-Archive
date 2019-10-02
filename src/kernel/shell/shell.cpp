@@ -109,10 +109,21 @@ void Shell::callShutdown() {
     clearScreen();
     kprint("Processor halted.\nIt's now safe to turn off your computer.");
     asm("hlt");
+    if (shutdown() == -1) {
+        kprintSetColor(Red, Black);
+        kprint("Failed to shutdown.\n");
+        kprint("We have no clue how or why.\n");
+        kprintSetColor(White, Black);
+    }
     isTerminated = true;
 }
 
 void Shell::callReboot() {
-    reboot();
+    if (reboot() == -1) {
+        kprintSetColor(Red, Black);
+        kprint("Failed to reboot.\n");
+        kprint("We have no clue how or why.\n");
+        kprintSetColor(White, Black);
+    }
     isTerminated = true;
 }
