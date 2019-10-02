@@ -99,7 +99,16 @@ void Shell::vgaStart() {
 }
 
 void Shell::callShutdown() {
-    shutdown();
+    // The shutdown function just "panics" (?) right now
+    // but because the shell is a process now we can't
+    // just return control and let the kernel die like we
+    // used to, so we're just going to let the screen go
+    // white for now.
+    //shutdown();
+    // Nevermind, I lied. We'll print a message and halt lol.
+    clearScreen();
+    kprint("Processor halted.\nIt's now safe to turn off your computer.");
+    asm("hlt");
     isTerminated = true;
 }
 

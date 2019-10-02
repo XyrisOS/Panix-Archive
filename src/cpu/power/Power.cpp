@@ -11,6 +11,13 @@ int reboot() {
 }
 
 int shutdown() {
+    // Call bochs shutdown
+    writeWord(0xB004, 0x2000);
+    // Call QEMU shutdown
+    writeWord(0x6004, 0x2000);
+    // Call Virtualbox shutdown
+    writeWord(0x4004, 0x3400);
+    // If those failed, try the actual shutdown
     // Call our assembly shutdown code
     asm("mov $0x1000, %ax");
     asm("mov %ss, %ax");
