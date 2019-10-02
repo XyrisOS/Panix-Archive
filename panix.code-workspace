@@ -7,7 +7,7 @@
 	"settings": {
 		"C_Cpp.default.includePath": [
 			"${workspaceRoot}",
-			"${workspaceRoot}/include/**"
+			"${workspaceRoot}/include/"
 		],
 		"C_Cpp.default.browse.path": [
 			"${workspaceRoot}",

@@ -5,7 +5,7 @@ MemoryManager* MemoryManager::activeMemoryManager = 0;
 MemoryManager::MemoryManager(size_t start, size_t size) {
     activeMemoryManager = this;
 
-    if(size < sizeof(MemoryChunk)) {
+    if (size < sizeof(MemoryChunk)) {
         first = 0;
     } else {
         first = (MemoryChunk*)start;
@@ -27,7 +27,7 @@ void* MemoryManager::malloc(size_t size) {
     MemoryChunk *result = 0;
 
     for (MemoryChunk* chunk = first; chunk != 0 && result == 0; chunk = chunk->next) {
-        if(chunk->size > size && !chunk->allocated) {
+        if (chunk->size > size && !chunk->allocated) {
             result = chunk;
         }
     }

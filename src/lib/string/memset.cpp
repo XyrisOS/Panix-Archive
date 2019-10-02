@@ -8,7 +8,7 @@
  * @copyright Copyright Keeton Feavel (c) 2019
  * 
  */
-#include <libc/string.hpp>
+#include <lib/string.hpp>
  
 void* memset(void* bufptr, int value, size_t size) {
 	unsigned char* buf = (unsigned char*) bufptr;

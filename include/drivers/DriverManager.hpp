@@ -11,7 +11,7 @@
 #ifndef PANIX_DRIVER_MANAGER_HPP
 #define PANIX_DRIVER_MANAGER_HPP
 
-#include <libc/string.hpp>
+#include <lib/string.hpp>
 #include <drivers/Driver.hpp>
 
 class DriverManager {

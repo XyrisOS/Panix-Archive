@@ -17,8 +17,8 @@
 #include <cpu/interrupts/InterruptManager.hpp>
 #include <drivers/Driver.hpp>
 #include <drivers/DriverManager.hpp>
-#include <libc/string.hpp>
-#include <libc/kprint.hpp>
+#include <lib/string.hpp>
+#include <lib/kprint.hpp>
 
 #define RTC_CMOS_PORT 0x70
 #define RTC_DATA_PORT 0x71

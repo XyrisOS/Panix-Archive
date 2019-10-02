@@ -8,9 +8,9 @@
  * @copyright Copyright Keeton Feavel (c) 2019
  * 
  */
-#include <libc/stdio.hpp>
-#include <libc/kprint.hpp>
-#include <libc/tty.hpp>
+#include <lib/stdio.hpp>
+#include <lib/kprint.hpp>
+#include <lib/tty.hpp>
 #include <drivers/speaker/Speaker.hpp>
 #include <drivers/timer/Timer.hpp>
 

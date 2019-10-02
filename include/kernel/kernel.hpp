@@ -12,7 +12,7 @@
 #define PANIX_KERNEL_HPP
 // LibC
 #include <common/types.hpp>
-#include <libc/tty.hpp>
+#include <lib/tty.hpp>
 // CPU
 #include <cpu/gdt/GlobalDescriptorTable.hpp>
 #include <cpu/interrupts/InterruptManager.hpp>

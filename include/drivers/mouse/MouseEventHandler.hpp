@@ -12,7 +12,7 @@
 #define PANIX_MOUSE_EVENT_HANDLER_HPP
 
 #include <common/types.hpp>
-#include <libc/kprint.hpp>
+#include <lib/kprint.hpp>
 
 class MouseEventHandler {
     public:

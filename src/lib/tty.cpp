@@ -8,7 +8,7 @@
  * @copyright Copyright Keeton Feavel (c) 2019
  * 
  */
-#include <libc/tty.hpp>
+#include <lib/tty.hpp>
 
 void clearScreen() {
     char str[] =  { ' ', '\0' };

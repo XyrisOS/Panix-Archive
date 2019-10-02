@@ -17,10 +17,10 @@
 #include <cpu/interrupts/InterruptHandler.hpp>
 #include <cpu/multitasking/Multitasking.hpp>
 #include <drivers/speaker/Speaker.hpp>
-#include <libc/stdio.hpp>
-#include <libc/string.hpp>
-#include <libc/kprint.hpp>
-#include <libc/tty.hpp>
+#include <lib/stdio.hpp>
+#include <lib/string.hpp>
+#include <lib/kprint.hpp>
+#include <lib/tty.hpp>
 
 #define MASTER_COMMAND 0x20
 #define MASTER_DATA 0x21

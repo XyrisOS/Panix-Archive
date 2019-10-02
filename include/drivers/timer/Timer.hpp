@@ -20,8 +20,8 @@
 #include <cpu/interrupts/InterruptManager.hpp>
 #include <cpu/interrupts/InterruptHandler.hpp>
 #include <cpu/port/Port.hpp>
-#include <libc/string.hpp>
-#include <libc/kprint.hpp>
+#include <lib/string.hpp>
+#include <lib/kprint.hpp>
 
 #define TIMER_COMMAND_PORT 0x43
 #define TIMER_DATA_PORT 0x40

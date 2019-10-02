@@ -11,9 +11,9 @@
 #ifndef PANIX_KEYBOARD_EVENT_HANDLER_HPP
 #define PANIX_KEYBOARD_EVENT_HANDLER_HPP
 
-#include <libc/ctype.hpp>
-#include <libc/kprint.hpp>
-#include <libc/tty.hpp>
+#include <lib/ctype.hpp>
+#include <lib/kprint.hpp>
+#include <lib/tty.hpp>
 
 class KeyboardEventHandler {
     public:

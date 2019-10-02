@@ -8,7 +8,7 @@
  * @copyright Copyright Keeton Feavel (c) 2019
  * 
  */
-#include <libc/string.hpp>
+#include <lib/string.hpp>
  
 void* memmove(void* dstptr, const void* srcptr, size_t size) {
 	unsigned char* dst = (unsigned char*) dstptr;

@@ -12,7 +12,7 @@
 #define PANIX_KEYBOARD_SHELL_EVENT_HANDLER
 
 #include <common/types.hpp>
-#include <libc/string.hpp>
+#include <lib/string.hpp>
 #include <drivers/keyboard/KeyboardEventHandler.hpp>
 #include <kernel/shell/shell.hpp>
 

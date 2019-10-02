@@ -11,7 +11,7 @@
 #ifndef PANIX_TTY_HPP
 #define PANIX_TTY_HPP
 
-#include <libc/kprint.hpp>
+#include <lib/kprint.hpp>
 
 /**
  * @brief Clears the kernel console.
