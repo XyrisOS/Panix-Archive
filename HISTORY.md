@@ -34,11 +34,19 @@ Update Progress (Starting August 2019)
                 instead of the appropriate event handler we would set. It just wasn't obvious now until I
                 had another event handler (the desktop) I wanted to use.
     - Fixed issue in shell console where the prompt could be erased using backspace.
-    - Cleaned up some of the CPU port implementation. Moved inline ASM to source file instead of header.
+- September 22-28:
     - Function based (parameterless) multitasking has been implemented
+    - Lots of frustrating refactoring in an attempt to get the mouse
+    - Updated ports to be more descriptive in name
+    - Integrated codefactor.io into Panix
+    - Fixed syntax consistency according to codefactor.io
+- September 29 - October 05
+    - Cleaned up some of the CPU port implementation. Moved inline ASM to source file instead of header.
     - PIT and RTC now register for interrupts and use the InterruptHandler interface
     - Cleaned up some areas of code and began adding more documentation to areas like InterruptHandler
     - Shell now properly calls member function pointers and lists available commands
+    - Serial Port driver has been developed (thanks to Micah Switzer for the help)
+    - Power (shutdown and reboot) commands have been implemented
 
 ### Course Requirements:
 Turn-in Requirements:
