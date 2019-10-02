@@ -16,6 +16,7 @@
 #include <drivers/timer/Timer.hpp>
 #include <drivers/rtc/RTC.hpp>
 #include <drivers/vga/VGA.hpp>
+#include <libc/stdio.hpp>
 #include <libc/kprint.hpp>
 #include <libc/string.hpp>
 #include <libc/tty.hpp>
