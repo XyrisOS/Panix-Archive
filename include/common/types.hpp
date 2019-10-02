@@ -8,6 +8,7 @@
  * @copyright Copyright (c) 2019
  * 
  */
+
 #ifndef PANIX_TYPES_HPP
 #define PANIX_TYPES_HPP
 
