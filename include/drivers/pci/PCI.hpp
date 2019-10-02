@@ -16,6 +16,7 @@
 #include <cpu/interrupts/InterruptHandler.hpp>
 #include <drivers/Driver.hpp>
 #include <drivers/DriverManager.hpp>
+#include <memory/memory.hpp>
 #include <lib/kprint.hpp>
 
 #define PCI_COMMAND_PORT 0xCF8

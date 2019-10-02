@@ -135,16 +135,24 @@ BaseAddressRegister PeripheralComponentInterconnectController::GetBaseAddressReg
 }
 
 Driver* PeripheralComponentInterconnectController::GetDriver(PeripheralComponentInterconnectDeviceDescriptor dev, InterruptManager* interrupts) {
-    //
+    Driver *driver = 0;
     switch(dev.vendor_id) {
         case 0x1022: // AMD
             switch(dev.device_id) {
                 case 0x2000: // am79c973
+                    /*
+                    // Coming soon with the networking push
+                    driver = (amd_am79c973*)MemoryManager::activeMemoryManager->malloc(sizeof(amd_am79c973));
+                    if (driver != 0) {
+                        new (driver) amd_am79c973(...);
+                    }
+                     */
                     kprint("AMD am79c973 ");
                     break;
             }
             break;
         case 0x8086: // Intel
+            //kprint("Intel x86 (8086) ");
             break;
         default:
             // NOTE: If we print something here then we basically fill the screen, so don't.
@@ -166,7 +174,7 @@ Driver* PeripheralComponentInterconnectController::GetDriver(PeripheralComponent
             break;
     }
     
-    return 0;
+    return driver;
 }
 
 PeripheralComponentInterconnectDeviceDescriptor PeripheralComponentInterconnectController::GetDeviceDescriptor(uint16_t bus, uint16_t device, uint16_t function) {

@@ -20,6 +20,11 @@ extern "C" void callConstructors() {
 }
 
 void startShellAsProcess() {
+    RTC* rtc = (RTC*)kernelDriverManager->getDriverWithTag("RTC");
+    // Print out the date at the shell start.
+    kprintSetColor(LightCyan, Black);
+    rtc->printTimeAndDate();
+    kprintSetColor(White, Black);
     // Clear the screen and begin shell process
     //clearScreen();
     kprintSetColor(LightBlue, Black);
@@ -32,7 +37,7 @@ void startShellAsProcess() {
     MouseDriver mouse(kernelInterruptManager, &shellMouse);
     kernelDriverManager->addDriver(&mouse);
     // Keyboard Interface Driver
-    kprint("Activating shell keyboard...\n");
+    kprint("Activating shell keyboard...\n\n");
     ShellKeyboardEventHandler shellKeyboard;
     KeyboardDriver keyboard(kernelInterruptManager, &shellKeyboard);
     kernelDriverManager->addDriver(&keyboard);
@@ -57,12 +62,33 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t multiboot_m
     GlobalDescriptorTable gdt;
     InterruptManager interruptManager(0x20, &gdt, &taskManager);
     interruptManager.deactivate();
+    /****************************
+     * STAGE 1 - DYNAMIC MEMORY *
+     ****************************/
+    kprintSetColor(LightMagenta, Black);
+    uint32_t* memupper = (uint32_t*)(((size_t)multiboot_structure) + 8);
+    size_t heap = 10*1024*1024;
+    MemoryManager memoryManager(heap, (*memupper)*1024 - heap - 10*1024);
+    kprint("Heap 0x");
+    kprintHex((heap >> 24) & 0xFF);
+    kprintHex((heap >> 16) & 0xFF);
+    kprintHex((heap >>  8) & 0xFF);
+    kprintHex((heap      ) & 0xFF);
+
+    void* allocated = memoryManager.malloc(1024);
+    kprint("\nAllocated 0x");
+    kprintHex((heap >> 24) & 0xFF);
+    kprintHex((heap >> 16) & 0xFF);
+    kprintHex((heap >>  8) & 0xFF);
+    kprintHex((heap      ) & 0xFF);
+    kprint("\n");
+    kprintSetColor(White, Black);
 
     /**************************
-     * STAGE 1 - LOAD DRIVERS *
+     * STAGE 2 - LOAD DRIVERS *
      **************************/
     kprintSetColor(LightGreen, Black);
-    kprint("Stage 1 - Loading Drivers...\n");
+    kprint("Stage 2 - Loading Drivers...\n");
     kprintSetColor(White, Black);
     // Declare our driver manager
     DriverManager driverManager;
@@ -87,32 +113,32 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t multiboot_m
     // But if we make the call to it here then it doesn't.
 
     /******************************
-     * STAGE 2 - ACTIVATE DRIVERS *
+     * STAGE 3 - ACTIVATE DRIVERS *
      ******************************/
     // Activate all the drivers we just added
     kprintSetColor(LightGreen, Black);
-    kprint("Stage 2 - Activating Drivers...\n");
+    kprint("Stage 3 - Activating Drivers...\n");
     kprintSetColor(White, Black);
     driverManager.activateAll();
 
     /*********************************
-     * STAGE 3 - ACTIVATE INTERRUPTS *
+     * STAGE 4 - ACTIVATE INTERRUPTS *
      *********************************/
     // Activate our interrupt manager
     kprintSetColor(LightGreen, Black);
-    kprint("Stage 3 - Activating Interrupts...\n");
+    kprint("Stage 4 - Activating Interrupts...\n");
     kprintSetColor(White, Black);
     interruptManager.activate();
-    kprintSetColor(LightCyan, Black);
-    rtc.printTimeAndDate();
-    kprintSetColor(White, Black);
+
+    // Sleep so we can debug the boot logs
+    timer.sleep(60*5);
 
     /*****************************
-     * STAGE 4 - START PROCESSES *
+     * STAGE 5 - START PROCESSES *
      *****************************/
     // Activate processes
     kprintSetColor(LightGreen, Black);
-    kprint("Stage 4 - Starting shell process...\n");
+    kprint("Stage 5 - Starting shell process...\n");
     kprintSetColor(White, Black);
     // Begin multitasking example
     Task baschTask(&gdt, startShellAsProcess);

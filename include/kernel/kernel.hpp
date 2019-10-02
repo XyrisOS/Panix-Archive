@@ -10,12 +10,14 @@
  */
 #ifndef PANIX_KERNEL_HPP
 #define PANIX_KERNEL_HPP
-// LibC
+// Library Code
 #include <common/types.hpp>
 #include <lib/tty.hpp>
 // CPU
 #include <cpu/gdt/GlobalDescriptorTable.hpp>
 #include <cpu/interrupts/InterruptManager.hpp>
+// Memory
+#include <memory/memory.hpp>
 // Drivers
 #include <drivers/DriverManager.hpp>
 #include <drivers/keyboard/KeyboardDriver.hpp>
