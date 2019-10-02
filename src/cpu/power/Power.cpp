@@ -6,7 +6,7 @@ int reboot() {
         good = readByte(0x64);
     }
     writeByte(0x64, 0xFE);
-    asm("hlt");
+    // We should never actually hit this,
     return -1;
 }
 
@@ -26,6 +26,5 @@ int shutdown() {
     asm("mov $0x0001, %bx");
     asm("mov $0x0003, %cx");
     asm("int $0x15");
-    asm("ret");
     return -1;
 }
