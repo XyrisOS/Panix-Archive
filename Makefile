@@ -98,6 +98,10 @@ debug: dist/panix.iso
 	@ echo Setting up GDB with qemu...
 	${GDB} -ex "target remote localhost:1234" -ex "symbol-file panix.bin"
 
+docs:
+	@ echo Generating docs according to the Doxyfile...
+	@ doxygen ./Doxyfile
+
 # Clear out objects and BIN
 clean:
 	@ echo Cleaning obj directory...
