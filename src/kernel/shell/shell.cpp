@@ -17,6 +17,8 @@ Shell::Shell(DriverManager* driverManager) {
     commandFunctions[3] = &Shell::printSplash;
     commandFunctions[4] = &Shell::vgaStart;
     commandFunctions[5] = &Shell::printTick;
+    commandFunctions[6] = &Shell::callShutdown;
+    commandFunctions[7] = &Shell::callReboot;
     this->driverManager = driverManager;
 }
 
@@ -32,12 +34,6 @@ void Shell::handleShellInput(char* line) {
             foundCommand = true;
             break;
         }
-    }
-    if (strcmp((char*)"shutdown", line) == 0) {
-        clearScreen();
-        kprint("It's now safe to turn off your computer.\n");
-        isTerminated = true;
-        return;
     }
     // strcmp will return "false" (0) if they're the same so anything else is true
     if (foundCommand == false && (strcmp("", line) != 0)) {
@@ -100,4 +96,23 @@ void Shell::vgaStart() {
     VideoGraphicsArray vga;
     vga.setMode(320, 200, 8);
     vga.fillRect(0, 0, 320, 200, 0x00, 0x00, 0xA8);
+}
+
+void Shell::callShutdown() {
+    // The shutdown function just "panics" (?) right now
+    // but because the shell is a process now we can't
+    // just return control and let the kernel die like we
+    // used to, so we're just going to let the screen go
+    // white for now.
+    //shutdown();
+    // Nevermind, I lied. We'll print a message and halt lol.
+    clearScreen();
+    kprint("Processor halted.\nIt's now safe to turn off your computer.");
+    asm("hlt");
+    isTerminated = true;
+}
+
+void Shell::callReboot() {
+    reboot();
+    isTerminated = true;
 }

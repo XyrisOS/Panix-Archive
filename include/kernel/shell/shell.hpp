@@ -11,6 +11,7 @@
 #ifndef PANIX_SHELL_HPP
 #define PANIX_SHELL_HPP
 
+#include <cpu/power/Power.hpp>
 #include <drivers/DriverManager.hpp>
 #include <drivers/timer/Timer.hpp>
 #include <drivers/rtc/RTC.hpp>
@@ -20,7 +21,7 @@
 #include <libc/tty.hpp>
 
 // Number of commands available to the shell
-#define NUMBER_OF_COMMANDS 6
+#define NUMBER_OF_COMMANDS 8
 
 class Shell {
     private:
@@ -31,7 +32,9 @@ class Shell {
             "time",
             "splash",
             "vga",
-            "tick"
+            "tick",
+            "shutdown",
+            "reboot"
         };
         void (Shell::*commandFunctions[NUMBER_OF_COMMANDS])();
         // Available commands
@@ -42,6 +45,8 @@ class Shell {
         void printTime();
         void vgaStart();
         void printTick();
+        void callShutdown();
+        void callReboot();
 
     public:
         /**

@@ -137,7 +137,7 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t multiboot_m
         // Keep the kernel alive
         //desktop.Draw(&vga);
     }
-
+    
     // Return control back to loader.s to cli & hlt.
     return;
 }
