@@ -1,7 +1,13 @@
 /**
  * @file KeyboardDriver.hpp
  * @author Keeton Feavel (keetonfeavel@cedarville.edu)
- * @brief 
+ * @brief A (hopefully) simple PS/2 Keyboard driver. 
+ * The PS/2 Keyboard accepts commands and sends responses to 
+ * those commands, and also sends scan codes indicating when 
+ * a key was pressed or released. Keep in mind that these 
+ * scan codes (from the tables below) may be altered 
+ * (i.e. translated) by the PS/2 controller, depending on 
+ * the controller's settings. (https://wiki.osdev.org/Keyboard)
  * @version 0.1
  * @date 2019-09-26
  * 
@@ -34,14 +40,14 @@ class KeyboardEventHandler;
 
 class KeyboardDriver : public InterruptHandler, public Driver {
     private:
-        KeyboardEventHandler* keyboardEventHandler;
+        KeyboardEventHandler* keyboardEventHandler; // Current keyboard event handler (Handles data recieved by driver)
         
     public:
         /**
          * @brief Construct a new Keyboard Driver object
          * 
-         * @param interruptManager 
-         * @param keyboardEventHandler 
+         * @param interruptManager Current active interrupt manager
+         * @param keyboardEventHandler Keyboard event handler designated to handle input
          */
         KeyboardDriver(InterruptManager* interruptManager, KeyboardEventHandler* keyboardEventHandler);
         /**
@@ -50,21 +56,21 @@ class KeyboardDriver : public InterruptHandler, public Driver {
          */
         ~KeyboardDriver();
         /**
-         * @brief 
+         * @brief Handles an associated interrupt assigned in the constructor
          * 
-         * @param esp 
-         * @return uint32_t 
+         * @param esp Stack pointer
+         * @return uint32_t Returned stack pointer
          */
         uint32_t handleInterrupt(uint32_t esp);
         /**
-         * @brief 
+         * @brief Activates the keyboard driver
          * 
          */
         void activate();
         /**
          * @brief Used to update the keyboard event handler
          * 
-         * @param handler 
+         * @param handler New keyboard handler designated to recieve input
          */
         void setHandler(KeyboardEventHandler *handler);
         /**
