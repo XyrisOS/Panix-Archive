@@ -12,7 +12,6 @@
 
 Timer::Timer(InterruptManager* interruptManager, int freq) :
 InterruptHandler(interruptManager, 0x20) {
-    isTick = true;
     tick = 0;
     uint32_t divisor = 1193182 / freq;
     low = (uint8_t)(divisor & 0xFF);
