@@ -25,7 +25,7 @@ void Speaker::activate() {
 
 void Speaker::playSound(uint32_t freqeuncy) {
     //Set the PIT to the desired frequency
-    div = 1193180 / freqeuncy;
+    uint32_t div = 1193180 / freqeuncy;
     writeByte(SPEAKER_COMMAND_PORT, 0xB6);
     writeByte(SPEAKER_DATA_PORT_2, div & 0xFF);
     writeByte(SPEAKER_DATA_PORT_2, div >> 8);
@@ -39,6 +39,7 @@ void Speaker::stopSound() {
 
 void Speaker::beep(uint32_t freq, uint32_t dur) {
     playSound(freq);
+    // TODO: Talk to the PIT and use the sleep function from there
     //delay(dur);
     stopSound();
 }

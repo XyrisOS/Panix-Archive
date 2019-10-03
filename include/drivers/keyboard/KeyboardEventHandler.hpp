@@ -1,7 +1,10 @@
 /**
  * @file KeyboardEventHandler.hpp
  * @author Keeton Feavel (keetonfeavel@cedarville.edu)
- * @brief 
+ * @brief An interface for all classes which wish to
+ * recieve keyboard input. To recieve input, the appropriate
+ * class must import this and inherit it publicly and then
+ * implement all of the virtual functions below.
  * @version 0.1
  * @date 2019-09-26
  * 

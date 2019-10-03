@@ -135,7 +135,8 @@ BaseAddressRegister PeripheralComponentInterconnectController::GetBaseAddressReg
 }
 
 Driver* PeripheralComponentInterconnectController::GetDriver(PeripheralComponentInterconnectDeviceDescriptor dev, InterruptManager* interrupts) {
-    //
+    // See https://wiki.osdev.org/Pci#Class_Codes for a list of codes on many known devices.
+    // Each code can be entered here and used to identify a device and get its driver.
     switch(dev.vendor_id) {
         case 0x1022: // AMD
             switch(dev.device_id) {

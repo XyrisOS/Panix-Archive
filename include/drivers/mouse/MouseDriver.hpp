@@ -1,7 +1,11 @@
 /**
  * @file MouseDriver.hpp
  * @author Keeton Feavel (keetonfeavel@cedarville.edu)
- * @brief 
+ * @brief A (hopefully) simple PS/2 Mouse driver. 
+ * Current PCs generally use PS2 mice, or a similar format 
+ * that emulates a PS2 mouse. Serial mice are a much older 
+ * technology that is no longer common.
+ * (https://wiki.osdev.org/Mouse)
  * @version 0.1
  * @date 2019-09-26
  * 
@@ -33,8 +37,8 @@ class MouseDriver : public InterruptHandler, public Driver {
         /**
          * @brief Construct a new Mouse Driver object
          * 
-         * @param interruptManager 
-         * @param mouseEventHandler 
+         * @param interruptManager Current active interrupt manager
+         * @param mouseEventHandler Mouse event handler designated to handle input
          */
         MouseDriver(InterruptManager* interruptManager, MouseEventHandler* mouseEventHandler);
         /**
@@ -43,10 +47,10 @@ class MouseDriver : public InterruptHandler, public Driver {
          */
         ~MouseDriver();
         /**
-         * @brief 
+         * @brief Handles an associated interrupt assigned in the constructor
          * 
-         * @param esp 
-         * @return uint32_t 
+         * @param esp Stack pointer
+         * @return uint32_t Returned stack pointer
          */
         uint32_t handleInterrupt(uint32_t esp);
         /**
@@ -57,7 +61,7 @@ class MouseDriver : public InterruptHandler, public Driver {
         /**
          * @brief Used to update the mouse driver event handler
          * 
-         * @param handler 
+         * @param handler New mouse handler designated to recieve input
          */
         void setHandler(MouseEventHandler* handler);
         /**

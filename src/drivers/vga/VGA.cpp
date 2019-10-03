@@ -37,19 +37,19 @@ void VideoGraphicsArray::writeRegisters(uint8_t* registers) {
     registers[0x03] = registers[0x03] | 0x80;
     registers[0x11] = registers[0x11] & ~0x80;
 
-    for(uint8_t i = 0; i < 25; i++) {
+    for (uint8_t i = 0; i < 25; i++) {
         writeByte(CRTC_INDEX_PORT, i);
         writeByte(CRTC_DATA_PORT, *(registers++));
     }
 
     // graphics controller
-    for(uint8_t i = 0; i < 9; i++) {
+    for (uint8_t i = 0; i < 9; i++) {
         writeByte(GRAPHICS_CONTROLLER_INDEX_PORT, i);
         writeByte(GRAPHICS_CONTROLLER_DATA_PORT, *(registers++));
     }
 
     // attribute controller
-    for(uint8_t i = 0; i < 21; i++) {
+    for (uint8_t i = 0; i < 21; i++) {
         readByte(ATTRIBUTE_CONTROLLER_RESET_PORT);
         writeByte(ATTRIBUTE_CONTROLLER_INDEX_PORT, i);
         writeByte(ATTRIBUTE_CONTROLLER_WRITE_PORT, *(registers++));
@@ -95,7 +95,7 @@ bool VideoGraphicsArray::setMode(uint32_t width, uint32_t height, uint32_t color
 uint8_t* VideoGraphicsArray::getFrameBufferSegment() {
     writeByte(GRAPHICS_CONTROLLER_INDEX_PORT, 0x06);
     uint8_t segmentNumber = readByte(GRAPHICS_CONTROLLER_DATA_PORT) & (3<<2);
-    switch(segmentNumber) {
+    switch (segmentNumber) {
         default:
         case 0<<2:
             return (uint8_t*)0x00000;

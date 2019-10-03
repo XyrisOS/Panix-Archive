@@ -1,7 +1,10 @@
 /**
  * @file InterruptManager.hpp
  * @author Keeton Feavel (keetonfeavel@cedarville.edu)
- * @brief 
+ * @brief The Interrupt Descriptor Table (IDT) is specific to the IA-32 architecture. 
+ * It is the Protected mode counterpart to the Real Mode Interrupt Vector Table (IVT) 
+ * telling where the Interrupt Service Routines (ISR) are located 
+ * (one per interrupt vector) - https://wiki.osdev.org/Interrupt_Descriptor_Table
  * @version 0.1
  * @date 2019-09-26
  * 
@@ -22,6 +25,7 @@
 #include <libc/kprint.hpp>
 #include <libc/tty.hpp>
 
+// PIC Port Definitions
 #define MASTER_COMMAND 0x20
 #define MASTER_DATA 0x21
 #define SLAVE_COMMAND 0xA0
@@ -35,38 +39,38 @@ class InterruptManager {
     protected:
         // Data structures
         struct GateDescriptor {
-            uint16_t handlerAddressLowBits;
-            uint16_t gdt_codeSegmentSelector;
-            uint8_t reserved;
-            uint8_t access;
-            uint16_t handlerAddressHighBits;
+            uint16_t handlerAddressLowBits;     // Offset
+            uint16_t gdt_codeSegmentSelector;   // a code segment selector in GDT or LDT
+            uint8_t reserved;                   // unused, set to 0
+            uint8_t access;                     // type and attributes, see below
+            uint16_t handlerAddressHighBits;    // offset bits 16..31
         } __attribute__((packed));
         
         struct InterruptDescriptorTablePointer {
-            uint16_t size;
-            uint32_t base;
+            uint16_t size;                      // Defines the length of the IDT in bytes - 1 (minimum value is 100h, a value of 1000h means 200h interrupts).
+            uint32_t base;                      // This 32 bits are the linear address where the IDT starts (INT 0)
         } __attribute__((packed));
+        // Array of handler functions
+        InterruptHandler* handlers[256];                        // Array for all of the IRQ handlers (256 total for x86)
+        static GateDescriptor interruptDescriptorTable[256];    // Array of all the created GateDescriptors
         // Interrupt vs. exception offset
-        uint16_t hardwareInterruptOffset;
+        uint16_t hardwareInterruptOffset;       // Offset to differentiate between IRQs and Exceptions
         // Active managers
         static InterruptManager* activeInterruptManager;
         TaskManager* activeTaskManager;
-        // Array of handler functions
-        InterruptHandler* handlers[256];
-        static GateDescriptor interruptDescriptorTable[256];
-        const uint8_t IDT_INTERRUPT_GATE = 0xE;
+        const uint8_t IDT_INTERRUPT_GATE = 0xE; // 32-bit interrupt gate defintion (see OSDev Wiki)
         /**
          * @brief Set the Interrupt Descriptor Table Entry object
          * 
-         * @param interrupt 
-         * @param codeSegmentSelectorOffset 
-         * @param handler 
-         * @param DescriptorPrivilegeLevel 
-         * @param DescriptorType 
+         * @param interrupt Appropriate interrupt value (not including the hardware offset)
+         * @param codeSegmentSelectorOffset Code segment selector for GDT or LDT
+         * @param handler Handler function pointer
+         * @param DescriptorPrivilegeLevel Specifies which privilege Level the calling Descriptor minimum should have.
+         * @param DescriptorType The type of interrupt descriptor (???)
          */
         static void setInterruptDescriptorTableEntry(uint8_t interrupt,
             uint16_t codeSegmentSelectorOffset, void (*handler)(),
-            uint8_t DescriptorPrivilegeLevel, uint8_t DescriptorType);
+            uint8_t DescriptorPrivilegeLevel, uint8_t DescriptorType);      // Go to the OSDev Wiki for PrivilegeLevel explaination.
         /**
          * @brief Ignores a given interrupt. Used as a handler function.
          * 
@@ -130,8 +134,9 @@ class InterruptManager {
         /**
          * @brief Construct a new Interrupt Manager object
          * 
-         * @param hardwareInterruptOffset 
-         * @param globalDescriptorTable 
+         * @param hardwareInterruptOffset Sets the hardware offset to differentiate IRQs and Exceptions
+         * @param globalDescriptorTable Predefined GDT object to be used
+         * @param taskManager Active task manager object to help switch process stacks
          */
         InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescriptorTable* globalDescriptorTable, TaskManager* taskManager);
         /**
@@ -142,7 +147,7 @@ class InterruptManager {
         /**
          * @brief Get the Hardware Interrupt Offset object
          * 
-         * @return uint16_t 
+         * @return uint16_t Returns the set hardware interrupt offset
          */
         uint16_t getHardwareInterruptOffset();
         /**
