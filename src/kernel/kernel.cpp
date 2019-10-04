@@ -57,7 +57,7 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t multiboot_m
     // Clear screen, print welcome message.
     printKernelSplash();
     // Initialize the Task Manager for Multitasking
-    TaskManager taskManager;
+    TaskManager taskManager = TaskManager();
     // Initialize the GDT, interrupt manager, and timer
     GlobalDescriptorTable gdt;
     InterruptManager interruptManager(0x20, &gdt, &taskManager);

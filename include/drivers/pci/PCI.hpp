@@ -23,43 +23,58 @@
 #define PCI_DATA_PORT 0xCFC
 
 /**
- * @brief 
+ * @brief Base address register type definition
  * 
  */
-enum BaseAddressRegisterType
-{
+enum BaseAddressRegisterType {
+    // Identifies if a PCI device uses memory mapped or port based I/O
     MemoryMapping = 0,
     InputOutput = 1
 };
 /**
- * @brief 
+ * @brief Base address register definition
  * 
  */
 class BaseAddressRegister {
     public:
-        bool prefetchable;
-        uint8_t* address;
-        uint32_t size;
-        BaseAddressRegisterType type;
+        // Base address Registers (or BARs) can be used to hold memory
+        // addresses used by the device, or offsets for port addresses.
+        // Typically, memory address BARs need to be located in physical
+        // ram while I/O space BARs can reside at any memory address
+        // (even beyond physical memory). To distinguish between them,
+        // you can check the value of the lowest bit.
+        // (https://wiki.osdev.org/Pci#Base_Address_Registers)
+        uint32_t size;                  // Size of the BAR (not part of the BAR specs)
+        uint8_t* address;               // 16-Byte Aligned Base Address
+        bool prefetchable;              // See GetBaseAddressRegister()
+        BaseAddressRegisterType type;   // See above enum
 };
 /**
- * @brief 
+ * @brief PCI Device Descriptor Class
  * 
  */
 class PeripheralComponentInterconnectDeviceDescriptor : public Driver {
     public:
         /* Declare all of the PCI interface information types */
-        uint32_t portBase;
-        uint32_t interrupt;
-        uint16_t bus;
-        uint16_t device;
-        uint16_t function;
-        uint16_t vendor_id;
-        uint16_t device_id;
-        uint8_t  class_id;
-        uint8_t  subclass_id;
-        uint8_t  interface_id;
-        uint8_t  revision;
+        // These don't exactly line up with what OSDev has in their table
+        // but I did my best to reorder them according to what the bits
+        // actually mean in the order they occur
+
+        // The Class Code, Subclass, and Prog IF registers are used to 
+        // identify the device's type, the device's function, and the 
+        // device's register-level programming interface, respectively.
+        // (https://wiki.osdev.org/Pci#Class_Codes)
+        uint16_t vendor_id;     // Vendor identifier
+        uint16_t device_id;     // Device identifier
+        uint8_t  revision;      // Device revision
+        uint8_t  interface_id;  // Interface identifier
+        uint8_t  subclass_id;   // Subclass identifier
+        uint8_t  class_id;      // Class identifier
+        uint16_t bus;           // PCI bus number
+        uint32_t portBase;      // PCI CPU port value
+        uint32_t interrupt;     // IRQ associated with device
+        uint16_t device;        // Device type value (see table)
+        uint16_t function;      // Function value (see table)
         /**
          * @brief Construct a new Peripheral Component Interconnect Device Descriptor object
          * 
@@ -72,7 +87,7 @@ class PeripheralComponentInterconnectDeviceDescriptor : public Driver {
         ~PeripheralComponentInterconnectDeviceDescriptor();
 };
 /**
- * @brief 
+ * @brief PCI Controller Class
  * 
  */
 class PeripheralComponentInterconnectController : public Driver {
@@ -88,66 +103,66 @@ class PeripheralComponentInterconnectController : public Driver {
          */
         ~PeripheralComponentInterconnectController();
         /**
-         * @brief 
+         * @brief Reads a long (32 bit) value from a PCI device based on the provided information
          * 
-         * @param bus 
-         * @param device 
-         * @param function 
-         * @param registeroffset 
-         * @return uint32_t 
+         * @param bus PCI bus index value
+         * @param device Device identifier
+         * @param function Device function code
+         * @param registeroffset PCI device register offset value
+         * @return uint32_t Long (32 bit) value read from the PCI device
          */
         uint32_t read(uint16_t bus, uint16_t device, uint16_t function, uint32_t registeroffset);
         /**
-         * @brief 
+         * @brief Writes a given long (32 bit) value to the PCI device based on the provided information
          * 
-         * @param bus 
-         * @param device 
-         * @param function 
-         * @param registeroffset 
-         * @param value 
+         * @param bus PCI bus index value
+         * @param device Device identifier
+         * @param function Device function code
+         * @param registeroffset PCI device register offset value
+         * @param value Long (32 bit) value to be written to PCI device bus
          */
         void write(uint16_t bus, uint16_t device, uint16_t function, uint32_t registeroffset, uint32_t value);
         /**
-         * @brief 
+         * @brief Checks if a PCI device identifies as having a given function
          * 
-         * @param bus 
-         * @param device 
-         * @return true 
-         * @return false 
+         * @param bus PCI bus index value
+         * @param device Device identifier
+         * @return true Device does identify as having requested function
+         * @return false Device does not identify as having requested function
          */
         bool DeviceHasFunctions(uint16_t bus, uint16_t device);
         /**
-         * @brief 
+         * @brief Selects a driver for a given PCI device (assuming it exists)
          * 
-         * @param driverManager 
-         * @param interrupts 
+         * @param driverManager Current active kernel driver manager
+         * @param interrupts Current active kernel interrupt manager
          */
         void SelectDrivers(DriverManager* driverManager, InterruptManager* interrupts);
         /**
-         * @brief Get the Driver object
+         * @brief Gets the Driver object for a given PCI device
          * 
-         * @param dev 
-         * @param interrupts 
-         * @return Driver* 
+         * @param dev Requested PCI device descriptor
+         * @param interrupts Current active kernel interrupt manager
+         * @return Driver* Returned driver associated with the requested PCI device
          */
         Driver* GetDriver(PeripheralComponentInterconnectDeviceDescriptor dev, InterruptManager* interrupts);
         /**
-         * @brief Get the Device Descriptor object
+         * @brief Gets the Device Descriptor object based on the provided information
          * 
-         * @param bus 
-         * @param device 
-         * @param function 
-         * @return PeripheralComponentInterconnectDeviceDescriptor 
+         * @param bus PCI bus index value
+         * @param device Device identifier
+         * @param function Device function code
+         * @return PeripheralComponentInterconnectDeviceDescriptor Returned PCI Device associated Descriptor
          */
         PeripheralComponentInterconnectDeviceDescriptor GetDeviceDescriptor(uint16_t bus, uint16_t device, uint16_t function);
         /**
-         * @brief Get the Base Address Register object
+         * @brief Get the Base Address Register object based on the provided information
          * 
-         * @param bus 
-         * @param device 
-         * @param function 
-         * @param bar 
-         * @return BaseAddressRegister 
+         * @param bus PCI bus index value
+         * @param device Device identifier
+         * @param function Device function code
+         * @param bar PCI Base Address Register value
+         * @return BaseAddressRegister Returned associated PCI device BAR object
          */
         BaseAddressRegister GetBaseAddressRegister(uint16_t bus, uint16_t device, uint16_t function, uint16_t bar);
 };

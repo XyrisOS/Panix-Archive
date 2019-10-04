@@ -20,6 +20,7 @@ class DriverManager {
         int numberOfDrivers;
         
     public:
+        static DriverManager activeDriverManager;
         /**
          * @brief Construct a new Driver Manager object.
          * 

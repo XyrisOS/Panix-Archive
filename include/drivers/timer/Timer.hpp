@@ -6,6 +6,7 @@
  * that runs at (roughly) 1.193182 Mhz and is used as a basic time
  * keeping mechanism through use of IRQ0. (Brief partially taken from
  * OSDev Wiki - wiki.osdev.org)
+ * (https://wiki.osdev.org/PIT)
  * @version 0.1
  * @date 2019-09-26
  * 
@@ -28,23 +29,49 @@
 
 class Timer : public Driver, public InterruptHandler {
     private:
-        bool isTick;
-        uint32_t tick;
-        uint8_t high;
-        uint8_t low;
+        uint32_t tick;  // PIT tick counter. Incremented every time interrupt 0x00 is called.
+        uint8_t high;   // High value (rising edge)
+        uint8_t low;    // Low value (falling edge)
         
     public:
+        /**
+         * @brief Construct a new PIT driver object
+         * 
+         * @param interruptManager 
+         * @param freq 
+         */
         Timer(InterruptManager* interruptManager, int freq);
+        /**
+         * @brief Destroy the PIT driver object
+         * 
+         */
         ~Timer();
+        /**
+         * @brief Prints the current PIT tick value
+         * 
+         */
         void printTick();
+        /**
+         * @brief Activates the PIT
+         * 
+         */
         void activate();
+        /**
+         * @brief Does nothing. You can't disable the PIT. Oh well.
+         * 
+         */
         void deactivate();
+        /**
+         * @brief Resets the PIT counter
+         * 
+         * @return int Reset tick value. Should be 0 (or close) if actually reset.
+         */
         int reset();
         /**
-         * @brief 
+         * @brief Handles an associated interrupt assigned in the constructor
          * 
-         * @param esp 
-         * @return uint32_t 
+         * @param esp Stack pointer
+         * @return uint32_t Returned stack pointer
          */
         uint32_t handleInterrupt(uint32_t esp);
         /**

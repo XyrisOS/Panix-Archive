@@ -1,7 +1,10 @@
 /**
  * @file InterruptManager.cpp
  * @author Keeton Feavel (keetonfeavel@cedarville.edu)
- * @brief 
+ * @brief The Interrupt Descriptor Table (IDT) is specific to the IA-32 architecture. 
+ * It is the Protected mode counterpart to the Real Mode Interrupt Vector Table (IVT) 
+ * telling where the Interrupt Service Routines (ISR) are located 
+ * (one per interrupt vector) - https://wiki.osdev.org/Interrupt_Descriptor_Table
  * @version 0.1
  * @date 2019-09-26
  * 
