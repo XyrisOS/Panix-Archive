@@ -192,9 +192,19 @@ Desktop* p_kernel_gui_init() {
 void p_kernel_debug_sleep() {
     // Sleep so we can debug the boot logs
     kprintSetColor(LightRed, Black);
-    kprint("\nSleeping...\n");
-    Timer* timer = (Timer*)DriverManager::activeDriverManager->getDriverWithTag("PIT");
-    timer->sleep(60*5);
+    if (DriverManager::activeDriverManager != nullptr) {
+        kprint("Got the active driver manager.\n");
+        // FIXME: The kernel freezes here
+        Timer* timer = (Timer*)DriverManager::activeDriverManager->getDriverWithTag("PIT");
+        if (timer != nullptr) {
+            kprint("Got the PIT driver.\n");
+            timer->sleep(60*5);
+        } else {
+            kprint("Could not get PIT driver to sleep.\n");
+        }
+    } else {
+        kprint("Active Driver Manager is null!\n");
+    }
     kprintSetColor(White, Black);
 }
 

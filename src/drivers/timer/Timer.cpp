@@ -56,6 +56,7 @@ uint32_t Timer::handleInterrupt(uint32_t esp) {
 }
 
 void Timer::sleep(uint32_t ticks) {
+    kprint("\nSleeping...\n");
     uint32_t current = tick;
     uint32_t end = tick + ticks;
     while (current < end) {
