@@ -15,8 +15,9 @@ Rs232::Rs232(uint16_t portNum, InterruptManager* interruptManager) :
     portBase(portNum) {
 }
 
-// stubbed for now
-Rs232::~Rs232() {}
+Rs232::~Rs232() {
+// stubbed
+}
 
 char Rs232::readSerial() {
     while (serialReceived() == 0);
@@ -51,20 +52,18 @@ void Rs232::activate() {
 }
 
 void Rs232::deactivate() {
-
+// stubbed
 }
 
 void Rs232::print(char* str) {
     int i = 0;
-    while (str[i] != 0)
-    {
+    while (str[i] != 0) {
         writeSerial(str[i]);
         ++i;
     }
 }
 
 uint32_t Rs232::handleInterrupt(uint32_t esp) {
-    print("INT\n");
     return esp;
 }
 

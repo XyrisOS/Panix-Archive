@@ -49,6 +49,7 @@ class Rs232 : public InterruptHandler, public Driver {
         int serialReceived();
         int isTransmitEmpty();
         void writeSerial(char a);
+
     public:
         Rs232(uint16_t portNum, InterruptManager* interruptManager);
         ~Rs232();
@@ -73,3 +74,4 @@ class Rs232 : public InterruptHandler, public Driver {
 };
 
 #endif /* PANIX_RS232_DRIVER */
+
