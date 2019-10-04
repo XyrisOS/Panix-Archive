@@ -9,19 +9,10 @@
  * 
  */
 #include <drivers/serial/Rs232.hpp>
-#include <libc/kprint.hpp>
 
-Rs232::Rs232(uint32_t portNum, InterruptManager* interruptManager) :
+Rs232::Rs232(uint16_t portNum, InterruptManager* interruptManager) :
     InterruptHandler(interruptManager, portNum == COM1 ? COM1_IRQ : COM2_IRQ),
-    dataReg(portNum + DATA_REG),
-    interruptEnableReg(portNum + INTERRUPT_ENABLE_REG),
-    iIdReg(portNum + INTERRUPT_IDENTIFICATION_REG),
-    lineControlReg(portNum + LINE_CONTROL_REG),
-    modemControlReg(portNum + MODEM_CONTROL_REG),
-    lineStatusReg(portNum + LINE_STATUS_REG),
-    modemStatusReg(portNum + MODEM_STATUS_REG),
-    scratchReg(portNum + SCRATCH_REG) {
-
+    portBase(portNum) {
 }
 
 // stubbed for now
@@ -29,32 +20,34 @@ Rs232::~Rs232() {}
 
 char Rs232::readSerial() {
     while (serialReceived() == 0);
-    return dataReg.read();
+    return readByte(portBase + DATA_REG);
 }
 
 int Rs232::serialReceived() {
-    return lineStatusReg.read() & 1;
+    return readByte(portBase + LINE_STATUS_REG) & 1;
 }
 
 int Rs232::isTransmitEmpty() {
-    return lineStatusReg.read() & 0x20;
+    return readByte(portBase + LINE_STATUS_REG) & 0x20;
 }
 
 void Rs232::writeSerial(char a) {
     while (isTransmitEmpty() == 0);
-    dataReg.write(a);
+    writeByte(portBase + DATA_REG, a);
 }
 
 void Rs232::activate() {
-    interruptEnableReg.write(0x00);
-    lineControlReg.write(0x80);
-    dataReg.write(0x03);
-    interruptEnableReg.write(0x00);
-    lineControlReg.write(0x03);
-    iIdReg.write(0xC7);
-    modemControlReg.write(0x0B);
-    lineControlReg.write(0x00);
-    interruptEnableReg.write(0x01);
+    // disable interrupts
+    writeByte(portBase + INTERRUPT_ENABLE_REG, 0x00);
+    writeByte(portBase + LINE_CONTROL_REG, 0x80);
+    writeByte(portBase + DATA_REG, 0x03);
+    writeByte(portBase + INTERRUPT_ENABLE_REG, 0x00);
+    writeByte(portBase + LINE_CONTROL_REG, 0x03);
+    writeByte(portBase + INTERRUPT_IDENTIFICATION_REG, 0xC7);
+    writeByte(portBase + MODEM_CONTROL_REG, 0x0B);
+    writeByte(portBase + LINE_CONTROL_REG, 0x00);
+    // re-enable interrupts
+    writeByte(portBase + INTERRUPT_ENABLE_REG, 0x01);
 }
 
 void Rs232::deactivate() {

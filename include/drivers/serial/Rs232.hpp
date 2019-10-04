@@ -41,24 +41,16 @@
 
 class Rs232 : public InterruptHandler, public Driver {
     private:
-        PortByte dataReg;
-        PortByte interruptEnableReg;
-        PortByte iIdReg;
-        PortByte lineControlReg;
-        PortByte modemControlReg;
-        PortByte lineStatusReg;
-        PortByte modemStatusReg;
-        PortByte scratchReg;
-        
         char* lineBuffer[75];
         uint8_t lineIndex;
+        uint16_t portBase;
 
         char readSerial();
         int serialReceived();
         int isTransmitEmpty();
         void writeSerial(char a);
     public:
-        Rs232(uint32_t portNum, InterruptManager* interruptManager);
+        Rs232(uint16_t portNum, InterruptManager* interruptManager);
         ~Rs232();
         void activate();
         void deactivate();
