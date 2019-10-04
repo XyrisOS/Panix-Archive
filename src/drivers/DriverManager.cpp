@@ -10,8 +10,11 @@
  */
 #include <drivers/DriverManager.hpp>
 
+DriverManager* DriverManager::activeDriverManager = nullptr;
+
 DriverManager::DriverManager() {
     numberOfDrivers = 0;
+    activeDriverManager = this;
 }
 
 void DriverManager::addDriver(Driver* driver) {

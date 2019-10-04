@@ -71,6 +71,7 @@ class TaskManager {
         int numTasks;       // Number of running tasks
         int currentTask;    // Current task index
     public:
+        static TaskManager* activeTaskManager;
         /**
          * @brief Construct a new Task Manager object
          * 

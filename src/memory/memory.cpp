@@ -3,7 +3,10 @@
 MemoryManager* MemoryManager::activeMemoryManager = 0;
 
 MemoryManager::MemoryManager(size_t start, size_t size) {
-    activeMemoryManager = this;
+    // Set the active memory manager if necessary
+    if (activeMemoryManager == nullptr) {
+        activeMemoryManager = this;
+    }
 
     if (size < sizeof(MemoryChunk)) {
         first = 0;

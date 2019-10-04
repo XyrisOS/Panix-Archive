@@ -26,7 +26,7 @@ class MemoryManager {
         MemoryChunk* first;
 
     public:
-        static MemoryManager *activeMemoryManager;
+        static MemoryManager* activeMemoryManager;
 
         MemoryManager(size_t start, size_t size);
         ~MemoryManager();

@@ -55,8 +55,6 @@ class InterruptManager {
         static GateDescriptor interruptDescriptorTable[256];    // Array of all the created GateDescriptors
         // Interrupt vs. exception offset
         uint16_t hardwareInterruptOffset;       // Offset to differentiate between IRQs and Exceptions
-        // Active managers
-        static InterruptManager* activeInterruptManager;
         TaskManager* activeTaskManager;
         const uint8_t IDT_INTERRUPT_GATE = 0xE; // 32-bit interrupt gate defintion (see OSDev Wiki)
         /**
@@ -131,6 +129,8 @@ class InterruptManager {
         static uint32_t handleInterrupt(uint8_t interrupt, uint32_t esp);
         
     public:
+        // Active managers
+        static InterruptManager* activeInterruptManager;
         /**
          * @brief Construct a new Interrupt Manager object
          * 

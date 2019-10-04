@@ -20,7 +20,7 @@ extern "C" void callConstructors() {
 }
 
 void startShellAsProcess() {
-    RTC* rtc = (RTC*)kernelDriverManager->getDriverWithTag("RTC");
+    RTC* rtc = (RTC*)DriverManager::activeDriverManager->getDriverWithTag("RTC");
     // Print out the date at the shell start.
     kprintSetColor(LightCyan, Black);
     rtc->printTimeAndDate();
@@ -29,18 +29,18 @@ void startShellAsProcess() {
     //clearScreen();
     kprintSetColor(LightBlue, Black);
     // Make sure the kernel never dies!
-    kprint("Activating shell class...\n");
-    Shell basch = Shell(kernelDriverManager);
+    // kprint("Activating shell class...\n");
+    Shell basch = Shell(DriverManager::activeDriverManager);
     // Mouse Interface Driver
-    kprint("Activating shell mouse...\n");
+    // kprint("Activating shell mouse...\n");
     ShellMouseEventHandler shellMouse;
-    MouseDriver mouse(kernelInterruptManager, &shellMouse);
-    kernelDriverManager->addDriver(&mouse);
+    MouseDriver mouse(InterruptManager::activeInterruptManager, &shellMouse);
+    DriverManager::activeDriverManager->addDriver(&mouse);
     // Keyboard Interface Driver
-    kprint("Activating shell keyboard...\n\n");
+    // kprint("Activating shell keyboard...\n\n");
     ShellKeyboardEventHandler shellKeyboard;
-    KeyboardDriver keyboard(kernelInterruptManager, &shellKeyboard);
-    kernelDriverManager->addDriver(&keyboard);
+    KeyboardDriver keyboard(InterruptManager::activeInterruptManager, &shellKeyboard);
+    DriverManager::activeDriverManager->addDriver(&keyboard);
     // Tell the keyboard to use this shell
     kprintSetColor(White, Black);
     shellKeyboard.setConsole(&basch);
@@ -91,11 +91,7 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t multiboot_m
     kprint("Stage 2 - Loading Drivers...\n");
     kprintSetColor(White, Black);
     // Declare our driver manager
-    DriverManager driverManager;
-    // Set pointers to all of the managers
-    kernelDriverManager = &driverManager;
-    kernelTaskManager = &taskManager;
-    kernelInterruptManager = &interruptManager;
+    DriverManager driverManager = DriverManager();
     // PC Beeper Driver
     Speaker speaker = Speaker();
     driverManager.addDriver(&speaker);
@@ -131,7 +127,10 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t multiboot_m
     interruptManager.activate();
 
     // Sleep so we can debug the boot logs
+    kprintSetColor(LightRed, Black);
+    kprint("\nSleeping...\n");
     timer.sleep(60*5);
+    kprintSetColor(White, Black);
 
     /*****************************
      * STAGE 5 - START PROCESSES *
