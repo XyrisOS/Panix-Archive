@@ -55,16 +55,58 @@ void startShellAsProcess() {
 
 extern "C" void kernelMain(const void* multiboot_structure, uint32_t multiboot_magic) {
     // Clear screen, print welcome message.
-    printKernelSplash();
-    // Initialize the Task Manager for Multitasking
-    TaskManager taskManager = TaskManager();
-    // Initialize the GDT, interrupt manager, and timer
-    GlobalDescriptorTable gdt;
-    InterruptManager interruptManager(0x20, &gdt, &taskManager);
-    interruptManager.deactivate();
+    p_kernel_print_splash();
+    // Initialize all of the managers
+    p_kernel_init();
     /****************************
      * STAGE 1 - DYNAMIC MEMORY *
      ****************************/
+    p_kernel_memory_init(multiboot_structure);
+
+    /*****************************************
+     * STAGE 2 & 3 - LOAD & ACTIVATE DRIVERS *
+     *****************************************/
+    p_kernel_drivers_init();
+
+    // If we put all of the code in startShellAsProcess here then it works.
+    // But if we make the call to it here then it doesn't.
+
+    /*********************************
+     * STAGE 4 - ACTIVATE INTERRUPTS *
+     *********************************/
+    // Activate our interrupt manager
+    p_kernel_interrupts_activate();
+    // Sleep so we can debug the logs thus far
+    // FIXME: For whatever reason we never wake back up after calling this.
+    p_kernel_debug_sleep();
+
+    /*****************************
+     * STAGE 5 - START PROCESSES *
+     *****************************/
+    // Activate processes
+    p_kernel_processes_init();
+
+    // Setup VGA desktops
+    // Desktop* desktop = p_kernel_gui_init();
+    while (1) {
+        // Keep the kernel alive
+        //desktop->draw(&vga);
+    }
+    
+    // Return control back to loader.s to cli & hlt.
+    return;
+}
+
+void p_kernel_init() {
+    // Initialize the Task Manager for Multitasking
+    TaskManager taskManager = TaskManager();
+    // Initialize the GDT, interrupt manager, and timer
+    GlobalDescriptorTable gdt = GlobalDescriptorTable();
+    InterruptManager interruptManager(0x20, &gdt, &taskManager);
+    interruptManager.deactivate();
+}
+
+void p_kernel_memory_init(const void* multiboot_structure) {
     kprintSetColor(LightMagenta, Black);
     uint32_t* memupper = (uint32_t*)(((size_t)multiboot_structure) + 8);
     size_t heap = 10*1024*1024;
@@ -83,10 +125,9 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t multiboot_m
     kprintHex((heap      ) & 0xFF);
     kprint("\n");
     kprintSetColor(White, Black);
+}
 
-    /**************************
-     * STAGE 2 - LOAD DRIVERS *
-     **************************/
+void p_kernel_drivers_init() {
     kprintSetColor(LightGreen, Black);
     kprint("Stage 2 - Loading Drivers...\n");
     kprintSetColor(White, Black);
@@ -94,62 +135,49 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t multiboot_m
     DriverManager driverManager = DriverManager();
     // PC Beeper Driver
     Speaker speaker = Speaker();
-    driverManager.addDriver(&speaker);
+    DriverManager::activeDriverManager->addDriver(&speaker);
     // Set the timer to operate at 60Hz
-    Timer timer = Timer(&interruptManager, 60);
-    driverManager.addDriver(&timer);
+    Timer timer = Timer(InterruptManager::activeInterruptManager, 60);
+    DriverManager::activeDriverManager->addDriver(&timer);
     // Real Time Clock Driver
-    RTC rtc = RTC(&interruptManager);
-    driverManager.addDriver(&rtc);
+    RTC rtc = RTC(InterruptManager::activeInterruptManager);
+    DriverManager::activeDriverManager->addDriver(&rtc);
     // PCI Interface Driver
     PeripheralComponentInterconnectController PCIController;
-    PCIController.SelectDrivers(&driverManager, &interruptManager);
-
-    // If we put all of the code in startShellAsProcess here then it works.
-    // But if we make the call to it here then it doesn't.
-
-    /******************************
-     * STAGE 3 - ACTIVATE DRIVERS *
-     ******************************/
-    // Activate all the drivers we just added
+    PCIController.selectDrivers(DriverManager::activeDriverManager, InterruptManager::activeInterruptManager);
+    // For whatever reason we *have* to also activate the drivers in this function or it doesn't work at all.
+    // I'm wondering if this has something to do with multitasking or if something is wrong with the driver
+    // manager. I'm really not sure...
     kprintSetColor(LightGreen, Black);
     kprint("Stage 3 - Activating Drivers...\n");
     kprintSetColor(White, Black);
-    driverManager.activateAll();
+    DriverManager::activeDriverManager->activateAll();
+}
 
-    /*********************************
-     * STAGE 4 - ACTIVATE INTERRUPTS *
-     *********************************/
-    // Activate our interrupt manager
+void p_kernel_interrupts_activate() {
     kprintSetColor(LightGreen, Black);
     kprint("Stage 4 - Activating Interrupts...\n");
     kprintSetColor(White, Black);
-    interruptManager.activate();
+    InterruptManager::activeInterruptManager->activate();
+}
 
-    // Sleep so we can debug the boot logs
-    kprintSetColor(LightRed, Black);
-    kprint("\nSleeping...\n");
-    timer.sleep(60*5);
-    kprintSetColor(White, Black);
-
-    /*****************************
-     * STAGE 5 - START PROCESSES *
-     *****************************/
-    // Activate processes
+void p_kernel_processes_init() {
     kprintSetColor(LightGreen, Black);
     kprint("Stage 5 - Starting shell process...\n");
     kprintSetColor(White, Black);
     // Begin multitasking example
-    Task baschTask(&gdt, startShellAsProcess);
-    taskManager.addTask(&baschTask);
+    Task baschTask(GlobalDescriptorTable::activeGDT, startShellAsProcess);
+    TaskManager::activeTaskManager->addTask(&baschTask);
+}
 
-    // Setup VGA desktops
-    /*
+Desktop* p_kernel_gui_init() {
     // Create a desktop environment
     Desktop desktop(320, 200, 0x00,0x00,0xA8);
     VideoGraphicsArray vga;
-    mouse.setHandler(&desktop);
-    keyboard.setHandler(&desktop);
+    MouseDriver* mouse = (MouseDriver*)DriverManager::activeDriverManager->getDriverWithTag("MOUSE");
+    KeyboardDriver* keyboard = (KeyboardDriver*)DriverManager::activeDriverManager->getDriverWithTag("KEYBOARD");
+    mouse->setHandler(&desktop);
+    keyboard->setHandler(&desktop);
     vga.setMode(320, 200, 8);
     vga.fillRect(0, 0, 320, 200, 0x00, 0x00, 0xA8);
     vga.setMode(320,200, 8);
@@ -157,17 +185,20 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t multiboot_m
     desktop.addChild(&win1);
     Window win2(&desktop, 40,15,30,30, 0x00,0xA8,0x00);
     desktop.addChild(&win2);
-    */
-    while (1) {
-        // Keep the kernel alive
-        //desktop.Draw(&vga);
-    }
-    
-    // Return control back to loader.s to cli & hlt.
-    return;
+    // FIXME: warning: address of local variable ‘desktop’ returned [-Wreturn-local-addr]
+    return &desktop;
 }
 
-void printKernelSplash() {
+void p_kernel_debug_sleep() {
+    // Sleep so we can debug the boot logs
+    kprintSetColor(LightRed, Black);
+    kprint("\nSleeping...\n");
+    Timer* timer = (Timer*)DriverManager::activeDriverManager->getDriverWithTag("PIT");
+    timer->sleep(60*5);
+    kprintSetColor(White, Black);
+}
+
+void p_kernel_print_splash() {
     clearScreen();
     kprintSetColor(Yellow, Black);
     kprint("Welcome to Panix\n");

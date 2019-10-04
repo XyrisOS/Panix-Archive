@@ -38,6 +38,13 @@
 extern "C" void callConstructors();
 extern "C" void kernelMain(const void* multiboot_structure, uint32_t multiboot_magic);
 void startShellAsProcess();
-void printKernelSplash();
+void p_kernel_init();
+void p_kernel_memory_init(const void* multiboot_structure);
+void p_kernel_drivers_init();
+void p_kernel_interrupts_activate();
+void p_kernel_processes_init();
+Desktop* p_kernel_gui_init();
+void p_kernel_debug_sleep();
+void p_kernel_print_splash();
 
 #endif /* PANIX_KERNEL_HPP */

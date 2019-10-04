@@ -49,33 +49,33 @@ void PeripheralComponentInterconnectController::write(uint16_t bus, uint16_t dev
     writeLong(PCI_DATA_PORT, value); 
 }
 
-bool PeripheralComponentInterconnectController::DeviceHasFunctions(uint16_t bus, uint16_t device) {
+bool PeripheralComponentInterconnectController::deviceHasFunctions(uint16_t bus, uint16_t device) {
     return read(bus, device, 0, 0x0E) & (1<<7);
 }
 
-void PeripheralComponentInterconnectController::SelectDrivers(DriverManager* driverManager, InterruptManager* interrupts)
+void PeripheralComponentInterconnectController::selectDrivers(DriverManager* driverManager, InterruptManager* interrupts)
 {
     for(int bus = 0; bus < 8; bus++) {
         //
         for(int device = 0; device < 32; device++) {
             //
-            int numFunctions = DeviceHasFunctions(bus, device) ? 8 : 1;
+            int numFunctions = deviceHasFunctions(bus, device) ? 8 : 1;
             //
             for(int function = 0; function < numFunctions; function++) {
-                PeripheralComponentInterconnectDeviceDescriptor dev = GetDeviceDescriptor(bus, device, function);
+                PeripheralComponentInterconnectDeviceDescriptor dev = getDeviceDescriptor(bus, device, function);
                 //
                 if(dev.vendor_id == 0x0000 || dev.vendor_id == 0xFFFF) {
                     continue;
                 }
                 //
                 for(int barNum = 0; barNum < 6; barNum++) {
-                    BaseAddressRegister bar = GetBaseAddressRegister(bus, device, function, barNum);
+                    BaseAddressRegister bar = getBaseAddressRegister(bus, device, function, barNum);
                     //
                     if(bar.address && (bar.type == InputOutput)) {
                         dev.portBase = (uint32_t)bar.address;
                     }
                     //
-                    Driver* driver = GetDriver(dev, interrupts);
+                    Driver* driver = getDriver(dev, interrupts);
                     if(driver != 0) {
                         driverManager->addDriver(driver);
                     }
@@ -102,7 +102,7 @@ void PeripheralComponentInterconnectController::SelectDrivers(DriverManager* dri
     }
 }
 
-BaseAddressRegister PeripheralComponentInterconnectController::GetBaseAddressRegister(uint16_t bus, uint16_t device, uint16_t function, uint16_t bar) {
+BaseAddressRegister PeripheralComponentInterconnectController::getBaseAddressRegister(uint16_t bus, uint16_t device, uint16_t function, uint16_t bar) {
     // Define the BaseAddressRegister to be set
     BaseAddressRegister result;
     uint32_t headertype = read(bus, device, function, 0x0E) & 0x7F;
@@ -134,7 +134,7 @@ BaseAddressRegister PeripheralComponentInterconnectController::GetBaseAddressReg
     return result;
 }
 
-Driver* PeripheralComponentInterconnectController::GetDriver(PeripheralComponentInterconnectDeviceDescriptor dev, InterruptManager* interrupts) {
+Driver* PeripheralComponentInterconnectController::getDriver(PeripheralComponentInterconnectDeviceDescriptor dev, InterruptManager* interrupts) {
     // See https://wiki.osdev.org/Pci#Class_Codes for a list of codes on many known devices.
     // Each code can be entered here and used to identify a device and get its driver.
     Driver *driver = 0;
@@ -179,7 +179,7 @@ Driver* PeripheralComponentInterconnectController::GetDriver(PeripheralComponent
     return driver;
 }
 
-PeripheralComponentInterconnectDeviceDescriptor PeripheralComponentInterconnectController::GetDeviceDescriptor(uint16_t bus, uint16_t device, uint16_t function) {
+PeripheralComponentInterconnectDeviceDescriptor PeripheralComponentInterconnectController::getDeviceDescriptor(uint16_t bus, uint16_t device, uint16_t function) {
     PeripheralComponentInterconnectDeviceDescriptor result;
     
     result.bus = bus;

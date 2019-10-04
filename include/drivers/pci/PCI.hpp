@@ -130,14 +130,14 @@ class PeripheralComponentInterconnectController : public Driver {
          * @return true Device does identify as having requested function
          * @return false Device does not identify as having requested function
          */
-        bool DeviceHasFunctions(uint16_t bus, uint16_t device);
+        bool deviceHasFunctions(uint16_t bus, uint16_t device);
         /**
          * @brief Selects a driver for a given PCI device (assuming it exists)
          * 
          * @param driverManager Current active kernel driver manager
          * @param interrupts Current active kernel interrupt manager
          */
-        void SelectDrivers(DriverManager* driverManager, InterruptManager* interrupts);
+        void selectDrivers(DriverManager* driverManager, InterruptManager* interrupts);
         /**
          * @brief Gets the Driver object for a given PCI device
          * 
@@ -145,7 +145,7 @@ class PeripheralComponentInterconnectController : public Driver {
          * @param interrupts Current active kernel interrupt manager
          * @return Driver* Returned driver associated with the requested PCI device
          */
-        Driver* GetDriver(PeripheralComponentInterconnectDeviceDescriptor dev, InterruptManager* interrupts);
+        Driver* getDriver(PeripheralComponentInterconnectDeviceDescriptor dev, InterruptManager* interrupts);
         /**
          * @brief Gets the Device Descriptor object based on the provided information
          * 
@@ -154,7 +154,7 @@ class PeripheralComponentInterconnectController : public Driver {
          * @param function Device function code
          * @return PeripheralComponentInterconnectDeviceDescriptor Returned PCI Device associated Descriptor
          */
-        PeripheralComponentInterconnectDeviceDescriptor GetDeviceDescriptor(uint16_t bus, uint16_t device, uint16_t function);
+        PeripheralComponentInterconnectDeviceDescriptor getDeviceDescriptor(uint16_t bus, uint16_t device, uint16_t function);
         /**
          * @brief Get the Base Address Register object based on the provided information
          * 
@@ -164,7 +164,7 @@ class PeripheralComponentInterconnectController : public Driver {
          * @param bar PCI Base Address Register value
          * @return BaseAddressRegister Returned associated PCI device BAR object
          */
-        BaseAddressRegister GetBaseAddressRegister(uint16_t bus, uint16_t device, uint16_t function, uint16_t bar);
+        BaseAddressRegister getBaseAddressRegister(uint16_t bus, uint16_t device, uint16_t function, uint16_t bar);
 };
 
 #endif /* PANIX_PCI_HPP */

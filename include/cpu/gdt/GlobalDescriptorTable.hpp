@@ -13,9 +13,11 @@
 #define PANIX_GLOBAL_DESCRIPTOR_TABLE_HPP
 
 #include <common/types.hpp>
+#include <lib/kprint.hpp>
 
 class GlobalDescriptorTable {
     public:
+        static GlobalDescriptorTable* activeGDT;
         // Code/Data Segment Descriptor
         class SegmentDescriptor {
             private:

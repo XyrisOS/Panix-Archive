@@ -12,6 +12,7 @@
 #define PANIX_DRIVER_MANAGER_HPP
 
 #include <lib/string.hpp>
+#include <lib/kprint.hpp>
 #include <drivers/Driver.hpp>
 
 class DriverManager {

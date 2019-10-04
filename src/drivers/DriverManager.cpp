@@ -13,8 +13,12 @@
 DriverManager* DriverManager::activeDriverManager = nullptr;
 
 DriverManager::DriverManager() {
+    // Set the active DriverManager pointer if necessary
+    if (activeDriverManager == nullptr) {
+        kprint("Setting active driver manager...\n");
+        activeDriverManager = this;
+    }
     numberOfDrivers = 0;
-    activeDriverManager = this;
 }
 
 void DriverManager::addDriver(Driver* driver) {
@@ -23,6 +27,7 @@ void DriverManager::addDriver(Driver* driver) {
 }
 
 void DriverManager::activateAll() {
+    kprint("Activating drivers...\n");
     for (int i = 0; i < numberOfDrivers; i++) {
         drivers[i]->activate();
     }
