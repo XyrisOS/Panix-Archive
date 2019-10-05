@@ -39,9 +39,11 @@
 #define MODEM_STATUS_REG 6
 #define SCRATCH_REG 7
 
+#define BUF_SIZE 75
+
 class Rs232 : public InterruptHandler, public Driver {
     private:
-        char* lineBuffer[75];
+        char* lineBuffer[BUF_SIZE];
         uint8_t lineIndex;
         uint16_t portBase;
 

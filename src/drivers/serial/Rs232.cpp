@@ -11,8 +11,9 @@
 #include <drivers/serial/Rs232.hpp>
 
 Rs232::Rs232(uint16_t portNum, InterruptManager* interruptManager) :
-    InterruptHandler(interruptManager, portNum == COM1 ? COM1_IRQ : COM2_IRQ),
-    portBase(portNum) {
+    InterruptHandler(interruptManager, 0x20 + (portNum == COM1 ? COM1_IRQ : COM2_IRQ)),
+    portBase(portNum),
+    lineIndex(0) {
 }
 
 Rs232::~Rs232() {
@@ -64,6 +65,12 @@ void Rs232::print(char* str) {
 }
 
 uint32_t Rs232::handleInterrupt(uint32_t esp) {
+    //if (lineIndex == BUF_SIZE)
+    char str[2] = { readSerial(), '\0' };
+    if (str[0] == '\r') {
+        print("\n");
+    }
+    print(str);
     return esp;
 }
 
