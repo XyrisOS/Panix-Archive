@@ -87,9 +87,9 @@ void RTC::printTimeAndDate() {
     intToString(day, dayStr);
     intToString(month, monthStr);
     kprint("\nToday's Date: ");
-    kprint(dayStr);
-    kprint("/");
     kprint(monthStr);
+    kprint("/");
+    kprint(dayStr);
     kprint(" - UTC: ");
     kprint(hourStr);
     kprint(":");
