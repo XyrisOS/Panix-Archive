@@ -96,8 +96,9 @@ void Shell::printTick() {
 void Shell::vgaStart() {
     // Initialize the VGA driver
     VideoGraphicsArray vga;
-    vga.setMode(320, 200, 8);
-    vga.fillRect(0, 0, 320, 200, 0x00, 0x00, 0xA8);
+    vga.setMode(VIDEO_WIDTH, VIDEO_HEIGHT, 8);
+    vga.fillRect(0, 0, VIDEO_WIDTH, VIDEO_HEIGHT, 0x00, 0x00, 0xA8);
+    vga.swap();
 }
 
 void Shell::callShutdown() {

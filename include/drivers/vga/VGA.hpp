@@ -35,6 +35,9 @@
 #define ATTRIBUTE_CONTROLLER_WRITE_PORT 0x3C0
 #define ATTRIBUTE_CONTROLLER_RESET_PORT 0x3DA
 
+#define VIDEO_WIDTH 320
+#define VIDEO_HEIGHT 200
+
 class VideoGraphicsArray {
     protected:
         /**
@@ -58,6 +61,10 @@ class VideoGraphicsArray {
          * @return uint8_t color index
          */
         virtual uint8_t getColorIndex(uint8_t r, uint8_t g, uint8_t b);
+
+        void drawPixel(uint32_t x, uint32_t y, uint8_t depth);
+
+        uint8_t videoBuffer[VIDEO_WIDTH * VIDEO_HEIGHT];
 
     public:
         /**
@@ -120,6 +127,8 @@ class VideoGraphicsArray {
          * @param b Blue value
          */
         virtual void fillRect(uint32_t x, uint32_t y, uint32_t w, uint32_t h, uint8_t r, uint8_t g, uint8_t b);
+
+        void swap();
 };
 
 #endif /* PANIX_VGA_HPP */

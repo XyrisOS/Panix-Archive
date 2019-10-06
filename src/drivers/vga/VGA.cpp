@@ -118,11 +118,7 @@ uint8_t VideoGraphicsArray::getColorIndex(uint8_t r, uint8_t g, uint8_t b) {
 }
 
 void VideoGraphicsArray::setPixel(int32_t x, int32_t y, uint8_t depth) {
-    if (x < 0 || 320 <= x || y < 0 || 200 <= y) {
-        return;
-    }
-    uint8_t* pixelAddress = getFrameBufferSegment() + 320 * y + x;
-    *pixelAddress = depth;
+    videoBuffer[VIDEO_WIDTH * y + x] = depth;
 }
 
 void VideoGraphicsArray::setPixel(int32_t x, int32_t y, uint8_t r, uint8_t g, uint8_t b) {
@@ -133,6 +129,23 @@ void VideoGraphicsArray::fillRect(uint32_t x, uint32_t y, uint32_t w, uint32_t h
     for (int32_t i = y; i < y + h; i++) {
         for (int32_t j = x; j < x + w; j++) {
             setPixel(j, i, r, g, b);
+        }
+    }
+}
+
+void VideoGraphicsArray::drawPixel(uint32_t x, uint32_t y, uint8_t depth) {
+    if (x < 0 || VIDEO_WIDTH <= x || y < 0 || VIDEO_HEIGHT <= y) {
+        return;
+    }
+    uint8_t* pixelAddress = getFrameBufferSegment() + VIDEO_WIDTH * y + x;
+    *pixelAddress = depth;
+}
+
+void VideoGraphicsArray::swap() {
+    uint32_t x, y;
+    for (y = 0; y < VIDEO_HEIGHT; ++y) {
+        for (x = 0; x < VIDEO_WIDTH; ++x) {
+            drawPixel(x, y, videoBuffer[y * VIDEO_WIDTH + x]);
         }
     }
 }
