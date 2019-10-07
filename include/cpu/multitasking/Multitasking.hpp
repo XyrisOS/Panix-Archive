@@ -48,6 +48,7 @@ class Task {
     private:
         uint8_t stack[4096];    // 4 KiB stack for processes
         CPUState* cpustate;     // Current CPU state for a given task (see struct above)
+    
     public:
         /**
          * @brief Construct a new Task object
@@ -70,6 +71,7 @@ class TaskManager {
         Task* tasks[256];   // Array of current tasks (maxed at 256 right now)
         int numTasks;       // Number of running tasks
         int currentTask;    // Current task index
+    
     public:
         static TaskManager* activeTaskManager;
         /**

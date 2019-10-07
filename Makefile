@@ -27,7 +27,7 @@ ifeq ($(UNAME_S),Linux)
 endif
 
 # Compiler/Linker flags
-GCC_FLAGS = -m32 -Iinclude -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -fno-stack-protector -Wno-write-strings -std=c++17
+GCC_FLAGS = -m32 -g -Iinclude -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -fno-stack-protector -Wno-write-strings -std=c++17
 AS_FLAGS = --32
 LD_FLAGS = -melf_i386
 
@@ -94,9 +94,9 @@ dist: dist/panix.bin
 # Open the connection to qemu and load our kernel-object file with symbols
 debug: dist/panix.iso
 	@ echo Booting from floppy...
-	$(QEMU) -drive format=raw,file=$<
+	$(QEMU) -S -s -drive format=raw,file=$< -soundhw pcspk -rtc clock=host -vga std &
 	@ echo Setting up GDB with qemu...
-	${GDB} -ex "target remote localhost:1234" -ex "symbol-file panix.bin"
+	$(GDB) -ex "target remote localhost:1234" -ex "symbol-file dist/panix.bin"
 
 docs:
 	@ echo Generating docs according to the Doxyfile...
