@@ -136,6 +136,18 @@ void p_kernel_drivers_init() {
     kprintSetColor(White, Black);
     // Declare our driver manager
     DriverManager driverManager = DriverManager();
+    /*
+    // FIXME: We know it's the mouse driver that's causing some sort of crash now. When we add it
+    // in here it causes a bootloop for some reason.
+    // Mouse driver
+    MouseEventHandler mouseHandler;
+    MouseDriver mouse = MouseDriver(InterruptManager::activeInterruptManager, &mouseHandler);
+    driverManager.addDriver(&mouse);
+    */
+    // Keyboard driver
+    KeyboardEventHandler keyboardHandler;
+    KeyboardDriver keyboard = KeyboardDriver(InterruptManager::activeInterruptManager, &keyboardHandler);
+    driverManager.addDriver(&keyboard);
     // PC Beeper Driver
     Speaker speaker = Speaker();
     DriverManager::activeDriverManager->addDriver(&speaker);
