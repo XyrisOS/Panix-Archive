@@ -107,17 +107,19 @@ void p_kernel_init() {
 }
 
 void p_kernel_memory_init(const void* multiboot_structure) {
-    kprintSetColor(LightMagenta, Black);
     uint32_t* memupper = (uint32_t*)(((size_t)multiboot_structure) + 8);
     size_t heap = 10*1024*1024;
     MemoryManager memoryManager(heap, (*memupper)*1024 - heap - 10*1024);
+    /*
+    kprintSetColor(LightMagenta, Black);    
     kprint("Heap 0x");
     kprintHex((heap >> 24) & 0xFF);
     kprintHex((heap >> 16) & 0xFF);
     kprintHex((heap >>  8) & 0xFF);
     kprintHex((heap      ) & 0xFF);
-
+    */
     void* allocated = memoryManager.malloc(1024);
+    /*
     kprint("\nAllocated 0x");
     kprintHex((heap >> 24) & 0xFF);
     kprintHex((heap >> 16) & 0xFF);
@@ -125,6 +127,7 @@ void p_kernel_memory_init(const void* multiboot_structure) {
     kprintHex((heap      ) & 0xFF);
     kprint("\n");
     kprintSetColor(White, Black);
+    */
 }
 
 void p_kernel_drivers_init() {
@@ -190,6 +193,7 @@ Desktop* p_kernel_gui_init() {
 }
 
 void p_kernel_debug_sleep() {
+    //clearScreen();
     // Sleep so we can debug the boot logs
     kprintSetColor(LightRed, Black);
     if (DriverManager::activeDriverManager != nullptr) {

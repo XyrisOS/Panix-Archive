@@ -40,13 +40,31 @@ void DriverManager::activateLast() {
 
 Driver* DriverManager::getDriverWithTag(char* tag) {
     // Cycle through the drivers which have been added
-    for (int i = 0; i < numberOfDrivers; i++) {
+    kprint("Number of drivers to search: ");
+    char numString[5];
+    intToString(numberOfDrivers, numString);
+    kprint(numString);
+    kprint("\n");
+    kprint("Looking for driver...\n");
+    for (uint8_t i = 0; i < numberOfDrivers; i++) {
         // If we find a matching tag
-        if (strcmp(drivers[i]->getDriverTypeTag(), tag) == 0) {
-            // Return the associated driver
-            return drivers[i];
+        if (drivers[i] != nullptr) {
+            if (strcmp(drivers[i]->getDriverTypeTag(), tag) == 0) {
+                // Return the associated driver
+                kprint("Got driver.\n");
+                return drivers[i];
+            } else {
+                //kprint("Searching... Got ");
+                //kprint(drivers[i]->getDriverTypeTag());
+                //kprint("\n");
+                char currNum[5];
+                intToString(i, currNum);
+                kprint(currNum);
+                kprint(" ");
+            }
         }
     }
     // Nothing was found.
+    kprint("No such driver exists.\n");
     return nullptr;
 }

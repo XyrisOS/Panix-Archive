@@ -18,7 +18,7 @@
 class DriverManager {
     private:
         Driver* drivers[265];
-        int numberOfDrivers;
+        uint8_t numberOfDrivers;
         
     public:
         static DriverManager* activeDriverManager;
