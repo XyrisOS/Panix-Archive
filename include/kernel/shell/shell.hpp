@@ -16,10 +16,10 @@
 #include <drivers/timer/Timer.hpp>
 #include <drivers/rtc/RTC.hpp>
 #include <drivers/vga/VGA.hpp>
-#include <libc/stdio.hpp>
-#include <libc/kprint.hpp>
-#include <libc/string.hpp>
-#include <libc/tty.hpp>
+#include <lib/stdio.hpp>
+#include <lib/kprint.hpp>
+#include <lib/string.hpp>
+#include <lib/tty.hpp>
 
 // Number of commands available to the shell
 #define NUMBER_OF_COMMANDS 8

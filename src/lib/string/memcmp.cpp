@@ -8,7 +8,7 @@
  * @copyright Copyright Keeton Feavel (c) 2019
  * 
  */
-#include <libc/string.hpp>
+#include <lib/string.hpp>
  
 int memcmp(const void* aptr, const void* bptr, size_t size) {
 	const unsigned char* a = (const unsigned char*) aptr;

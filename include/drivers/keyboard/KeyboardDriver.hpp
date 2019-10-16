@@ -17,13 +17,13 @@
 #ifndef PANIX_KEYBOARD_DRIVER_HPP
 #define PANIX_KEYBOARD_DRIVER_HPP
 
-#include <types.hpp>
+#include <common/types.hpp>
 #include <cpu/interrupts/InterruptManager.hpp>
 #include <cpu/port/Port.hpp>
 #include <drivers/keyboard/KeyboardEventHandler.hpp>
 #include <drivers/Driver.hpp>
-#include <libc/kprint.hpp>
-#include <libc/string.hpp>
+#include <lib/kprint.hpp>
+#include <lib/string.hpp>
 #include <kernel/shell/shell.hpp>
 
 class KeyboardEventHandler;

@@ -35,7 +35,7 @@ void InterruptManager::setInterruptDescriptorTableEntry(
 
 
 InterruptManager::InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescriptorTable* globalDescriptorTable, TaskManager* taskManager) {
-    this->activeTaskManager = taskManager;
+    activeInterruptManager = this;
     this->hardwareInterruptOffset = hardwareInterruptOffset;
     uint32_t CodeSegment = globalDescriptorTable->CodeSegmentSelector();
     void (* handleExceptionsArray [20])() = {
@@ -112,7 +112,7 @@ uint16_t InterruptManager::getHardwareInterruptOffset() {
 }
 
 void InterruptManager::activate() {
-    if(activeInterruptManager == nullptr) {
+    if (activeInterruptManager == nullptr) {
         activeInterruptManager = this;
         asm("sti");
     }
@@ -130,7 +130,7 @@ uint32_t InterruptManager::handleInterrupt(uint8_t interrupt, uint32_t esp) {
         // Handle interrupt 0x00 (0x20 with hardware offset)
         if (interrupt == activeInterruptManager->hardwareInterruptOffset) {
             // Schedule a new task as a process
-            esp = (uint32_t)activeInterruptManager->activeTaskManager->schedule((CPUState*)esp);
+            esp = (uint32_t)TaskManager::activeTaskManager->schedule((CPUState*)esp);
         }
         // If there is a handler for the interrupt that we recieved, call the appropriate function.
         if (activeInterruptManager->handlers[interrupt] != 0) {

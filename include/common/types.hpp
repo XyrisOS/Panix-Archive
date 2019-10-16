@@ -8,6 +8,7 @@
  * @copyright Copyright Keeton Feavel (c) 2019
  * 
  */
+
 #ifndef PANIX_TYPES_HPP
 #define PANIX_TYPES_HPP
 
@@ -19,5 +20,6 @@ typedef int                     int32_t;
 typedef unsigned int           uint32_t;
 typedef long long int           int64_t;
 typedef unsigned long long int uint64_t;
+typedef unsigned int             size_t;
     
 #endif /* PANIX_TYPES_HPP */

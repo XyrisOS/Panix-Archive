@@ -11,7 +11,7 @@
 #ifndef PANIX_MOUSE_SHELL_EVENT_HANDLER
 #define PANIX_MOUSE_SHELL_EVENT_HANDLER
 
-#include <types.hpp>
+#include <common/types.hpp>
 #include <drivers/mouse/MouseEventHandler.hpp>
 
 class ShellMouseEventHandler : public MouseEventHandler {

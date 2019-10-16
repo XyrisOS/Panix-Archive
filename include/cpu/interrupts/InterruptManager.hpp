@@ -14,16 +14,16 @@
 #ifndef PANIX_INTERRUPT_MANAGER_HPP
 #define PANIX_INTERRUPT_MANAGER_HPP
 
-#include <types.hpp>
+#include <common/types.hpp>
 #include <cpu/port/Port.hpp>
 #include <cpu/gdt/GlobalDescriptorTable.hpp>
 #include <cpu/interrupts/InterruptHandler.hpp>
 #include <cpu/multitasking/Multitasking.hpp>
 #include <drivers/speaker/Speaker.hpp>
-#include <libc/stdio.hpp>
-#include <libc/string.hpp>
-#include <libc/kprint.hpp>
-#include <libc/tty.hpp>
+#include <lib/stdio.hpp>
+#include <lib/string.hpp>
+#include <lib/kprint.hpp>
+#include <lib/tty.hpp>
 
 // PIC Port Definitions
 #define MASTER_COMMAND 0x20
@@ -55,9 +55,6 @@ class InterruptManager {
         static GateDescriptor interruptDescriptorTable[256];    // Array of all the created GateDescriptors
         // Interrupt vs. exception offset
         uint16_t hardwareInterruptOffset;       // Offset to differentiate between IRQs and Exceptions
-        // Active managers
-        static InterruptManager* activeInterruptManager;
-        TaskManager* activeTaskManager;
         const uint8_t IDT_INTERRUPT_GATE = 0xE; // 32-bit interrupt gate defintion (see OSDev Wiki)
         /**
          * @brief Set the Interrupt Descriptor Table Entry object
@@ -131,6 +128,8 @@ class InterruptManager {
         static uint32_t handleInterrupt(uint8_t interrupt, uint32_t esp);
         
     public:
+        // Active managers
+        static InterruptManager* activeInterruptManager;
         /**
          * @brief Construct a new Interrupt Manager object
          * 

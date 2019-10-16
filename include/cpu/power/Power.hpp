@@ -1,7 +1,7 @@
 #ifndef PANIX_CPU_POWER
 #define PANIX_CPU_POWER
 
-#include <types.hpp>
+#include <common/types.hpp>
 #include <cpu/port/Port.hpp>
 
 /**

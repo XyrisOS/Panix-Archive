@@ -11,8 +11,8 @@
 #ifndef PANIX_KEYBOARD_SHELL_EVENT_HANDLER
 #define PANIX_KEYBOARD_SHELL_EVENT_HANDLER
 
-#include <types.hpp>
-#include <libc/string.hpp>
+#include <common/types.hpp>
+#include <lib/string.hpp>
 #include <drivers/keyboard/KeyboardEventHandler.hpp>
 #include <kernel/shell/shell.hpp>
 

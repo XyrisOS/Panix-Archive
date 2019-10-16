@@ -8,7 +8,7 @@
  * @copyright Copyright Keeton Feavel (c) 2019
  * 
  */
-#include <libc/kprint.hpp>
+#include <lib/kprint.hpp>
 
 uint8_t ttyCoordsX = 0;
 uint8_t ttyCoordsY = 0;

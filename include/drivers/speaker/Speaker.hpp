@@ -18,11 +18,11 @@
 #ifndef PANIX_SPEAKER_HPP
 #define PANIX_SPEAKER_HPP
 
-#include <types.hpp>
+#include <common/types.hpp>
 #include <cpu/port/Port.hpp>
 #include <cpu/interrupts/InterruptHandler.hpp>
 #include <drivers/Driver.hpp>
-#include <libc/kprint.hpp>
+#include <lib/kprint.hpp>
 
 #define SPEAKER_COMMAND_PORT 0x43
 #define SPEAKER_DATA_PORT_2 0x42

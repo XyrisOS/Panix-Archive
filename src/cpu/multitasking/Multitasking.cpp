@@ -10,6 +10,8 @@
  */
 #include <cpu/multitasking/Multitasking.hpp>
 
+TaskManager* TaskManager::activeTaskManager = nullptr;
+
 Task::Task(GlobalDescriptorTable *gdt, void entrypoint()) {
     cpustate = (CPUState*)(stack + 4096 - sizeof(CPUState));
     
@@ -42,6 +44,10 @@ Task::~Task() {
 }
         
 TaskManager::TaskManager() {
+    // Set the active task manager if necessary
+    if (activeTaskManager == nullptr) {
+        activeTaskManager = this;
+    }
     numTasks = 0;
     currentTask = -1;
 }

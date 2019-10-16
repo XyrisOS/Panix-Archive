@@ -11,15 +11,17 @@
 #ifndef PANIX_DRIVER_MANAGER_HPP
 #define PANIX_DRIVER_MANAGER_HPP
 
-#include <libc/string.hpp>
+#include <lib/string.hpp>
+#include <lib/kprint.hpp>
 #include <drivers/Driver.hpp>
 
 class DriverManager {
     private:
         Driver* drivers[265];
-        int numberOfDrivers;
+        uint8_t numberOfDrivers;
         
     public:
+        static DriverManager* activeDriverManager;
         /**
          * @brief Construct a new Driver Manager object.
          * 

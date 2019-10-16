@@ -10,7 +10,14 @@
  */
 #include <drivers/DriverManager.hpp>
 
+DriverManager* DriverManager::activeDriverManager = nullptr;
+
 DriverManager::DriverManager() {
+    // Set the active DriverManager pointer if necessary
+    if (activeDriverManager == nullptr) {
+        kprint("Setting active driver manager...\n");
+        activeDriverManager = this;
+    }
     numberOfDrivers = 0;
 }
 
@@ -20,6 +27,7 @@ void DriverManager::addDriver(Driver* driver) {
 }
 
 void DriverManager::activateAll() {
+    kprint("Activating drivers...\n");
     for (int i = 0; i < numberOfDrivers; i++) {
         drivers[i]->activate();
     }
@@ -32,13 +40,31 @@ void DriverManager::activateLast() {
 
 Driver* DriverManager::getDriverWithTag(char* tag) {
     // Cycle through the drivers which have been added
-    for (int i = 0; i < numberOfDrivers; i++) {
-        // If we find a matching tag
-        if (strcmp(drivers[i]->getDriverTypeTag(), tag) == 0) {
+    kprint("Number of drivers to search: ");
+    char numString[5];
+    intToString(numberOfDrivers, numString);
+    kprint(numString);
+    kprint("\n");
+    kprint("Looking for ");
+    kprint(tag);
+    kprint("...\n");
+    for (uint8_t i = 0; i < numberOfDrivers; i++) {
+        char currNum[5];
+        intToString(i, currNum);
+        kprint(currNum);
+        kprint(" ");
+        // If the driver isn't null and we find a matching tag
+        if (drivers[i] != NULL && strcmp(drivers[i]->getDriverTypeTag(), tag) == 0) {
             // Return the associated driver
+            kprint("Got driver.\n");
             return drivers[i];
+        } else {
+            kprint("Got ");
+            kprint(drivers[i]->getDriverTypeTag());
+            kprint("\n");
         }
     }
     // Nothing was found.
+    kprint("No such driver exists.\n");
     return nullptr;
 }

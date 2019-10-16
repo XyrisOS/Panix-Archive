@@ -8,7 +8,7 @@
  * @copyright Copyright Keeton Feavel (c) 2019
  * 
  */
-#include <libc/ctype.hpp>
+#include <lib/ctype.hpp>
 
 char* toUpper(char* string) {
     for(char* p=string; *p != '\0'; p++) {

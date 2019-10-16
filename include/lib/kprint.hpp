@@ -11,7 +11,7 @@
 #ifndef PANIX_KPRINT_HPP
 #define PANIX_KPRINT_HPP
 
-#include <types.hpp>
+#include <common/types.hpp>
 
 enum TTYColor {
     Black           = 0x0,

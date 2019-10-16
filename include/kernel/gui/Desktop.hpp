@@ -11,7 +11,7 @@
 #ifndef PANIX_GUI_DESKTOP_HPP
 #define PANIX_GUI_DESKTOP_HPP
 
-#include <types.hpp>
+#include <common/types.hpp>
 #include <kernel/gui/Widget.hpp>
 #include <drivers/mouse/MouseEventHandler.hpp>
 

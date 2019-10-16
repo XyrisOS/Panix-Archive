@@ -11,12 +11,20 @@
  */
 #include <cpu/gdt/GlobalDescriptorTable.hpp>
 
-GlobalDescriptorTable::GlobalDescriptorTable()
-    : nullSegmentSelector(0, 0, 0),
-        unusedSegmentSelector(0, 0, 0),
-        codeSegmentSelector(0, 64 * 1024 * 1024, 154),
-        dataSegmentSelector(0, 64 * 1024 * 1024, 146)
+GlobalDescriptorTable* GlobalDescriptorTable::activeGDT = nullptr;
+
+GlobalDescriptorTable::GlobalDescriptorTable() :
+    nullSegmentSelector(0, 0, 0),
+    unusedSegmentSelector(0, 0, 0),
+    codeSegmentSelector(0, 64 * 1024 * 1024, 154),
+    dataSegmentSelector(0, 64 * 1024 * 1024, 146)
 {
+    // Set the active GDT if necessary
+    if (activeGDT == nullptr) {
+        kprint("Setting active GDT...\n");
+        activeGDT = this;
+    }
+    // Continue initialization
     uint32_t gdtInfo[2];
     gdtInfo[0] = sizeof(GlobalDescriptorTable) << 16;
     gdtInfo[1] = (uint32_t) this;

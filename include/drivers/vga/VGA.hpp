@@ -11,7 +11,7 @@
 #ifndef PANIX_VGA_HPP
 #define PANIX_VGA_HPP
 
-#include <types.hpp>
+#include <common/types.hpp>
 #include <cpu/port/Port.hpp>
 #include <drivers/Driver.hpp>
 

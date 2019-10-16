@@ -11,7 +11,7 @@
 #ifndef PANIX_GUI_WINDOW_HPP
 #define PANIX_GUI_WINDOW_HPP
 
-#include <types.hpp>
+#include <common/types.hpp>
 #include <kernel/gui/Widget.hpp>
 
 class Window : public CompositeWidget {
