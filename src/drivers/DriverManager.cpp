@@ -45,23 +45,23 @@ Driver* DriverManager::getDriverWithTag(char* tag) {
     intToString(numberOfDrivers, numString);
     kprint(numString);
     kprint("\n");
-    kprint("Looking for driver...\n");
+    kprint("Looking for ");
+    kprint(tag);
+    kprint("...\n");
     for (uint8_t i = 0; i < numberOfDrivers; i++) {
-        // If we find a matching tag
-        if (drivers[i] != nullptr) {
-            if (strcmp(drivers[i]->getDriverTypeTag(), tag) == 0) {
-                // Return the associated driver
-                kprint("Got driver.\n");
-                return drivers[i];
-            } else {
-                //kprint("Searching... Got ");
-                //kprint(drivers[i]->getDriverTypeTag());
-                //kprint("\n");
-                char currNum[5];
-                intToString(i, currNum);
-                kprint(currNum);
-                kprint(" ");
-            }
+        char currNum[5];
+        intToString(i, currNum);
+        kprint(currNum);
+        kprint(" ");
+        // If the driver isn't null and we find a matching tag
+        if (drivers[i] != NULL && strcmp(drivers[i]->getDriverTypeTag(), tag) == 0) {
+            // Return the associated driver
+            kprint("Got driver.\n");
+            return drivers[i];
+        } else {
+            kprint("Got ");
+            kprint(drivers[i]->getDriverTypeTag());
+            kprint("\n");
         }
     }
     // Nothing was found.

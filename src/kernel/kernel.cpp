@@ -131,6 +131,7 @@ void p_kernel_memory_init(const void* multiboot_structure) {
 }
 
 void p_kernel_drivers_init() {
+    clearScreen();
     kprintSetColor(LightGreen, Black);
     kprint("Stage 2 - Loading Drivers...\n");
     kprintSetColor(White, Black);

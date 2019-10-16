@@ -42,6 +42,7 @@ class Driver {
          * @return char* Short driver type tag
          */
         virtual char* getDriverTypeTag();
+        // TODO: Add getHandler() function to return the handler so we can cast it in the getDriverByTag
 };
     
 #endif /* PANIX_DRIVER_HPP */

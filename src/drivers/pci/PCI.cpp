@@ -55,28 +55,28 @@ bool PeripheralComponentInterconnectController::deviceHasFunctions(uint16_t bus,
 
 void PeripheralComponentInterconnectController::selectDrivers(DriverManager* driverManager, InterruptManager* interrupts)
 {
-    for(int bus = 0; bus < 8; bus++) {
+    for (int bus = 0; bus < 8; bus++) {
         //
-        for(int device = 0; device < 32; device++) {
+        for (int device = 0; device < 32; device++) {
             //
             int numFunctions = deviceHasFunctions(bus, device) ? 8 : 1;
             //
-            for(int function = 0; function < numFunctions; function++) {
+            for (int function = 0; function < numFunctions; function++) {
                 PeripheralComponentInterconnectDeviceDescriptor dev = getDeviceDescriptor(bus, device, function);
                 //
-                if(dev.vendor_id == 0x0000 || dev.vendor_id == 0xFFFF) {
+                if (dev.vendor_id == 0x0000 || dev.vendor_id == 0xFFFF) {
                     continue;
                 }
                 //
-                for(int barNum = 0; barNum < 6; barNum++) {
+                for (int barNum = 0; barNum < 6; barNum++) {
                     BaseAddressRegister bar = getBaseAddressRegister(bus, device, function, barNum);
                     //
-                    if(bar.address && (bar.type == InputOutput)) {
+                    if (bar.address && (bar.type == InputOutput)) {
                         dev.portBase = (uint32_t)bar.address;
                     }
                     //
                     Driver* driver = getDriver(dev, interrupts);
-                    if(driver != 0) {
+                    if (driver != 0) {
                         driverManager->addDriver(driver);
                     }
                 }
@@ -176,7 +176,8 @@ Driver* PeripheralComponentInterconnectController::getDriver(PeripheralComponent
             break;
     }
     
-    return driver;
+    //return driver;
+    return 0;
 }
 
 PeripheralComponentInterconnectDeviceDescriptor PeripheralComponentInterconnectController::getDeviceDescriptor(uint16_t bus, uint16_t device, uint16_t function) {
