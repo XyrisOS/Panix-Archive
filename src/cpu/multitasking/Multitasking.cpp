@@ -57,23 +57,26 @@ TaskManager::~TaskManager() {
 }
 
 bool TaskManager::addTask(Task* task) {
+    kprint("[TASK MANAGER] Adding task...\n");
     if(numTasks >= 256) {
+        kprint("[TASK MANAGER] Too many current tasks to add new one.\n");
         return false;
     }
     tasks[numTasks++] = task;
+    kprint("[TASK MANAGER] Added task successfully.\n");
     return true;
 }
 
 CPUState* TaskManager::schedule(CPUState* cpustate) {
-    if(numTasks <= 0) {
+    if (numTasks <= 0) {
         return cpustate;
     }
     
-    if(currentTask >= 0) {
+    if (currentTask >= 0) {
         tasks[currentTask]->cpustate = cpustate;
     }
 
-    if(++currentTask >= numTasks) {
+    if (++currentTask >= numTasks) {
         currentTask %= numTasks;
     }
 

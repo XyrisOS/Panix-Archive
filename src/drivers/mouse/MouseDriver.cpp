@@ -30,6 +30,8 @@ void MouseDriver::activate() {
     
     if (mouseEventHandler != nullptr) {
         mouseEventHandler->onActivate();
+    } else {
+        kprint("[MOUSE] No mouse driver handler!\n");
     }
 
     writeByte(MOUSE_COMMAND_PORT, 0xA8);
@@ -44,6 +46,7 @@ void MouseDriver::activate() {
 }
 
 uint32_t MouseDriver::handleInterrupt(uint32_t esp) {
+    kprint("[MOUSE] Handling interrupt.\n");
     uint8_t status = readByte(MOUSE_COMMAND_PORT) ;
     if (!(status & 0x20) || mouseEventHandler == nullptr) {
         return esp;
@@ -73,9 +76,11 @@ uint32_t MouseDriver::handleInterrupt(uint32_t esp) {
 }
 
 void MouseDriver::setHandler(MouseEventHandler* handler) {
+    kprint("[MOUSE] Setting handler...\n");
     this->mouseEventHandler = handler;
 }
 
 char* MouseDriver::getDriverTypeTag() {
+    kprint("[MOUSE] Getting tag.\n");
     return "MOUSE";
 }
