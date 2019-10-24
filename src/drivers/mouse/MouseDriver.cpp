@@ -13,11 +13,14 @@
 void kprint(const char* str);
 
 MouseDriver::MouseDriver(InterruptManager* interruptManager, MouseEventHandler* mouseEventHandler)
-    : InterruptHandler(interruptManager, 0x2C) {
+: InterruptHandler(interruptManager, 0x2C)
+{
     this->mouseEventHandler = mouseEventHandler;
 }
 
-MouseDriver::~MouseDriver() {}
+MouseDriver::~MouseDriver() {
+    // Stubbed
+}
 
 void MouseDriver::activate() {
     kprint("Activating mouse driver\n");
@@ -72,6 +75,7 @@ uint32_t MouseDriver::handleInterrupt(uint32_t esp) {
 void MouseDriver::setHandler(MouseEventHandler* handler) {
     this->mouseEventHandler = handler;
 }
+
 char* MouseDriver::getDriverTypeTag() {
     return "MOUSE";
 }

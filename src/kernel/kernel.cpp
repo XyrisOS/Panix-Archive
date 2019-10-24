@@ -20,7 +20,9 @@ extern "C" void callConstructors() {
 }
 
 void startShellAsProcess() {
+    kprint("Starting shell process...\n");
     RTC* rtc = (RTC*)DriverManager::activeDriverManager->getDriverWithTag("RTC");
+    kprint("Shell got RTC.\n");
     // Print out the date at the shell start.
     kprintSetColor(LightCyan, Black);
     rtc->printTimeAndDate();
@@ -78,7 +80,8 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t multiboot_m
     p_kernel_interrupts_activate();
     // Sleep so we can debug the logs thus far
     // FIXME: For whatever reason we never wake back up after calling this.
-    p_kernel_debug_sleep();
+    
+    //p_kernel_debug_sleep();
 
     /*****************************
      * STAGE 5 - START PROCESSES *
@@ -86,6 +89,7 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t multiboot_m
     // Activate processes
     p_kernel_processes_init();
 
+    kprint("Keeping the kernel alive...\n");
     // Setup VGA desktops
     // Desktop* desktop = p_kernel_gui_init();
     while (1) {
@@ -183,7 +187,9 @@ void p_kernel_processes_init() {
     kprintSetColor(White, Black);
     // Begin multitasking example
     Task baschTask(GlobalDescriptorTable::activeGDT, startShellAsProcess);
+    kprint("Created process...\n");
     TaskManager::activeTaskManager->addTask(&baschTask);
+    kprint("Added task...\n");
 }
 
 Desktop* p_kernel_gui_init() {
