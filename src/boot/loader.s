@@ -30,6 +30,6 @@ _stop:
 
 
 .section .bss
-.space 10*1024*1024; # 2 MiB
+.space 4*1024*1024; # 4 MiB
 kernel_stack:
 
