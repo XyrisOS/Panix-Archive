@@ -20,7 +20,9 @@ extern "C" void callConstructors() {
 }
 
 void startShellAsProcess() {
+    kprint("Starting shell process...\n");
     RTC* rtc = (RTC*)DriverManager::activeDriverManager->getDriverWithTag("RTC");
+    kprint("Shell got RTC.\n");
     // Print out the date at the shell start.
     kprintSetColor(LightCyan, Black);
     rtc->printTimeAndDate();
