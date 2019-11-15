@@ -17,6 +17,19 @@
 
 class GlobalDescriptorTable {
     public:
+        GlobalDescriptorTable();
+        /**
+         * @brief Constructs a new code segment
+         * 
+         * @return uint16_t 
+         */
+        uint16_t CodeSegmentSelector();
+        /**
+         * @brief Constructs a new data segment
+         * 
+         * @return uint16_t 
+         */
+        uint16_t DataSegmentSelector();
         static GlobalDescriptorTable* activeGDT;
         // Code/Data Segment Descriptor
         class SegmentDescriptor {
@@ -58,21 +71,6 @@ class GlobalDescriptorTable {
         SegmentDescriptor unusedSegmentSelector;
         SegmentDescriptor codeSegmentSelector;
         SegmentDescriptor dataSegmentSelector;
-
-    public:
-        GlobalDescriptorTable();
-        /**
-         * @brief Constructs a new code segment
-         * 
-         * @return uint16_t 
-         */
-        uint16_t CodeSegmentSelector();
-        /**
-         * @brief Constructs a new data segment
-         * 
-         * @return uint16_t 
-         */
-        uint16_t DataSegmentSelector();
 };
 
 #endif /* PANIX_GLOBAL_DESCRIPTOR_TABLE_HPP */
