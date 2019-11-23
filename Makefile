@@ -6,11 +6,11 @@ S_SRC = $(shell find src/ -name "*.s")
 HEADERS = $(shell find include/ -name "*.hpp")
 
 # Compilers/Assemblers/Linkers
-AS = i386-elf-as
-GCC = i386-elf-gcc
-GDB = i386-elf-gdb
-LD = i386-elf-ld
-NASM = i386-elf-nasm
+AS = i686-elf-as
+GCC = i686-elf-gcc
+GDB = gdb
+LD = i686-elf-ld
+NASM = nasm
 SYS = "Other: Likely macOS"
 QEMU = qemu-system-x86_64
 
