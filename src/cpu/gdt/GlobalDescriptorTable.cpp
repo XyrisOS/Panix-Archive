@@ -1,11 +1,12 @@
 /**
  * @file GlobalDescriptorTable.cpp
  * @author Keeton Feavel (keetonfeavel@cedarville.edu)
- * @brief 
+ * @brief The Global Descriptor Table (GDT) is specific to the IA32 architecture.
+ * It contains entries telling the CPU about memory segments.
  * @version 0.1
  * @date 2019-09-26
  * 
- * @copyright Copyright (c) 2019
+ * @copyright Copyright Keeton Feavel (c) 2019
  * 
  */
 #include <cpu/gdt/GlobalDescriptorTable.hpp>
@@ -22,12 +23,12 @@ GlobalDescriptorTable::GlobalDescriptorTable()
     asm volatile("lgdt (%0)": :"p" (((uint8_t *) gdtInfo) + 2));
 }
 
-uint16_t GlobalDescriptorTable::DataSegmentSelector() {
-    return (uint8_t*) &dataSegmentSelector - (uint8_t*) this;
-}
-
 uint16_t GlobalDescriptorTable::CodeSegmentSelector() {
     return (uint8_t*) &codeSegmentSelector - (uint8_t*) this;
+}
+
+uint16_t GlobalDescriptorTable::DataSegmentSelector() {
+    return (uint8_t*) &dataSegmentSelector - (uint8_t*) this;
 }
 
 GlobalDescriptorTable::SegmentDescriptor::SegmentDescriptor(uint32_t base, uint32_t limit, uint8_t type) {

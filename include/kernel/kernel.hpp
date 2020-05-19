@@ -5,7 +5,7 @@
  * @version 0.1
  * @date 2019-09-26
  * 
- * @copyright Copyright (c) 2019
+ * @copyright Copyright Keeton Feavel (c) 2019
  * 
  */
 #ifndef PANIX_KERNEL_HPP
@@ -32,5 +32,14 @@
 #include <kernel/shell/shell.hpp>
 #include <kernel/shell/ShellKeyboardEventHandler.hpp>
 #include <kernel/shell/ShellMouseEventHandler.hpp>
+
+TaskManager* kernelTaskManager;
+InterruptManager* kernelInterruptManager;
+DriverManager* kernelDriverManager;
+
+extern "C" void callConstructors();
+extern "C" void kernelMain(const void* multiboot_structure, uint32_t multiboot_magic);
+void startShellAsProcess();
+void printKernelSplash();
 
 #endif /* PANIX_KERNEL_HPP */

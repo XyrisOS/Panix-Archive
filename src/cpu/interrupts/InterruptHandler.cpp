@@ -5,7 +5,7 @@
  * @version 0.1
  * @date 2019-09-26
  * 
- * @copyright Copyright (c) 2019
+ * @copyright Copyright Keeton Feavel (c) 2019
  * 
  */
 #include <cpu/interrupts/InterruptHandler.hpp>
@@ -23,5 +23,10 @@ InterruptHandler::~InterruptHandler() {
 }
 
 uint32_t InterruptHandler::handleInterrupt(uint32_t esp) {
+    // This is technically a stubbed function. This handleInterrupt basically acts
+    // as an interface. So, when you have a device or something that needs access
+    // to an interrupt it should implement the InterruptHandler class and have a 
+    // overwritten handleInterrupt function in it's own class. Mouse and Keyboard
+    // are good examples of this.
     return esp;
 }

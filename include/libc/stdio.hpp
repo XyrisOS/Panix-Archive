@@ -5,11 +5,13 @@
  * @version 0.1
  * @date 2019-09-26
  * 
- * @copyright Copyright (c) 2019
+ * @copyright Copyright Keeton Feavel (c) 2019
  * 
  */
 #ifndef PANIX_LIBC_STDIO
 #define PANIX_LIBC_STDIO
+
+#define P_KERNEL_BUILD "b2019.10.02"
 
 /**
  * @brief Panics the kernel and halts the CPU.

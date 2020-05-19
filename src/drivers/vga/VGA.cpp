@@ -5,24 +5,12 @@
  * @version 0.1
  * @date 2019-09-26
  * 
- * @copyright Copyright (c) 2019
+ * @copyright Copyright Keeton Feavel (c) 2019
  * 
  */
 #include <drivers/vga/VGA.hpp>
 
-VideoGraphicsArray::VideoGraphicsArray() : 
-    miscPort(0x3C2),
-    crtcIndexPort(0x3D4),
-    crtcDataPort(0x3D5),
-    sequencerIndexPort(0x3C4),
-    sequencerDataPort(0x3C5),
-    graphicsControllerIndexPort(0x3CE),
-    graphicsControllerDataPort(0x3CF),
-    attributeControllerIndexPort(0x3C0),
-    attributeControllerReadPort(0x3C1),
-    attributeControllerWritePort(0x3C0),
-    attributeControllerResetPort(0x3DA)
-{
+VideoGraphicsArray::VideoGraphicsArray() {
     // Stubbed
 }
 
@@ -32,43 +20,43 @@ VideoGraphicsArray::~VideoGraphicsArray() {
 
 void VideoGraphicsArray::writeRegisters(uint8_t* registers) {
     //  misc
-    miscPort.write(*(registers++));
+    writeByte(MISC_PORT, *(registers++));
 
     // sequencer
     for (uint8_t i = 0; i < 5; i++) {
-        sequencerIndexPort.write(i);
-        sequencerDataPort.write(*(registers++));
+        writeByte(SEQUENCER_INDEX_PORT, i);
+        writeByte(SEQUENCER_DATA_PORT, *(registers++));
     }
 
     // cathode ray tube controller (CRTC)
-    crtcIndexPort.write(0x03);
-    crtcDataPort.write(crtcDataPort.read() | 0x80);
-    crtcIndexPort.write(0x11);
-    crtcDataPort.write(crtcDataPort.read() & ~0x80);
+    writeByte(CRTC_INDEX_PORT, 0x03);
+    writeByte(CRTC_DATA_PORT, (readByte(CRTC_DATA_PORT) | 0x80));
+    writeByte(CRTC_INDEX_PORT, 0x11);
+    writeByte(CRTC_DATA_PORT, (readByte(CRTC_DATA_PORT) & ~0x80));
 
     registers[0x03] = registers[0x03] | 0x80;
     registers[0x11] = registers[0x11] & ~0x80;
 
-    for(uint8_t i = 0; i < 25; i++) {
-        crtcIndexPort.write(i);
-        crtcDataPort.write(*(registers++));
+    for (uint8_t i = 0; i < 25; i++) {
+        writeByte(CRTC_INDEX_PORT, i);
+        writeByte(CRTC_DATA_PORT, *(registers++));
     }
 
     // graphics controller
-    for(uint8_t i = 0; i < 9; i++) {
-        graphicsControllerIndexPort.write(i);
-        graphicsControllerDataPort.write(*(registers++));
+    for (uint8_t i = 0; i < 9; i++) {
+        writeByte(GRAPHICS_CONTROLLER_INDEX_PORT, i);
+        writeByte(GRAPHICS_CONTROLLER_DATA_PORT, *(registers++));
     }
 
     // attribute controller
-    for(uint8_t i = 0; i < 21; i++) {
-        attributeControllerResetPort.read();
-        attributeControllerIndexPort.write(i);
-        attributeControllerWritePort.write(*(registers++));
+    for (uint8_t i = 0; i < 21; i++) {
+        readByte(ATTRIBUTE_CONTROLLER_RESET_PORT);
+        writeByte(ATTRIBUTE_CONTROLLER_INDEX_PORT, i);
+        writeByte(ATTRIBUTE_CONTROLLER_WRITE_PORT, *(registers++));
     }
 
-    attributeControllerResetPort.read();
-    attributeControllerIndexPort.write(0x20);
+    readByte(ATTRIBUTE_CONTROLLER_RESET_PORT);
+    writeByte(ATTRIBUTE_CONTROLLER_INDEX_PORT, 0x20);
 }
 
 bool VideoGraphicsArray::supportsMode(uint32_t width, uint32_t height, uint32_t colordepth) {
@@ -105,9 +93,9 @@ bool VideoGraphicsArray::setMode(uint32_t width, uint32_t height, uint32_t color
 }
 
 uint8_t* VideoGraphicsArray::getFrameBufferSegment() {
-    graphicsControllerIndexPort.write(0x06);
-    uint8_t segmentNumber = graphicsControllerDataPort.read() & (3<<2);
-    switch(segmentNumber) {
+    writeByte(GRAPHICS_CONTROLLER_INDEX_PORT, 0x06);
+    uint8_t segmentNumber = readByte(GRAPHICS_CONTROLLER_DATA_PORT) & (3<<2);
+    switch (segmentNumber) {
         default:
         case 0<<2:
             return (uint8_t*)0x00000;

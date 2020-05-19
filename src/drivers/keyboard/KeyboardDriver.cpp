@@ -5,7 +5,7 @@
  * @version 0.1
  * @date 2019-09-26
  * 
- * @copyright Copyright (c) 2019
+ * @copyright Copyright Keeton Feavel (c) 2019
  * 
  */
 #include <drivers/keyboard/KeyboardDriver.hpp>
@@ -37,29 +37,27 @@ char* lastCommand = (char*) "\0";
 int lengthOfCurrentCommand = 0;
 
 KeyboardDriver::KeyboardDriver(InterruptManager* interruptManager, KeyboardEventHandler* keyboardEventHandler) 
-    : InterruptHandler(interruptManager, 0x21), 
-      dataPort(0x60), 
-      commandPort(0x64) {
+    : InterruptHandler(interruptManager, 0x21) {
     this->keyboardEventHandler = keyboardEventHandler;
 }
 
 KeyboardDriver::~KeyboardDriver() {}
 
 void KeyboardDriver::activate() {
-    while(commandPort.read() & 0x1) {
-        dataPort.read();
+    while(readByte(KEYBOARD_COMMAND_PORT) & 0x1) {
+        readByte(KEYBOARD_DATA_PORT);
     }
-    commandPort.write(0xae); // activate interrupts
-    commandPort.write(0x20); // command 0x20 = read controller command byte
-    uint8_t status = (dataPort.read() | 1) & ~0x10;
-    commandPort.write(0x60); // command 0x60 = set controller command byte
-    dataPort.write(status);
-    dataPort.write(0xf4);
+    writeByte(KEYBOARD_COMMAND_PORT, 0xae); // activate interrupts
+    writeByte(KEYBOARD_COMMAND_PORT, 0x20); // command 0x20 = read controller command byte
+    uint8_t status = (readByte(KEYBOARD_DATA_PORT) | 1) & ~0x10;
+    writeByte(KEYBOARD_COMMAND_PORT, 0x60); // command 0x60 = set controller command byte
+    writeByte(KEYBOARD_DATA_PORT, status);
+    writeByte(KEYBOARD_DATA_PORT, 0xf4);
     kprint("Activating keyboard event handler\n");
 }
 
 uint32_t KeyboardDriver::handleInterrupt(uint32_t esp) {
-    uint8_t scancode = dataPort.read();
+    uint8_t scancode = readByte(KEYBOARD_DATA_PORT);
     if (keyboardEventHandler == nullptr) {
         return esp;
     }
@@ -92,4 +90,8 @@ uint32_t KeyboardDriver::handleInterrupt(uint32_t esp) {
 
 void KeyboardDriver::setHandler(KeyboardEventHandler *handler) {
     this->keyboardEventHandler = handler;
+}
+
+char* KeyboardDriver::getDriverTypeTag() {
+    return "KEYBOARD";
 }

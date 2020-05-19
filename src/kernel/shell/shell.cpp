@@ -5,18 +5,21 @@
  * @version 0.1
  * @date 2019-09-26
  * 
- * @copyright Copyright (c) 2019
+ * @copyright Copyright Keeton Feavel (c) 2019
  * 
  */
 #include <kernel/shell/shell.hpp>
 
-Shell::Shell() {
-    commandFunctions[0] = clearShell;
-    commandFunctions[1] = help;
-    commandFunctions[2] = printTime;
-    commandFunctions[3] = printSplash;
-    commandFunctions[4] = vgaStart; //panixkernel::Kernel::printTick;
-    printShellIndicator();
+Shell::Shell(DriverManager* driverManager) {
+    commandFunctions[0] = &Shell::clearShell;
+    commandFunctions[1] = &Shell::help;
+    commandFunctions[2] = &Shell::printTime;
+    commandFunctions[3] = &Shell::printSplash;
+    commandFunctions[4] = &Shell::vgaStart;
+    commandFunctions[5] = &Shell::printTick;
+    commandFunctions[6] = &Shell::callShutdown;
+    commandFunctions[7] = &Shell::callReboot;
+    this->driverManager = driverManager;
 }
 
 void Shell::handleShellInput(char* line) {
@@ -25,20 +28,104 @@ void Shell::handleShellInput(char* line) {
     bool foundCommand = false;
     for (int i = 0; i < NUMBER_OF_COMMANDS; i++) {
         if (strcmp((char*) commandNames[i], line) == 0) {
-            (*commandFunctions[i])();
+            // WHAT THE ACTUAL FRICK IS THIS SYNTAX C++???
+            // Credit to Micah for figuring out this awful mess
+            (this->*(commandFunctions[i]))();
             foundCommand = true;
             break;
         }
-    }
-    if (strcmp((char*)"shutdown", line) == 0) {
-        clearScreen();
-        kprint("It's now safe to turn off your computer.\n");
-        isTerminated = true;
-        return;
     }
     // strcmp will return "false" (0) if they're the same so anything else is true
     if (foundCommand == false && (strcmp("", line) != 0)) {
         kprint("Command does not exist.\n");
     }
     printShellIndicator();
+}
+
+void Shell::activate() {
+    printShellIndicator();
+}
+
+void Shell::printShellIndicator() {
+    kprintSetColor(LightRed, Black);
+    kprint("basch# ");
+    kprintSetColor(White, Black);
+}
+
+void Shell::clearShell() {
+    clearScreen();
+}
+
+void Shell::help() {
+    kprint("Baschel Fortner - The Panix Kernel Level Shell\n");
+    kprint("Version: 0.1 - Build: ");
+    kprint(P_KERNEL_BUILD);
+    kprint("\n\n");
+    // I can't get these functions to work in the shell object for
+    // whatever reason. And because the shell commands are private
+    // I can't access them from here. So I'll have to come back to
+    // this at another time.
+    kprintSetColor(LightGreen, Black);
+    for (auto commandName : commandNames) {
+        kprint(commandName);
+        kprint("\n");
+    }
+    kprint("\n");
+    kprintSetColor(White, Black);
+}
+
+void Shell::printSplash() {
+    clearScreen();
+    kprintSetColor(Yellow, Black);
+    kprint("Welcome to Panix\n");
+    kprint("Developed by graduates and undergraduates of Cedarville University.\n");
+    kprint("Copyright Keeton Feavel et al (c) 2019. All rights reserved.\n\n");
+    kprintSetColor(White, Black);
+}
+
+void Shell::printTime() {
+    RTC* rtc = (RTC*)driverManager->getDriverWithTag("RTC");
+    rtc->printTimeAndDate();
+}
+
+void Shell::printTick() {
+    Timer* timer = (Timer*)driverManager->getDriverWithTag("TIMER");
+    timer->printTick();
+}
+
+void Shell::vgaStart() {
+    // Initialize the VGA driver
+    VideoGraphicsArray vga;
+    vga.setMode(320, 200, 8);
+    vga.fillRect(0, 0, 320, 200, 0x00, 0x00, 0xA8);
+}
+
+void Shell::callShutdown() {
+    // The shutdown function just "panics" (?) right now
+    // but because the shell is a process now we can't
+    // just return control and let the kernel die like we
+    // used to, so we're just going to let the screen go
+    // white for now.
+    //shutdown();
+    // Nevermind, I lied. We'll print a message and halt lol.
+    clearScreen();
+    kprint("Processor halted.\nIt's now safe to turn off your computer.");
+    asm("hlt");
+    if (shutdown() == -1) {
+        kprintSetColor(Red, Black);
+        kprint("Failed to shutdown.\n");
+        kprint("We have no clue how or why.\n");
+        kprintSetColor(White, Black);
+    }
+    isTerminated = true;
+}
+
+void Shell::callReboot() {
+    if (reboot() == -1) {
+        kprintSetColor(Red, Black);
+        kprint("Failed to reboot.\n");
+        kprint("We have no clue how or why.\n");
+        kprintSetColor(White, Black);
+    }
+    isTerminated = true;
 }

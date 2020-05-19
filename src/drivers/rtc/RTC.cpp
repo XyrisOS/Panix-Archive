@@ -5,18 +5,22 @@
  * @version 0.1
  * @date 2019-09-26
  * 
- * @copyright Copyright (c) 2019
+ * @copyright Copyright Keeton Feavel (c) 2019
  * 
  */
 #include <drivers/rtc/RTC.hpp>
 
-RTC::RTC() : 
-cmosPort(0x70), 
-dataPort(0x71)
+RTC::RTC(InterruptManager* interruptManager) : 
+InterruptHandler(interruptManager, 0x28)
 {
     // Initializer
-    cmosPort.write(0x8A);
-    dataPort.write(0x20);
+    writeByte(RTC_CMOS_PORT, 0x8A);
+    writeByte(RTC_DATA_PORT, 0x20);
+    // Enable IRQ 8 - Make sure interrupts are disabled beforehand
+    writeByte(RTC_CMOS_PORT, 0x8B);
+    char prev = readByte(RTC_DATA_PORT);
+    writeByte(RTC_CMOS_PORT, 0x8B);
+    writeByte(RTC_DATA_PORT, (prev | 0x40));
 }
 
 RTC::~RTC() {
@@ -30,15 +34,24 @@ void RTC::activate() {
 void RTC::deactivate() {
     kprint("Deactivating RTC\n");
 }
+
+uint32_t RTC::handleInterrupt(uint32_t esp) {
+    kprint("Interrupt 0x08");
+    return esp;
+}
+
+char* RTC::getDriverTypeTag() {
+    return "RTC";
+}
  
 int RTC::getUpdateInProgress() {
-    cmosPort.write(0x0A);
-    return (dataPort.read() & 0x80);
+    writeByte(RTC_CMOS_PORT, 0x0A);
+    return (readByte(RTC_DATA_PORT) & 0x80);
 }
  
 uint8_t RTC::getRTCRegister(int reg) {
-    cmosPort.write(reg);
-    return dataPort.read();
+    writeByte(RTC_CMOS_PORT, reg);
+    return readByte(RTC_DATA_PORT);
 }
 
 char* RTC::getDayNameFromInt(int day) {
@@ -74,9 +87,9 @@ void RTC::printTimeAndDate() {
     intToString(day, dayStr);
     intToString(month, monthStr);
     kprint("\nToday's Date: ");
-    kprint(dayStr);
-    kprint("/");
     kprint(monthStr);
+    kprint("/");
+    kprint(dayStr);
     kprint(" - UTC: ");
     kprint(hourStr);
     kprint(":");

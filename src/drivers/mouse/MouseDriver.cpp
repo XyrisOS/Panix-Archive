@@ -5,7 +5,7 @@
  * @version 0.1
  * @date 2019-09-26
  * 
- * @copyright Copyright (c) 2019
+ * @copyright Copyright Keeton Feavel (c) 2019
  * 
  */
 #include <drivers/mouse/MouseDriver.hpp>
@@ -13,42 +13,40 @@
 void kprint(const char* str);
 
 MouseDriver::MouseDriver(InterruptManager* interruptManager, MouseEventHandler* mouseEventHandler)
-    : InterruptHandler(interruptManager, 0x2C),
-      dataPort(0x60),
-      commandPort(0x64) {
+    : InterruptHandler(interruptManager, 0x2C) {
     this->mouseEventHandler = mouseEventHandler;
 }
 
 MouseDriver::~MouseDriver() {}
 
 void MouseDriver::activate() {
+    kprint("Activating mouse driver\n");
     uint16_t* videoMemory = (uint16_t*)0xb8000;
     offset = 0;
     buttons = 0;
     
     if (mouseEventHandler != nullptr) {
-        kprint("Activating mouse event handler\n");
         mouseEventHandler->onActivate();
     }
 
-    commandPort.write(0xA8);
-    commandPort.write(0x20); // command 0x60 = read controller command byte
-    uint8_t status = dataPort.read() | 2;
-    commandPort.write(0x60); // command 0x60 = set controller command byte
-    dataPort.write(status);
+    writeByte(MOUSE_COMMAND_PORT, 0xA8);
+    writeByte(MOUSE_COMMAND_PORT, 0x20); // command 0x60 = read controller command byte
+    uint8_t status = readByte(MOUSE_DATA_PORT) | 2;
+    writeByte(MOUSE_COMMAND_PORT, 0x60); // command 0x60 = set controller command byte
+    writeByte(MOUSE_DATA_PORT, status);
 
-    commandPort.write(0xD4);
-    dataPort.write(0xF4);
-    dataPort.read();
+    writeByte(MOUSE_COMMAND_PORT, 0xD4);
+    writeByte(MOUSE_DATA_PORT, 0xF4);
+    readByte(MOUSE_DATA_PORT);
 }
 
 uint32_t MouseDriver::handleInterrupt(uint32_t esp) {
-    uint8_t status = commandPort.read();
+    uint8_t status = readByte(MOUSE_COMMAND_PORT) ;
     if (!(status & 0x20) || mouseEventHandler == nullptr) {
         return esp;
     }
 
-    buffer[offset] = dataPort.read();
+    buffer[offset] = readByte(MOUSE_DATA_PORT);
     offset = (offset + 1) % 3;
 
     if (offset == 0) { 
@@ -73,4 +71,7 @@ uint32_t MouseDriver::handleInterrupt(uint32_t esp) {
 
 void MouseDriver::setHandler(MouseEventHandler* handler) {
     this->mouseEventHandler = handler;
+}
+char* MouseDriver::getDriverTypeTag() {
+    return "MOUSE";
 }

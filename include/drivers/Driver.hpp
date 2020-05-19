@@ -5,7 +5,7 @@
  * @version 0.1
  * @date 2019-09-26
  * 
- * @copyright Copyright (c) 2019
+ * @copyright Copyright Keeton Feavel (c) 2019
  * 
  */
 #ifndef PANIX_DRIVER_HPP
@@ -34,6 +34,14 @@ class Driver {
          * 
          */
         virtual void deactivate();
+        /**
+         * @brief Returns the short tag type of the driver. Used to identify
+         * the driver and its purpose. Used by the driver manager to get a
+         * specific driver type.
+         * 
+         * @return char* Short driver type tag
+         */
+        virtual char* getDriverTypeTag();
 };
     
 #endif /* PANIX_DRIVER_HPP */

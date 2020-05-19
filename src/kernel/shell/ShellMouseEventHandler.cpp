@@ -5,7 +5,7 @@
  * @version 0.1
  * @date 2019-09-26
  * 
- * @copyright Copyright (c) 2019
+ * @copyright Copyright Keeton Feavel (c) 2019
  * 
  */
 #include <kernel/shell/ShellMouseEventHandler.hpp>
@@ -21,6 +21,7 @@ void ShellMouseEventHandler::onMouseUp(uint8_t button) {
 }
 
 void ShellMouseEventHandler::onActivate() {
+    kprint("Activating shell mouse event handler.\n");
     uint16_t* videoMemory = (uint16_t*) 0xb8000;
     x = 40;
     y = 12;

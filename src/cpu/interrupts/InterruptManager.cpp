@@ -1,18 +1,20 @@
 /**
  * @file InterruptManager.cpp
  * @author Keeton Feavel (keetonfeavel@cedarville.edu)
- * @brief 
+ * @brief The Interrupt Descriptor Table (IDT) is specific to the IA-32 architecture. 
+ * It is the Protected mode counterpart to the Real Mode Interrupt Vector Table (IVT) 
+ * telling where the Interrupt Service Routines (ISR) are located 
+ * (one per interrupt vector) - https://wiki.osdev.org/Interrupt_Descriptor_Table
  * @version 0.1
  * @date 2019-09-26
  * 
- * @copyright Copyright (c) 2019
+ * @copyright Copyright Keeton Feavel (c) 2019
  * 
  */
 #include <cpu/interrupts/InterruptManager.hpp>
 
 InterruptManager::GateDescriptor InterruptManager::interruptDescriptorTable[256];
 InterruptManager* InterruptManager::activeInterruptManager = nullptr;
-Timer* InterruptManager::activeInterruptManagerTimer = nullptr;
 
 void InterruptManager::setInterruptDescriptorTableEntry(
     uint8_t interrupt,
@@ -32,12 +34,8 @@ void InterruptManager::setInterruptDescriptorTableEntry(
 }
 
 
-InterruptManager::InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescriptorTable* globalDescriptorTable)
-    : programmableInterruptControllerMasterCommandPort(0x20),
-      programmableInterruptControllerMasterDataPort(0x21),
-      programmableInterruptControllerSlaveCommandPort(0xA0),
-      programmableInterruptControllerSlaveDataPort(0xA1)
-{
+InterruptManager::InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescriptorTable* globalDescriptorTable, TaskManager* taskManager) {
+    this->activeTaskManager = taskManager;
     this->hardwareInterruptOffset = hardwareInterruptOffset;
     uint32_t CodeSegment = globalDescriptorTable->CodeSegmentSelector();
     void (* handleExceptionsArray [20])() = {
@@ -83,21 +81,21 @@ InterruptManager::InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescr
         setInterruptDescriptorTableEntry(hardwareInterruptOffset + handleInterruptCodeArray[i], CodeSegment, handleInterruptRequestArray[i], 0, IDT_INTERRUPT_GATE);
     }
 
-    programmableInterruptControllerMasterCommandPort.write(0x11);
-    programmableInterruptControllerSlaveCommandPort.write(0x11);
+    writeByteSlow(MASTER_COMMAND, 0x11);
+    writeByteSlow(SLAVE_COMMAND, 0x11);
 
     // remap
-    programmableInterruptControllerMasterDataPort.write(hardwareInterruptOffset);
-    programmableInterruptControllerSlaveDataPort.write(hardwareInterruptOffset + 8);
+    writeByteSlow(MASTER_DATA, hardwareInterruptOffset);
+    writeByteSlow(SLAVE_DATA, hardwareInterruptOffset + 8);
 
-    programmableInterruptControllerMasterDataPort.write(0x04);
-    programmableInterruptControllerSlaveDataPort.write(0x02);
+    writeByteSlow(MASTER_DATA, 0x04);
+    writeByteSlow(SLAVE_DATA, 0x02);
 
-    programmableInterruptControllerMasterDataPort.write(0x01);
-    programmableInterruptControllerSlaveDataPort.write(0x01);
+    writeByteSlow(MASTER_DATA, 0x01);
+    writeByteSlow(SLAVE_DATA, 0x01);
 
-    programmableInterruptControllerMasterDataPort.write(0x00);
-    programmableInterruptControllerSlaveDataPort.write(0x00);
+    writeByteSlow(MASTER_DATA, 0x00);
+    writeByteSlow(SLAVE_DATA, 0x00);
 
     InterruptDescriptorTablePointer idt_pointer;
     idt_pointer.size  = 256 * sizeof(GateDescriptor) - 1;
@@ -113,14 +111,6 @@ uint16_t InterruptManager::getHardwareInterruptOffset() {
     return hardwareInterruptOffset;
 }
 
-void InterruptManager::setInterruptManagerTimer(Timer* timer) {
-    activeInterruptManagerTimer = timer;
-}
-
-Timer* InterruptManager::getInterruptManagerTimer() {
-    return activeInterruptManagerTimer;
-}
-
 void InterruptManager::activate() {
     if(activeInterruptManager == nullptr) {
         activeInterruptManager = this;
@@ -131,35 +121,37 @@ void InterruptManager::activate() {
 void InterruptManager::deactivate() {
     if (activeInterruptManager == this) {
         activeInterruptManager = nullptr;
-        activeInterruptManagerTimer = nullptr;
         asm("cli");
     }
 }
 
 uint32_t InterruptManager::handleInterrupt(uint8_t interrupt, uint32_t esp) {
     if (activeInterruptManager != nullptr) {
-        if (interrupt == 0x00 + activeInterruptManager->hardwareInterruptOffset) {
-            if (activeInterruptManagerTimer != nullptr) {
-                activeInterruptManagerTimer->callback();
-            } else {
-                kprint("CPU timer did not activate!\n");
-            }
+        // Handle interrupt 0x00 (0x20 with hardware offset)
+        if (interrupt == activeInterruptManager->hardwareInterruptOffset) {
+            // Schedule a new task as a process
+            esp = (uint32_t)activeInterruptManager->activeTaskManager->schedule((CPUState*)esp);
         }
-        if (activeInterruptManager->handlers[interrupt] != 0) { 
+        // If there is a handler for the interrupt that we recieved, call the appropriate function.
+        if (activeInterruptManager->handlers[interrupt] != 0) {
             // This handleInterrupt function is located in the InterruptHandler.cpp file
+            // When a class that implements the InterruptHandler class registers itself via
+            // the constructor, it assigns the interrupt value it wants to recieve and then
+            // the InterruptManager it wants to have handle it. This is calling the
+            // handleInterrupt(uint32_t esp) function in whichever class registered to recieve
+            // said interrupt.
             esp = activeInterruptManager->handlers[interrupt]->handleInterrupt(esp);
-        // Panic because we don't know how to handle this. Also make an annoying sound
+        // Panic because we don't know how to handle this.
         } else if (interrupt != activeInterruptManager->hardwareInterruptOffset) {
             // Call the LibC panic() function defined in stdio.hpp
             panic(interrupt);
         }
-
-        // hardware interrupts must be acknowledged
+        // Hardware interrupts must be acknowledged
         if (activeInterruptManager->hardwareInterruptOffset <= interrupt 
         && interrupt < activeInterruptManager->hardwareInterruptOffset + 16) {
-            activeInterruptManager->programmableInterruptControllerMasterCommandPort.write(0x20);
+            writeByteSlow(MASTER_COMMAND, 0x20);
             if (activeInterruptManager->hardwareInterruptOffset + 8 <= interrupt) {
-                activeInterruptManager->programmableInterruptControllerSlaveCommandPort.write(0x20);
+                writeByteSlow(SLAVE_COMMAND, 0x20);
             }
         }
     }

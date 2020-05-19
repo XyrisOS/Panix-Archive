@@ -5,7 +5,7 @@
  * @version 0.1
  * @date 2019-09-26
  * 
- * @copyright Copyright (c) 2019
+ * @copyright Copyright Keeton Feavel (c) 2019
  * 
  */
 #include <kernel/shell/ShellKeyboardEventHandler.hpp>
@@ -14,6 +14,10 @@ ShellKeyboardEventHandler::ShellKeyboardEventHandler() :
 KeyboardEventHandler()
 {
     // Stubbed
+}
+
+void ShellKeyboardEventHandler::onActivate() {
+    kprint("Activating shell keyboard event handler.\n");
 }
 
 void ShellKeyboardEventHandler::handleScancode(uint8_t scancode) {

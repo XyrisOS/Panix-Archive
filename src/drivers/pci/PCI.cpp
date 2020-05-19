@@ -5,7 +5,7 @@
  * @version 0.1
  * @date 2019-09-26
  * 
- * @copyright Copyright (c) 2019
+ * @copyright Copyright Keeton Feavel (c) 2019
  * 
  */
 #include <drivers/pci/PCI.hpp>
@@ -18,7 +18,7 @@ PeripheralComponentInterconnectDeviceDescriptor::~PeripheralComponentInterconnec
     // Stubbed
 }
 
-PeripheralComponentInterconnectController::PeripheralComponentInterconnectController() : dataPort(0xCFC), commandPort(0xCF8) {
+PeripheralComponentInterconnectController::PeripheralComponentInterconnectController() {
     // Stubbed
 }
 
@@ -33,8 +33,8 @@ uint32_t PeripheralComponentInterconnectController::read(uint16_t bus, uint16_t 
         | ((device & 0x1F) << 11)
         | ((function & 0x07) << 8)
         | (registeroffset & 0xFC);
-    commandPort.write(id);
-    uint32_t result = dataPort.read();
+    writeLong(PCI_COMMAND_PORT, id);
+    uint32_t result = readLong(PCI_DATA_PORT);
     return result >> (8* (registeroffset % 4));
 }
 
@@ -45,8 +45,8 @@ void PeripheralComponentInterconnectController::write(uint16_t bus, uint16_t dev
         | ((device & 0x1F) << 11)
         | ((function & 0x07) << 8)
         | (registeroffset & 0xFC);
-    commandPort.write(id);
-    dataPort.write(value); 
+    writeLong(PCI_COMMAND_PORT, id);
+    writeLong(PCI_DATA_PORT, value); 
 }
 
 bool PeripheralComponentInterconnectController::DeviceHasFunctions(uint16_t bus, uint16_t device) {
@@ -135,7 +135,8 @@ BaseAddressRegister PeripheralComponentInterconnectController::GetBaseAddressReg
 }
 
 Driver* PeripheralComponentInterconnectController::GetDriver(PeripheralComponentInterconnectDeviceDescriptor dev, InterruptManager* interrupts) {
-    //
+    // See https://wiki.osdev.org/Pci#Class_Codes for a list of codes on many known devices.
+    // Each code can be entered here and used to identify a device and get its driver.
     switch(dev.vendor_id) {
         case 0x1022: // AMD
             switch(dev.device_id) {

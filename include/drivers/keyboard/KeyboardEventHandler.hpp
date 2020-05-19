@@ -1,11 +1,14 @@
 /**
  * @file KeyboardEventHandler.hpp
  * @author Keeton Feavel (keetonfeavel@cedarville.edu)
- * @brief 
+ * @brief An interface for all classes which wish to
+ * recieve keyboard input. To recieve input, the appropriate
+ * class must import this and inherit it publicly and then
+ * implement all of the virtual functions below.
  * @version 0.1
  * @date 2019-09-26
  * 
- * @copyright Copyright (c) 2019
+ * @copyright Copyright Keeton Feavel (c) 2019
  * 
  */
 #ifndef PANIX_KEYBOARD_EVENT_HANDLER_HPP
@@ -22,7 +25,16 @@ class KeyboardEventHandler {
          * 
          */
         KeyboardEventHandler();
-
+        /**
+         * @brief Handler activation callback function
+         * 
+         */
+        virtual void onActivate();
+        /**
+         * @brief Handles a non-ascii keyboard input
+         * 
+         * @param scancode 
+         */
         virtual void handleScancode(uint8_t scancode);
         /**
          * @brief Set the Shift Key object
