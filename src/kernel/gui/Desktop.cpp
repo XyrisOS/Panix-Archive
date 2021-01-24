@@ -35,6 +35,7 @@ void Desktop::Draw(GraphicsContext* gc) {
         gc->setPixel(mouseX, mouseY - i, 0xFF, 0xFF, 0xFF);
         gc->setPixel(mouseX, mouseY + i, 0xFF, 0xFF, 0xFF);
     }
+    gc->swap();
 }
 
 void Desktop::onMouseDown(uint8_t button) {
